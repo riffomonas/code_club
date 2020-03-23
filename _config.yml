@@ -21,6 +21,8 @@ baseurl: "/code_club" # the subpath of your site, e.g. /blog
 url: "https://www.riffomonas.org" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: patschloss
 github_username:  riffomonas
+repo: https://github.com/riffomonas/code_club
+
 
 collections:
   code_club:
@@ -33,6 +35,7 @@ sass:
   style: compressed
 
 # Build settings
+future: true
 markdown: kramdown
 theme: minima
 plugins:
