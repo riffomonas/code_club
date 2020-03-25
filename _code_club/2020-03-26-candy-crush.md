@@ -17,4 +17,4 @@ Shortly before the session starts I will post the code prompt here.
 If you are unable to participate with us live, I will post a video version of the session so you can follow along on your own.
 
 <!-- Solution -->
-At the end, I will post my solution
+At the end, I will post our solution
