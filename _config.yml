@@ -27,6 +27,7 @@ repo: https://github.com/riffomonas/code_club
 collections:
   code_club:
     output: true
+    permalink: /:name
 
 layouts_dir: /resources/_layouts
 includes_dir: /resources/_includes
