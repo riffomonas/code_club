@@ -10,7 +10,9 @@ This activity requires that participants take on a growth mindset and be mindful
 Although this may evolve over time, the primary language used in these Code Clubs will be [R](http://www.academichermit.com/2020/03/23/Why-R.html) and we will use RStudio as the primary interface for our activities. To participate, you will need internet access, R, Rstudio, and the tidyverse package. Here are some [instructions](setup-instructions) to help you get set up and ready for your first Code Club.
 
 <ul class="post-preview">
-  {% for post in site.code_club %}
+	{% assign sorted = (site.code_club | sort: 'date') | reverse %}
+
+  {% for post in sorted %}
     <li>
       <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
       <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
