@@ -70,7 +70,6 @@ Thanks! Now that you've fixed the code in Exercise 2, can you modify it to answe
 Build your own strip plot using data using the `candy_data` data frame!
 
 
-<!--
 ## Solution
 <input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
@@ -131,8 +130,8 @@ pluribus_data %>%
 	theme_classic()
 ```
 
-</div> -->
+</div>
 
 
-<!-- ## Follow up
-Once you have completed the Code Club, please complete [this survey](https://forms.gle/8a3dRbDsf4MYUX5a7). -->
+## Follow up
+Once you have completed the Code Club, please complete [this survey](https://forms.gle/8a3dRbDsf4MYUX5a7).
