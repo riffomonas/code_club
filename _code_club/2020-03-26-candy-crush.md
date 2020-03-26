@@ -10,9 +10,9 @@ comments: true
 
 For our inaugural Code Club, we will be exploring data collected by [Five Thirty Eight](https://fivethirtyeight.com/videos/the-ultimate-halloween-candy-power-ranking/) to determine what factors figure in to making a candy someone's favorite. You will be able to join the conversation using [this link](https://zoom.us/j/667635601?pwd=eGdBdTFpMjdVSXgrZjRXN2dzNDRnUT09) to use Zoom. The session should last an hour. Considering this is our first session, it may go a little longer as work out some of the kinks. Please be sure to see the [setup instructions](/code_club/setup-instructions) and [code of conduct](/code_club/code-of-conduct) before we get going.
 
-<!-- YouTube link -->
-If you are unable to participate with us live, I will post a video version of the session so you can follow along on your own.
+If you would like to revisit Pat's introduction and the approach taken by several participants, you can watch this video (apologies for the video and audio quality!):
 
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/IpFOsMeDs9Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Assignment
 
