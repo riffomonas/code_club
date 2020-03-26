@@ -24,7 +24,7 @@ library(tidyverse)
 candy_data <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/candy-power-ranking/candy-data.csv",
 	col_types="clllllllllddd")
 ```
-
+<!--
 ### Exercise 1
 
 I'm a big fan of bite-sized candies - Peanut M&Ms, Skittles, Hot Tamales - mmmmmm. Within the pantheon of candies they included (N=85), I would like to know how common bite-sized candies are. I grabbed this code chunk. It gives me the answers that I'm looking for, but I don't understand the code. Run each line with the previous line (up to the the `%>%` or `+` at the end of the line) to see what is happening with each added line. Write a brief comment to the right of the `#` so that you can remember what is happening the next time you need to do something like this
@@ -67,10 +67,10 @@ Thanks! Now that you've fixed the code in Exercise 2, can you modify it to answe
 
 
 ### Homework
-Build your own strip plot using data using the `candy_data` data frame!
+Build your own strip plot using data using the `candy_data` data frame! -->
 
 
-<!-- 
+<!--
 ## Solution
 <input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
