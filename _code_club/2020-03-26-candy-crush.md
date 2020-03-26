@@ -67,10 +67,10 @@ Thanks! Now that you've fixed the code in Exercise 2, can you modify it to answe
 
 
 ### Homework
-Build your own strip plot using data using the `candy_data` data frame! -->
+Build your own strip plot using data using the `candy_data` data frame!
 
 
-
+<!--
 ## Solution
 <input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
