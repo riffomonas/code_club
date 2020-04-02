@@ -144,9 +144,9 @@ You'll notice we're using the `mutate` function, which is used to "mutate" a col
 <input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
 
-At the end, I will post our solution
+### Exercise 1
 
-<!-- Here are some possible values for `new_name` for each of the `old_name` values that I came up with...
+Here are some possible values for `new_name` for each of the `old_name` values that I came up with...
 
 |new_name | old_name|
 |--------------------
@@ -164,7 +164,6 @@ At the end, I will post our solution
 | education | Education |
 | location | Location (Census Region) |
 
-### Exercise 1
 I wrote the `recode` step as follows...
 
 ```R
@@ -207,11 +206,9 @@ github %>%
 	) %>%
 	count(singular_or_plural) %>%
 	mutate(percentage = 100 * n/sum(n))
-``` -->
+```
 
 </div>
 
-<!--
 ## Follow up
 Once you have completed this Code Club, please complete [this survey](https://forms.gle/pGQQckwW66m9vBrA9).
--->
