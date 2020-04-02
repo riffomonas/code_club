@@ -81,12 +81,12 @@ Although much of this is a sense of personal style, there are some general guide
 We can *rename* our columns after reading in a data frame using the rename function. The syntax is...
 
 ```R
-rename(data_frame, new_name1="old name1", new name2=old_name2, ...)
+rename(data_frame, new_name1="old name1", new_name2=old_name2, ...)
 
 # or...
 
 data_frame %>%
-	rename(data_frame, new_name1="old name1", new name2=old_name2, ...)
+	rename(data_frame, new_name1="old name1", new_name2=old_name2, ...)
 ```
 
 Note that if your old (or new) column name has a space in it, you will need to wrap the name in quotes. Also, if your column name has quotes in it, you will want to either use the opposite type of quote (single or double) to wrap the column name or insert a `\` before the quote mark within the phrase. Here's an example of how we could rename the `RespondentID` and `In your opinion, which sentence is more gramatically correct?` column names.
