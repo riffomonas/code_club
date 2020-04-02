@@ -164,7 +164,7 @@ Here are some possible values for `new_name` for each of the `old_name` values t
 | education | Education |
 | location | Location (Census Region) |
 
-I wrote the `recode` step as follows...
+I wrote the `rename` step as follows...
 
 ```R
 github %>%
