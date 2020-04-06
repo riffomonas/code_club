@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The data are"
+title: "The data are..."
 author: "PD Schloss"
 date: "April 2, 2020"
 time: 15:00 Eastern
