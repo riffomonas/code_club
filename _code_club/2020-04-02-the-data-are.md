@@ -125,7 +125,7 @@ github %>%
 You'll notice we're using the `mutate` function, which is used to "mutate" a column. We're using the `oxford_or_not` column in the `recode` function to generate a new list of values and using those to replace the original `oxford_or_not` column. We could recode another column by adding a column to change within the same `mutate` function after we insert a comma between the two closing parentheses.
 
 
-### Exercises
+## Exercises
 
 * Use `rename` to rename more of the columns in the data frame. Double check the result by adding `%>% colnames()` to the end of your pipeline.
 * Use `recode` to recode the values in more of the columns
