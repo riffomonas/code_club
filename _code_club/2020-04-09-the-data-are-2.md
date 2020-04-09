@@ -169,5 +169,100 @@ github %>%
 ## Solution
 <input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
-No Peaking!
+1. Which geographic region was the best represented in the survey?
+
+```R
+github %>%
+	count(location)
+```
+
+Pacific
+
+
+2. How many respondents cared about grammar?
+
+```R
+github %>%
+	filter(importance_of_grammar == "Somewhat important" | importance_of_grammar == "Very important")
+```
+
+1021
+
+3. Among those respondents that cared about grammar, did they have a preference for the Oxford comma or using "data" as a plural noun?
+
+```R
+github %>%
+	filter(importance_of_grammar == "Somewhat important" | importance_of_grammar == "Very important") %>%
+	count(oxford_or_not, singular_or_plural)
+```
+
+4. Come up with your own question and answer it using `filter` and `count`
+
+Are older people more likely to use singular or plural?
+
+```R
+github %>%
+	count(age)
+
+github %>%
+	count(singular_or_plural)
+
+github %>%
+	filter(age == "45-60" | age == ">60") %>%
+	count(singular_or_plural)
+```
+
+```
+> github %>%
++ count(singular_or_plural)
+# A tibble: 3 x 2
+  singular_or_plural     n
+  <chr>              <int>
+1 plural               228
+2 singular             865
+3 NA                    36
+>
+> github %>%
++ filter(age == "45-60" | age == ">60") %>%
++ count(singular_or_plural)
+# A tibble: 2 x 2
+  singular_or_plural     n
+  <chr>              <int>
+1 plural                64
+2 singular             226
+>
+```
+
+Meh. how about the oxford comma?
+
+```R
+github %>%
+	count(oxford_or_not)
+
+github %>%
+	filter(age == "45-60" | age == ">60") %>%
+	count(oxford_or_not)
+```
+
+```
+> github %>%
++ count(oxford_or_not)
+# A tibble: 2 x 2
+  oxford_or_not     n
+  <chr>         <int>
+1 non_oxford      488
+2 oxford          641
+>
+> github %>%
++ filter(age == "45-60" | age == ">60") %>%
++ count(oxford_or_not)
+# A tibble: 2 x 2
+  oxford_or_not     n
+  <chr>         <int>
+1 non_oxford      148
+2 oxford          142
+```
+
+Older people are less likely to use the Oxford comma
+
 </div>
