@@ -112,7 +112,7 @@ Go ahead and save this as `test_script.R`. You should have something like this
 <img class="center" src="/code_club/assets/images/final_script.png" width="50%">
 
 
-There are several ways to run this script. You could copy and paste all the code to the console window below. An easier way would be to click Source, and Source with Echo. There are a few other ways to run the code in the script in your console, but this will serve us well for now...
+There are several ways to run this script. You could copy and paste all the code to the console window below. An easier way would be to click "Source", and "Source with Echo". There are a few other ways to run the code in the script in your console, but this will serve us well for now...
 
 <img class="center" src="/code_club/assets/images/source_script.png" width="50%">
 
