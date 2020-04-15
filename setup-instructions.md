@@ -74,6 +74,8 @@ Finally, to make all of the tidyverse goodness available as we go through the tu
 
 <img class="center" src="/code_club/assets/images/library_tidyverse.png" width="50%">
 
+While loading the tidyverse library or during installation, you might run into an error message that says, "there is no package called ‘Rcpp’". It might be Rcpp and/or another package that it complains about. Try to replicate the steps for installing the tidyverse package, but with Rcpp and any other packages it complains about. Once you've done that, reinstall tidyverse and repeat the `library(tidyverse)` command. You may need to restart RStudio.
+
 
 ## R Scripts
 
