@@ -12,9 +12,9 @@ For our next Code Club, we will continue our exploration of data collected by [F
 
 You will be able to join the conversation using [this link](https://zoom.us/j/96466835271?pwd=dGljcGc5clFyeVI5ZjJsdHFOQWo0UT09) to use Zoom. The session should last an hour. Please be sure to see the [setup instructions](/code_club/setup-instructions) and [code of conduct](/code_club/code-of-conduct) before we get going.
 
-<!-- YouTube link -->
-If you are unable to participate with us live, I will post a video version of the session so you can follow along on your own.
+If you would like to revisit Pat's introduction and the approach taken by several participants, you can watch this video. If you were on the call, you'll notice a different Introduction. Pat forgot to press record the first time around (again):
 
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/-USF9PFOvvY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Prompt
 
@@ -152,5 +152,56 @@ Who knew? Candy with more sugar is more expensive.
 ## Solutions
 <input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
-No cheating!
+1\. How many of the candies that won more than 75% of their matchups had chocolate?
+
+```R
+candy_data %>%
+	filter(winpercent > 0.75) %>%
+	count(chocolate)
+```
+
+There's more non-chocolate than chocolate containing candy in the dataset
+
+
+2\. Do fruity candies have a different average price than non-fruity candies?
+
+```R
+candy_data %>%
+	group_by(fruity) %>%
+	summarize(mean_price = mean(pricepercent), sd_price=sd(pricepercent), n=n())
+```
+
+Fruity candy tends to be cheaper than candy without fruity flavor.
+
+
+3\. How do the prices of the more favored candies compare to those that are less favored?
+
+```R
+candy_data %>%
+	group_by(winpercent > 50) %>%
+	summarize(mean_price = mean(pricepercent), sd_price=sd(pricepercent), n=n())
+```
+
+The more favored candies are more expensive.
+
+
+4\. Come up with your own question to answer with the functions we've discussed today
+
+Does price differ by sugar content?
+
+```R
+candy_data %>%
+ 	group_by(sugarpercent > 0.5) %>%
+	summarize(mean_price = mean(pricepercent), sd_price=sd(pricepercent), n=n())
+```
+
+High sugar candy tends to be more expensive than low sugar candy. Perhaps confounded with people's preference?
+
+```R
+candy_data %>%
+ 	group_by(sugarpercent > 0.5, winpercent > 50) %>%
+	summarize(mean_price = mean(pricepercent), sd_price=sd(pricepercent), n=n())
+```
+
+Maybe people just like good candy.
 </div>
