@@ -140,10 +140,13 @@ Who knew? Candy with more sugar is more expensive.
 
 ## Exercises
 
-1\. How many of the candies that won more than 75% of their matchups had chocolate?
-2\. Do fruity candies have a different average price than non-fruity candies?
-3\. How do the prices of the more favored candies compare to those that are less favored?
-4\. Come up with your own question to answer with the functions we've discussed today
+1\. How many of the candies that won more than 75% of their matchups had chocolate?  
+
+2\. Do fruity candies have a different average price than non-fruity candies?  
+
+3\. How do the prices of the more favored candies compare to those that are less favored?  
+
+4\. Come up with your own question to answer with the functions we've discussed today  
 
 
 ## Solutions
