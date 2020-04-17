@@ -74,7 +74,23 @@ Finally, to make all of the tidyverse goodness available as we go through the tu
 
 <img class="center" src="/code_club/assets/images/library_tidyverse.png" width="50%">
 
-While loading the tidyverse library or during installation, you might run into an error message that says, "there is no package called ‘Rcpp’". It might be Rcpp and/or another package that it complains about. Try to replicate the steps for installing the tidyverse package, but with Rcpp and any other packages it complains about. Once you've done that, reinstall tidyverse and repeat the `library(tidyverse)` command. You may need to restart RStudio.
+Some things may happen...
+* While loading the tidyverse library or during installation, it may ask if you want to install from source, go ahead and type "Yes" at the prompts.
+* You might run into an error message that says, "there is no package called ‘Rcpp’". It might be Rcpp and/or another package that it complains about. Try to replicate the steps for installing the tidyverse package, but with Rcpp and any other packages it complains about.
+* If you are on a Mac, to install these tools, you will need to click on the "Terminal" tab an enter `xcode-select --install `. Once that is done, go back to the "Console" tab. Then try to install the packages it is complaining about.
+* If you've run into problems and and reinstalled the dependencies, re-run `install.packages(tidyverse)` and repeat the `library(tidyverse)` command. You may need to restart RStudio. You should get something that looks like
+
+```R
+> library(tidyverse)
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+✔ ggplot2 3.2.1     ✔ purrr   0.3.3
+✔ tibble  2.1.3     ✔ dplyr   0.8.4
+✔ tidyr   1.0.2     ✔ stringr 1.4.0
+✔ readr   1.3.1     ✔ forcats 0.5.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+```
 
 
 ## R Scripts
