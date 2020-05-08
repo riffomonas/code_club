@@ -24,10 +24,7 @@ github_username:  riffomonas
 repo: https://github.com/riffomonas/code_club
 
 
-collections:
-  code_club:
-    output: true
-    permalink: /:name
+permalink: /:year-:month-:day-:title
 
 layouts_dir: /resources/_layouts
 includes_dir: /resources/_includes
@@ -36,7 +33,6 @@ sass:
   style: compressed
 
 # Build settings
-future: false
 markdown: kramdown
 theme: minima
 plugins:
