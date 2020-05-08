@@ -36,7 +36,7 @@ sass:
   style: compressed
 
 # Build settings
-future: true
+future: false
 markdown: kramdown
 theme: minima
 plugins:
@@ -44,3 +44,6 @@ plugins:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+# set timezone
+timezone: America/New_York

@@ -2,7 +2,7 @@
 layout: post
 title: "The data is..."
 author: "PD Schloss"
-date: "April 9, 2020"
+date: 2020-04-09
 time: 15:00 Eastern
 blurb: "The data are in and ... we need to analyze it/them"
 comments: true

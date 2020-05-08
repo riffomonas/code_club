@@ -2,7 +2,7 @@
 layout: post
 title: "The data are..."
 author: "PD Schloss"
-date: "April 2, 2020"
+date: 2020-04-02
 time: 15:00 Eastern
 blurb: "We've invited the rhinoceri, Washington and Lincoln to the next Code Club!"
 comments: true

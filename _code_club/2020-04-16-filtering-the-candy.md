@@ -2,7 +2,7 @@
 layout: post
 title: "Find the candy that I like..."
 author: "PD Schloss"
-date: "April 16, 2020"
+date: 2020-04-16
 time: 15:00 Eastern
 blurb: "The Easter-induced candy stupor as faded, now to analyze the data"
 comments: true

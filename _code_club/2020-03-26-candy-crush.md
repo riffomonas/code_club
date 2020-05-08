@@ -2,7 +2,7 @@
 layout: post
 title: "Candy Crush"
 author: "PD Schloss"
-date: "March 26, 2020"
+date: 2002-03-26
 time: 15:00 Eastern
 blurb: "Let's explore people's favorite candies using functions from the tidyverse"
 comments: true

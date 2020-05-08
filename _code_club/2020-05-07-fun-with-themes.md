@@ -2,7 +2,7 @@
 layout: post
 title: "Fun with ggplot2's themes"
 author: "PD Schloss"
-date: "May 7, 2020"
+date: 2020-05-07
 blurb: "Ever feel like <code>ggplot2</code>'s <code>theme</code> function was a black hole? We'll break it down"
 comments: true
 ---
