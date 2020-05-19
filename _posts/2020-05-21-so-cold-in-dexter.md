@@ -9,7 +9,7 @@ comments: true
 
 A couple of weeks ago, my wife conned our 15 year old into roto tilling up a part of our pig pen so she could have a garden. She's slowly starting to plant stuff in it. We also have about 20 apple trees that have started to blossom. I *think* we're past the point of worrying about hard frosts that could kill germinating plants or apple blossoms. But how sure should I be? I thought this was a great question for a code club. If you google the name of your town and "frost dates" you'll find a bunch of gardening websites that give guidance on when to plant in the spring and when to expect your harvesting to be done in the fall. Of course we could find one of those websites, but where's the fun in that?
 
-Today's code club will answer this and other questions using functions we've already seen including `filter`, `group_by`, and `summarize`. We'll focus on how we can use the `mutate` function to create new columns in our data frames. By the end of today's Code Club we'll know when I can stop worrying about my wife's garden and my apple trees.
+Today's code club will answer this and other questions using functions we've already seen including `filter`, `group_by`, and `summarize`. We'll focus on how we can use the `mutate` function to create new columns in our data frames. To spice things up a bit we'll also talk about how we can use arithmetic functions with logical variables. By the end of today's Code Club we'll know when I can stop worrying about my wife's garden and my apple trees.
 
 Don't watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the [setup instructions](/code_club/setup-instructions) before you get going.
 
@@ -135,7 +135,7 @@ aa_weather %>%
 	print(n=31)
 ```
 
-It has only been below freezing 11 times after the 10th in the past 130 years (8.5%). If we wanted to be more conservative, we could wait until the 13th since there have only been freezing temperatures on or after the 13th of May, 6 times (4.6%).
+It has only been below freezing 11 times after the 10th in the past 130 years (8.5%). If we wanted to be more conservative, we could wait until the 13th since there have only been freezing temperatures on or after the 13th of May, 6 times (4.6%). Sure enough, if we look at the [Gardening in the Mitten](https://www.gardeninginthemitten.com/michigan-frost-dates/) website, they tell us that Ann Arbor's spring frost should end by May 10th and the first fall frost will be October 5th
 
 Hopefully, you feel more comfortable using `mutate`, `filter`, `group_by`, and `summarize` now that you've seen them used in a new context. Are you ready to answer some questions using these strengthened skills?
 
@@ -155,7 +155,7 @@ aa_weather %>%
 	print(n=30)
 ```
 
-If you had any growth after the 18th of the month, that would be a surprise (90% of the years have had a frost on the 18th or before).
+If you had any growth after the 18th of the month, that would be a surprise (90% of the years have had a frost on the 18th or before). This is about two weeks longer than the Gardening in the Mitten suggested. I suspect they used the 5th because 10% of the years had a frost on that day or earlier.
 </div>
 
 
@@ -195,4 +195,4 @@ If this rule of thumb is true, then we won't have consistent temperatures that a
 
 ---
 
-Title/song credit: Cranberries, [So cold in Ireland](https://www.youtube.com/watch?v=WX2TXMJXS4o)
+Title credit: The Cranberries, [So cold in Ireland](https://www.youtube.com/watch?v=WX2TXMJXS4o)

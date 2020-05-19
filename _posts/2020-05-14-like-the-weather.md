@@ -241,4 +241,4 @@ month_tmax %>% filter(month == 6)
 
 ---
 
-Title/song credit: 10,000 Maniacs, [Like the Weather](https://www.youtube.com/watch?v=te7bbWBXusk)
+Title credit: 10,000 Maniacs, [Like the Weather](https://www.youtube.com/watch?v=te7bbWBXusk)
