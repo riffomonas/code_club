@@ -7,7 +7,7 @@ blurb: "Gee whiz it was cold Saturday morning. Is this normal? We'll use <code>f
 comments: true
 ---
 
-Last Saturday (May 9th) was pretty cold here in southeastern Michigan. It was 26F (-3C) when I woke up. Although we've had some warm days, this Spring has felt pretty cold. Is that normal? If only we had the skills to answer such a question... In fact, we do! Today's code club will answer this and other questions using functions we've already seen including `filter`, `group_by`, and `summarize`. By the end of today's Code Club we'll know how normal Friday's temperatures were and we'll have a greater familiarity wiht using these functions. In addition, we'll learn how to use the `arrange` and `top_n` functions to find out which previous year had the lowest temperature.
+Last Saturday (May 9th) was pretty cold here in southeastern Michigan. It was 26F (-3C) when I woke up. Although we've had some warm days, this Spring has felt pretty cold. Is that normal? If only we had the skills to answer such a question... In fact, we do! Today's code club will answer this and other questions using functions we've already seen including `filter`, `group_by`, and `summarize`. By the end of today's Code Club we'll know how normal Friday's temperatures were and we'll have a greater familiarity with using these functions. In addition, we'll learn how to use the `arrange` and `top_n` functions to find out which previous year had the lowest temperature.
 
 Don't watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the [setup instructions](/code_club/setup-instructions) before you get going.
 
@@ -237,3 +237,8 @@ month_tmax %>% filter(month == 6)
 </div>
 
 5\. Get the weather data for your favorite place using the approach Pat outlines in the video. What will the temperature be there on your birthday?
+
+
+---
+
+Title/song credit: 10,000 Maniacs, [Like the Weather](https://www.youtube.com/watch?v=te7bbWBXusk)
