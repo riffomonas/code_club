@@ -3,7 +3,7 @@ layout: post
 title: "So cold in Dexter"
 author: "PD Schloss"
 date: 2020-05-21 12:00
-blurb: "My wife planted a garden, was it too soon? We'll use <code>mutate</code>, <code>group_by</code>, and <code>summarize</code> to find out"
+blurb: "My wife planted a garden, was it too soon? We'll use <code>mutate</code>, <code>filter</code>, <code>group_by</code>, and <code>summarize</code> to find out"
 comments: true
 ---
 
