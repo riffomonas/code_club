@@ -13,7 +13,7 @@ Today's code club will answer this and other questions using functions we've alr
 
 Don't watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the [setup instructions](/code_club/setup-instructions) before you get going.
 
-<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/tVKcVKORmow" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/LUnV44uFr2c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ## Prompt
