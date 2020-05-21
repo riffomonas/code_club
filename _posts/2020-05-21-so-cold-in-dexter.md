@@ -169,6 +169,7 @@ aa_weather %>%
 		hot = t_high_f > 90) %>%
 	group_by(year) %>%
 	summarize(total_hot_days = sum(hot, na.rm=T)) %>%
+	filter(year > 1891 & year < 2020) %>%
 	summarize(ave_hot_days = mean(total_hot_days))
 ```
 </div>
@@ -183,6 +184,7 @@ aa_weather %>%
 	mutate(t_high_f = 9/5 * TMAX + 32,
 		t_low_f = 9/5 * TMIN + 32,
 		grass_growing = t_high_f + t_low_f > 100) %>%
+	filter(year > 1891 & year < 2020) %>%
 	group_by(month, day) %>%
 	summarize(frac_growing_days = mean(grass_growing, na.rm=TRUE)) %>%
 	filter(month == 5) %>%
