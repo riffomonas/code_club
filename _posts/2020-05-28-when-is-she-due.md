@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Let's Do It"
+title: "When is she due?"
 author: "PD Schloss"
-date: 2020-05-28 12:00
+date: 2020-05-28 11:55
 blurb: "She's expecting! We'll use the <code>lubridate</code> package to figure out the due date."
 comments: true
 ---
@@ -192,6 +192,3 @@ difftime(due_date, breed_date) - 147
 5 months minus 5 days works well for sheep!
 </div>
 
----
-
-Title credit: Joan Jett and the Blackhearts, [Let's Do It](https://www.youtube.com/watch?v=xi8i08ve4hE)
