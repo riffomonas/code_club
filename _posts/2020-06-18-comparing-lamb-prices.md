@@ -3,7 +3,7 @@ layout: post
 title: "Comparing lamb prices"
 author: "PD Schloss"
 date: 2020-06-18 11:55
-blurb: "Do the prices for different classeses of lamb move together? We'll use <code>pivot_longer</code>"
+blurb: "Do the prices for different classes of lamb move together? We'll use <code>pivot_longer</code>"
 comments: true
 ---
 
