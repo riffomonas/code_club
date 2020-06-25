@@ -139,18 +139,20 @@ Interesting. There are a few things going on here. First, it is a little hard to
 
 1\. The second page of my "lamb_prices" workbook is "holidays". It is a grid that has a number of holidays where people tend to eat lamb as rows and years as columns. The values are the actual dates. Tidy this "holidays" tab to have columns titled `holiday`, `year`, and `date`. Make sure that the `date` column is the "date" format and not "dttm".
 
-<input type="button" classes="hideshow">
+<input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
+```R
 read_sheet("https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328",
 		sheet="holidays",
 		col_type = "cDDDDDDD") %>%
 	pivot_longer(-holiday, names_to="year", values_to="date")
+```
 </div>
 
 
 2\. The data in the final plot we made was pretty noisy. What happens if you use `geom_smooth` in place of `geom_line`?
 
-<input type="button" classes="hideshow">
+<input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
 
 ```r
@@ -169,7 +171,7 @@ tidy_auction_data %>%
 
 3\. It was never quite clear what the difference between a small lamb (40-65 lbs), new crop lamb, or feeder lamb was. In 2019, they stopped reporting prices for small lambs. My sense is that new crop lambs are small lambs that are ready for slaughter and the feeder lambs need more time to grow to one of the larger categories. Create a plot comparing the small, feeder lamb, and new crop columns. Which category most resembles the small lamb prices?
 
-<input type="button" classes="hideshow">
+<input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
 ```r
 tidy_auction_data %>%

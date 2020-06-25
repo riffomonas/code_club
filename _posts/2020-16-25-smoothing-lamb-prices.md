@@ -199,7 +199,7 @@ I kind of prefer the `geom_smooth` approach since it does a better job of handli
 
 1\. How would you modify the code we generated to calculate a 3 week rolling average? 5 week?
 
-<input type="button" classes="hideshow">
+<input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
 
 ```R
@@ -231,7 +231,7 @@ large_five <- tidy_auction_data %>%
 
 2\. We covered calculating the rolling average for the large class of lambs. How would we calculate the rolling averages for each class of lambs? Build a plot showing the prices for the small, medium, large, and extra large classes of lambs.
 
-<input type="button" classes="hideshow">
+<input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
 
 ```r
@@ -253,8 +253,9 @@ rolling %>%
 
 3\. We've seen how we can repackage other functions we've already learned with the `lag` function to generate a rolling average. As we saw in the first exercise, pivoting between different lag lengths can be a bit tedious. Also, if we wanted to do something like an average over 50 values, that would be horrible. Thankfully, there's a package called `zoo` that has a function, `rollmean`. Install `zoo` and look at the `?rollmean` documentation and see whether you can figure out how to replace our `mutate` functions with a single `mutate` function that calls `rollmean`
 
-<input type="button" classes="hideshow">
+<input type="button" class="hideshow">
 <div markdown="1" style="display:none;">
+
 ```r
 library(zoo)
 

@@ -223,6 +223,8 @@ large_prices %>%
 3\. I can sell lambs at 95 pounds or at 125 pounds. If we assume that these lambs would get the midpoint price for their weight class, what is the total difference in price I would receive for each animal? How has this varied over the past 5 years. This difference would tell me the most it should cost me to have an animal gain the extra 30 pounds.
 
 <input type="button" class="hideshow">
+<div markdown="1" style="display:none;">
+
 ```r
 price_difference <- auction_data %>%
 	separate(medium, sep="-", into=c("medium_min", "medium_max"), convert=TRUE) %>%
@@ -245,5 +247,4 @@ price_difference %>%
 ```
 
 The difference in total price seems to be driven by the strong spring market for large lambs. This is very interesting to me beause it shows me a few things. First, if I have a lamb that will be 125 pounds in January, I probably should have sold it 6 weeks earlier as a medium lamb. Second, it shows me that aside from January, I need to spend less than $20 per lamb to get it to gain the extra 30 pounds for it to get into the large class.
-<div markdown="1" style="display:none;">
 </div>
