@@ -24,19 +24,19 @@ library(tidyverse)
 library(googlesheets4)
 
 auction_data <- read_sheet("https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328",
-													 sheet="numbers_and_prices",
-													 range="A:J",
-													 col_type = "Ddcccccccc",
-													 na="NA") %>%
-	rename_all(tolower) %>%
-	rename("aged_sheep" = "aged sheep",
-				 "feeder_lambs" = "feeder lambs",
-				 "hair_lambs" = "hair lambs",
-				 "new_crop" = "new crop",
-				 "small" = "40-85",
-				 "medium" = "85-105",
-				 "large" = "106-130",
-				 "extra_large" = ">131")
+			sheet="numbers_and_prices",
+			range="A:J",
+			col_type = "Ddcccccccc",
+			na="NA") %>%
+		rename_all(tolower) %>%
+		rename("aged_sheep" = "aged sheep",
+			"feeder_lambs" = "feeder lambs",
+			"hair_lambs" = "hair lambs",
+			"new_crop" = "new crop",
+			"small" = "40-85",
+			"medium" = "85-105",
+			"large" = "106-130",
+			"extra_large" = ">131")
 
 
 tidy_auction_data <- auction_data %>%
@@ -78,7 +78,7 @@ With this in mind, we can create new columns for this week that we are intereste
 tidy_auction_data %>%
 	filter(classes=="large") %>%
 	mutate(lag0 = midpoint,
-				 lag1 = lag(midpoint, 1, order_by=date))
+		lag1 = lag(midpoint, 1, order_by=date))
 ```
 
 Since our data are weekly, let's expand this to create columns to calculate a 4 week rolling average.
@@ -87,9 +87,9 @@ Since our data are weekly, let's expand this to create columns to calculate a 4 
 tidy_auction_data %>%
 	filter(classes=="large") %>%
 	mutate(lag0 = midpoint,
-				 lag1 = lag(midpoint, 1, order_by=date),
-				 lag2 = lag(midpoint, 2, order_by=date),
-				 lag3 = lag(midpoint, 3, order_by=date))
+		lag1 = lag(midpoint, 1, order_by=date),
+		lag2 = lag(midpoint, 2, order_by=date),
+		lag3 = lag(midpoint, 3, order_by=date))
 ```
 
 This gives us the data that we need to calculate our rolling average. We need to average across our four columns. My instinct is to do the following...
@@ -98,9 +98,9 @@ This gives us the data that we need to calculate our rolling average. We need to
 tidy_auction_data %>%
 	filter(classes=="large") %>%
 	mutate(lag0 = midpoint,
-				 lag1 = lag(midpoint, 1, order_by=date),
-				 lag2 = lag(midpoint, 2, order_by=date),
-				 lag3 = lag(midpoint, 3, order_by=date)) %>%
+		lag1 = lag(midpoint, 1, order_by=date),
+		lag2 = lag(midpoint, 2, order_by=date),
+		lag3 = lag(midpoint, 3, order_by=date)) %>%
 	mutate(rolling_average = mean(c(lag0, lag1, lag2, lag3)))
 ```
 
@@ -110,9 +110,9 @@ This gives us a column of `NA` values because it is taking all of the rows acros
 tidy_auction_data %>%
 	filter(classes=="large") %>%
 	mutate(lag0 = midpoint,
-				 lag1 = lag(midpoint, 1, order_by=date),
-				 lag2 = lag(midpoint, 2, order_by=date),
-				 lag3 = lag(midpoint, 3, order_by=date)) %>%
+		lag1 = lag(midpoint, 1, order_by=date),
+		lag2 = lag(midpoint, 2, order_by=date),
+		lag3 = lag(midpoint, 3, order_by=date)) %>%
 	group_by(date) %>%
 	summarize(midpoint = first(midpoint), rolling_average = mean(c(lag0, lag1, lag2, lag3)))
 ```
@@ -123,9 +123,9 @@ With that approach, I also needed to use the `first` function to get the observe
 large <- tidy_auction_data %>%
 	filter(classes=="large") %>%
 	mutate(lag0 = midpoint,
-				 lag1 = lag(midpoint, 1, order_by=date),
-				 lag2 = lag(midpoint, 2, order_by=date),
-				 lag3 = lag(midpoint, 3, order_by=date)) %>%
+		lag1 = lag(midpoint, 1, order_by=date),
+		lag2 = lag(midpoint, 2, order_by=date),
+		lag3 = lag(midpoint, 3, order_by=date)) %>%
 	mutate(rolling_average = (lag0 + lag1 + lag2 + lag3)/4) %>%
 	select(date, midpoint, rolling_average)
 ```
