@@ -10,7 +10,7 @@ comments: true
 I **love** starting new projects. Everything feels so simple and obvious. Weeks, months, and years after staring things have gotten complicated, confusing, and tedious. We're ready for it to be done already. With each project, I tell myself, this is going to be different! Well dear reader, today is that day. We are going to start a new project with the goal of answering a question that is important to those of us interested in analyzing microbial communities: *To what degree do inter- and intra-genomic variation limit the interpretation of amplicon sequence variants (ASVs)?* Along the way we'll learn different elements of what it takes to make an analysis reproducible and how to use a variety of tools that will help out. We'll get started in this session with using the command line to set up our project directory. Even if you don't find the problem we are studying interesting, you will hopefully find the approach generalizable to a variety of problems that do interest you.
 
 
-<!-- <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/3HkgewL_Tg8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/3HkgewL_Tg8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ## The problem
