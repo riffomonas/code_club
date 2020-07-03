@@ -56,7 +56,15 @@ You can hopefully generate a directory that looks like this using the graphical 
 
 ### Your computer is like a tree
 
-When you start up your command line interface you will generally be plopped into your home directory. Open your Finder/Windows Explorer window and navigate to your home directory. Here you'll see a number of different directories. In mine, I see directories including Applications, Desktop, Documents, Downloads and others. These are the directories within our home directory. We can move to these directories using the `cd` command (short for change directory). Go ahead and try this
+When you start up your command line interface you will generally be plopped into your home directory. You'll find something that looks like this awaiting you...
+
+```BASH
+pschloss@rideau ~ $
+```
+
+The `$` is the prompt where you will enter the commands that I share with you below.
+
+Open your Finder/Windows Explorer window and navigate to your home directory. Here you'll see a number of different directories. In mine, I see directories including Applications, Desktop, Documents, Downloads and others. These are the directories within our home directory. We can move to these directories using the `cd` command (short for change directory). Go ahead and try this
 
 ```bash
 cd Documents
