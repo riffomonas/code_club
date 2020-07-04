@@ -11,7 +11,7 @@ In the last episode of Code Club we started a new project. It was a very excitin
 
 Please take the time to watch today's episode, follow along on your own computer, and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end I will provide solutions. The reference notes and links that follow are a supplement to the material in the video.
 
-<!-- <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/DnwEaa5QtpI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/DnwEaa5QtpI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ## Version Control
