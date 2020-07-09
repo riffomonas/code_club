@@ -14,6 +14,8 @@ Please take the time to watch today's episode, follow along on your own computer
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/O4he8SUdP1U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## `git` and GitHub revisited
+The notes below are meant to supplement the video presentation of the Code Club episode.
+
 
 ### GitHub flow
 [GitHub flow](https://guides.github.com/introduction/flow/) is a process used by software developers that allows them to work on multiple new features at the same time. We can adapt the idea behind GitFlow for data analysis. This will allow us to systematically identify and addressing different steps in our data analysis plan. It makes use of an "issue tracker", which accompanies each GitHub repository. To implement this process, we'll learn a few more git commands including `git branch`, `git checkout`, and `git merge`. We'll learn GitFlow through the process of downloading our reference files.
