@@ -1,3 +1,3 @@
 # code_club
 
-![(Unnamed workflow)](https://github.com/riffomonas/code_club/workflows/(Unnamed%20workflow)/badge.svg)
+![Build every hour](https://github.com/riffomonas/code_club/workflows/Build%20every%20hour/badge.svg)
