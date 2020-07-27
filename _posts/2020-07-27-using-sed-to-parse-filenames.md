@@ -6,7 +6,7 @@ date: 2020-07-27 11:55
 blurb: "We clean up the code in our Makefile shell scripts"
 comments: true
 start_hash: 7efa956
-youtube:
+youtube: D4ojrF8AeeQ
 ---
 
 In the last two episodes we've created a few bash scripts and a Makefile to help automate running those scripts while keeping track of the dependencies. You may recall that we aren't tracking changes to our data files because they're too big. But with our bash scripts and make, we can regenerate them if they somehow got deleted or we needed start over. Of course, you should be able to use my files to reproduce what I've already done, which is a win for reproducibility. Because these tools are so powerful, I want to spend a little more time with them.
