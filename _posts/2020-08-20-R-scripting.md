@@ -61,7 +61,7 @@ If you haven't been following along, you can get caught up by doing the followin
 
 		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
-		git reset --hard {{ start_hash }}
+		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git
 		git push -u origin master  
 
