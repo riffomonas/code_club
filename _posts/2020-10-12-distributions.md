@@ -5,7 +5,7 @@ blurb: "What does plotting data have to do with rock & roll?"
 author: "PD Schloss"
 date: 2020-10-12 11:45
 comments: true
-start_hash: 12249ada78982c9406811fd6c3e67f2e93579b3e
+start_hash: 4381c3af540b2171c321dd8f52827af0fc7f634d
 youtube: grxcImtW6Lc
 ---
 
