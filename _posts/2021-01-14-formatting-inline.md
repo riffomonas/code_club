@@ -3,7 +3,7 @@ layout: post
 title: "Formatting the output from inline code in a R Markdown document"
 blurb: "Fun with significant digits"
 author: "PD Schloss"
-date: 2021-01-12 11:45
+date: 2021-01-14 11:45
 comments: true
 start_hash: b74a491dd382e1f1b56e5090478699ec342584d5
 youtube: a2MedFEQTeA
