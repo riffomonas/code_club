@@ -3,7 +3,7 @@ layout: post
 title: "The value of stepping back and letting your data breathe"
 blurb: "Replacing a beloved figure"
 author: "PD Schloss"
-date: 2021-02-11 12:45
+date: 2021-02-11 11:45
 comments: true
 start_hash: 9bcc39e15b6a7dc42bf760d7489ee08b320fd6a1
 youtube: X9EDAFksoAg
