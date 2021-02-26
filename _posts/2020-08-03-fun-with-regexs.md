@@ -15,7 +15,7 @@ In today's episode, we'll see many of those commands and some new ones to help s
 
 After the last episode, I was looking back through our files and noticed that mothur had changed our sequence names because the names had spaces in them. Have I mentioned how horrible spaces are for bioinformatics work?! I also noticed that although most of our sequences start and end at the coordinates that we trimmed them to, there are a few for each region that don't. In those cases, mothur starts the sequence with a series of periods to indicate missing data. Later on, we might decide to toss those sequences because they're weird. I'd prefer to have those be hyphens to represent gap characters. Instead of opening these files in a text editor and replacing all the spaces with underscores or replacing the periods with hyphens, we can fix the information using `sed`. Along the way we'll learn a few extra commands to keep things interesting. These are the commands that I often use to diagnose problems or do simple analyses of data in my files.
 
-Even if you're only watching this video to learn more about bash commands and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you're only watching this video to learn more about bash commands and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -75,7 +75,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

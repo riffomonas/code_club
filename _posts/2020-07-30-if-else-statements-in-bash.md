@@ -13,7 +13,7 @@ In the last episode we used `sed` to write regular expressions that allowed us t
 
 Right now, we have full length 16S rRNA gene sequences. They were extracted from genome sequences. Sure there are sequencing platforms that will generate full length 16S rRNA gene sequences. However, the Illumina MiSeq platform is far more common and people are using it to sequence much shorter fragments of the gene that are a few hundred nucleotides long. If I want to look at how amplicon sequence variants perform using current sequencing approaches, then I need to extract the more commonly used regions of the gene. We'll also look at full length sequences, but I need to build some logic into a new script that will extract the coordinates of my alignment that correspond to the region I give the script. This will allow us to simulate creating amplicon sequence variants (ASVs) for different subregions of the 16S rRNA gene. In today's episode of Code Club, we're going to use if-else statements in bash to insert this type of logic into our bash scripts. We'll also see how we can use if-else statements to make sure that everything has been going swimmingly.
 
-Even if you aren't analyzing 16S rRNA gene sequences or even interested in microbiology, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you aren't analyzing 16S rRNA gene sequences or even interested in microbiology, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -122,7 +122,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

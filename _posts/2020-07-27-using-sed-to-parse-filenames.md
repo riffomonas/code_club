@@ -15,7 +15,7 @@ In today's episode we're going to clean up our scripts and Makefile a bit. If yo
 
 Today, we'll learn a bash command, `sed`, that will allow us to give the script the file's name with its path. I admit that this is a relatively small improvement for our overall project. But, along the way we'll learn a few other bash tools including the pipe and how to capture output to a variable. We'll also see how we can use variables that are built into make that simplify our Makefiles. Because these improvements will make our analyses easier to develop, they will also be more reproducible.
 
-Even if you haven't been following along with the past episodes, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you haven't been following along with the past episodes, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -49,7 +49,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

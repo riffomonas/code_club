@@ -61,7 +61,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

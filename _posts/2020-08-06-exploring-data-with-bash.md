@@ -15,7 +15,7 @@ Much of what we'll do today you could also do in R or Python. However, using the
 
 We'll use these commands to help us figure out which bit of information between the pipe characters corresponds to a unique identifier for each genome. This will allow us to use mothur's `count.seqs` function to count the number of times each unique 16S rRNA gene sequence appears in each genome and the number of times it appears in more distantly related genomes. If we can generate this information, we can use it to quantify how specific an amplicon sequence variant or ASV is to a genome, species, genus, or any other taxonomic level.
 
-Even if you're only watching this video to learn more about bash commands and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you're only watching this video to learn more about bash commands and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -60,7 +60,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

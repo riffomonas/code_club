@@ -17,7 +17,7 @@ As we are doing steps in a data analysis we get a little cocky. We think things 
 
 Today I'm going to present the approach that I should have taken. It's related to a concept that is commonly used in programming called Test Driven Development (TDD). It isn't as widely used in data analysis, but there are ideas in Test Driven Development that we can draw from to make our analysis more robust. The idea is that we start with a set of tests that fail. We then write code to generate output that passes the test. If we later find a situation that produces the wrong output, then we add that situation to our set of tests and modify the code so the test passes. Because modifying the code can cause other tests to fail, every time the code is updated the tests are rerun. This sounds a bit like make, right? Programming languages including R and Python have frameworks that make Test Driven Development much easier to execute. I'm not aware of such a framework for bash. In today's episode we're going to figure out where the problem is, create a set of test sequences that trigger the problem, and then modify our code to resolve the problem. Along the way we'll learn more about sed and grep.
 
-Even if you're only watching this video to learn more about bash commands and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you're only watching this video to learn more about bash commands and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -58,7 +58,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

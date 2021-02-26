@@ -15,7 +15,7 @@ In today's episode we'll see how we can modify the hidden `.bashrc` file that li
 
 An important point to remember in customizing our environment is that we don't want those customizations to impact our actual analysis. This is because if you get my code and my code depends on the customizations, but I don't give you those customization, then your version of the analysis will break. For example, imagine if were I create an alias for `sed` that is called `sed`, but runs `sed -E`. I might code my bash scripts in a way that assumes I always have access to the enhanced regular expressions. Now, you get a hold of my code and try to run those scripts. But it doesn't work for you. Why? Because you don't have the same `sed` alias that I have. We always want to be mindful of how much our bash scripts depend on our aliases.
 
-Today's video won't do anything with the data from the project that we've been working on over the recent episodes. So, even if you're only watching this video to learn more about customizing your command line environment and don't know what a 16S rRNA gene is, you should get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Today's video won't do anything with the data from the project that we've been working on over the recent episodes. So, even if you're only watching this video to learn more about customizing your command line environment and don't know what a 16S rRNA gene is, you should get a lot out of today's video. Please take the time to follow along on your own computer and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -140,7 +140,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

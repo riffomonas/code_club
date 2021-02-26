@@ -13,7 +13,7 @@ Are you ready for some R? To this point, I've been showing you how you can proce
 
 Perhaps you already know a little R. If not, I have several tutorials at the riffomonas.org website that you can use for free to learn a lot of fundamentals for analyzing microbiome and other types of data. Typically, when people analyze data in R, they enter commands at the prompt in RStudio. This is a bit like how we could run bash commands from the command line interface. It works and is very powerful. But it isn't automated and isn't an approach that will play well with a Makefile. In today's episode of Code Club, I'll show you how to create an executable R script that can be run without starting, takes input, and uses good reproducible practices. We'll see how we can integrate this new script with our earlier analysis.
 
-Even if you're only watching this video to learn more about R and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you're only watching this video to learn more about R and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 
 
@@ -59,7 +59,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

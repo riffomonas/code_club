@@ -19,7 +19,7 @@ This all brings up an important point that I mentioned earlier. A lot of your R 
 
 Sometimes. Today, I'm going to spend a bit of time showing you an alternative to functions like `read_tsv` and `pivot_longer` that are far faster, but have a less intuitive syntax. These functions will come from the `data.table` package. I would say it's worth learning these alternatives if you are going to be working with really large files or files that are wide. I say this, because the next time you run into this scenario, maybe you'll remember to use these alternative functions and will be able to pull out these tools to make your code more efficient. But, if the improvement is some slick programming trick that you're unlikely to need again, then maybe I'd say meh. It's slick, but has it gained you any time? Beyond seeing how to use some new functions from `data.frame`, you'll also learn how to profile your code so that you can find the bottlenecks in your code that you might want to refactor to make the code more efficient.
 
-Even if you're only watching this video to learn more about R and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you're only watching this video to learn more about R and don't know what a 16S rRNA gene is, I'm sure you'll get a lot out of today's video. Please take the time to follow along on your own computer. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 
 
@@ -65,7 +65,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git

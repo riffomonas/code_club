@@ -17,7 +17,7 @@ GNU Make is installed with bash so it's available for people using Mac OS X, Lin
 
 As I go forward with this project using Make will become baked into our workflow much like using GitHub flow. As I mentioned earlier, when we install software from source code, we typically enter "make install". My goal for this project isn't to install software. Rather, I want to generate a manuscript that I can submit to a journal. At the end of this project, I hope to be able to write "make manuscript.pdf" and it does everything from downloading my data all the way through generating a PDF version of my manuscript and its figures. If we can do that, then we will have great confidence that our analysis is reproducible. But it would also be great to rerun this analysis with a new version of the rrnDB, SILVA, or mothur. This would allow me to see how robust my analysis is to updates in the database. Not only is reproducibility great for transparency and getting things "right", but it's also great for improving the rigor of our work. Given the growing popularity of amplicon sequence variants in microbial ecology, if I'm going to critique their use, then I want to make sure that my analysis is rigorous and that anyone can reproduce what I am doing. First, I need to show you how to use make! In today's episode we'll ease into the use of make and in future episodes we'll see how we can improve the sophistication of our use of this great tool.
 
-Even if you don't have a clue what amplicon sequence variants are, I'm sure you'll get a lot out of this episode. Please take the time to watch today's episode, follow along on your own computer, and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/pschloss/Schloss_rrnAnalysis_XXXX_2020) on GitHub.
+Even if you don't have a clue what amplicon sequence variants are, I'm sure you'll get a lot out of this episode. Please take the time to watch today's episode, follow along on your own computer, and attempt the exercises. Don't worry if you aren't sure how to solve the exercises, at the end of the video I will provide solutions. If you haven't been following along but would like to, please check out the notes below where you'll find instructions on catching up, reference notes, and links to supplemental material. You can find [my version of the project](https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020) on GitHub.
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -60,7 +60,7 @@ If you haven't been following along, you can get caught up by doing the followin
     - Click the green "Create repository" button
   - Go to your command line and enter the following replacing `<your_github_id>` with your GitHub user id
 
-		git clone git@github.com:pschloss/Schloss_rrnAnalysis_XXXX_2020.git
+		git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
 		cd Schloss_rrnAnalysis_XXXX_2020
 		git reset --hard {{ page.start_hash }}
 		git remote set-url origin git@github.com:<your_github_id>/Schloss_rrnAnalysis_XXXX_2020.git
