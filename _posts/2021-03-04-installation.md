@@ -13,7 +13,7 @@ youtube: D6CunpqF04E
 
 ## Installations
 
-* See this episode for instructions on getting set up!
-* R: https://r-project.org
-* RStudio: https://rstudio.com
-* Raw data: https://github.com/riffomonas/raw_data/releases/latest
+* [See video](https://www.youtube.com/watch?v=D6CunpqF04E) for instructions on getting set up
+* [R](https://r-project.org)
+* [RStudio](https://rstudio.com)
+* [Raw data](https://github.com/riffomonas/raw_data/releases/latest)
