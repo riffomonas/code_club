@@ -12,6 +12,8 @@ youtube: xijDvx-J1jo
 
 ## Code
 
+This is where we started before the episode
+
 ```R
 library(tidyverse)
 library(readxl)
@@ -25,31 +27,6 @@ metadata_nmds <- inner_join(metadata, nmds, by=c('sample_id'='group')) %>%
                                         "NonDiarrhealControl")
                                )
          )
-
-ggplot(metadata_nmds, aes(x=axis1, y=axis2, color=disease_stat)) +
-  geom_point() +
-  coord_fixed() +
-  labs(x="NMDS Axis 1",
-       y="MNDS Axis 2") +
-  scale_color_manual(name=NULL,
-                     breaks=c("NonDiarrhealControl",
-                              "DiarrhealControl",
-                              "Case"),
-                     values=c("gray", "blue", "red"),
-                     labels=c("Healthy",
-                              "Diarrhea",
-                              "C. difficile positive")
-                     )+
-  theme_classic() +
-  theme(
-    legend.key.size = unit(0.25, "cm"),
-    legend.position = c(0.95, 0.95),
-    legend.background = element_rect(fill="NA",
-                                     color="black"),
-    legend.margin = margin(t=-2, r=3, b=3, l=3)
-  )
-
-ggsave("schubert_nmds.tiff")
 ```
 
 ## Installations
