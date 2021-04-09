@@ -5,7 +5,7 @@ blurb: "Combining geom_jitter and stat_summary"
 author: "PD Schloss"
 date: 2021-04-09 11:30
 comments: true
-youtube: 4ZZYcX7vTDo
+youtube: tAVNv-Gz6NU
 ---
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
