@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Integrating RStudio with a new or existing project on GitHub (CC120)"
-blurb: "Reading scary emails"
+blurb: "Creating an RStudio project from a GitHub repository"
 author: "PD Schloss"
 date: 2021-06-28 11:00
-start_hash: 
+start_hash:
 comments: true
 youtube: sxErFMF7BJY
 ---
