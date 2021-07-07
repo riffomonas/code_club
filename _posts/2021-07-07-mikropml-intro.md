@@ -5,6 +5,7 @@ blurb: "Introducing mikropml"
 author: "PD Schloss"
 date: 2021-07-07 11:00
 start_hash: 25c51ea1fa293179626a586dee782a4da5656c18
+end_hash: 21bc222922c8683a776514ff563e2103cb336c1b
 comments: true
 youtube: uBqzChxAreE
 ---
@@ -14,8 +15,8 @@ youtube: uBqzChxAreE
 ## Code
 
 You can browse the state of the demo at the
-* [beginning of the episode](https://github.com/riffomonas/mikropml_demo/tree/25c51ea1fa293179626a586dee782a4da5656c18)
-* [end of the episode](https://github.com/riffomonas/mikropml_demo/tree/155adf66e3777d0544e6304760a02b89185c10d1)
+* [beginning of the episode](https://github.com/riffomonas/mikropml_demo/tree/{{ page.start_hash }})
+* [end of the episode](https://github.com/riffomonas/mikropml_demo/tree/{{ page.end_hash }})
 
 
 ## Installations
