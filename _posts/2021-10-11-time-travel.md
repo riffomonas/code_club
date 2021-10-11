@@ -7,12 +7,12 @@ date: 2021-10-11 11:00
 comments: true
 youtube: Y9h-1u6uQ6c
 start_hash: 6dc5b27c08b9e2f3f0050c6cc9a1161dc42c0479
-end_hash: 7e65f402e6f21fb26cacaa71da87dab423eed609
+end_hash: 32a63b2b58838805895f5e93a59466ea149705ba
 ---
 
 Ever wonder how to go back in your git commit history? In this episode of Code Club, Pat shares two approaches of reliving your past code without having to use any hard to remember git syntax. He'll do it all from within RStudio and GitHub. The goal will be to go back to a previous commit, create a branch, and move forward on that branch to create a new type of slope plot. The data depict the percentage of people in 15 countries who would be willing to receive the COVID-19 vaccine as of August and October of 2020.
 
-In this episode, Pat uses #RStudio, #GitHub, and #git.
+In this episode, Pat uses RStudio, GitHub, and git.
 
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
