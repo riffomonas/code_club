@@ -18,6 +18,6 @@ Once you know how to create a vector in base R, you'll want to know how to acces
 
 ## Code
 
-You can browse the state of the demo at the
+You can browse the state of the repository at the
 * [beginning of the episode](https://github.com/riffomonas/distances/tree/{{ page.start_hash }})
 * [end of the episode](https://github.com/riffomonas/distances/tree/{{ page.end_hash }})

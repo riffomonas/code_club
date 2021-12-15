@@ -18,6 +18,6 @@ In this episode of Code Club, Pat uses `dplyr`'s slice and arrange functions to 
 
 ## Code
 
-You can browse the state of the demo at the
+You can browse the state of the repository at the
 * [beginning of the episode](https://github.com/riffomonas/vaccination_attitudes/tree/{{ page.start_hash }})
 * [end of the episode](https://github.com/riffomonas/vaccination_attitudes/tree/{{ page.end_hash }})

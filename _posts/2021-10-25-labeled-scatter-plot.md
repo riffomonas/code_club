@@ -18,7 +18,7 @@ A labeled scatter plot is an effective approach when you want to highlight somet
 
 ## Code
 
-You can browse the state of the demo at the
+You can browse the state of the repository at the
 * [beginning of the episode](https://github.com/riffomonas/vaccination_attitudes/tree/{{ page.start_hash }})
 * [end of the episode](https://github.com/riffomonas/vaccination_attitudes/tree/{{ page.end_hash }})
 

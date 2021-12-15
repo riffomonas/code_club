@@ -28,7 +28,7 @@ In this episode, Pat uses `plotly`, `ggplot2`, and `dplyr` to make an interactiv
 
 ## Code
 
-You can browse the state of the demo at the
+You can browse the state of the repository at the
 * [beginning of the episode](https://github.com/riffomonas/vaccination_attitudes/tree/{{ page.start_hash }})
 * [end of the episode](https://github.com/riffomonas/vaccination_attitudes/tree/{{ page.end_hash }})
 

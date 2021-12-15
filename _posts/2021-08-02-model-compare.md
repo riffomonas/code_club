@@ -19,7 +19,7 @@ Pat will use functions from the `mikropml` R package and the `facet_wrap` functi
 
 ## Code
 
-You can browse the state of the demo at the
+You can browse the state of the repository at the
 * [beginning of the episode](https://github.com/riffomonas/mikropml_demo/tree/{{ page.start_hash }})
 * [end of the episode](https://github.com/riffomonas/mikropml_demo/tree/{{ page.end_hash }})
 
