@@ -3,7 +3,7 @@ layout: post
 title: "Tutorial for Creating a new RStudio project with GitHub to visualize climate change (CC213)"
 blurb: "New project day!!!"
 author: "PD Schloss"
-date: 2022-05-126 11:00
+date: 2022-05-16 11:00
 comments: true
 youtube: d5dUkO5lXds
 start_hash:
