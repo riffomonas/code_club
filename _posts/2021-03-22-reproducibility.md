@@ -4,7 +4,7 @@ title: "Reusing R code to repeat an analysis for a new dataset"
 blurb: "Rerunning old Code"
 author: "PD Schloss"
 date: 2021-03-22 11:30
-comments: true
+comments: false
 youtube: ZJgbCIMVfzM
 ---
 

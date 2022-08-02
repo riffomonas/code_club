@@ -4,7 +4,7 @@ title: "Writing the rough draft of a scientific paper"
 blurb: "Expanding an outline until a manuscript emerges"
 author: "PD Schloss"
 date: 2021-01-07 11:45
-comments: true
+comments: false
 start_hash: 478010246b96b31b5b4cab81171d4a892573e652
 youtube: dv1U56q6cws
 

@@ -4,7 +4,7 @@ title: "Animate two synchronized figures in R with gganimate, magick, and ggplot
 blurb: "Aminating graphs in R"
 author: "PD Schloss"
 date: 2021-05-05 11:30
-comments: true
+comments: false
 youtube: sZYt6_AqKUc
 ---
 

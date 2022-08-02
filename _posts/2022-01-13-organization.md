@@ -4,7 +4,7 @@ title: "Three approaches to organize your R project (CC178)"
 blurb: "Using R, a GUI, and bash with git to organize a project"
 author: "PD Schloss"
 date: 2022-01-13 11:00
-comments: true
+comments: false
 youtube: GeN-qqNLLsM
 start_hash: f95509595c134b11e3cef89c3e151007462f7ae8
 end_hash: f5cb11b7d8c5a900249c5e676269699411f0092a

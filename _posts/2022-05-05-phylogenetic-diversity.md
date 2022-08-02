@@ -4,7 +4,7 @@ title: "Is phylogenetic diversity any better than richness or Shannon diversity?
 blurb: "Not really"
 author: "PD Schloss"
 date: 2022-05-05 11:00
-comments: true
+comments: false
 youtube: ihAyjyP_eAc
 start_hash: 7826b5178422a5b15875021379d4ae4b9df71954
 end_hash: 482e5cf86c3a53405518c7e1878b6d14e68dcd75

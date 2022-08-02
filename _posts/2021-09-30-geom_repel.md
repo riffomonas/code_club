@@ -4,7 +4,7 @@ title: "How to prevent labels from overlapping in R with ggplot2 and ggrepel pac
 blurb: "Separating text labels"
 author: "PD Schloss"
 date: 2021-09-30 11:00
-comments: true
+comments: false
 youtube: qsUb2KjJ7tk
 start_hash: 9f367142997c366f7b44703bdfab2a478123b985
 end_hash: 4b24162b3fc967ff201ded0fb701ced1867b6618

@@ -4,7 +4,7 @@ title: "How to use R to create a heatmap from a distance matrix with ggplot2 (CC
 blurb: "Building a heatmap from a matrix"
 author: "PD Schloss"
 date: 2022-05-02 11:00
-comments: true
+comments: false
 youtube: 3iOTGaWQZp4
 start_hash: f57b05f5fca827839d52500122d9db572c90c8d1
 end_hash: e1581cd6634edfa6effabd78e4c5c19756f57b4c

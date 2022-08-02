@@ -4,7 +4,7 @@ title: "Creating a violin with the data overlayed as a stripchart or dotplot"
 blurb: "Combining geom_violin and geom_dotplot or geom_jitter"
 author: "PD Schloss"
 date: 2021-04-14 11:30
-comments: true
+comments: false
 youtube: r1MR112AMQA
 ---
 

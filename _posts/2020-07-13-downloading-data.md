@@ -4,7 +4,7 @@ title: "Downloading data from the command line"
 author: "PD Schloss"
 date: 2020-07-13 11:55
 blurb: "Who needs a browser, let's get our data directly"
-comments: true
+comments: false
 ---
 
 In the last episode of Code Club we downloaded the files that we will be using to determine to what degree inter- and intra-genomic variation limit the ability to interpret amplicon sequence variants (ASVs) as a biologically coherent entity that proponents of ASVs claim. We did this in the context of learning about GitHub flow (aka Git Flow). One problem with how we did it was that we needed to use a browser to navigate to a website to download the files. This is fine if we only need to do it once, but if we had to do it for multiple files, it could be a pain. Imagine that there is a directory of 100 files you want to download. Downloading those files manually would be a major pain. Our approach from last week would also be pretty challenging if we were working on a high performance computer that doesn't have a browser window. For today's code club we'll use GitHub flow to see how we can download the files we got last week using tools from the command line. In a future episode we'll gain a greater appreciation for this approach because it becomes easier to automate the process if the files are updated or if ours get corrupted.

@@ -5,7 +5,7 @@ blurb: "Data curation with the tidyverse"
 author: "PD Schloss"
 date: 2021-06-30 11:00
 start_hash: 793d7973aca94e22aed4e1133094971d8e99f2f2
-comments: true
+comments: false
 youtube: tBxGVfvx-Gc
 ---
 

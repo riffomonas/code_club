@@ -4,7 +4,7 @@ title: "Applying concepts from Storytelling with Data in R using ggplot2 (CC155)
 blurb: "Using color to highlight message"
 author: "PD Schloss"
 date: 2021-10-18 11:00
-comments: true
+comments: false
 youtube: rkQREY_FfqI
 start_hash: 7e65f402e6f21fb26cacaa71da87dab423eed609
 end_hash: 42e7086e9ff80f61b7a26afd26a7417f212579a2

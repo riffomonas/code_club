@@ -4,7 +4,7 @@ title: "Removing outliers in R with tools from dplyr and ggplot2 (CC232)"
 blurb: "Dealing with data anomalies"
 author: "PD Schloss"
 date: 2022-07-21 11:00
-comments: true
+comments: false
 youtube: rbm2pYSPFlU
 start_hash: b126cc31e7e4d13feb8b5047795e0a243d81f64a
 end_hash: f2394f445e06d73ec7a0525950cf8c63bd1dedd1

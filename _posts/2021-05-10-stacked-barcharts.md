@@ -4,7 +4,7 @@ title: "Creating a stacked barchart in R with ggplot2 with microbiome data (CC10
 blurb: "Remaking and critiquing an iconic chart type"
 author: "PD Schloss"
 date: 2021-05-10 11:30
-comments: true
+comments: false
 youtube: NVym44SdcaE
 ---
 

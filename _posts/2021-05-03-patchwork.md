@@ -4,7 +4,7 @@ title: "Learning to use the patchwork R package (how to learn a package in gener
 blurb: "Creating multipanel figures in R"
 author: "PD Schloss"
 date: 2021-05-03 11:30
-comments: true
+comments: false
 youtube: 2o1YDUKyhu0
 ---
 

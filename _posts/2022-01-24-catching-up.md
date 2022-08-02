@@ -4,7 +4,7 @@ title: "How to download files and directories from GitHub without using git (CC1
 blurb: "Using git without knowing it"
 author: "PD Schloss"
 date: 2022-01-24 11:00
-comments: true
+comments: false
 youtube: mTM9t0Lfy7Q
 start_hash: c7b0cc2f1a109885f24bac712bd7b78ee912ad45
 end_hash: c7b0cc2f1a109885f24bac712bd7b78ee912ad45

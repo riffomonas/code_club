@@ -4,7 +4,7 @@ title: "How I adapt one figure to look like another in R (CC220)"
 blurb: "Creating NASA's version of a climate spiral"
 author: "PD Schloss"
 date: 2022-06-09 11:00
-comments: true
+comments: false
 youtube: YkJFaQVrD9Y
 start_hash: 296dc7c5ceade51d34285ded55faa3c28060f079
 end_hash: 57916db41f0392780af3e27a44985093c6e5675c

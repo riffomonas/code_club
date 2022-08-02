@@ -4,7 +4,7 @@ title: "Resources for learning R (CC143)"
 blurb: "How to start your own Code Club"
 author: "PD Schloss"
 date: 2021-09-06 11:00
-comments: true
+comments: false
 youtube: XkZcfYt-D2o
 ---
 

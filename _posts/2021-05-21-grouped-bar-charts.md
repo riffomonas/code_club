@@ -4,7 +4,7 @@ title: "How to create a grouped bar chart in R with ggplot2's geom_col and posit
 blurb: "Dodging stacked bar charts"
 author: "PD Schloss"
 date: 2021-05-21 11:30
-comments: true
+comments: false
 youtube: wo6FSaz9AlE
 ---
 

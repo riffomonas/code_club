@@ -4,7 +4,7 @@ title: "Implementing the mathematical formula for rarefaction to measure richnes
 blurb: "Finding an exact solution for rarefaction"
 author: "PD Schloss"
 date: 2022-03-21 11:00
-comments: true
+comments: false
 youtube: 7oH9KBLeqDc
 start_hash: 0f8b592929e2d5878ed341ef7111cd3da69306e0
 end_hash: d37cf51d76f2821e413271b12e6cb411eaf87037

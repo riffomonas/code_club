@@ -4,7 +4,7 @@ title: "Creating a color gradient in R with ggplot2 (CC151)"
 blurb: "Manipulating color with ggplot2"
 author: "PD Schloss"
 date: 2021-10-04 11:00
-comments: true
+comments: false
 youtube: FQw1mBFNi8E
 start_hash: 4b24162b3fc967ff201ded0fb701ced1867b6618
 end_hash: 57327fef3fd668213b94883958b95217111f888e

@@ -4,7 +4,7 @@ title: "Testing the reproducibility of your data analysis"
 blurb: "Feeling the power of make, git, and R"
 author: "PD Schloss"
 date: 2021-02-25 11:45
-comments: true
+comments: false
 start_hash: 7ab0f8969e0b5f046930ebc7a4975681328d0b23
 youtube: qNWf1nUDfpI
 ---

@@ -4,7 +4,7 @@ title: "So cold in Dexter"
 author: "PD Schloss"
 date: 2020-05-21 12:00
 blurb: "My wife planted a garden, was it too soon? We'll use <code>mutate</code>, <code>filter</code>, <code>group_by</code>, and <code>summarize</code> to find out"
-comments: true
+comments: false
 ---
 
 A couple of weeks ago, my wife conned our 15 year old into roto tilling up a part of our pig pen so she could have a garden. She's slowly starting to plant stuff in it. We also have about 20 apple trees that have started to blossom. I *think* we're past the point of worrying about hard frosts that could kill germinating plants or apple blossoms. But how sure should I be? I thought this was a great question for a code club. If you google the name of your town and "frost dates" you'll find a bunch of gardening websites that give guidance on when to plant in the spring and when to expect your harvesting to be done in the fall. Of course we could find one of those websites, but where's the fun in that?

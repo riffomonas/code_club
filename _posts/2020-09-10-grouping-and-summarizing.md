@@ -4,7 +4,7 @@ title: "Measuring the sensitivity and specificity of ASVs for genomes"
 blurb: "Grouping and summarizing our data with <code>dplyr</code>"
 author: "PD Schloss"
 date: 2020-09-10 11:55
-comments: true
+comments: false
 start_hash: 1897d55f38fd05e4c62e4ec8b780bf8e42308876
 youtube: 7-Ju_5Dk6Uk
 ---

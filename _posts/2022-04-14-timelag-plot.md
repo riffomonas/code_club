@@ -4,7 +4,7 @@ title: "Alternatives to ordination: Displaying temporal trends in beta diversity
 blurb: "Ordinations are over rated"
 author: "PD Schloss"
 date: 2022-04-14 11:00
-comments: true
+comments: false
 youtube: Gm-kg3TuML4
 start_hash: c5e0819670625f6ba3b299656873c4a2075a49fd
 end_hash: b2037f92fdaa9e0002702bb84f770d61f41c6e61

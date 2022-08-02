@@ -5,7 +5,7 @@ blurb: "Building ROC curves"
 author: "PD Schloss"
 date: 2021-07-05 11:00
 start_hash: 46f2d22d6668933736bf93db6a39f8432da9a99f
-comments: true
+comments: false
 youtube: X3mRjpt8ZVA
 ---
 

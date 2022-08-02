@@ -4,7 +4,7 @@ title: "Balancing the sensitivity and specificity of ASVs"
 blurb: "Creating ROC curves"
 author: "PD Schloss"
 date: 2020-12-21 11:45
-comments: true
+comments: false
 start_hash: 63c560670c128fade5eeef717c8c8a9e8ff081e2
 youtube: VcA_AGOr5zY
 ---

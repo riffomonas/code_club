@@ -6,7 +6,7 @@ author: "PD Schloss"
 date: 2021-08-05 11:00
 start_hash: f5d8afe98b6d0586cf51aff6c7792e270e58fad4
 end_hash: 473f3da8502b49f1382e16826e6bcfc7b361b930
-comments: true
+comments: false
 youtube: mzHfjdkG4CQ
 ---
 

@@ -4,7 +4,7 @@ title: "Differences in sampling effort impact Bray-Curtis distances and rarefact
 blurb: "Using cut_width to discretize data"
 author: "PD Schloss"
 date: 2022-02-28 11:00
-comments: true
+comments: false
 youtube: 6TjzjClQsOg
 start_hash: 1738ceb3cb345b9545bdcb13b83139e1553cfd4d
 end_hash: f447e005160146f97210a4a05644566ded7cd879

@@ -4,7 +4,7 @@ title: "Customizing bash to improve reproducibility"
 blurb: "Creating aliases and packing more information into our prompt"
 author: "PD Schloss"
 date: 2020-08-13 11:55
-comments: true
+comments: false
 start_hash: eda3a3fb
 youtube: ZUDBDnZEjuo
 ---

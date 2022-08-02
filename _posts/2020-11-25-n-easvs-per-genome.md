@@ -4,7 +4,7 @@ title: "Writing functions in R"
 blurb: "Named and anonymous functions"
 author: "PD Schloss"
 date: 2020-11-25 08:30
-comments: true
+comments: false
 start_hash: 4fa3f10287b44003784b273641b2ded19f9dbd18
 youtube: FxrD2zZdkC0
 ---

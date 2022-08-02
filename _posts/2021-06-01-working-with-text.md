@@ -4,7 +4,7 @@ title: "String manipulation in R with regular expressions using stringr and glue
 blurb: "Removing underscores and applying italicization to axis labels"
 author: "PD Schloss"
 date: 2021-06-01 11:00
-comments: true
+comments: false
 youtube: u0yQfr7d0vs
 ---
 

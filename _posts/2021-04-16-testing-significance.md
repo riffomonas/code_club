@@ -4,7 +4,7 @@ title: "Testing for significance and showing significant results with R"
 blurb: "Using kruskal.test and pairwise.wilcox.test to compare groups"
 author: "PD Schloss"
 date: 2021-04-16 11:30
-comments: true
+comments: false
 youtube: 30mqU2vcx68
 ---
 

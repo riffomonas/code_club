@@ -4,7 +4,7 @@ title: "Using the patchwork R package to combine two ggplot2 plots into one figu
 blurb: "Assembling figures with patchwork"
 author: "PD Schloss"
 date: 2021-11-24 11:00
-comments: true
+comments: false
 youtube: _5i4HDrKM8I
 start_hash: 9cb53f5fd245cbcca3c038ffa45b1f9cc915d09c
 end_hash: 33218e846b4c1463498d69044014bc76e830d9f1

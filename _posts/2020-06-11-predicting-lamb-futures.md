@@ -4,7 +4,7 @@ title: "Predicting lamb futures"
 author: "PD Schloss"
 date: 2020-06-11 11:55
 blurb: "How much do lamb prices fluctuate at the local livestock auction? We'll track the variation with <code>separate</code>, <code>geom_smooth</code>, and <code>geom_ribbon</code>"
-comments: true
+comments: false
 ---
 
 As I've mentioned over the past few code clubs, I have sheep on my farm. I like raising sheep because they have a pretty quick growing period of about six months, they're small enough that I can have a decent number of them, they taste good, and in southeastern Michigan there's a pretty strong Middle Eastern clientele that eat a lot of lamb. Last week, we created a figure showing the number of lambs being sold at my local livestock auction. That's only part of the equation - lamb numbers could be dropping because prices are falling or with the decline in sheep, they could be getting more valuable. Also, you may have noticed this, but the total number of sheep sold in the figure from last week was the total - I don't know how many animals were sold in each weight category. Although I've been recording the number of sheep sold and the price for each class for the past 5 years, I've never really plotted the data. Today we'll plot the price for each weight class to see what has happened to the prices over the past 5 years. As a reminder, we saw that sheep sales began to fall about 2 or 3 years ago.

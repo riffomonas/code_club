@@ -4,7 +4,7 @@ title: "How to find the best sampling depth for rarefaction (CC202)"
 blurb: "This isn't an arbitrary process"
 author: "PD Schloss"
 date: 2022-04-07 11:00
-comments: true
+comments: false
 youtube: c7H8jLjTxSE
 start_hash: 34387e1f203317d5071244728fe5ffe292688a3e
 end_hash: 52a70390b74b5d3fd4dd9a214927ec1b1424d64f

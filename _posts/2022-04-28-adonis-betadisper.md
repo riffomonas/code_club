@@ -4,7 +4,7 @@ title: "Using adonis and betadisper from the vegan R package to compare groups (
 blurb: "Testing for significance with beta diversity"
 author: "PD Schloss"
 date: 2022-04-29 11:00
-comments: true
+comments: false
 youtube: oLf0EpMJ4yA
 start_hash: 347ad108266734d6ef2de28345b1e75942fc7e68
 end_hash: ec7d20338ae7eb6a1c7801914a7d3c8068690cf2

@@ -4,7 +4,7 @@ title: "Inserting references into an R markdown document"
 blurb: "Roll your own reference manager for free"
 author: "PD Schloss"
 date: 2021-02-15 11:45
-comments: true
+comments: false
 start_hash: 7927d67797bfd26bd7989aeadc61f2546a7b5f11
 youtube: yk54_j3-4RM
 ---

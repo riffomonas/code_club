@@ -4,7 +4,7 @@ title: "How to create a grouped plot of jittered data with the ggplot2 R package
 blurb: "Using jitterplots to represent relative abundance data"
 author: "PD Schloss"
 date: 2021-05-24 11:30
-comments: true
+comments: false
 youtube: XOTP71UsBzA
 ---
 

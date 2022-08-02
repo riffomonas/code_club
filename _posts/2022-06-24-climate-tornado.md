@@ -4,7 +4,7 @@ title: "Demonstrating climate change using the ggplot2 R package to create a tor
 blurb: "Fun with geom_segment"
 author: "PD Schloss"
 date: 2022-06-23 11:00
-comments: true
+comments: false
 youtube: Yebe0IcBFh0
 start_hash: 0ab91faa231f6b5dbc08335b61713a5ab80b4a30
 end_hash: 63a3d3a4d0f6ab72dfb6d77e8465e36eeb9bb661

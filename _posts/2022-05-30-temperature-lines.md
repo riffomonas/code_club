@@ -4,7 +4,7 @@ title: "Using ggplot2 to recreate a line plot of annual temperature anomalies (C
 blurb: "More fun with color gradients"
 author: "PD Schloss"
 date: 2022-05-30 11:00
-comments: true
+comments: false
 youtube: gOyya2DLVfQ
 start_hash: 990ac01a82d19d78b9f79c773bdaadac4249fc09
 end_hash: 9131b6294f0fe27654777ce3a58f816562356ed9

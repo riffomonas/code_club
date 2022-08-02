@@ -4,7 +4,7 @@ title: "Generating a rarefaction curve from collector's curves in R within the t
 blurb: "Species abundance curves and rarefaction"
 author: "PD Schloss"
 date: 2022-03-24 11:00
-comments: true
+comments: false
 youtube: ywHVb0Q-qsM
 start_hash: d37cf51d76f2821e413271b12e6cb411eaf87037
 end_hash: 6ba9001e14a47f915d4a99339812f7c463c69c9f

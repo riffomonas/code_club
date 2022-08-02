@@ -4,7 +4,7 @@ title: "Using ggplot2 to recreate iconic warming stripes visualization of climat
 blurb: "It's getting warmer"
 author: "PD Schloss"
 date: 2022-05-26 11:00
-comments: true
+comments: false
 youtube: NrEdAtSlTMo
 start_hash: a4feec9e261d17c2d0fb2b00f5a774e5e3d0d11e
 end_hash: 990ac01a82d19d78b9f79c773bdaadac4249fc09

@@ -4,7 +4,7 @@ title: "Specifying how grouping should be treated after summarize"
 blurb: "What's up with the new .groups argument?"
 author: "PD Schloss"
 date: 2020-10-05 11:45
-comments: true
+comments: false
 start_hash: b252d40f9706e5d25759b9f2f1e67d00698e4b9e
 youtube: 0k4pZBGWFOI
 ---

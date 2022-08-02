@@ -4,7 +4,7 @@ title: "Creating a grouped box plot and range plot in ggplot2 with stat_summary 
 blurb: "Using range plot to simplify data presentation"
 author: "PD Schloss"
 date: 2021-05-26 11:30
-comments: true
+comments: false
 youtube: 7TaGcHsoQpM
 ---
 

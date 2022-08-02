@@ -4,7 +4,7 @@ title: "Installing R and RStudio on a Mac or Windows computer"
 blurb: "Getting set up for big things"
 author: "PD Schloss"
 date: 2021-03-04 11:45
-comments: true
+comments: false
 youtube: D6CunpqF04E
 ---
 

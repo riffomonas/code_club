@@ -4,7 +4,7 @@ title: "Using the select function and its helper functions in R to pick columns 
 blurb: "Everything you ever wanted to know about select"
 author: "PD Schloss"
 date: 2021-11-04 11:00
-comments: true
+comments: false
 youtube: kj8u2aDO3Go
 start_hash: b9341e981e054e5ff4bb54f8a23140c28679f223
 end_hash: afbc294673dd460c2272a6ed41f5cf6c5454e957

@@ -4,7 +4,7 @@ title: "How to use DESeq2's variance stabilizing transformation with microbiome 
 blurb: "VST is not scale invariant"
 author: "PD Schloss"
 date: 2022-03-14 11:00
-comments: true
+comments: false
 youtube: E9QS4dRqWS8
 start_hash: d807b46768ab346bd1a533e88ced075d4a5ddbfb
 end_hash: c748a4086e9d1811810385ee2b11e270bbf1825a

@@ -4,7 +4,7 @@ title: "Joining data frames to incorporate taxonomy data to our genomes"
 blurb: "Using <code>inner_join</code> and <code>anti_join</code> to merge three data frames"
 author: "PD Schloss"
 date: 2020-09-21 11:55
-comments: true
+comments: false
 start_hash: 1d748c90454d33c8c15f8c55d3d6efe7fb4e0ceb
 youtube: w0ijOSLx82U
 ---

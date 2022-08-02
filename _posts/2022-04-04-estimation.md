@@ -4,7 +4,7 @@ title: "Is richness estimation an alternative to rarefaction? Trying breakaway a
 blurb: "Integrating complex data with nest/map/unnest"
 author: "PD Schloss"
 date: 2022-04-04 11:00
-comments: true
+comments: false
 youtube: xwpMNRt57Zo
 start_hash: 9089230a0e61e3d9ce406e06306c21d231cb1d55
 end_hash: 767fe1fcd736833a06a4f5119ef199a4839eedbf

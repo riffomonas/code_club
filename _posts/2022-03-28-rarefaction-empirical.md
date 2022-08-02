@@ -4,7 +4,7 @@ title: "Using R to compare empirical and exact rarefaction values (CC199)"
 blurb: "It's all in the number of iterations"
 author: "PD Schloss"
 date: 2022-03-24 11:00
-comments: true
+comments: false
 youtube: ywHVb0Q-qsM
 start_hash: 6ba9001e14a47f915d4a99339812f7c463c69c9f
 end_hash: d088d721987255fdd7d4471527798f35cdd94131

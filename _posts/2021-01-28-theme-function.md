@@ -4,7 +4,7 @@ title: "Using ggplot's theme function to customize the appearance of a faceted p
 blurb: "Don't fear the theme function!"
 author: "PD Schloss"
 date: 2021-01-28 11:45
-comments: true
+comments: false
 start_hash: d8bdcdb27e99b0e5ecc032861e11b4515926610a
 youtube: -4NQgIReefQ
 

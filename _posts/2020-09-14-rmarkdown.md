@@ -4,7 +4,7 @@ title: "Generating reproducible, dynamic documents"
 blurb: "R markdown is a game changer"
 author: "PD Schloss"
 date: 2020-09-14 11:55
-comments: true
+comments: false
 start_hash: a4ade7f42
 youtube: aPXQ5uQC2Bs
 ---

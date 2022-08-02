@@ -4,7 +4,7 @@ title: "Laying out a plan for our project"
 author: "PD Schloss"
 date: 2020-07-09 11:55
 blurb: "Plans are worthless, but planning is everything"
-comments: true
+comments: false
 ---
 
 Former US president and Army general, Dwight Eisenhower once said, "Plans are worthless, but planning is everything". That is especially true for research projects. If we don't have a plan for getting somewhere, then we'll be sure to get nowhere. I hate working in the midst of chaos, can you tell? We've spent two episodes getting our project organized and we haven't touched any data or code yet. If you have ever taken over a project from a former member of your research group, then you'll know the frustration of trying to find things and make sense of what they did. Your first step would be to get the project organized. Right?! Well, today we'll also talk a bit more about organization and how we can use issues in GitHub to give ourselves a todo list and use branches in git to systematically work through those issues. Don't worry, today we'll download the data that we'll be using to determine to what degree inter- and intra-genomic variation limit the ability to interpret amplicon sequence variants (ASVs) as a biologically coherent entity that proponents of ASVs claim. As we go along, we'll see the command line and `git` commands that we saw in the last two episodes so that we can continue to practice those skills while learning new `git` tools.

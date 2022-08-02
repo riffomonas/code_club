@@ -4,7 +4,7 @@ title: "Fun with ggplot2's themes"
 author: "PD Schloss"
 date: 2020-05-07
 blurb: "Ever feel like <code>ggplot2</code>'s <code>theme</code> function was a black hole? We'll break it down"
-comments: true
+comments: false
 ---
 
 If you're like me, you're not a big fan of `ggplot2`'s default plot style. Somewhere I heard that developers make these types of default themes ugly so that you have to change them. Aside from using some of the other built in themes (e.g. `theme_classic`, `theme_dark`), there are the `ggthemes` package with a bunch of other canned themes and the `theme` function. For today's Code Club we are going to see how you can manipulate the built in themes, pick themes from `ggthemes`, and use the `theme` function to make your own modifications. Altering the styling of a figure can be helpful if you need to modify a figure to adapt something you made for a paper to something you'd like to show in a presentation. Alternatively, as we'll see, if you have a "brand" and want to have a consistent style across figures, you can create a theme that is then used in each case.

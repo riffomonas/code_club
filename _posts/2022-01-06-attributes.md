@@ -4,7 +4,7 @@ title: "How to get and set attributes of objects in R with the attr other functi
 blurb: "How to change the data about your data"
 author: "PD Schloss"
 date: 2022-01-06 11:00
-comments: true
+comments: false
 youtube: yL3GfwSp0t4
 start_hash: 12364b6b12caba562d5d0418a99d913a5bd80db0
 end_hash: 8d53a5fa3c4da2e8d36f3d6e51279465ef0663dc

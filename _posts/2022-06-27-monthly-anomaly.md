@@ -4,7 +4,7 @@ title: "Programming a line plot in R to show climate change with and without ani
 blurb: "Static and animated line plot"
 author: "PD Schloss"
 date: 2022-06-27 11:00
-comments: true
+comments: false
 youtube: DrNQMaIVEVo
 start_hash: 63a3d3a4d0f6ab72dfb6d77e8465e36eeb9bb661
 end_hash: 26d27723b794231b43bd847559c4f0a2df10ea39

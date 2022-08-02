@@ -4,7 +4,7 @@ title: "Fun with regular expressions in sed and grep"
 blurb: "Expanding our bash toolset"
 author: "PD Schloss"
 date: 2020-08-03 13:55
-comments: true
+comments: false
 start_hash: 56ae068
 youtube: yORbSp7Fe10
 ---

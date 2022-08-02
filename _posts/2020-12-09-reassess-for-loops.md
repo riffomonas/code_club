@@ -4,7 +4,7 @@ title: "Reassessing for loops: how to make them fast"
 blurb: "Faster than dplyr?"
 author: "PD Schloss"
 date: 2020-12-09 11:30
-comments: true
+comments: false
 start_hash: c91c957dd359c828014dc6006aad303a820657e2
 youtube: L2QsTX3q0vM
 ---

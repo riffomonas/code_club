@@ -4,7 +4,7 @@ title: "Creating publication quality figures"
 blurb: "Harnessing the power of ggplot2"
 author: "PD Schloss"
 date: 2021-01-25 11:45
-comments: true
+comments: false
 start_hash: 6c9515447ab2b8564bf612ed477995a535ac4388
 youtube: 3y7pJYURspA
 

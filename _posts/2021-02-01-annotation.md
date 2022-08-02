@@ -4,7 +4,7 @@ title: "Adding text and line annotations to a ggplot2 figure"
 blurb: "How to call attention to data points"
 author: "PD Schloss"
 date: 2021-02-01 12:15
-comments: true
+comments: false
 start_hash: 4d39ad6fbad72f89f3acdd93ddc0cbcc271a8a75
 youtube: 8tpCgf4dwDo
 

@@ -4,7 +4,7 @@ title: "Writing declarative figure legends for scientific papers"
 blurb: "How to write figure legends"
 author: "PD Schloss"
 date: 2021-02-08 11:45
-comments: true
+comments: false
 start_hash: a8b1a69e14e02112f478f062aae45679f76616bc
 youtube: uzAHT32Xxm8
 ---

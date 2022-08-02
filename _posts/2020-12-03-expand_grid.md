@@ -4,7 +4,7 @@ title: "Performing all possible pairwise comparisons with <code>expand_grid</cod
 blurb: "Creating a confusion matrix"
 author: "PD Schloss"
 date: 2020-12-03 11:30
-comments: true
+comments: false
 start_hash: b3061b24ef148ae488bf4b1fdb72e1cb87892c3b
 youtube: xC1Qu5Ulgtg
 ---

@@ -4,7 +4,7 @@ title: "Plotting distributions in R"
 blurb: "What does plotting data have to do with rock & roll?"
 author: "PD Schloss"
 date: 2020-10-12 11:45
-comments: true
+comments: false
 start_hash: 4381c3af540b2171c321dd8f52827af0fc7f634d
 youtube: grxcImtW6Lc
 ---

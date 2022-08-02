@@ -4,7 +4,7 @@ title: "A tutorial for writing functions in R (CC177)"
 blurb: "Nearly everything you need to know to start writing functions"
 author: "PD Schloss"
 date: 2022-01-10 11:00
-comments: true
+comments: false
 youtube: 3uK1OzA7CTs
 start_hash: 8d53a5fa3c4da2e8d36f3d6e51279465ef0663dc
 end_hash: f95509595c134b11e3cef89c3e151007462f7ae8

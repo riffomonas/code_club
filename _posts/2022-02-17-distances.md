@@ -4,7 +4,7 @@ title: "Using the vegan R package to ecological distances (CC188)"
 blurb: "Using vegdist and avgdist"
 author: "PD Schloss"
 date: 2022-02-17 11:00
-comments: true
+comments: false
 youtube: xyufizOpc5I
 start_hash: 3de7aa9efe03683095dfe106d90273ba7d98241d
 end_hash: 9b1b931f6b3d310a312b26a1eafb924b5e5eaab1

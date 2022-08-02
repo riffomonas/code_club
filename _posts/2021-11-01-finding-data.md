@@ -4,7 +4,7 @@ title: "Finding and loading data into R (CC159)"
 blurb: "Loading data without downloading a file"
 author: "PD Schloss"
 date: 2021-11-01 11:00
-comments: true
+comments: false
 youtube: iChfSHj7G30
 start_hash: e5aa199f9179f8957ef47dffc31aa6859067085d
 end_hash: b9341e981e054e5ff4bb54f8a23140c28679f223

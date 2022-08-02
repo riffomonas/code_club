@@ -4,7 +4,7 @@ title: "How to create a ridgeline plot in R with ggridges in RStudio (CC226)"
 blurb: "Showing a change in distributions with time"
 author: "PD Schloss"
 date: 2022-06-30 11:00
-comments: true
+comments: false
 youtube: kU4O1LXdz2Y
 start_hash: 26d27723b794231b43bd847559c4f0a2df10ea39
 end_hash: 4e82b2834d2815a7d82aa467a265ea9ad1a64c26

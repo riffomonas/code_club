@@ -5,7 +5,7 @@ blurb: "Reviewing page proofs"
 author: "PD Schloss"
 date: 2021-07-19 11:00
 start_hash: 2242f86fc8ffc2f6a1dedaeb5c5dda074c62e061
-comments: true
+comments: false
 youtube: SXDj_2LCQo8
 ---
 

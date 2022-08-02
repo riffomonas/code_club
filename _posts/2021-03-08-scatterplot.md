@@ -4,7 +4,7 @@ title: "Critiquing and improving a published ordination"
 blurb: "Creating and improving a scatterplot"
 author: "PD Schloss"
 date: 2021-03-08 11:45
-comments: true
+comments: false
 youtube: xijDvx-J1jo
 ---
 

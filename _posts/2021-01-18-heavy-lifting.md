@@ -4,7 +4,7 @@ title: "How to extract the heavy lifting from your R markdown document"
 blurb: "Using scripts to do the heavy lifting"
 author: "PD Schloss"
 date: 2021-01-18 11:45
-comments: true
+comments: false
 start_hash: 86112013761178dfa9399b0871193603b0173078
 youtube: 07qdf3DuMsA
 

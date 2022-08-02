@@ -4,7 +4,7 @@ title: "Repeating and parallelizing a function in R with the purrr and furrr pac
 blurb: "Relationship between sampling depth and Bray-Curtis distances"
 author: "PD Schloss"
 date: 2022-03-03 11:00
-comments: true
+comments: false
 youtube: _-lQZMtHdZg
 start_hash: f447e005160146f97210a4a05644566ded7cd879
 end_hash: 766198091663507b5b625a32a56a4f24e2102e4f

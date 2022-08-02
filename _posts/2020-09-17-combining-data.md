@@ -4,7 +4,7 @@ title: "Combining similar data frames"
 blurb: "Using <code>map_dfr</code> to apply a function across a vector"
 author: "PD Schloss"
 date: 2020-09-17 11:55
-comments: true
+comments: false
 start_hash: b96851192b
 youtube: q_EQ9j6tVg8
 ---

@@ -4,7 +4,7 @@ title: "Self joining data frames with <code>inner_join</code>"
 blurb: "Using self joins to traverse a tree structure"
 author: "PD Schloss"
 date: 2020-09-28 11:55
-comments: true
+comments: false
 start_hash: 676d378a1f95689d2332becc9a527be2a601b271
 youtube: f6UUS9d9BEE
 ---

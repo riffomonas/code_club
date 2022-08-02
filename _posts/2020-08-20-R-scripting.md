@@ -4,7 +4,7 @@ title: "Running R scripts from the command line"
 blurb: "You've probably run R code in R, but what about from the command line?"
 author: "PD Schloss"
 date: 2020-08-20 11:55
-comments: true
+comments: false
 start_hash: b4b9c4d
 youtube: UBopyjT39rY
 ---

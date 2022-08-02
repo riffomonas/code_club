@@ -4,7 +4,7 @@ title: "You sed what? Modifying variables with sed in bash"
 author: "PD Schloss"
 date: 2020-07-27 11:55
 blurb: "We clean up the code in our Makefile shell scripts"
-comments: true
+comments: false
 start_hash: 7efa956
 youtube: D4ojrF8AeeQ
 ---

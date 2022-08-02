@@ -4,7 +4,7 @@ title: "Submitting a manuscript to the journal mSphere"
 blurb: "Reaching a big milestone!"
 author: "PD Schloss"
 date: 2021-03-01 11:45
-comments: true
+comments: false
 start_hash: b502a704edbb4593b951333da32a5181d3cdb698
 youtube: X7CJxuPnlHE
 ---

@@ -4,7 +4,7 @@ title: "A rug chart in R with ggplot2's geom_segment showing latitudinal tempera
 blurb: "Fun with <code>geom_segment</code>"
 author: "PD Schloss"
 date: 2022-07-07 11:00
-comments: true
+comments: false
 youtube: UbuKFW5eul8
 start_hash: a884e4662c2116b308fe54effd3fb2cd0a3989a3
 end_hash: 867ed3dfae24b2c0b53b575ecc8e272272e5069a

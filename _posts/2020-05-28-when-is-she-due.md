@@ -4,7 +4,7 @@ title: "When is she due?"
 author: "PD Schloss"
 date: 2020-05-28 11:55
 blurb: "She's expecting! We'll use the <code>lubridate</code> package to figure out the due date."
-comments: true
+comments: false
 ---
 
 Breeding animals to produce offspring that we can market for meat is a big part of what we do on the farm. We breed sheep, pigs, and cows. If my 6 year old gets his way, we'll be consistently breeding turkeys as well. Breeding can be as easy as putting the males in with the females and letting nature take its course. Unfortunately, this can give us "oops" babies that arrive unexpectedly during a heavy Michigan snow. To have more control, we selectively breed our animals at certain dates to optimize the females' productivity and to market animals at certain times of the year for meet. As I'm planning my breeding program, I google the gestations times for each species of animal. These searches generally pull up a table that looks something like [this](https://nationalswine.com/resources/docs/Swine-Gestation-Table.pdf)

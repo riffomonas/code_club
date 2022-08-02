@@ -4,7 +4,7 @@ title: "How to write an if else block in R and how its different from ifelse and
 blurb: "When to use if...else vs. ifelse or if_else"
 author: "PD Schloss"
 date: 2022-01-03 11:00
-comments: true
+comments: false
 youtube: UGYGEAv-b0s
 start_hash: 9ef329fe063fdf15a61b4dbf83b3ce0962f850b3
 end_hash: 12364b6b12caba562d5d0418a99d913a5bd80db0

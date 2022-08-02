@@ -4,7 +4,7 @@ title: "Getting and giving help in a R discussion forum: How to alter borders on
 blurb: "Overriding the appearance of ggplot2 legends"
 author: "PD Schloss"
 date: 2021-11-29 11:00
-comments: true
+comments: false
 youtube: YkjjQUSutFg
 ---
 

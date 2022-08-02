@@ -4,7 +4,7 @@ title: "Adding lines and stars to indicate signficance to a faceted figure"
 blurb: "For fun with stars and bars"
 author: "PD Schloss"
 date: 2021-04-23 11:30
-comments: true
+comments: false
 youtube: ibB-MnIEUJ0
 ---
 

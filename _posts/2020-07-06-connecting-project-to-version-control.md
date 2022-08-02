@@ -4,7 +4,7 @@ title: "Setting up and using version control for a project"
 author: "PD Schloss"
 date: 2020-07-06 11:45
 blurb: "If we want to track the history of our project, it's best to start from the beginning"
-comments: true
+comments: false
 ---
 
 In the last episode of Code Club we started a new project. It was a very exciting day! The project we're going to be working on over the next Code Club episodes seeks to determine to what degree do inter- and intra-genomic variation limit the interpretation of amplicon sequence variants (ASVs). As I mentioned, this is a newish approach to analyzing 16S rRNA gene sequence data that is all the rage, but not enough people are questioning the assumptions that are baked into the method. We're going to test the assumptions that ASVs represent a biologically coherent entities. We also got familiar with our command line interface using a unix style environment and set up a basic organization structure for our project. Along the way we’ll learn different elements of what it takes to make an analysis reproducible and how to use a variety of tools that will help out. Even if you don’t find the problem we are studying interesting, you will hopefully find the approach generalizable to a variety of problems that do interest you. For today's episode we'll add version control to our project and learn to use git and GitHub to track the history of our project. git is one of those things that can be very confusing, but it doesn't need to be. We'll take it slow and we'll be using git in nearly every episode that follows, so we'll get a lot of practice!

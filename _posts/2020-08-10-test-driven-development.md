@@ -4,7 +4,7 @@ title: "The value of Test Driven Development in data analysis"
 blurb: "Measure twice, cut once"
 author: "PD Schloss"
 date: 2020-08-10 11:55
-comments: true
+comments: false
 start_hash: 863a98a3c
 youtube: h_qFha7vu9I
 ---

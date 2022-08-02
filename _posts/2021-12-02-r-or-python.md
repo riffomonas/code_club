@@ -4,7 +4,7 @@ title: "R vs Python: Which should you learn for reproducible data science (CC168
 blurb: "The first programming language you should learn"
 author: "PD Schloss"
 date: 2021-12-02 11:00
-comments: true
+comments: false
 youtube: wWABGUGv-Bg
 ---
 

@@ -4,7 +4,7 @@ title: "Rarefying ecological distances with R: Should you? (CC189)"
 blurb: "Yes."
 author: "PD Schloss"
 date: 2022-02-21 11:00
-comments: true
+comments: false
 youtube: ht3AX5uZTTQ
 start_hash: 9b1b931f6b3d310a312b26a1eafb924b5e5eaab1
 end_hash: 0f64c79deabf30603205ffc983abc6674cd121b4

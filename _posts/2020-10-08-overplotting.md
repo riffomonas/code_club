@@ -4,7 +4,7 @@ title: "Making sophisticated plots with minimal effort"
 blurb: "Combining data frames and geoms in the same plot"
 author: "PD Schloss"
 date: 2020-10-08 11:45
-comments: true
+comments: false
 start_hash: 00984400034a3e17e5c2c03188dcb06670ecab4d
 youtube: JMH0niTgr5U
 ---

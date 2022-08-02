@@ -4,7 +4,7 @@ title: "Reshaping data in R to be long or wide with pivot_longer and pivot_wider
 blurb: "Filtering a distance matrix in R"
 author: "PD Schloss"
 date: 2022-02-07 11:00
-comments: true
+comments: false
 youtube: ZVddiwrbrr4
 start_hash: 6e12a7cf418c61509bbdfea79af830fa25dc369d
 end_hash: e14ff12ef551aec7bfd74323551d2726cabccd8d

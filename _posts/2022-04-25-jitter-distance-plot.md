@@ -4,7 +4,7 @@ title: "Alternatives to ordination in R: Visualizing community change relative t
 blurb: "Replacing ordinations"
 author: "PD Schloss"
 date: 2022-04-25 11:00
-comments: true
+comments: false
 youtube: jLVKJ_n6Qd0
 start_hash: 8fb8c79fc85ef82ffe890134e9b2d723ebf6e54f
 end_hash: 347ad108266734d6ef2de28345b1e75942fc7e68

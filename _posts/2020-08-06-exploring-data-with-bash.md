@@ -4,7 +4,7 @@ title: "Using cut, sort, and unique to explore data with bash"
 blurb: "Simple bash commands can help us to do complicated things"
 author: "PD Schloss"
 date: 2020-08-06 11:55
-comments: true
+comments: false
 start_hash: 77e314f5
 youtube: gPX7d3BcZpg
 ---

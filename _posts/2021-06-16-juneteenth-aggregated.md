@@ -4,7 +4,7 @@ title: "Juneteenth 2021: a data visualization of lynchings using R's ggplot2 pac
 blurb: "Using R skills for good"
 author: "PD Schloss"
 date: 2021-06-16 11:00
-comments: true
+comments: false
 youtube: y6OhR6MW3Mw
 ---
 

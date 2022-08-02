@@ -4,7 +4,7 @@ title: "Using vegan to calculate alpha diversity metrics within the tidyverse in
 blurb: "Writing functions in R"
 author: "PD Schloss"
 date: 2022-03-17 11:00
-comments: true
+comments: false
 youtube: wq1SXGQYgCs
 start_hash: 64df17d165f28fc283a0f892c90f482650af07e7
 end_hash: 48ba60df47e76afb9ae34b275a07dd4d730f3cfa

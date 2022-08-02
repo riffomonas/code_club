@@ -4,7 +4,7 @@ title: "How to clean and join data from mothur with the dplyr R package (CC101)"
 blurb: "Using dplyr with mothur data"
 author: "PD Schloss"
 date: 2021-05-07 11:30
-comments: true
+comments: false
 youtube: e3rKYipvdJo
 ---
 

@@ -4,7 +4,7 @@ title: "Creating a labeled scatter plot in R with ggplot2 (CC157)"
 blurb: "Labelled scatter chart"
 author: "PD Schloss"
 date: 2021-10-25 11:00
-comments: true
+comments: false
 youtube: VZ4wclK1eCQ
 start_hash: 32a63b2b58838805895f5e93a59466ea149705ba
 end_hash: e52b5e17cc0599ba02bebd259396494da4cd3032

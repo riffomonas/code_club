@@ -4,7 +4,7 @@ title: "Comparing lamb prices"
 author: "PD Schloss"
 date: 2020-06-18 11:55
 blurb: "Do the prices for different classes of lamb move together? We'll use <code>pivot_longer</code>"
-comments: true
+comments: false
 ---
 
 In [last week's code club](2020-06-11-predicting-lamb-futures) we saw that large lambs are more valuable in the spring and that if aged sheep have any value, it's typically in January. But what about the other classeses of sheep? As a producer I have the choice of determining when to take lambs to the butcher. In southeastern Michigan there is a large Muslim community that eats a lot of lamb. They generally prefer lambs that are between 60 and 80 pounds. Other buyers prefer large lambs to get more meat per cut. All of this means that I have many options for how to market my lambs. Since we produce lambs throughout the year, I'd like to know whether there is an ideal time to market each classes of lambs or whether they all track each other giving more value in the Spring. That's the question we'll answer for today's episode of Code Club!

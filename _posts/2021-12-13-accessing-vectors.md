@@ -4,7 +4,7 @@ title: "Using base R to access and remove values from a vector (CC171)"
 blurb: "Working with vectors in base R"
 author: "PD Schloss"
 date: 2021-12-13 11:00
-comments: true
+comments: false
 youtube: UfRcwI-NEJc
 start_hash: 40579c347018aaf6d1e603ee4fa65eae87114253
 end_hash: 7f4a0efbd4de39a2f9f4fd8684ea1328fe7a7f71

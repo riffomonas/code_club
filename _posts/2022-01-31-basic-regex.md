@@ -4,7 +4,7 @@ title: "How to write a simple regular expression with R using sub and str_replac
 blurb: "Basic regular expressions in R"
 author: "PD Schloss"
 date: 2022-01-31 11:00
-comments: true
+comments: false
 youtube: 3toJ2LhvEfw
 start_hash: c7b0cc2f1a109885f24bac712bd7b78ee912ad45
 end_hash: 310ff4a1141e0a460bc6228bda0585cb87d4db11

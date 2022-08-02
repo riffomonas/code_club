@@ -4,7 +4,7 @@ title: "How to create alternating background colors in R with ggplot2 (CC137)"
 blurb: "Recreating a figure showing desire to receive COVID-19 vaccine"
 author: "PD Schloss"
 date: 2021-08-17 11:00
-comments: true
+comments: false
 youtube: GYu8kVDxz6A
 ---
 

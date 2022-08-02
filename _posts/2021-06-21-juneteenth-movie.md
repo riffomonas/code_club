@@ -4,7 +4,7 @@ title: "Juneteenth 2021: Creating a data based movie in R with gganimate of lync
 blurb: "Creating a movie to 'say' victims' names"
 author: "PD Schloss"
 date: 2021-06-21 11:00
-comments: true
+comments: false
 youtube: OOpci_5BaE8
 ---
 

@@ -5,7 +5,7 @@ blurb: "Creating an RStudio project from a GitHub repository"
 author: "PD Schloss"
 date: 2021-06-28 11:00
 start_hash:
-comments: true
+comments: false
 youtube: sxErFMF7BJY
 ---
 

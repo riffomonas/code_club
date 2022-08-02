@@ -4,7 +4,7 @@ title: "How to dynamically add significance bars and stars to a figure in ggplot
 blurb: "Indicating significance"
 author: "PD Schloss"
 date: 2021-06-08 11:00
-comments: true
+comments: false
 youtube: -DfCitMqdUc
 ---
 

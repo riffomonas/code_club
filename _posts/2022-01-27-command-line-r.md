@@ -4,7 +4,7 @@ title: "An alternative to Rstudio? Make your own R integrated development enviro
 blurb: "You don't have to use RStudio"
 author: "PD Schloss"
 date: 2022-01-27 11:00
-comments: true
+comments: false
 youtube: x9WGX8F1UPA
 start_hash: c7b0cc2f1a109885f24bac712bd7b78ee912ad45
 end_hash: c7b0cc2f1a109885f24bac712bd7b78ee912ad45

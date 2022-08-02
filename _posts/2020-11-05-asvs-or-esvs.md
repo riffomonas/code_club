@@ -4,7 +4,7 @@ title: "Refactoring code with the help of make and git"
 blurb: "Changing ASVs to ESVs"
 author: "PD Schloss"
 date: 2020-11-05 11:30
-comments: true
+comments: false
 start_hash: ccc8b028b5685c074d1eb634d55948e0f9ae883b
 youtube: AHDvcpBNrtY
 ---

@@ -4,7 +4,7 @@ title: "Planning a data analysis with pseudocode"
 blurb: "Separating the <i>what</i> and the <i>how</i> in your analysis"
 author: "PD Schloss"
 date: 2020-10-22 11:45
-comments: true
+comments: false
 start_hash: 7669fc6898f5c2a10128cb87c4500ad6a03d8714
 youtube: 9xl88MNmnwM
 ---

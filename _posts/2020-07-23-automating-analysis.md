@@ -4,7 +4,7 @@ title: "Automating the steps of our analysis plan with make"
 author: "PD Schloss"
 date: 2020-07-23 11:55
 blurb: "Automation tools can provide a reproducibility map for our analysis"
-comments: true
+comments: false
 start_hash: da1880d
 youtube: 8j8pqDKsueI
 ---

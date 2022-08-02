@@ -4,7 +4,7 @@ title: "Scraping weather data from the internet with R and the tidyverse (CC231)
 blurb: "What's the weather like where you live?"
 author: "PD Schloss"
 date: 2022-07-18 11:00
-comments: true
+comments: false
 youtube: V5Df6vw4-e8
 start_hash: f36be4e57aff1157b529d4d37b260fd3efe641b9
 end_hash: b126cc31e7e4d13feb8b5047795e0a243d81f64a

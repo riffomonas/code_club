@@ -4,7 +4,7 @@ title: "Create an interactive slope chart with the plotly and ggplot2 R packages
 blurb: "Making an interactive figure"
 author: "PD Schloss"
 date: 2021-10-21 11:00
-comments: true
+comments: false
 youtube: tiIdoXxNAxI
 start_hash: 7e65f402e6f21fb26cacaa71da87dab423eed609
 end_hash: 12576f984254658733e75030e494de793487673a

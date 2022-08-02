@@ -4,7 +4,7 @@ title: "Tutorial for Creating a new RStudio project with GitHub to visualize cli
 blurb: "New project day!!!"
 author: "PD Schloss"
 date: 2022-05-16 11:00
-comments: true
+comments: false
 youtube: d5dUkO5lXds
 start_hash:
 end_hash: a428f64b7db493145bf84ec6f38f8e89da258675

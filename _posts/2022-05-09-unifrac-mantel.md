@@ -4,7 +4,7 @@ title: "Using the mantel test to compare ecological matrices using the vegan R p
 blurb: "Comparing phylogenetic and bin-based approaches"
 author: "PD Schloss"
 date: 2022-05-09 11:00
-comments: true
+comments: false
 youtube: EXNOgmUyPfY
 start_hash: d7ee96626f4868ebf9fd8250006d8b9034b01c42
 end_hash: b64edeb08f046ff2962314f5b374a456ad805db3

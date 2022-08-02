@@ -4,7 +4,7 @@ title: "Scripting an analysis from the command line"
 author: "PD Schloss"
 date: 2020-07-20 14:00
 blurb: "Anyone can write a computer program!"
-comments: true
+comments: false
 start_hash: acd9053
 ---
 

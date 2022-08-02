@@ -4,7 +4,7 @@ title: "Smoothing lamb prices"
 author: "PD Schloss"
 date: 2020-06-25 11:55
 blurb: "Rolling averages are in the news. We'll use <code>lag</code> to smooth our prices data"
-comments: true
+comments: false
 ---
 
 In [recent Code Club episodes](2020-06-18-comparing-lamb-prices) we have been looking at how to plot lamb prices from the United Producers livestock auction that I have been recording in a Google workbook. The data are pretty noisy. One way of smoothing the data has been to use `geom_smooth`. By adjusting the value of the `span` argument we have been able to make the smoothed line more (small values) or less squiggly (large values). With the ongoing COVID-19 pandemic there has been a lot in the news of 7-day rolling averages. Rolling averages are also called moving averages. The [Ann Arbor News](https://c0eib122.caspio.com/dp/74321000d8cf077bf4c747f4a37a) has been plotting daily case counts along with a rolling average for the state of Michigan. I noticed that this representation of the data puts the rolling average at the 4th day of the 7 day series. I haven't been able to find the raw data that were used to build the plot in an easy to access format. Naturally, this got me to thinking about how to calculate a rolling average for my noisy sheep price data.

@@ -4,7 +4,7 @@ title: "Grouped stacked barchart for individuals using ggplot2 with geom_col and
 blurb: "Faceting stacked barcharts"
 author: "PD Schloss"
 date: 2021-05-19 11:30
-comments: true
+comments: false
 youtube: yZSWFND3ca0
 ---
 

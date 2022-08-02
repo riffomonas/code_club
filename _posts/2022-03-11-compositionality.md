@@ -4,7 +4,7 @@ title: "How to calculate the Aitchison distance in R using two center logratio t
 blurb: "Aitchison distance is not scale invariant"
 author: "PD Schloss"
 date: 2022-03-11 11:00
-comments: true
+comments: false
 youtube: ulo7WatBEAo
 start_hash: 7e15b4cd553e07f5cba6c8d6abcd0216166f320f
 end_hash: f4f831e1565cd94746a6e587b7f89323c5668ffd

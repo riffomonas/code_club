@@ -4,7 +4,7 @@ title: "Recalculating the rate of lumping and splitting over a large number of i
 blurb: "Repeating a function with the purrr and furrr packages"
 author: "PD Schloss"
 date: 2021-01-21 11:45
-comments: true
+comments: false
 start_hash: d7a846af8660817469573cd61539349275ba1542
 youtube: U7ynho78-vA
 

@@ -4,7 +4,7 @@ title: "Is normalization an acceptable alternative to rarefaction? Nope. (CC190)
 blurb: "Rarefaction vs. normalization"
 author: "PD Schloss"
 date: 2022-02-24 11:00
-comments: true
+comments: false
 youtube: t5qXPIS-ECU
 start_hash: 0f64c79deabf30603205ffc983abc6674cd121b4
 end_hash: 1738ceb3cb345b9545bdcb13b83139e1553cfd4d

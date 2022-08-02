@@ -4,7 +4,7 @@ title: "Scaling the size of points in an ordiantion by diversity"
 blurb: "A bubble chart for microbial ecology"
 author: "PD Schloss"
 date: 2021-03-31 11:30
-comments: true
+comments: false
 youtube: J6U-eKLxj2M
 ---
 

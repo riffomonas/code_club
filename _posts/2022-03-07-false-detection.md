@@ -4,7 +4,7 @@ title: "Rarefaction controls the false positive rate when using adonis from the 
 blurb: "Creating a simulation in R"
 author: "PD Schloss"
 date: 2022-03-07 11:00
-comments: true
+comments: false
 youtube: 5Mry6nXpdfE
 start_hash: 766198091663507b5b625a32a56a4f24e2102e4f
 end_hash: 249d6d18ce53cbd9fd440ebbfc649e4d61df8fcc

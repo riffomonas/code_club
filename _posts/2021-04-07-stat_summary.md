@@ -4,7 +4,7 @@ title: "Using stat_summary to add a statistics layer to ggplot2 figures"
 blurb: "Why didn't I know about this function!?"
 author: "PD Schloss"
 date: 2021-04-07 11:30
-comments: true
+comments: false
 youtube: TK4xJlNbXLE
 ---
 

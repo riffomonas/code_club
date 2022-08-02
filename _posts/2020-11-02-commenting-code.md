@@ -4,7 +4,7 @@ title: "Deciphering smelly code and documenting it with comments"
 blurb: "Comments to the rescue"
 author: "PD Schloss"
 date: 2020-11-02 11:45
-comments: true
+comments: false
 start_hash: 4fef6d3c84a43c720a66784ff00b5fe727d300fc
 youtube: nNZjb_bmre8
 ---

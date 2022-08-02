@@ -4,7 +4,7 @@ title: "Recreating animated climate temperature spirals in R with ggplot2 and gg
 blurb: "Animated climate spiral"
 author: "PD Schloss"
 date: 2022-06-06 11:00
-comments: true
+comments: false
 youtube: AYfjdcylAio
 start_hash: fc62e9ea121994641d0fee1c7369768631dadbda
 end_hash: 95168349ece3c1993e960767a4b4d6124b4abd4a

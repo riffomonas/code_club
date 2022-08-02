@@ -4,7 +4,7 @@ title: "Why is our R script so sloooooowwwwwwwww?"
 blurb: "We'll speed up the R script that we wrote in the last episode. Should we?"
 author: "PD Schloss"
 date: 2020-09-08 11:55
-comments: true
+comments: false
 start_hash: 56cf29e9e4f53
 youtube: ttJCwzfsAc8
 ---

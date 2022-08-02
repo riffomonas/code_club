@@ -4,7 +4,7 @@ title: "Easy ways to go back in your git commit history with RStudio (CC153)"
 blurb: "Creating a parallel analysis with git"
 author: "PD Schloss"
 date: 2021-10-11 11:00
-comments: true
+comments: false
 youtube: Y9h-1u6uQ6c
 start_hash: 6dc5b27c08b9e2f3f0050c6cc9a1161dc42c0479
 end_hash: 32a63b2b58838805895f5e93a59466ea149705ba

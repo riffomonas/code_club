@@ -4,7 +4,7 @@ title: "Recreating a labelled dumbbell chart in R showing people's openness to t
 blurb: "Get vaccinated!"
 author: "PD Schloss"
 date: 2021-08-12 11:00
-comments: true
+comments: false
 youtube: qaksmQabMUI
 ---
 

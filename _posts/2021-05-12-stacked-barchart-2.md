@@ -4,7 +4,7 @@ title: "Improving the appearance of a stacked barchart with ggplot2, dplyr, and 
 blurb: "Improving the appearance of a problematic figure"
 author: "PD Schloss"
 date: 2021-05-12 11:30
-comments: true
+comments: false
 youtube: w4X3o6MQjVA
 ---
 

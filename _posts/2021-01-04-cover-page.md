@@ -4,7 +4,7 @@ title: "Setting up a manuscript in R markdown"
 blurb: "Text is more important than formatting, but we still want it to look nice"
 author: "PD Schloss"
 date: 2021-01-04 11:45
-comments: true
+comments: false
 start_hash: f9225f1604cb99a40170cfc9c002d5b141aacc11
 youtube: kC6JFcM5e9M
 

@@ -4,7 +4,7 @@ title: "Like the weather"
 author: "PD Schloss"
 date: 2020-05-14 12:00
 blurb: "Gee whiz it was cold Saturday morning. Is this normal? We'll use <code>filter</code>, <code>group_by</code>, and <code>summarize</code> to find out"
-comments: true
+comments: false
 ---
 
 Last Saturday (May 9th) was pretty cold here in southeastern Michigan. It was 26F (-3C) when I woke up. Although we've had some warm days, this Spring has felt pretty cold. Is that normal? If only we had the skills to answer such a question... In fact, we do! Today's code club will answer this and other questions using functions we've already seen including `filter`, `group_by`, and `summarize`. By the end of today's Code Club we'll know how normal Friday's temperatures were and we'll have a greater familiarity with using these functions. In addition, we'll learn how to use the `arrange` and `top_n` functions to find out which previous year had the lowest temperature.

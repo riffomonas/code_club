@@ -4,7 +4,7 @@ title: "Plotting the global temperature index using ggplot2 and NASA GISS data (
 blurb: "Spoiler: it's getting warmer"
 author: "PD Schloss"
 date: 2022-05-19 11:00
-comments: true
+comments: false
 youtube: fskblEWSeWU
 start_hash: a428f64b7db493145bf84ec6f38f8e89da258675
 end_hash: da847b1356e3b054fd93af7753b3df518ae6fa54

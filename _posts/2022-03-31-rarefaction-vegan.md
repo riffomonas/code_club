@@ -4,7 +4,7 @@ title: "How to rarefy community data in R with vegan and the tidyverse (CC200)"
 blurb: "Using rarefy, rrarefy, drarefy, and rarecurve"
 author: "PD Schloss"
 date: 2022-03-31 11:00
-comments: true
+comments: false
 youtube: _OEdFjc1D9I
 start_hash: 2a2da903d1216a50d61ade7837d9e60e4310fd24
 end_hash: 7945a48b9f404242f3ae3ca28624df31ddf7a422

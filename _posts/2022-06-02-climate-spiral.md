@@ -4,7 +4,7 @@ title: "How to recreate climate temperature spirals in R with ggplot2 (CC218)"
 blurb: "Polar coordinates!"
 author: "PD Schloss"
 date: 2022-06-02 11:00
-comments: true
+comments: false
 youtube: NYF9ySYSvwQ
 start_hash: 9131b6294f0fe27654777ce3a58f816562356ed9
 end_hash: fc62e9ea121994641d0fee1c7369768631dadbda

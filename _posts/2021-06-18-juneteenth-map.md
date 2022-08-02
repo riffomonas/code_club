@@ -4,7 +4,7 @@ title: "Juneteenth 2021: Using ggplot2 and R to create a map showing the history
 blurb: "Creating a map of horror"
 author: "PD Schloss"
 date: 2021-06-18 11:00
-comments: true
+comments: false
 youtube: kTRcQrwAgrs
 ---
 

@@ -4,7 +4,7 @@ title: "Using geom_line to change the appearance of a line plot with ggplot2 in 
 blurb: "Creating attractive ROC curves"
 author: "PD Schloss"
 date: 2021-04-28 11:30
-comments: true
+comments: false
 youtube: XSRO4VKD-pc
 ---
 

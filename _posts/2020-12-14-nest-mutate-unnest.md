@@ -4,7 +4,7 @@ title: "Summarizing data with functions that output multiple values"
 blurb: "Using nest, mutate, unnest to do cool things"
 author: "PD Schloss"
 date: 2020-12-14 11:45
-comments: true
+comments: false
 start_hash: 7cdd1e9e5d3c7426f8b6ec5ea2cf4fbcce545229
 youtube: JclmiRiY9TE
 ---

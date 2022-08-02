@@ -4,7 +4,7 @@ title: "Rotating axis labels and flipping coordiantes in R"
 blurb: "Using coord_flip and guide_axis to improve the readability of a figure"
 author: "PD Schloss"
 date: 2021-04-21 11:30
-comments: true
+comments: false
 youtube: VNYpVwUMQ2o
 ---
 

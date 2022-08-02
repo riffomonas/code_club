@@ -4,7 +4,7 @@ title: "Creating variables and using functions with make"
 blurb: "Building 50+ targets with a single command"
 author: "PD Schloss"
 date: 2020-11-16 11:30
-comments: true
+comments: false
 start_hash: 578cd87fb471affa48379a68216d996e0ce67611
 youtube: G73KwGu80kI
 ---

@@ -5,7 +5,7 @@ author: "PD Schloss"
 date: 2020-04-16
 time: 15:00 Eastern
 blurb: "The Easter-induced candy stupor as faded, now to analyze the data"
-comments: true
+comments: false
 ---
 
 For our next Code Club, we will continue our exploration of data collected by [Five Thirty Eight](https://fivethirtyeight.com/videos/the-ultimate-halloween-candy-power-ranking/) that looked at how people feel about different types of candy. [In the first code club](2020-03-26-candy-crusy), we initially played with the data. Last week, we began to use the `filter` function to generate logical (or boolean) queries to identify rows from the data that met our criteria. This time we'll focus on using `filter` with quantitative data and we'll see how to use it with the `group_by` and `summarize` functions.

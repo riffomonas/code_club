@@ -4,7 +4,7 @@ title: "Using dplyr's slice and arrange functions in R to order and pick rows fr
 blurb: "How to arrange rows in R"
 author: "PD Schloss"
 date: 2021-11-11 11:00
-comments: true
+comments: false
 youtube: tb054Z3AMN4
 start_hash: 959afed939a432c84897f4bc67db8b6d2fdf78c3
 end_hash: 0bed39115831c015e5158abed17d5867949af933

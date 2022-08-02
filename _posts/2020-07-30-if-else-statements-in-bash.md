@@ -4,7 +4,7 @@ title: "Building logic into bash scripts with if-else statements"
 blurb: "A smarter bash script"
 author: "PD Schloss"
 date: 2020-07-30 11:55
-comments: true
+comments: false
 start_hash: 9697028
 youtube: xrSQsw0EclM
 ---

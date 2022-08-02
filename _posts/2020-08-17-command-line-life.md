@@ -4,7 +4,7 @@ title: "The command line life"
 blurb: "You owe it to your analysis to get comfortable with the command line"
 author: "PD Schloss"
 date: 2020-08-17 11:55
-comments: true
+comments: false
 youtube: BNG0kdK76WU
 ---
 

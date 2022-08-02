@@ -4,7 +4,7 @@ title: "Using the rentrez R package to search PubMed to plot the number of paper
 blurb: "How fast is the microbiome literature growing?"
 author: "PD Schloss"
 date: 2022-05-12 11:00
-comments: true
+comments: false
 youtube: QX5aIzG8SQk
 start_hash: 474c73c27918b30665bef197b4639b0fe1062be3
 end_hash: 3c75b89f3adaa2c35013bd98866667bcb204ab14

@@ -4,7 +4,7 @@ title: "Plotting the global temperature index as bars using ggplot2 and NASA GIS
 blurb: "Fun with the scale_fill_gradient functions"
 author: "PD Schloss"
 date: 2022-05-23 11:00
-comments: true
+comments: false
 youtube: HDXY0idH7KY
 start_hash: da847b1356e3b054fd93af7753b3df518ae6fa54
 end_hash: a4feec9e261d17c2d0fb2b00f5a774e5e3d0d11e

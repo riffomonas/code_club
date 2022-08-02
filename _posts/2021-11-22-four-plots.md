@@ -4,7 +4,7 @@ title: "Visualizing the same data four ways wiht ggplot2: slope, dumbbell, scatt
 blurb: "Experimenting with ggplot2"
 author: "PD Schloss"
 date: 2021-11-22 11:00
-comments: true
+comments: false
 youtube: vd_XG0yBm9s
 start_hash: 292867305beb9e0eeeb37202b659c9b55b2b26f2
 end_hash: 9cb53f5fd245cbcca3c038ffa45b1f9cc915d09c

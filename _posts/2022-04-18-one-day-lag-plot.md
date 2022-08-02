@@ -4,7 +4,7 @@ title: "Alternatives to ordination: Displaying one day time lag in beta diversit
 blurb: "Replacing ordinations"
 author: "PD Schloss"
 date: 2022-04-18 11:00
-comments: true
+comments: false
 youtube: roCRaWI3fmw
 start_hash: 43d6c6a63f07b0b118dec756987aab2f7be9c7ac
 end_hash: 71de294509b60371eb2a9d7e2d376eb68b6444c2

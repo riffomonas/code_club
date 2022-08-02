@@ -4,7 +4,7 @@ title: "Splitting taxonomy data to put each rank in its own column"
 blurb: "Using <code>separate</code>, <code>pivot_longer</code>, and <code>pivot_wider</code> clean up taxonomy data"
 author: "PD Schloss"
 date: 2020-09-24 11:55
-comments: true
+comments: false
 start_hash: 9eda29d60f61bd32ee0f582b190da449dbbd9f03
 youtube: Crc6-0A3L_E
 ---

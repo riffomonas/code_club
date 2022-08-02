@@ -4,7 +4,7 @@ title: "Creating a raster map of global climate change in R with ggplot2's geom_
 blurb: "Combining <code>geom_raster</code> and <code>facet_grid</code>"
 author: "PD Schloss"
 date: 2022-07-05 11:00
-comments: true
+comments: false
 youtube: W1QH83twaak
 start_hash: 4e82b2834d2815a7d82aa467a265ea9ad1a64c26
 end_hash: a884e4662c2116b308fe54effd3fb2cd0a3989a3

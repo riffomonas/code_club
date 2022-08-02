@@ -4,7 +4,7 @@ title: "Using facet_grid to study rate of lumping and splitting of genomes with 
 blurb: "Lumping and splitting"
 author: "PD Schloss"
 date: 2020-11-30 11:30
-comments: true
+comments: false
 start_hash: d1ae0e4a0cf3ffb4aa2a488d1211f7d47a2049e8
 youtube: tbXPSt0iGX8
 ---

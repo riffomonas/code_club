@@ -4,7 +4,7 @@ title: "How to create spirals in cartesian coordinates with ggplot2 in R (CC222)
 blurb: "Fun trigonometry fun"
 author: "PD Schloss"
 date: 2022-06-16 11:00
-comments: true
+comments: false
 youtube: kXbpAhWF6iw
 start_hash: 2289fc8229b6fe10ead9bd2f7e88fb0bc07243f6
 end_hash: 9317fb0e5a338c7dc11e2a7ba1aa6b6b04624b08

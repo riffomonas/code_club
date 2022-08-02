@@ -4,7 +4,7 @@ title: "Using R to make a 3D interactive figure showing climate change with plot
 blurb: "Interactive! 3D!"
 author: "PD Schloss"
 date: 2022-06-20 11:00
-comments: true
+comments: false
 youtube: PytBiFU0rEc
 start_hash: 9317fb0e5a338c7dc11e2a7ba1aa6b6b04624b08
 end_hash: 0ab91faa231f6b5dbc08335b61713a5ab80b4a30

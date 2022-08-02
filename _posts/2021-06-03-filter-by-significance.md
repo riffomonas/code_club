@@ -4,7 +4,7 @@ title: "Using the broom R package to easily perform thousands of statistical tes
 blurb: "Testing for signifance with OTU data"
 author: "PD Schloss"
 date: 2021-06-03 11:00
-comments: true
+comments: false
 youtube: lhst1oc9mKQ
 ---
 

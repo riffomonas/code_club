@@ -4,7 +4,7 @@ title: "What's the difference between a matrix, data frame, and tibble in R? (CC
 blurb: "Matrices, distance matrices, data frames, and tibbles"
 author: "PD Schloss"
 date: 2022-01-20 11:00
-comments: true
+comments: false
 youtube: og-7bG2i9TU
 start_hash: 0456b8820ef3f036ce06708f1f8a69a9a30f1a87
 end_hash: c7b0cc2f1a109885f24bac712bd7b78ee912ad45

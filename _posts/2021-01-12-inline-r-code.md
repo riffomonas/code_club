@@ -4,7 +4,7 @@ title: "Inserting R code into your text with R Markdown"
 blurb: "The biggest game changer for reproducibility"
 author: "PD Schloss"
 date: 2021-01-12 11:45
-comments: true
+comments: false
 start_hash: b49645391a1f6afa2a0282a615dc0faba89f1df5
 youtube: GmapTBd-H2Y
 

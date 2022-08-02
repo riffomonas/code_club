@@ -4,7 +4,7 @@ title: "Why should we engage in open data science? 2022 ASM Microbiome Data Priz
 blurb: "Open science is critical to the advancement of all science"
 author: "PD Schloss"
 date: 2022-06-13 11:00
-comments: true
+comments: false
 youtube: HtYllf1yKrE
 ---
 

@@ -4,7 +4,7 @@ title: "Creating a strip chart/jitter plot with a line to indicate the median"
 blurb: "Combining geom_jitter and stat_summary"
 author: "PD Schloss"
 date: 2021-04-09 11:30
-comments: true
+comments: false
 youtube: tAVNv-Gz6NU
 ---
 

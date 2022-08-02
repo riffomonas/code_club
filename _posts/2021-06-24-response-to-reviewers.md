@@ -5,7 +5,7 @@ blurb: "Reading scary emails"
 author: "PD Schloss"
 date: 2021-06-24 11:00
 start_hash: b502a704edbb4593b951333da32a5181d3cdb698
-comments: true
+comments: false
 youtube: ev9h_JyZ_o8
 ---
 
