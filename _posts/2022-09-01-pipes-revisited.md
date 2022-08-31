@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Recreating a jitter plot made with R's ggplot2 two years later (CC243)"
+title: "A head to head comparison of the base R and magrittr pipe (CC244)"
 blurb: "More pipes"
 author: "PD Schloss"
 date: 2022-09-01 11:00
