@@ -17,5 +17,5 @@ To get going on a new reproducible project we're going to talk about project org
 ## Code
 
 You can browse the state of the repository at the
-<!-- * [beginning of the episode](https://github.com/riffomonas/climate_viz/tree/{{ page.start_hash }}) -->
-* [end of the episode](https://github.com/riffomonas/climate_viz/tree/{{ page.end_hash }})
+<!-- * [beginning of the episode](https://github.com/riffomonas/drought_index/tree/{{ page.start_hash }}) -->
+* [end of the episode](https://github.com/riffomonas/drought_index/tree/{{ page.end_hash }})
