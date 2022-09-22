@@ -20,4 +20,3 @@ You can browse the state of the repository at the
 
 * [beginning of the episode](https://github.com/riffomonas/drought_index/tree/{{page.start_hash}})
 * [end of the episode](https://github.com/riffomonas/drought_index/tree/{{page.end_hash}})
-$$
