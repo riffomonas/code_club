@@ -1,0 +1,22 @@
+---
+layout: post
+title: "How to split files from the command line and integrate bash and R scripts (CC252)"
+blurb: "Splitting and integrating"
+author: "PD Schloss"
+date: 2022-09-29 11:00
+comments: false
+youtube: NSy-WByR8Qo
+start_hash: d4cde78be1031a23640fd9b9d99fc0c9f7f35196
+end_hash: 329d1f02976d39af2bc6d0ae28965359ef373b5c
+---
+
+The split function is a useful command line tool for splitting a file by size, number of lines, or into a specified number of files. In this episode, Pat uses split to subdivide a big problem that can't easily be processed in R. He then shows how to integrate an executable R script into a bash script to make easy work of a very large file. The overall goal of this project is to highlight reproducible research practices using a number of tools. The specific output from this project will be a map-based visual that shows the level of drought across the globe.
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Code
+
+You can browse the state of the repository at the
+
+* [beginning of the episode](https://github.com/riffomonas/drought_index/tree/{{page.start_hash}})
+* [end of the episode](https://github.com/riffomonas/drought_index/tree/{{page.end_hash}})
