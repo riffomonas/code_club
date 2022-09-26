@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Using pipes at the command line with bash, tar, gzip, and more! (CC251)"
+blurb: "A command line pipe"
+author: "PD Schloss"
+date: 2022-09-26 11:00
+comments: false
+youtube: LKprlFCLnSA
+start_hash: 1aa44202cb704e4b78c77d66772e4567bd648104
+end_hash: d4cde78be1031a23640fd9b9d99fc0c9f7f35196
+---
+
+We've talked a lot about using pipes in R, but did you know you can also use pipes at the command line when bash programming? In this episode Pat will show how you can pipe output from the tar command to other programs like grep and gzip to create a single compressed file. The overall goal of this project is to highlight reproducible research practices using a number of tools. The specific output from this project will be a map-based visual that shows the level of drought across the globe.
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Code
+
+You can browse the state of the repository at the
+
+* [beginning of the episode](https://github.com/riffomonas/drought_index/tree/{{page.start_hash}})
+* [end of the episode](https://github.com/riffomonas/drought_index/tree/{{page.end_hash}})
