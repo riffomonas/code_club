@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Creating a heatmap map with geom_tile from ggplot2 in R (CC258)"
-blurb: "How to make a heat map in R"
+title: "Using GitHub pages to host a web page made with Rmarkdown (CC259)"
+blurb: "GitHub pages and R Markdown"
 author: "PD Schloss"
 date: 2022-10-24 11:00
 comments: false
