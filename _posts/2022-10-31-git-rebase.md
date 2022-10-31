@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Using GitHub actions to run Snakemake pipelines (CC260)"
-blurb: "How to make a heat map in R"
+title: "Rewrite your commit history using git rebase to squash commits (CC261)"
+blurb: "Pros and cons of git rebase"
 author: "PD Schloss"
 date: 2022-10-31 11:00
 comments: false
