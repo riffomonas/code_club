@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Using GitHub actions to run Snakemake pipelines (CC260)"
-blurb: "How to make a heat map in R"
+blurb: "Reproducible pipelines with GitHub actions"
 author: "PD Schloss"
 date: 2022-10-27 11:00
 comments: false
