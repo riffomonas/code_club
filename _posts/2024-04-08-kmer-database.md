@@ -18,5 +18,5 @@ Pat attempts to put together the R code that he's been writing to create a singl
 
 You can browse the state of the repository at the [end of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.end_hash}})
 
-* [beginning of the episode](https://github.com/riffomonas/drought_index/tree/{{page.start_hash}})
-* [end of the episode](https://github.com/riffomonas/drought_index/tree/{{page.end_hash}})
+* [beginning of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.start_hash}})
+* [end of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.end_hash}})
