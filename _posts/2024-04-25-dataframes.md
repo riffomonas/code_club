@@ -16,7 +16,7 @@ What is your preferred method for building a data frame in R? Do you know its pe
 
 ## Code
 
-You can browse the state of the repository at the [end of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.end_hash}})
+You can browse the state of the repository at the
 
 * [beginning of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.start_hash}})
 * [end of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.end_hash}})

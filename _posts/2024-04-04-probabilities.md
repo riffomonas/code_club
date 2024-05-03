@@ -16,7 +16,7 @@ Watch and code along with Pat as he uses test driven development and base R to c
 
 ## Code
 
-You can browse the state of the repository at the [end of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.end_hash}})
+You can browse the state of the repository at the
 
 * [beginning of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.start_hash}})
 * [end of the episode](https://github.com/riffomonas/phylotyper/tree/{{page.end_hash}})
