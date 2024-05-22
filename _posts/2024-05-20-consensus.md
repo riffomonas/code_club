@@ -3,7 +3,7 @@ layout: post
 title: "Finding the consensus classification using anonymous functions (CC284)"
 blurb: "Fun with anonymous functions"
 author: "PD Schloss"
-date: 2024-05-16 11:00
+date: 2024-05-20 11:00
 comments: false
 youtube: TNl8HtUrxl8
 start_hash: 7a5cac20692406321bf982b2046f947daf45a84f
