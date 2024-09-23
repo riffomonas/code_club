@@ -3,7 +3,7 @@ layout: post
 title: "The effect of debug mode when benchmarking R package performance (CC302)"
 blurb: "Putting it all together"
 author: "PD Schloss"
-date: 2024-09-23 9:00
+date: 2024-09-16 9:00
 comments: false
 youtube: lcVBhgr08O8
 start_hash: 0832fcff460056bb795c272f7e36756128f0b3d1
