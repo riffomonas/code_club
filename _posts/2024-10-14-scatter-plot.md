@@ -10,7 +10,8 @@ start_hash:
 end_hash: 
 ---
 
-Pat recreates a scatter plot that has a missing x-axis using the geom_point function from {ggplot2} in R using geom_point. He customizes the appearance to match the original figure using the `geom_vline`, `geom_hline`, `scale_color_manual`, `scale_x_continuous`, `scale_y_continuous`, `labs` and `theme` functions. You can find the code I develop in this episode at https://www.riffomonas.org/code_club/2024-10-14-scatter-plot.
+Pat recreates a scatter plot that has a missing x-axis using the geom_point function from ggplot2 in R using geom_point. He customizes the appearance to match the original figure using the geom_vline, geom_hline, scale_color_manual, scale_x_continuous, scale_y_continuous, labs and theme functions. The plot is is Figure 1A from the paper, "Exploring novel microbial metabolites and drugs for inhibiting *Clostridioides difficile*" by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24).
+
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
