@@ -10,9 +10,7 @@ start_hash:
 end_hash: 
 ---
 
-Pat critiques a recent figure that he recreated and creates a new plot as a histogram. Along the way, he experiments with overlaying a density plot. He customizes the appearance using the annotate, labs, scale_x_continuous, scale_y_continuous, and scale_fill_manual functions. You can find the code he develop in this episode at https://www.riffomonas.org/code_club/2024-10-17-histogram.
-
-The plot is based on simulated data for Figure 1A from the paper, "Exploring novel microbial metabolites and drugs for inhibiting *Clostridioides difficile*" by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24). The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/building-data-visualization-intuition. 
+Pat critiques a recent figure that he recreated and creates a new plot as a histogram. Along the way, he experiments with overlaying a density plot. He customizes the appearance using the annotate, labs, scale_x_continuous, scale_y_continuous, and scale_fill_manual functions. The plot is based on simulated data for Figure 1A from the paper, "Exploring novel microbial metabolites and drugs for inhibiting *Clostridioides difficile*" by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24). The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/building-data-visualization-intuition. 
 
 
 
