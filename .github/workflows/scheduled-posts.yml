@@ -1,14 +1,30 @@
-name: Build every hour
+name: Build and Deploy to Github Pages
 
 on:
+  push:
+    branches:
+      - master  # Here source code branch is `master`, it could be other branch
   schedule:
    - cron: '0 * * * *'
+
 jobs:
-  curl:
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: curl
-      uses: wei/curl@master
-      with:
-        args: "-X POST -H 'Authorization: token ${{ secrets.PAGES_ACCESS_TOKEN }}' -H 'Accept: application/vnd.github.ant-man-preview+json' https://api.github.com/repos/riffomonas/code_club/pages/builds"
+      - uses: actions/checkout@v4
 
+      # Use GitHub Actions' cache to cache dependencies on servers
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .asdf/**
+            vendor/bundle
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/cache.key') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-
+
+      # Use GitHub Deploy Action to build and deploy to Github
+      # For latest version: `jeffreytse/jekyll-deploy-action@master`
+      - uses: jeffreytse/jekyll-deploy-action@v0.6.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # It's your Personal Access Token(PAT)
