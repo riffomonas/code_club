@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://www.riffomonas.org/code_club/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.riffomonas.org/code_club/" rel="alternate" type="text/html" /><updated>2024-10-24T21:34:22-04:00</updated><id>https://www.riffomonas.org/code_club/feed.xml</id><title type="html">Riffomonas Code Club</title><subtitle>Code Club: An social effort learn to do reproducible data analysis
+</subtitle><entry><title type="html">Data viz makeover from bar plot to dot plot with ggplot2 in R (CC309)</title><link href="https://www.riffomonas.org/code_club/2024-10-24-dotplot" rel="alternate" type="text/html" title="Data viz makeover from bar plot to dot plot with ggplot2 in R (CC309)" /><published>2024-10-24T08:00:00-04:00</published><updated>2024-10-24T08:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/dotplot</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-10-24-dotplot"><![CDATA[<p>Pat does a data viz makeover by converting a grouped bar plot to a dot plot using ggplot2 in R. He customizes the appearance using geom_point, geom_hline, scale_fill_manual, scale_y_discrete, coord_cartesian, labs, and theme functions. You can find the code he developed in this episode at https://www.riffomonas.org/code_club/2024-10-24-dotplot. The original bar plot was included in a slide deck to report the results of a study performed by Oxford University Press. You can find their press release at https://corp.oup.com/news/how-are-researchers-responding-to-ai/ and the slide deck is at https://fdslive.oup.com/www.oup.com/academic/pdf/Researchers-and-AI-survey-findings.pdf. The figure I recreate in this episode is on slide 20. The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/whatever-you-do-don-t-use-ai-to-figure-out-this-plot.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/HQ9pc8dSn9E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">glue</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">forcats</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w">
+
+</span><span class="n">cohorts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Pioneers"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Careful optimists"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Cautious time savers"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"Neutrals"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Wary observers"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Concerned pessimists"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"Sceptics"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Challengers"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">oup_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="p">(</span><span class="w">
+  </span><span class="n">question</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="w">
+    </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Generating ideas for\nresearch"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Discovering existing\nresearch"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Summarising existing\nresearch"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Designing the\nresearch"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Collecting research\ndata"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Analysing research\ndata"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Writing up the\nresearch"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Editing write-up of\nresearch"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"Creating marketing/\noutreach content"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Another stage"</span><span class="p">),</span><span class="w">
+    </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="w">
+  </span><span class="n">cohort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="n">cohorts</span><span class="p">,</span><span class="w"> </span><span class="n">times</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cohorts</span><span class="p">),</span><span class="w"> 
+  </span><span class="n">positives</span><span class="w"> </span><span class="o">=</span><span class="w">   </span><span class="nf">rep</span><span class="p">(</span><span class="w">
+    </span><span class="nf">c</span><span class="p">(</span><span class="m">383</span><span class="p">,</span><span class="w"> </span><span class="m">636</span><span class="p">,</span><span class="w"> </span><span class="m">531</span><span class="p">,</span><span class="w"> </span><span class="m">159</span><span class="p">,</span><span class="w"> </span><span class="m">373</span><span class="p">,</span><span class="w"> </span><span class="m">410</span><span class="p">,</span><span class="w"> </span><span class="m">293</span><span class="p">,</span><span class="w"> </span><span class="m">580</span><span class="p">,</span><span class="w"> </span><span class="m">135</span><span class="p">,</span><span class="w"> </span><span class="m">194</span><span class="p">),</span><span class="w">
+    </span><span class="n">each</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="w">
+  </span><span class="n">rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">39</span><span class="p">,</span><span class="w"> </span><span class="m">34</span><span class="p">,</span><span class="w"> </span><span class="m">26</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="m">17</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+           </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">49</span><span class="p">,</span><span class="w"> </span><span class="m">44</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">43</span><span class="p">,</span><span class="w"> </span><span class="m">26</span><span class="p">,</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="m">19</span><span class="p">,</span><span class="w">
+           </span><span class="m">57</span><span class="p">,</span><span class="w"> </span><span class="m">47</span><span class="p">,</span><span class="w"> </span><span class="m">37</span><span class="p">,</span><span class="w"> </span><span class="m">31</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+           </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">17</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+           </span><span class="m">24</span><span class="p">,</span><span class="w"> </span><span class="m">29</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">27</span><span class="p">,</span><span class="w"> </span><span class="m">27</span><span class="p">,</span><span class="w">
+           </span><span class="m">43</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">26</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w"> </span><span class="m">17</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w"> </span><span class="m">14</span><span class="p">,</span><span class="w">
+           </span><span class="m">31</span><span class="p">,</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="m">18</span><span class="p">,</span><span class="w"> </span><span class="m">22</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">13</span><span class="p">,</span><span class="w">
+           </span><span class="m">59</span><span class="p">,</span><span class="w"> </span><span class="m">48</span><span class="p">,</span><span class="w"> </span><span class="m">38</span><span class="p">,</span><span class="w"> </span><span class="m">38</span><span class="p">,</span><span class="w"> </span><span class="m">26</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+           </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+           </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="m">35</span><span class="p">,</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="m">34</span><span class="p">),</span><span class="w">
+  </span><span class="n">pretty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fct_reorder</span><span class="p">(</span><span class="n">glue</span><span class="p">(</span><span class="s2">"{question} (N={positives})"</span><span class="p">),</span><span class="w">
+                       </span><span class="n">positives</span><span class="p">)</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">oup_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cohort</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">10.5</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s1">'#b2182b'</span><span class="p">,</span><span class="s1">'#d6604d'</span><span class="p">,</span><span class="s1">'#f4a582'</span><span class="p">,</span><span class="s1">'#fddbc7'</span><span class="p">,</span><span class="s1">'#d1e5f0'</span><span class="p">,</span><span class="s1">'#92c5de'</span><span class="p">,</span><span class="s1">'#4393c3'</span><span class="p">,</span><span class="s1">'#2166ac'</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_discrete</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">10.5</span><span class="p">),</span><span class="w"> </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">70</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Percent of researchers in favor"</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+       </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+       </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"AI has most commonly been used to support the discovery of existing research, followed by editing the research write-up"</span><span class="p">,</span><span class="w">
+       </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Multiple-response question, therefore percentages do not sum to 100"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.ticks.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">legend.key.size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"inside"</span><span class="p">,</span><span class="w">
+    </span><span class="n">legend.position.inside</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="m">0.15</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.title.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_textbox_simple</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> 
+                                        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w">
+                                        </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">)),</span><span class="w">
+    </span><span class="n">plot.caption.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"ai_dotplot.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Pat does a data viz makeover by converting a grouped bar plot to a dot plot using ggplot2 in R. He customizes the appearance using geom_point, geom_hline, scale_fill_manual, scale_y_discrete, coord_cartesian, labs, and theme functions. You can find the code he developed in this episode at https://www.riffomonas.org/code_club/2024-10-24-dotplot. The original bar plot was included in a slide deck to report the results of a study performed by Oxford University Press. You can find their press release at https://corp.oup.com/news/how-are-researchers-responding-to-ai/ and the slide deck is at https://fdslive.oup.com/www.oup.com/academic/pdf/Researchers-and-AI-survey-findings.pdf. The figure I recreate in this episode is on slide 20. The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/whatever-you-do-don-t-use-ai-to-figure-out-this-plot.]]></summary></entry><entry><title type="html">Recreating a grouped and labelled barplot in R with ggplot2 (CC308)</title><link href="https://www.riffomonas.org/code_club/2024-10-21-barplot" rel="alternate" type="text/html" title="Recreating a grouped and labelled barplot in R with ggplot2 (CC308)" /><published>2024-10-21T09:00:00-04:00</published><updated>2024-10-21T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/barplot</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-10-21-barplot"><![CDATA[<p>Pat recreates a grouped bar plot that had text annotation that provided the value of each bar of the barplot using the geom_col and geom_text functions from ggplot2 in R. He customizes the appearance to match the original figure using the scale_color_manual, scale_x_discrete, scale_y_continuous, coord_cartesian, labs, and theme functions. The plot was included in a slide deck to report the results of a study performed by Oxford University Press. You can find their press release at https://corp.oup.com/news/how-are-researchers-responding-to-ai/ and the slide deck is at https://fdslive.oup.com/www.oup.com/academic/pdf/Researchers-and-AI-survey-findings.pdf. The figure I recreate in this episode is on slide 20. The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/whatever-you-do-don-t-use-ai-to-figure-out-this-plot.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/_vXSrZ3E05s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(ggtext)
+library(glue)
+
+questions &lt;- c("Generating ideas for\nresearch",
+               "Discovering existing\nresearch",
+               "Summarising existing\nresearch",
+               "Designing the\nresearch",
+               "Collecting research\ndata",
+               "Analysing research\ndata",
+               "Writing up the\nresearch",
+               "Editing write-up of\nresearch",
+               "Creating marketing /\noutreach content\n", "Another stage\n")
+
+  
+oup_data &lt;- tibble(
+  question = rep(questions, each = 8),
+  cohort = rep(
+    c("Pioneers", "Careful optimists", "Cautious time savers",
+      "Neutrals", "Wary observers", "Concerned pessimists",
+      "Sceptics", "Challengers"),
+    times = 10),
+  positives =   rep(
+    c(383, 636, 531, 159, 373, 410, 293, 580, 135, 194),
+    each = 8),
+  rate = c(39, 34, 26, 25, 17, 5, 12, 6,
+           50, 49, 44, 40, 43, 26, 32, 19,
+           57, 47, 37, 31, 25, 11, 11, 8,
+           20, 17, 7, 11, 5, 1, 2, 1,
+           24, 29, 25, 24, 24, 15, 27, 27,
+           43, 30, 26, 24, 17, 7, 24, 14,
+           31, 21, 18, 22, 10, 13, 8, 13,
+           59, 48, 38, 38, 26, 15, 23, 6,
+           15, 10, 8, 7, 6, 5, 5, 8,
+           8, 5, 13, 11, 11, 35, 15, 34)
+) %&gt;%
+  mutate(
+    question = factor( question, levels = questions),
+    cohort = factor(
+      cohort,
+      levels =     c("Pioneers", "Careful optimists", "Cautious time savers",
+                     "Neutrals", "Wary observers", "Concerned pessimists",
+                     "Sceptics", "Challengers")),
+    pretty_rate = glue("{rate}%")
+  )
+
+pretty_label &lt;- oup_data %&gt;%
+  select(question, positives) %&gt;%
+  distinct() %&gt;%
+  mutate(pretty = glue("{question} (N={positives})")) %&gt;%
+  pull(pretty)
+
+
+oup_data %&gt;%
+  ggplot(aes(x = question, y = rate, fill = cohort, 
+             label = pretty_rate)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(y = rate + 1), position = position_dodge(width = 0.9),
+            vjust = 0, size = 1.5, fontface = "bold") +
+  annotate("segment", x = seq(0.5, 10.5, 1), xend = seq(0.5, 10.5, 1),
+           y = 0, yend = -1, 
+           linewidth = 0.25, color = "gray") +
+  scale_fill_manual(values = c("#742FA0", "#021F62", "#056FBF", "#08AEF0",
+                               "#94D052", "#FFFF04", "#FFBF05", "#C10100")) +
+  scale_y_continuous(breaks = seq(0, 70, by = 10),
+                     labels = scales::label_percent(scale = 1),
+                     expand = c(0, 0)) +
+  scale_x_discrete(expand = expansion(add = 0.5),
+                   labels = pretty_label) +
+  coord_cartesian(clip = "off", ylim = c(0, 70)) + 
+  guides(fill = guide_legend(nrow = 1)) +
+  labs(fill = NULL, x = NULL, y = NULL,
+       title = "AI has most commonly been used to support the discovery of existing research, followed by editing the research write-up",
+       caption = "Multiple-response question, therefore percentages do not sum to 100") +
+  theme_classic() +
+  theme(legend.position = "top",
+        legend.text = element_text(size = 5, margin = margin(l = 1)),
+        legend.key.size = unit(5, unit = "pt"),
+        axis.text = element_text(size = 5, face = "bold"),
+        axis.line = element_line(linewidth = 0.25, color = "gray"),
+        axis.ticks.y = element_line(linewidth = 0.25, color = "gray"),
+        axis.ticks.x = element_blank(),
+        plot.title.position = "plot",
+        plot.title = element_textbox_simple(face = "bold",
+                                            margin = margin(b = 15)),
+        plot.caption.position = "plot",
+        plot.caption = element_text(size = 5, hjust = 0)
+        )
+
+ggsave("ai_barplot.png", width = 8, height = 3.5)
+</code></pre></div></div>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Pat recreates a grouped bar plot that had text annotation that provided the value of each bar of the barplot using the geom_col and geom_text functions from ggplot2 in R. He customizes the appearance to match the original figure using the scale_color_manual, scale_x_discrete, scale_y_continuous, coord_cartesian, labs, and theme functions. The plot was included in a slide deck to report the results of a study performed by Oxford University Press. You can find their press release at https://corp.oup.com/news/how-are-researchers-responding-to-ai/ and the slide deck is at https://fdslive.oup.com/www.oup.com/academic/pdf/Researchers-and-AI-survey-findings.pdf. The figure I recreate in this episode is on slide 20. The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/whatever-you-do-don-t-use-ai-to-figure-out-this-plot.]]></summary></entry><entry><title type="html">Converting a 1D scatter plot to a histogram or density plot using the ggplot2 package in R (CC307)</title><link href="https://www.riffomonas.org/code_club/2024-10-17-histogram" rel="alternate" type="text/html" title="Converting a 1D scatter plot to a histogram or density plot using the ggplot2 package in R (CC307)" /><published>2024-10-17T09:00:00-04:00</published><updated>2024-10-17T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/histogram</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-10-17-histogram"><![CDATA[<p>Pat critiques a recent figure that he recreated and creates a new plot as a histogram. Along the way, he experiments with overlaying a density plot. He customizes the appearance using the annotate, labs, scale_x_continuous, scale_y_continuous, and scale_fill_manual functions. The plot is based on simulated data for Figure 1A from the paper, “Exploring novel microbial metabolites and drugs for inhibiting <em>Clostridioides difficile</em>” by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24). The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/building-data-visualization-intuition.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/NYEOQcO3tbI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+set.seed(19760620)
+
+sim_data &lt;- tibble(
+  compound = 1:527,
+  percent_inhibition = sample(
+    c(rnorm(n = 464, mean = 0, sd = 30),
+      runif(63, 91, 100))
+    )
+  ) %&gt;%
+  mutate(strong = percent_inhibition &gt;= 90)
+
+sim_data %&gt;%
+  ggplot(aes(x = percent_inhibition, fill = strong)) +
+#  geom_histogram(binwidth = 7) +
+  geom_histogram(breaks = seq(-100, 100, 5),
+                 show.legend = FALSE) +
+  annotate(geom = "text",
+                x = c(0, 45),
+                y = c(5, 35),
+                label = c("464 compounds\nwere below 90%",
+                          "63 compounds\nwere above 90%"),
+                fontface = "bold",
+           color = c("black", "red"),
+           hjust = c(0.5, 0)) +
+  labs(x = "Inhibition of bacterial growth (%)",
+       y = "Number of compounds") +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_x_continuous(limits = c(-100, 100)) +
+  scale_fill_manual(breaks = c(FALSE, TRUE),
+                   values = c("gray", "red")) +
+  theme_classic()
+
+ggsave("inhibition_histogram.png", width = 6, height = 4)
+
+# sim_data %&gt;%
+#   ggplot(aes(x = percent_inhibition, fill = strong)) +
+#   geom_density()
+# 
+# sim_data %&gt;%
+#   ggplot(aes(x = percent_inhibition, fill = strong, color = strong)) +
+#   geom_histogram(binwidth = 7, aes(y = after_stat(density))) +
+#   geom_density(alpha = 0.2)
+</code></pre></div></div>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Pat critiques a recent figure that he recreated and creates a new plot as a histogram. Along the way, he experiments with overlaying a density plot. He customizes the appearance using the annotate, labs, scale_x_continuous, scale_y_continuous, and scale_fill_manual functions. The plot is based on simulated data for Figure 1A from the paper, “Exploring novel microbial metabolites and drugs for inhibiting Clostridioides difficile” by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24). The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/building-data-visualization-intuition.]]></summary></entry><entry><title type="html">Submitting an R package to CRAN with help from the devtools package (CC306)</title><link href="https://www.riffomonas.org/code_club/2024-10-16-submit-to-cran" rel="alternate" type="text/html" title="Submitting an R package to CRAN with help from the devtools package (CC306)" /><published>2024-10-16T09:00:00-04:00</published><updated>2024-10-16T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/submit-to-cran</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-10-16-submit-to-cran"><![CDATA[<p>At last, Pat is ready to submit the phylotypr package to CRAN. He shows how to use tooling from the devtools R package to create a checklist that uses a variety of functions to test the package before submitting it to CRAN. He then shows the result of the initial submission and responds to the automated testing. After resubmitting he responds to the feedback from the CRAN curator. Finally, he shares his excitement over having the package posted to CRAN. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/VzmN_AcMUKI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repositories at the</p>
+
+<ul>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/8e5497e3693c2153ac97420881c19e9cfdf0c45d">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/cc55cbffd1f185035e2aa09447271edde511af80">end of the episode</a></li>
+</ul>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[At last, Pat is ready to submit the phylotypr package to CRAN. He shows how to use tooling from the devtools R package to create a checklist that uses a variety of functions to test the package before submitting it to CRAN. He then shows the result of the initial submission and responds to the automated testing. After resubmitting he responds to the feedback from the CRAN curator. Finally, he shares his excitement over having the package posted to CRAN. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.]]></summary></entry><entry><title type="html">Customizing axes in a 1D scatter plot using the ggplot2 package in R (CC305)</title><link href="https://www.riffomonas.org/code_club/2024-10-14-scatter-plot" rel="alternate" type="text/html" title="Customizing axes in a 1D scatter plot using the ggplot2 package in R (CC305)" /><published>2024-10-14T09:00:00-04:00</published><updated>2024-10-14T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/scatter-plot</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-10-14-scatter-plot"><![CDATA[<p>Pat recreates a scatter plot that has a missing x-axis using the geom_point function from ggplot2 in R using geom_point. He customizes the appearance to match the original figure using the geom_vline, geom_hline, scale_color_manual, scale_x_continuous, scale_y_continuous, labs and theme functions. The plot is is Figure 1A from the paper, “Exploring novel microbial metabolites and drugs for inhibiting <em>Clostridioides difficile</em>” by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24). The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/building-data-visualization-intuition.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/DVTp6BO-pkM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+set.seed(19760620)
+
+sim_data &lt;- tibble(
+  compound = 1:527,
+  percent_inhibition = sample(
+    c(rnorm(n = 464, mean = 0, sd = 30),
+      runif(63, 91, 100))
+    )
+  ) %&gt;%
+  mutate(strong = percent_inhibition &gt;= 90)
+
+sim_data %&gt;%
+  ggplot(aes(x = compound, y = percent_inhibition, color = strong)) +
+  geom_vline(xintercept = 1, linewidth = 1) +
+  geom_hline(yintercept = c(0, 90),
+             linetype = c("solid", "dashed"),
+             linewidth = c(1, 0.5)) +
+  geom_point(show.legend = FALSE) +
+  scale_color_manual(
+    breaks = c(FALSE, TRUE),
+    values = c("seagreen", "maroon") # "gold4" was actual greenish color
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(limits = c(-101, 101),
+                     breaks = seq(-100, 100, by = 50),
+                     expand = c(0,0)) +
+  labs(x = NULL,
+       y = "Inhibition of Bacterial Growth %") +
+  theme_classic() +
+  theme(
+    axis.line.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_line(linewidth = 1),
+    axis.ticks.length.y = unit(5, "pt"),
+    axis.text.y = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold")
+  )
+</code></pre></div></div>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Pat recreates a scatter plot that has a missing x-axis using the geom_point function from ggplot2 in R using geom_point. He customizes the appearance to match the original figure using the geom_vline, geom_hline, scale_color_manual, scale_x_continuous, scale_y_continuous, labs and theme functions. The plot is is Figure 1A from the paper, “Exploring novel microbial metabolites and drugs for inhibiting Clostridioides difficile” by Ahmed Abouelkhair and Mohamed Seleem (https://journals.asm.org/doi/10.1128/msphere.00273-24). The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/building-data-visualization-intuition.]]></summary></entry><entry><title type="html">Comparing and optimizing performance of phyloytypr to mothur (CC304)</title><link href="https://www.riffomonas.org/code_club/2024-10-07-speed" rel="alternate" type="text/html" title="Comparing and optimizing performance of phyloytypr to mothur (CC304)" /><published>2024-10-07T09:00:00-04:00</published><updated>2024-10-07T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/speed</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-10-07-speed"><![CDATA[<p>Pat compares the performance of phylotypr to mothur and finds that mothur is faster. After revisiting his code he is able to use Rfast’s rowsums instead of colsums to match mothur’s performance with one processor using the purrr package. Then he shows how to use the furrr package to parallelize the R code. Finally, he shows how to include data files into a package and write a function to access the data in the file. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/Qsl-opeguFI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repositories at the</p>
+
+<ul>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/a8c0036bd218e3451caab57198e594c7ad1ba332">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/8e5497e3693c2153ac97420881c19e9cfdf0c45d">end of the episode</a></li>
+</ul>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Pat compares the performance of phylotypr to mothur and finds that mothur is faster. After revisiting his code he is able to use Rfast’s rowsums instead of colsums to match mothur’s performance with one processor using the purrr package. Then he shows how to use the furrr package to parallelize the R code. Finally, he shows how to include data files into a package and write a function to access the data in the file. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.]]></summary></entry><entry><title type="html">Closing issues on GitHub when building R packages with test driven development (CC303)</title><link href="https://www.riffomonas.org/code_club/2024-09-23-revisiting-issues" rel="alternate" type="text/html" title="Closing issues on GitHub when building R packages with test driven development (CC303)" /><published>2024-09-23T09:00:00-04:00</published><updated>2024-09-23T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/revisiting-issues</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-09-23-revisiting-issues"><![CDATA[<p>Pat revisits two lingering issues / bugs in his R package using test driven development. The tasks in this episode are an integration of many concepts that have been developed over the course of this series of episodes. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/aRhzTIAPJeM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repositories at the</p>
+
+<ul>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/6790bba2b5043fe26b9e36bf178ff1432cdcc9d7">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/a8c0036bd218e3451caab57198e594c7ad1ba332">end of the episode</a></li>
+</ul>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Pat revisits two lingering issues / bugs in his R package using test driven development. The tasks in this episode are an integration of many concepts that have been developed over the course of this series of episodes. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.]]></summary></entry><entry><title type="html">The effect of debug mode when benchmarking R package performance (CC302)</title><link href="https://www.riffomonas.org/code_club/2024-09-16-revisiting-rcpp" rel="alternate" type="text/html" title="The effect of debug mode when benchmarking R package performance (CC302)" /><published>2024-09-16T09:00:00-04:00</published><updated>2024-09-16T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/revisiting-rcpp</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-09-16-revisiting-rcpp"><![CDATA[<p>When benchmarking the performance of C++ code in R packages, it is important to recognize that the code is compiled in debug mode. This mode is slower than what your user will experience when they install the package on their own computer. In this episode, Pat shows two ways of switching between debug and release mode. He uses the mark function from the {bench} package to test the speed and memory usage of his code written with the help of the {Rcpp} package. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/lcVBhgr08O8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repositories at the</p>
+
+<ul>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/0832fcff460056bb795c272f7e36756128f0b3d1">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/6790bba2b5043fe26b9e36bf178ff1432cdcc9d7">end of the episode</a></li>
+</ul>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[When benchmarking the performance of C++ code in R packages, it is important to recognize that the code is compiled in debug mode. This mode is slower than what your user will experience when they install the package on their own computer. In this episode, Pat shows two ways of switching between debug and release mode. He uses the mark function from the {bench} package to test the speed and memory usage of his code written with the help of the {Rcpp} package. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.]]></summary></entry><entry><title type="html">Using the precommit R package to automate testing code and documentation quality(CC301)</title><link href="https://www.riffomonas.org/code_club/2024-09-09-pre-commit-hooks" rel="alternate" type="text/html" title="Using the precommit R package to automate testing code and documentation quality(CC301)" /><published>2024-09-09T09:00:00-04:00</published><updated>2024-09-09T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/pre-commit-hooks</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-09-09-pre-commit-hooks"><![CDATA[<p>Building R packages has many small steps that are easy to forget. With pre-commit hooks we can make sure that these steps are implemented before we commit and push our code to GitHub. This is made easier using the precommit R package with the pre-commit utility and GitHub actions. Watch along as Pat learns to use these resources by implementing them on his phylotypr package. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/y1nwosH8ybk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repositories at the</p>
+
+<ul>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/508b51c1fe6748899feec1a178b5f162d2b26c9c">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/0bd3197724d835f311a40d760fb59370ac40c3fc">end of the episode</a></li>
+</ul>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[Building R packages has many small steps that are easy to forget. With pre-commit hooks we can make sure that these steps are implemented before we commit and push our code to GitHub. This is made easier using the precommit R package with the pre-commit utility and GitHub actions. Watch along as Pat learns to use these resources by implementing them on his phylotypr package. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.]]></summary></entry><entry><title type="html">Using lintr and styler to improve the quality and readability of R code (CC300)</title><link href="https://www.riffomonas.org/code_club/2024-08-26-lintr-styler" rel="alternate" type="text/html" title="Using lintr and styler to improve the quality and readability of R code (CC300)" /><published>2024-08-26T09:00:00-04:00</published><updated>2024-08-26T09:00:00-04:00</updated><id>https://www.riffomonas.org/code_club/lintr-styler</id><content type="html" xml:base="https://www.riffomonas.org/code_club/2024-08-26-lintr-styler"><![CDATA[<p>The tidyverse style guide is a popular set of rules that you can apply to R code to improve the readability and quality of your code. Thankfully, the lintr package is able to screen our code (it’s a “linter”) to see where we may have violated some of these rules and the styler package is able to correct many of these violations. I show how to use these tools to pass the linter. Then I show how to incorporate the linter into a GitHub action to lint our R code whenever we push code to GitHub. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/y1nwosH8ybk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repositories at the</p>
+
+<ul>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/bc86d58e9755af9bbfd740be92ca9670b6f024e3">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/phylotypr/tree/508b51c1fe6748899feec1a178b5f162d2b26c9c">end of the episode</a></li>
+</ul>]]></content><author><name>PD Schloss</name></author><summary type="html"><![CDATA[The tidyverse style guide is a popular set of rules that you can apply to R code to improve the readability and quality of your code. Thankfully, the lintr package is able to screen our code (it’s a “linter”) to see where we may have violated some of these rules and the styler package is able to correct many of these violations. I show how to use these tools to pass the linter. Then I show how to incorporate the linter into a GitHub action to lint our R code whenever we push code to GitHub. This episode is part of an ongoing effort to develop an R package that implements the naive Bayesian classifier for classifying 16S rRNA gene sequences.]]></summary></entry></feed>

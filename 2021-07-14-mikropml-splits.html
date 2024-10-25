@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How to run your R code in parallel with the furrr package (CC127) | Riffomonas Code Club</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="How to run your R code in parallel with the furrr package (CC127)" />
+<meta name="author" content="PD Schloss" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Code Club: An social effort learn to do reproducible data analysis" />
+<meta property="og:description" content="Code Club: An social effort learn to do reproducible data analysis" />
+<link rel="canonical" href="https://www.riffomonas.org/code_club/2021-07-14-mikropml-splits" />
+<meta property="og:url" content="https://www.riffomonas.org/code_club/2021-07-14-mikropml-splits" />
+<meta property="og:site_name" content="Riffomonas Code Club" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-14T11:00:00-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to run your R code in parallel with the furrr package (CC127)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"PD Schloss"},"dateModified":"2021-07-14T11:00:00-04:00","datePublished":"2021-07-14T11:00:00-04:00","description":"Code Club: An social effort learn to do reproducible data analysis","headline":"How to run your R code in parallel with the furrr package (CC127)","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.riffomonas.org/code_club/2021-07-14-mikropml-splits"},"url":"https://www.riffomonas.org/code_club/2021-07-14-mikropml-splits"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/code_club/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://www.riffomonas.org/code_club/feed.xml" title="Riffomonas Code Club" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/code_club/">Riffomonas Code Club</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/code_club/code-of-conduct">Code of Conduct</a><a class="page-link" href="/code_club/">Code Club</a><a class="page-link" href="/code_club/setup-instructions">Setup Instructions</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How to run your R code in parallel with the furrr package (CC127)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-07-14T11:00:00-04:00" itemprop="datePublished">Jul 14, 2021
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">PD Schloss</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/hlx3-iv6HIQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>You can browse the state of the repository at the</p>
+<ul>
+  <li><a href="https://github.com/riffomonas/mikropml_demo/tree/857082034d6a7c2349a4d16c2dfad2eef8bd8cd0">beginning of the episode</a></li>
+  <li><a href="https://github.com/riffomonas/mikropml_demo/tree/51311ff1bf9a89c306422e4ae7e06393d4724cbb">end of the episode</a></li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">git</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install git
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “mikropml_demo”</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/mikropml_demo.git
+cd mikropml_demo
+git reset --hard 857082034d6a7c2349a4d16c2dfad2eef8bd8cd0
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/mikropml_demo.git
+git push -u origin master
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser.</li>
+      <li>Go to the <code class="language-plaintext highlighter-rouge">mikropml_demo</code> directory on your computer and double click on the <code class="language-plaintext highlighter-rouge">mikropml_demo.Rproj</code> icon. This will launch RStudio and you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/code_club/2021-07-14-mikropml-splits" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/code_club/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Riffomonas Code Club</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Riffomonas Code Club</li><li><a class="u-email" href="mailto:pschloss@umich.edu">pschloss@umich.edu</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/riffomonas"><svg class="svg-icon"><use xlink:href="/code_club/assets/minima-social-icons.svg#github"></use></svg> <span class="username">riffomonas</span></a></li><li><a href="https://www.twitter.com/patschloss"><svg class="svg-icon"><use xlink:href="/code_club/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">patschloss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Code Club: An social effort learn to do reproducible data analysis
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

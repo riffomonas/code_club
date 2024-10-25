@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>You sed what? Modifying variables with sed in bash | Riffomonas Code Club</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="You sed what? Modifying variables with sed in bash" />
+<meta name="author" content="PD Schloss" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In the last two episodes we’ve created a few bash scripts and a Makefile to help automate running those scripts while keeping track of the dependencies. You may recall that we aren’t tracking changes to our data files because they’re too big. But with our bash scripts and make, we can regenerate them if they somehow got deleted or we needed start over. Of course, you should be able to use my files to reproduce what I’ve already done, which is a win for reproducibility. Because these tools are so powerful, I want to spend a little more time with them." />
+<meta property="og:description" content="In the last two episodes we’ve created a few bash scripts and a Makefile to help automate running those scripts while keeping track of the dependencies. You may recall that we aren’t tracking changes to our data files because they’re too big. But with our bash scripts and make, we can regenerate them if they somehow got deleted or we needed start over. Of course, you should be able to use my files to reproduce what I’ve already done, which is a win for reproducibility. Because these tools are so powerful, I want to spend a little more time with them." />
+<link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-27-using-sed-to-parse-filenames" />
+<meta property="og:url" content="https://www.riffomonas.org/code_club/2020-07-27-using-sed-to-parse-filenames" />
+<meta property="og:site_name" content="Riffomonas Code Club" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-27T11:55:00-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="You sed what? Modifying variables with sed in bash" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"PD Schloss"},"dateModified":"2020-07-27T11:55:00-04:00","datePublished":"2020-07-27T11:55:00-04:00","description":"In the last two episodes we’ve created a few bash scripts and a Makefile to help automate running those scripts while keeping track of the dependencies. You may recall that we aren’t tracking changes to our data files because they’re too big. But with our bash scripts and make, we can regenerate them if they somehow got deleted or we needed start over. Of course, you should be able to use my files to reproduce what I’ve already done, which is a win for reproducibility. Because these tools are so powerful, I want to spend a little more time with them.","headline":"You sed what? Modifying variables with sed in bash","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.riffomonas.org/code_club/2020-07-27-using-sed-to-parse-filenames"},"url":"https://www.riffomonas.org/code_club/2020-07-27-using-sed-to-parse-filenames"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/code_club/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://www.riffomonas.org/code_club/feed.xml" title="Riffomonas Code Club" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/code_club/">Riffomonas Code Club</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/code_club/code-of-conduct">Code of Conduct</a><a class="page-link" href="/code_club/">Code Club</a><a class="page-link" href="/code_club/setup-instructions">Setup Instructions</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">You sed what? Modifying variables with sed in bash</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-07-27T11:55:00-04:00" itemprop="datePublished">Jul 27, 2020
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">PD Schloss</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the last two episodes we’ve created a few bash scripts and a Makefile to help automate running those scripts while keeping track of the dependencies. You may recall that we aren’t tracking changes to our data files because they’re too big. But with our bash scripts and make, we can regenerate them if they somehow got deleted or we needed start over. Of course, you should be able to use my files to reproduce what I’ve already done, which is a win for reproducibility. Because these tools are so powerful, I want to spend a little more time with them.</p>
+
+<p>In today’s episode we’re going to clean up our scripts and Makefile a bit. If you look at our Makefile and bash scripts for downloading the rrnDB files, you’ll see that we pass in the name of the file we want to download. We didn’t include the path indicating where it should go once it is extracted. Instead, we hardcoded that it should be outputted to our <code class="language-plaintext highlighter-rouge">data/raw/</code> directory. If I ended up wanting to change where to put the files, then I’d have to change the bash script rather than the Makefile rule.</p>
+
+<p>Today, we’ll learn a bash command, <code class="language-plaintext highlighter-rouge">sed</code>, that will allow us to give the script the file’s name with its path. I admit that this is a relatively small improvement for our overall project. But, along the way we’ll learn a few other bash tools including the pipe and how to capture output to a variable. We’ll also see how we can use variables that are built into make that simplify our Makefiles. Because these improvements will make our analyses easier to develop, they will also be more reproducible.</p>
+
+<p>Even if you haven’t been following along with the past episodes, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/D4ojrF8AeeQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sed</code> - <a href="https://www.grymoire.com/Unix/Sed.html">Excellent resource</a> that all of my google searches generally bring me to</li>
+  <li>Make’s <a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html">automatic variables</a> - there are many, but these are the only ones I use regularly
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$@</code> - the  name of the target</li>
+      <li><code class="language-plaintext highlighter-rouge">$^</code> - the name of all of the prerequisites</li>
+      <li><code class="language-plaintext highlighter-rouge">$&lt;</code> - the name of the first prerequisite</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 7efa956
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser. Then you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Can you explain what happens if we leave off the <code class="language-plaintext highlighter-rouge">echo</code> command in our script? You might remember we got a similar error in the episode where we were developing our bash scripts.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>path=`$target | sed -E "s/(.*\/).*/\1/"`
+</code></pre></div></div>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>We get the following error message:</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-bash: data/raw/rrnDB-5.6.tsv: Permission denied
+</code></pre></div>  </div>
+
+  <p>This is the same error we got when trying to run a bash script as an executable before we used <code class="language-plaintext highlighter-rouge">chmod +x</code>. You might have thought this should have run our <code class="language-plaintext highlighter-rouge">sed</code> command on the contents of the file. To do that, we need a slightly different syntax</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>path=`sed -E "s/(.*\/).*/\1/" &lt; $target`
+</code></pre></div>  </div>
+</div>
+
+<p>2. Write the command to extract the variable region (i.e. V4) from <code class="language-plaintext highlighter-rouge">data/V4/rrndb.align</code> and save it to a variable named <code class="language-plaintext highlighter-rouge">region</code>. Try to make your regular expression as general as you can</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file=data/V4/rrndb.align
+region=`echo $file | sed -E "s/.*\/(.*)\/.*/\1/"`
+echo $region
+</code></pre></div>  </div>
+
+  <p>or</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file=data/V4/rrndb.align
+region=`echo $file | sed -E "s_.*/(.*)/.*_\1_"`
+echo $region
+</code></pre></div>  </div>
+</div>
+
+<p>3. We discussed using the automatic variable <code class="language-plaintext highlighter-rouge">$@</code> to represent the target name in the recipes of our Makefile. You can also use <code class="language-plaintext highlighter-rouge">$&lt;</code> to represent the name of the first prerequisite and <code class="language-plaintext highlighter-rouge">$^</code> to represent all of the names of the prerequisites. How would you edit the rule to generate <code class="language-plaintext highlighter-rouge">data/raw/rrnDB-5.6_16S_rRNA.fasta</code> and <code class="language-plaintext highlighter-rouge">data/raw/rrnDB-5.6_16S_rRNA.align</code> so that the recipe only includes these automatic variables? Any thoughts about the revised syntax?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data/raw/rrnDB-5.6_16S_rRNA.fasta : code/get_rrndb_files.sh
+	$^ $@
+
+data/raw/rrnDB-5.6_16S_rRNA.align : code/align_sequences.sh\
+			data/references/silva_seed/silva.seed_v138.align\
+			data/raw/rrnDB-5.6_16S_rRNA.fasta									
+	$^
+</code></pre></div>  </div>
+
+  <p>Although the extra typing is reduced in these revised scripts, the recipe line might be a bit too cryptic. There is a tradeoff between simplicity and ease of reading. Regardless, this exercise highlights that it would be good to have a practice of putting the script prerequisite first followed by the data.</p>
+</div>
+
+  </div><a class="u-url" href="/code_club/2020-07-27-using-sed-to-parse-filenames" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/code_club/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Riffomonas Code Club</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Riffomonas Code Club</li><li><a class="u-email" href="mailto:pschloss@umich.edu">pschloss@umich.edu</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/riffomonas"><svg class="svg-icon"><use xlink:href="/code_club/assets/minima-social-icons.svg#github"></use></svg> <span class="username">riffomonas</span></a></li><li><a href="https://www.twitter.com/patschloss"><svg class="svg-icon"><use xlink:href="/code_club/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">patschloss</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Code Club: An social effort learn to do reproducible data analysis
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
