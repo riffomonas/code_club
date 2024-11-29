@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Going for a simple with ggplot2 and dplyr (CC320)"
+title: "Going for simple with ggplot2 and dplyr (CC320)"
 blurb: "Dot plot with error bars"
 author: "PD Schloss"
 date: 2024-11-29 8:00
