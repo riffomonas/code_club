@@ -10,7 +10,7 @@ start_hash:
 end_hash: 
 ---
 
-Pat re-imagines a figure published in mBio as a line plot with data using the geom_jitter and stat_summary functions from ggplot2 in R. Along the way he uses filter, summarize, geom_errorbar, geom_line, labs, scale_color_manual, scale_y_log10, guide_axis_logticks, coord_cartesian, and theme. The original paper is in an open access journal and can be found at https://journals.asm.org/doi/10.1128/mbio.01206-24. The newsletter describing how he would go about generating the figure can be [found here](https://shop.riffomonas.org/posts/thinking-through-how-to-plot-data-on-a-log-scaled-y-axis-with-ggplot2-in-r).
+Pat recreates a figure published in mBio as a line plot with data using the geom_line and geom_errorbar functions from ggplot2 in R and composes them together using patchwork. Along the way he uses filter, summarize, geom_errorbar, geom_line, labs, scale_color_manual, scale_y_log10, guide_axis_logticks, coord_cartesian, and theme. The original paper is in an open access journal and can be found at https://journals.asm.org/doi/10.1128/mbio.01206-24. The newsletter describing how he would go about generating the figure can be [found here](https://shop.riffomonas.org/posts/thinking-through-how-to-plot-data-on-a-log-scaled-y-axis-with-ggplot2-in-r).
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
