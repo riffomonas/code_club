@@ -21,15 +21,15 @@ library(tidyverse)
 library(gapminder)
 
 gm_2007 <- gapminder %>%
-filter(year == 2007)
+  filter(year == 2007)
 
 gm_2007_labels <- gm_2007 %>%
-filter(country %in% c("United States", "India", "China")) %>%
-mutate(
-  country = if_else(country == "United States", "USA", country),
-  gdpPercap = c(4000, 2200, 70000),
-  lifeExp = c(77, 69, 78)
-)
+  filter(country %in% c("United States", "India", "China")) %>%
+  mutate(
+    country = if_else(country == "United States", "USA", country),
+    gdpPercap = c(4000, 2200, 70000),
+    lifeExp = c(77, 69, 78)
+  )
 
 gm_2007 %>%
   ggplot(aes(x = gdpPercap, y = lifeExp, size = pop, fill = continent)) +
