@@ -3,7 +3,7 @@ layout: post
 title: "Using ggplot2 to see how much has the rate of poverty changed in the US over the past 65 years (CC334)"
 blurb: "National Poverty Awareness Month"
 author: "PD Schloss"
-date: 2025-01-16 8:00
+date: 2025-01-20 8:00
 comments: false
 youtube: biPe61VD8oY
 start_hash: 
