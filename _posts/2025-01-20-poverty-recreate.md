@@ -18,48 +18,131 @@ Pat recreates a figure showing the change in the number and percent of people in
 
 ```R
 library(tidyverse)
-library(gapminder)
+library(jsonlite)
+library(readxl)
+library(ggtext)
+library(showtext)
 
-gm_2007 <- gapminder %>%
-filter(year == 2007)
+font_add_google("Libre Franklin", "franklin")
+showtext_auto()
+showtext_opts(dpi = 300)
 
-gm_2007_labels <- gm_2007 %>%
-filter(country %in% c("United States", "India", "China")) %>%
-mutate(
-  country = if_else(country == "United States", "USA", country),
-  gdpPercap = c(4000, 2200, 70000),
-  lifeExp = c(77, 69, 78)
+facet_labels <- c(
+  number = "Number in poverty (millions)",
+  percent = "Poverty rate (%)"
 )
 
-gm_2007 %>%
-  ggplot(aes(x = gdpPercap, y = lifeExp, size = pop, fill = continent)) +
-  geom_point(shape = 21, color = "white", show.legend = FALSE) +
-  geom_text(
-    data = gm_2007_labels,
-    mapping = aes(label = country),
-    size = 12, size.unit = "pt"
+grid_lines <- tibble(
+  name = c(rep("number", 7), rep("percent", 6)),
+  intercept = c(seq(20, 50, 5), seq(0, 25, 5))
+)
+
+
+cycle_limits <- tibble(name = c("number", "percent"),
+                        ymin = c(20, 0),
+                        ymax = c(50, 25))
+
+# Thanks Rob Hanssen!
+cycles <- jsonlite::read_json("https://data.nber.org/data/cycles/business_cycle_dates.json", simplifyVector = TRUE) %>%
+    mutate(across(everything(), ymd)) %>%
+  select(beginning = peak, end = trough) %>%
+  filter(year(beginning) >= 1959) %>%
+    mutate(beginning = year(beginning) + yday(beginning) / 365,
+           end = year(end) + yday(end) / 365,
+           number = "x",
+           percent = "y") %>%
+    pivot_longer(cols = c(number, percent)) %>%
+  inner_join(., cycle_limits, by = "name")
+
+# All tables available at:
+# https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-people.html
+# Saved this to Desktop:https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-poverty-people/hstpov2.xlsx
+poverty_data <- read_excel("hstpov2.xlsx",
+                       range = "A9:D75",
+                       col_names = c("year", "total", "number", "percent")) %>%
+  mutate(year = str_replace(year, " \\(.*\\)", "") %>% as.numeric(),
+         method = case_when(row_number() >= 8 & row_number() <= 12 ~ "B",
+                            year >= 2017 ~ "C",
+                            year <= 2013 ~ "A"),
+         number = number / 1000) %>%
+  select(-total) %>%
+  pivot_longer(cols = c(number, percent)) %>%
+  mutate(method_name = paste(method, name, sep = "_"))
+
+
+text_annotation <- poverty_data %>%
+  filter(year == 2023) %>%
+  mutate(year = year + 1,
+         label = paste(value, c("million", "percent")))
+
+poverty_data %>%
+  ggplot(aes(x = year, y = value, color = method_name, group = method_name)) +
+  geom_rect(data = cycles,
+            mapping = aes(xmin = beginning, xmax = end,
+                          ymin = ymin, ymax = ymax, fill = "fill_color"),
+            inherit.aes = FALSE) +
+  geom_hline(data = grid_lines, aes(yintercept = intercept),
+             linewidth = 0.25, color = "gray")+
+  geom_line(show.legend = FALSE, linewidth = 1, lineend = "round") +
+  geom_text(data = text_annotation,
+            mapping = aes(x = year, y = value, label = label),
+            hjust = 0, size = 8, size.unit = "pt", family = "franklin",
+            inherit.aes = FALSE) +
+  facet_wrap(~name, nrow = 2, scale = "free_y",
+             labeller = labeller(name = facet_labels)) +
+  labs(x = NULL, y = NULL,
+       title = "Figure 1.",
+       subtitle = "Number in Poverty and Poverty Rate Using the Official Poverty Measure: 1959 to 2023",
+       caption = "Note: Population as of March of the following year. The data for 2017 and beyond reflect the implementation of an updated processing system. The data for 2013 and beyond reflect the implementation of the redesigned income questions. Refer to Table A-3 for historical footnotes. The data points are placed at the midpoints of the respective years. Information on recessions is available in Appendix C.<br>
+Information on confidentiality protection, sampling error, nonsampling error, and definitions is available at census.gov.<br>
+Source: U.S. Census Bureau, Current Population Survey, 1960 to 2024 Annual Social and Economic Supplements (CPS ASEC).") +
+  scale_color_manual(
+    breaks = c("A_number", "B_number", "C_number",
+               "A_percent", "B_percent", "C_percent"),
+    values = c("purple", "violet", "purple",
+               "forestgreen", "limegreen", "forestgreen")
   ) +
-  scale_fill_manual(
-    breaks = c("Africa", "Americas", "Asia", "Europe", "Oceania"), 
-    values = c("forestgreen", "red", "blue", "orange", "purple")
+  scale_fill_manual(name = NULL,
+                    breaks = "fill_color",
+                    label = "Recession",
+                    values = "lightblue") +
+  scale_y_continuous(breaks = seq(0, 50, 5),
+                     expand = c(0, 0)) +
+  scale_x_continuous(breaks = seq(1960, 2020, 5),
+                     minor_breaks = 1959:2023,
+                     expand = c(0, 0)) +
+  coord_cartesian(clip = "off",
+                  xlim = c(1958.5, 2023.5)) +
+  guides(
+    x = guide_axis(minor.ticks = TRUE)
   ) +
-  scale_x_log10(
-    breaks = c(1e3, 1e4, 1e5),
-    limits = c(200, 1e5),
-    expand = c(0, 0),
-    labels = c("1k", "10k", "100k")
-  ) +
-  coord_cartesian(clip = "off") +
-  labs(
-    x = "GDP per Capita [in USD]",
-    y = "Life Expectancy [in years]",
-    title = "Global Development in 2007") +
+  theme_classic() +
   theme(
-      plot.title = element_text(hjust = 0.5),
-      plot.margin = margin(t = 5, r = 10, b = 5, l = 5),
-      panel.grid.minor = element_blank(),
-      axis.ticks = element_blank()
-    )
-    
-ggsave("gapminder_2007.png", width = 5, height = 3)
+    plot.margin = margin(3, 60, 3, 3),
+    text = element_text(family = "franklin"),
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.caption = element_textbox_simple(hjust = 0, size = 6,
+                                          margin = margin(t = 15, r = -60)),
+    plot.title = element_text(size = 7),
+    plot.subtitle = element_text(size = 8, face = "bold", color = "dodgerblue"),
+    strip.background = element_blank(),
+    strip.text = element_text(size = 7, hjust = 0, margin = margin(l = 0, b = 3)),
+    axis.text = element_text(size = 7),
+    axis.line = element_line(linewidth = 0.25),
+    axis.line.y.right = element_line(linewidth = 0.25, color = "gray"),
+    axis.ticks.x = element_line(linewidth = 0.25),
+    axis.ticks.y = element_blank(),
+    axis.minor.ticks.x.bottom = element_line(),
+    axis.minor.ticks.length.x.bottom = unit(-2, "pt"),
+    axis.ticks.length.x.bottom = unit(-4, "pt"),
+    panel.border = element_rect(color = "gray", linewidth = 0.25, fill = NA),
+    legend.text = element_text(size = 7),
+    legend.key.height = unit(9, "pt"),
+    legend.position = "inside", 
+    legend.position.inside = c(0.92, 1.03),
+    legend.background = element_blank()
+  )
+
+ggsave("poverty_trends.png", width = 6, heigh = 4.34)
 ```
