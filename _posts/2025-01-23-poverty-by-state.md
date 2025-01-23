@@ -18,48 +18,95 @@ Pat creates a figure showing the change in the percent of people in the US who l
 
 ```R
 library(tidyverse)
-library(gapminder)
+library(readxl)
+library(glue)
+library(ggtext)
 
-gm_2007 <- gapminder %>%
-filter(year == 2007)
+raw_data <- read_excel("hstpov19.xlsx", col_names = FALSE)
 
-gm_2007_labels <- gm_2007 %>%
-filter(country %in% c("United States", "India", "China")) %>%
-mutate(
-  country = if_else(country == "United States", "USA", country),
-  gdpPercap = c(4000, 2200, 70000),
-  lifeExp = c(77, 69, 78)
-)
+year_tibble <- raw_data %>%
+  filter(str_detect(`...1`, "^\\d")) %>%
+  mutate(`...1` = str_replace(`...1`, " \\(\\d+\\)", "")) %>%
+  select(year = `...1`) %>%
+  mutate(year = as.numeric(year),
+         method = case_when(row_number() <= 7 ~ "C",
+                            row_number() >= 13 ~ "A",
+                            year >= 2013 & year <= 2017 ~ "B"),
+         n = 51) %>%
+  uncount(weights = n)
 
-gm_2007 %>%
-  ggplot(aes(x = gdpPercap, y = lifeExp, size = pop, fill = continent)) +
-  geom_point(shape = 21, color = "white", show.legend = FALSE) +
-  geom_text(
-    data = gm_2007_labels,
-    mapping = aes(label = country),
-    size = 12, size.unit = "pt"
+clean_data <-raw_data %>%
+  drop_na() %>%
+  filter(str_detect(`...2`, "^\\d")) %>%
+  select(state = `...1`,
+         total = `...2`,
+         number = `...3`,
+         percent = `...5`) %>%
+  mutate(total = as.numeric(total),
+         number = as.numeric(number),
+         percent = as.numeric(percent)) %>%
+  bind_cols(year_tibble)
+
+state_data <- clean_data %>%
+  summarize(total = mean(total),
+            percent = mean(percent),
+            .by = c(state, year))
+
+national_data <- clean_data %>%
+  summarize(percent = mean(percent),
+            .by = c(year, method))
+
+min_max <- national_data %>%
+  summarize(min = min(percent) %>% round(digits = 1) %>% format(nsmall = 1),
+            max = max(percent) %>% round(digits = 1) %>% format(nsmall = 1)
+            )
+
+state_data %>%
+  ggplot(aes(x = year, y = percent, size = total)) +
+  geom_point(color = "gray70", alpha = 0.25,
+             show.legend = FALSE) +
+  geom_line(data = national_data,
+            mapping = aes(x = year, y = percent, color = method),
+            linewidth = 2, lineend = "round",
+            inherit.aes = FALSE, show.legend = FALSE) +
+  labs(x = "Year",
+       y = "Poverty rate (%)",
+       title = glue("The average national poverty rate has varied between {min_max$min} and {min_max$max}% since 1980"),
+       subtitle = "Poverty rate at the state level is indicated by individual points, which are sized to their overall population size",
+       caption = "Data collected and reported by the US Census Bureau in 2024<br>Table 10 from https:\\/\\/www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-people.html") +
+  scale_color_manual(breaks = c("A", "B", "C"),
+                     values = c("darkgreen", "green4", "darkgreen")) +
+  scale_size_continuous(range = c(0.5, 4)) +
+  scale_y_continuous(breaks = seq(0, 30, 5),
+                     limits = c(0, 31),
+                     expand = c(0, 0)) +
+  scale_x_continuous(breaks = seq(1980, 2020, 5),
+                     minor_breaks = 1980:2023,
+                     limits = c(1979, 2024),
+                     expand = c(0, 0)) +
+  guides(
+    x = guide_axis(minor.ticks = TRUE)
   ) +
-  scale_fill_manual(
-    breaks = c("Africa", "Americas", "Asia", "Europe", "Oceania"), 
-    values = c("forestgreen", "red", "blue", "orange", "purple")
-  ) +
-  scale_x_log10(
-    breaks = c(1e3, 1e4, 1e5),
-    limits = c(200, 1e5),
-    expand = c(0, 0),
-    labels = c("1k", "10k", "100k")
-  ) +
-  coord_cartesian(clip = "off") +
-  labs(
-    x = "GDP per Capita [in USD]",
-    y = "Life Expectancy [in years]",
-    title = "Global Development in 2007") +
+  theme_classic() +
   theme(
-      plot.title = element_text(hjust = 0.5),
-      plot.margin = margin(t = 5, r = 10, b = 5, l = 5),
-      panel.grid.minor = element_blank(),
-      axis.ticks = element_blank()
-    )
-    
-ggsave("gapminder_2007.png", width = 5, height = 3)
+    plot.title.position = "plot",
+    plot.title = element_textbox_simple(size = 20, color = "darkgreen",
+                                        face = "bold", lineheight = 1),
+    plot.subtitle = element_textbox_simple(size = 12, color = "gray50",
+                                           margin = margin(t = 10, b = 10)),
+    plot.caption.position = "plot",
+    plot.caption = element_textbox_simple(hjust = 0, color = "gray70",
+                                          margin = margin(t = 10)),
+    axis.title = element_text(color = "gray70"),
+    axis.text.y =  element_text(color = "gray70"),
+    axis.text.x =  element_text(color = "gray70", margin = margin(t = 7)),
+    axis.line = element_line(color = "gray70"),
+    axis.ticks.y = element_blank(),
+    axis.ticks.x = element_line(color = "gray70", linewidth = 0.25),
+    axis.ticks.length.x = unit(-5, "pt"),
+    axis.minor.ticks.length.x = unit(-3, "pt"),
+    panel.grid.major.y = element_line(color = "gray90", linewidth = 0.25)
+  )
+
+ggsave("poverty_by_state.png", height = 5, width = 7)
 ```
