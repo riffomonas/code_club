@@ -18,95 +18,82 @@ Pat recreates a figure from the New York Times's UpShot showing the change US ki
 
 ```R
 library(tidyverse)
-library(readxl)
-library(glue)
-library(ggtext)
+library(showtext)
 
-raw_data <- read_excel("hstpov19.xlsx", col_names = FALSE)
+font_add_google("Libre Franklin", "franklin")
+showtext_auto()
+showtext_opts(dpi = 300)
 
-year_tibble <- raw_data %>%
-  filter(str_detect(`...1`, "^\\d")) %>%
-  mutate(`...1` = str_replace(`...1`, " \\(\\d+\\)", "")) %>%
-  select(year = `...1`) %>%
-  mutate(year = as.numeric(year),
-         method = case_when(row_number() <= 7 ~ "C",
-                            row_number() >= 13 ~ "A",
-                            year >= 2013 & year <= 2017 ~ "B"),
-         n = 51) %>%
-  uncount(weights = n)
+vaccines <- c("DTP, DTaP, or DT", "MMR", "Polio")
 
-clean_data <-raw_data %>%
-  drop_na() %>%
-  filter(str_detect(`...2`, "^\\d")) %>%
-  select(state = `...1`,
-         total = `...2`,
-         number = `...3`,
-         percent = `...5`) %>%
-  mutate(total = as.numeric(total),
-         number = as.numeric(number),
-         percent = as.numeric(percent)) %>%
-  bind_cols(year_tibble)
 
-state_data <- clean_data %>%
-  summarize(total = mean(total),
-            percent = mean(percent),
-            .by = c(state, year))
+cdc_data <- read_csv("Vaccination_Coverage_and_Exemptions_among_Kindergartners_20250118.csv") %>%
+  filter(Geography == "United States") %>%
+  select(vaccine = "Vaccine/Exemption",
+         school_year = "School Year",
+         estimate = "Estimate (%)") %>%
+  filter(vaccine %in% vaccines & 
+           school_year != "2009-10" & school_year != "2010-11") %>%
+  mutate(estimate = as.numeric(estimate),
+         year = as.numeric(str_replace(school_year, "-..", "")))
 
-national_data <- clean_data %>%
-  summarize(percent = mean(percent),
-            .by = c(year, method))
+cdc_label <- tribble(~label,~year,~estimate,~vaccine,
+                     "Whooping\ncough", 2023.25, 92.15,"DTP, DTaP, or DT",
+                     "Measles", 2023.25, 93.1,"MMR",
+                     "Polio", 2023.25, 92.6, "Polio")
 
-min_max <- national_data %>%
-  summarize(min = min(percent) %>% round(digits = 1) %>% format(nsmall = 1),
-            max = max(percent) %>% round(digits = 1) %>% format(nsmall = 1)
-            )
-
-state_data %>%
-  ggplot(aes(x = year, y = percent, size = total)) +
-  geom_point(color = "gray70", alpha = 0.25,
-             show.legend = FALSE) +
-  geom_line(data = national_data,
-            mapping = aes(x = year, y = percent, color = method),
-            linewidth = 2, lineend = "round",
-            inherit.aes = FALSE, show.legend = FALSE) +
-  labs(x = "Year",
-       y = "Poverty rate (%)",
-       title = glue("The average national poverty rate has varied between {min_max$min} and {min_max$max}% since 1980"),
-       subtitle = "Poverty rate at the state level is indicated by individual points, which are sized to their overall population size",
-       caption = "Data collected and reported by the US Census Bureau in 2024<br>Table 10 from https:\\/\\/www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-people.html") +
-  scale_color_manual(breaks = c("A", "B", "C"),
-                     values = c("darkgreen", "green4", "darkgreen")) +
-  scale_size_continuous(range = c(0.5, 4)) +
-  scale_y_continuous(breaks = seq(0, 30, 5),
-                     limits = c(0, 31),
-                     expand = c(0, 0)) +
-  scale_x_continuous(breaks = seq(1980, 2020, 5),
-                     minor_breaks = 1980:2023,
-                     limits = c(1979, 2024),
-                     expand = c(0, 0)) +
-  guides(
-    x = guide_axis(minor.ticks = TRUE)
-  ) +
+cdc_data %>%
+  ggplot(aes(x = year, y = estimate,
+             color = vaccine, fill = vaccine, group = vaccine)) +
+  geom_hline(yintercept = 95, color = "black") + 
+  geom_line(linewidth = 1, show.legend = FALSE) +
+  annotate(geom = "segment",
+           x = c(2023.2, 2023), xend = c(2023, 2023),
+           y = c(93.1, 93.1), yend = c(93.1, 92.7)) +
+  
+  geom_point(size = 3, shape = 21, color = "white", show.legend = FALSE) +
+  annotate(geom = "text", hjust = 1, vjust = -0.3,
+           x = 2023.25, y = 95, label = "FEDERAL\nMEASLES TARGET",
+           family = "franklin",
+           lineheight = 0.8) +
+  geom_text(data = cdc_label,
+            mapping = aes(x = year, y = estimate,
+                          color = vaccine, label = label),
+            hjust = 0, lineheight = 0.8, size = 13, size.unit = "pt",
+            family = "franklin", fontface = "bold",
+            show.legend = FALSE) +
+  scale_y_continuous(limits = c(90.9, 95.5),
+                     breaks = 91:95,
+                     labels = c(91:94, "95%")) +
+  scale_x_continuous(breaks = c(2011, 2015, 2019, 2023),
+                     labels = c("2011-12", "2015-16", "2019-20", "2023-24")) +
+  coord_cartesian(xlim = c(2009.5, 2023.25),
+                  expand = FALSE, clip = "off") +
+  scale_color_manual(breaks = vaccines,
+                     values = c("#F1C40F", "#B5C1A8", "#A86B5E")) +
+  scale_fill_manual(breaks = vaccines,
+                     values = c("#F1C40F", "#B5C1A8", "#A86B5E")) +
+  labs(x = "SCHOOL YEAR",
+       y = NULL,
+       title = "Share of U.S. kindergartners vaccinated against ...",
+       caption = "Source: Centers for Disease Control and Prevention") +
   theme_classic() +
   theme(
-    plot.title.position = "plot",
-    plot.title = element_textbox_simple(size = 20, color = "darkgreen",
-                                        face = "bold", lineheight = 1),
-    plot.subtitle = element_textbox_simple(size = 12, color = "gray50",
-                                           margin = margin(t = 10, b = 10)),
-    plot.caption.position = "plot",
-    plot.caption = element_textbox_simple(hjust = 0, color = "gray70",
-                                          margin = margin(t = 10)),
-    axis.title = element_text(color = "gray70"),
-    axis.text.y =  element_text(color = "gray70"),
-    axis.text.x =  element_text(color = "gray70", margin = margin(t = 7)),
-    axis.line = element_line(color = "gray70"),
+    plot.margin = margin(t = 8, r = 70, b = 3, l = 8),
+    plot.title = element_text(face = "bold", size = 16,
+                              margin = margin(b = 25)),
+    plot.caption = element_text(face = "bold", color = "gray60", hjust = 0),
+    text = element_text(family = "franklin"),
+    panel.grid.major.y = element_line(),
+    axis.line = element_blank(),
     axis.ticks.y = element_blank(),
-    axis.ticks.x = element_line(color = "gray70", linewidth = 0.25),
-    axis.ticks.length.x = unit(-5, "pt"),
-    axis.minor.ticks.length.x = unit(-3, "pt"),
-    panel.grid.major.y = element_line(color = "gray90", linewidth = 0.25)
+    axis.ticks.length.x = unit(5, "pt"),
+    axis.ticks.x = element_line(linewidth = 0.25),
+    axis.text.y = element_text(vjust = -0.3, hjust = 0, size = 12.5,
+                               margin = margin(r = -30)),
+    axis.text.x = element_text(size = 12.5,
+                               margin = margin(t = 5, b = 10))
   )
 
-ggsave("poverty_by_state.png", height = 5, width = 7)
+ggsave("vaccination_line.png", width = 6, height = 4.6875) 
 ```
