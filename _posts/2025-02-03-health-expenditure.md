@@ -3,7 +3,7 @@ layout: post
 title: "Using ggplot2 to visualize relationship between life expectancy and health care spending in R (CC338)"
 blurb: "Bubble plots with ggplot2"
 author: "PD Schloss"
-date: 2025-01-30 8:00
+date: 2025-02-03 8:00
 comments: false
 youtube: mGLIlEopPFY
 start_hash: 
