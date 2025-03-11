@@ -32,7 +32,7 @@ font_add_google("Libre Franklin", "franklin_thin", regular.wt = 300)
 showtext_opts(dpi = 300)
 showtext_auto()
 
-read_tsv("https://riffomonas/code_club/assets/data/chicago_drug_deaths.tsv") %>%
+read_tsv("https://riffomonas.org/code_club/assets/data/chicago_drug_deaths.tsv") %>%
   ggplot(aes(x = year, y = age, fill = n)) +
   geom_tile(color = "white") +
   geom_abline(intercept = c(-1951, -1970), slope = 1,
