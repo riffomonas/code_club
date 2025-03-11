@@ -17,7 +17,7 @@ Pat uses R to show how to extract the underlying data from a heatmap published i
 
 ## Original image
 
-Right click to save to your computer. The code below has been modified to read directly from this website
+Right click to save to your computer. Alternatively, the code below has been modified to read directly from this website with the help of `RCurl::getURLContent()`.
 
 <img src = "assets/images/chicago_drug_deaths.png" width = "400">
 
@@ -26,9 +26,10 @@ Right click to save to your computer. The code below has been modified to read d
 ```R
 library(tidyverse)
 library(png)
+library(RCurl) # added to read PNG from website
 
 get_mode_string <- function(x){
-  table(x) %>% which.max() %>% names()[1]
+  table(x) %>% which.max() %>% names()
 }
 
 get_closest_hex <- function(query){
@@ -42,7 +43,8 @@ get_closest_hex <- function(query){
     slice_min(distance, with_ties = FALSE)
 }
 
-rgb_data <- readPNG("https://www.riffomonas.org/code_club/assets/images/chicago_drug_deaths.png")
+# modified to read PNG from website
+rgb_data <- readPNG(getURLContent("https://riffomonas.org/code_club/assets/images/chicago_drug_deaths.png"))
 
 heat_data <- rgb(rgb_data[,,1], rgb_data[,,2], rgb_data[,,3]) %>%
   matrix(nrow = nrow(rgb_data), ncol = ncol(rgb_data)) %>%
