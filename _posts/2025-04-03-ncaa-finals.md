@@ -5,8 +5,7 @@ blurb: "March Madness!!!"
 author: "PD Schloss"
 date: 2025-04-03 8:00
 comments: false
-youtube: https://youtu.be/UPE7Z6Gfhno
-
+youtube: UPE7Z6Gfhno
 start_hash: 
 end_hash: 
 ---
