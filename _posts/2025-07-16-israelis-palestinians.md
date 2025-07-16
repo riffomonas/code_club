@@ -27,76 +27,91 @@ font_add_google("Libre Franklin", "franklin")
 showtext_opts(dpi = 300)
 showtext_auto()
 
-data <- read_csv(list.files(pattern = "csv"), id = "group",
-         col_names = c("year", "israelis", "palestinians"),
-         skip = 1) %>%
-  mutate(group = str_replace(group, "\\'.*", ""),
-         group = if_else(group == "Americans", "All\nAmericans", group),
-         israelis = str_replace(israelis, "%", "") %>% as.numeric,
-         palestinians = str_replace(palestinians, "%", "") %>% as.numeric,
-         pro_israelis = israelis - palestinians,
-         date = ymd(paste(year, "01-01", sep = "-"))
-         )
+csv_files <- list.files(pattern = ".*Sympathies.*.csv")
 
-data %>%
-  ggplot(aes(x = date, y = pro_israelis, color = group)) +
-  geom_hline(yintercept = c(-40, 0, 40, 80),
-             linewidth = c(0.3, 0.3, 0.3, 0.3),
-             color = c("gray80", "black", "gray80", "gray80")) +
-  geom_line(linewidth = 1, 
-            show.legend = FALSE) +
-  annotate(geom = "segment", 
-           x = ymd(c("2016-01-01", "2023-10-06")),
-           y = c(-40, -40), yend = c(80, 80),
-           color = "gray60", linewidth = 0.3) +
-  annotate(geom = "text",
-           x = ymd(c("2016-01-01", "2023-10-07")), y = -25, 
-           label = c("2016", "Oct. 7, 2023"), 
-           hjust = 1.1, size = 9, size.unit = "pt", family = "franklin") +
-  geom_richtext(data = tibble(x = ymd("2000-02-01"), y = c(4, -4),
-                              label = c("More support for **Israelis**",
-                                        "Less support for **Palestinians**")),
-                aes(x = x, y = y, label = label), inherit.aes = FALSE,
-                hjust = 0, label.size = 0, fill = NA, family = "franklin",
-                size = 3) +
-  geom_text(data = filter(data, year == 2025),
-            aes(y = pro_israelis + 0.75, label = group),
-            x = ymd("2025-10-01"),
-            hjust = 0, vjust = 1, 
+gallup_data <- read_csv(csv_files, id = "party", skip = 1,
+         col_names = c("year", "israelis", "palestinians")) %>%
+  mutate(
+    party = str_replace(party, "' Sympathies.*", ""),
+    party = if_else(party == "Americans", "All\nAmericans", party),
+    israelis = str_replace(israelis, "%", "") %>% as.numeric,
+    palestinians = str_replace(palestinians, "%", "") %>% as.numeric,
+    difference = israelis - palestinians,
+    date = as.Date(paste0(year, "-01-01"))
+  ) %>%
+  select(party, year, date, difference)
+
+gallup_data %>%
+  ggplot(aes(x = date, y = difference, color = party)) +
+  geom_text(data = filter(gallup_data, year == 2025),
+            aes(label = party, y = difference + 1.5), x = as.Date("2025-10-01"),
+            hjust = 0, vjust = 1,
             family = "franklin", size = 9, size.unit = "pt",
-            show.legend = FALSE) +
-  geom_segment(data = filter(data, year == 2025),
-               aes(y = pro_israelis),
-               x = ymd("2025-01-01"), xend = ymd("2025-06-01"),
-               show.legend = FALSE, linetype = "11") +
-  scale_color_manual(breaks = c("Republicans", "All\nAmericans", "Democrats"),
-                     values = c("#BE2C25", "#494949", "#1366B3")) +
-  scale_y_continuous(breaks = c(-40, 0, 40, 80),
-                     limits = c(-40, NA),
-                     labels = c("-40", "\u00B10", "+40", "+80")) +
-  scale_x_date( breaks = seq(ymd("2005-01-01"), ymd("2025-01-01"), "5 years"),
-                limits = ymd(c("2000-01-01", "2025-10-01")),
-                date_labels = c("2005", "2010", "2015", "2020", "2025")) +
-  coord_cartesian(clip = "off", expand = FALSE) +
-  labs(x = NULL, y = NULL,
-       title = "Sympathy for Palestinians has surged since 2016 -- driven by Democrats",
-       subtitle = "How much more likely Americans and members of the two major parties were to express sympathy with Israelis over Palestinians.",
-       caption = "Question text: \"In the Middle East situation, are your sympathies more with the Israelis or more with the Palestinians?\"<br><br><span style='font-size: 8pt;'>Source: Gallup, March 2025</span>"
+            lineheight = 0.8) +
+  geom_segment(data = filter(gallup_data, year == 2025),
+               aes(xend = as.Date("2025-08-01")),
+               linetype = "21", linewidth = 0.4) +
+  geom_hline(yintercept = seq(-40, 80, 40),
+             linewidth = 0.25,
+             color = c("gray80", "black", "gray80", "gray80")) +
+  geom_line(linewidth = 1) +
+  annotate(geom = "segment",
+           x = as.Date(c("2016-01-01", "2023-10-07")),
+           y = -40, yend = 80,
+           linewidth = 0.25,
+           color = "gray80") +
+  annotate(geom = "text",
+           x = as.Date(c("2016-01-01", "2023-10-07")),
+           y = -25,
+           label = c("2016", "Oct. 7, 2023"),
+           family = "franklin", size = 8.5, size.unit = "pt",
+           hjust = 1.1) +
+  annotate(
+    geom = "richtext",
+    x = as.Date(c("2000-07-01", "2000-07-01")),
+    y = c(-4, 4),
+    label = c("More support for **Palestinians**",
+              "More support for **Israelis**"),
+    hjust = 0, family = "franklin", size = 3.25, label.size = 0
+  ) +
+  labs(
+    title = "Sympathy for Palestinians has surged since 2016 -- driven by Democrats",
+    subtitle = "How much more likely Americans and members of the two major parties were to express sympathy with Israelis over Palestinians.",
+    caption = "Question text: \"In the Middle East situation, are your sympathies more with the Israelis or more with the Palestinians?\"<br><br><span style='font-size:8.5pt;'>Source: Gallup, March 2025</span>"
+  ) +
+  scale_y_continuous(
+    limits = c(-40, NA),
+    breaks = seq(-40, 80, 40),
+    labels = c("-40", "\u00B10", "+40", "+80")
+  ) +
+  scale_x_date(
+    limits = as.Date(c("2000-01-01", "2025-10-01")),
+    breaks = as.Date(paste0(seq(2005, 2025, 5), "-01-01")),
+    date_labels = "%Y"
+  ) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  scale_color_manual(
+    breaks = c("Republicans", "All\nAmericans", "Democrats"),
+    values = c("#BC2B24", "#494949", "#1366B3")
   ) +
   theme(
-    plot.margin = margin(t = 5, r = 52),
     text = element_text(family = "franklin"),
-    plot.title.position = "plot",
-    plot.title = element_textbox_simple(face = "bold", size = 13),
-    plot.subtitle = element_textbox_simple(size = 11,
-                                           margin = margin(t = 13, r = -48, b = 12)),
-    plot.caption.position = "plot", 
-    plot.caption = element_textbox_simple(size = 9.2, margin = margin(t = 13, r= -48)),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_text(color = "black", size = 9),
     panel.grid = element_blank(),
     panel.background = element_blank(),
-    axis.ticks = element_blank(),
-    axis.text.x = element_text(size = 9, margin = margin(t = 4), color = "black"),
-    axis.text.y = element_text(size = 9, color = "black")
+    plot.title.position = "plot",
+    plot.title = element_textbox_simple(face = "bold", size = 13.5,
+                                        margin = margin(t = 5, r = -48)),
+    plot.subtitle = element_textbox_simple(
+      margin = margin(t = 23, b = 10, r= -48),
+      size = 11.25, lineheight = 1.3),
+    plot.caption.position = "plot",
+    plot.caption = element_textbox_simple(size = 9,
+                                          margin = margin(t = 13, r = -45)),
+    plot.margin = margin(t = 5, r = 53, b = 0, l = 0),
+    legend.position = "none"
   )
 
 ggsave("israelis-palestinians.png", width = 6, height = 6.97)
