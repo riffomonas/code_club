@@ -13,6 +13,8 @@ end_hash:
 The first public release of Positron is out! The company that makes RStudio, Posit, now has released a second integrated development environment (IDE). They promise to continue supporting both RStudio and Positron. I haven't looked at Positron in a while and thought it would be fun to try out the new version by making a bar plot that was released by the Pew Research Center. Along the way I discovered some glitches that I'll have to explore in the future. I recreated the figure from Pew using R, ggplot2, showtext, ggtext, and other tools from the tidyverse. The functions I used from these packages include annotate, coord_cartesian, labs, scale_color_identity, theme, aes, aes, as.character, element_blank, element_markdown, element_text, factor, font_add_google, geom_col, geom_point, geom_text, ggplot, ggsave, if_else, library, margin, mutate, paste0, rev, showtext_auto, showtext_opts, and tribble. The newsletter describing this visualization at a 30,000 ft view can be [found here](https://shop.riffomonas.org/posts/thinking-about-how-to-extract-and-visualize-data-from-a-pdf-why). You can find the original article presenting the [figure here](https://www.pewresearch.org/short-reads/2025/08/18/how-the-audiences-of-30-major-news-sources-differ-in-their-levels-of-education/). If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!
 
 
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ```R
 library(tidyverse)
 library(showtext)

@@ -12,6 +12,8 @@ end_hash:
 
 Pat recreates a figure from the New York Times that has a series of titled bar plots that are part of a single figure. He shows a variety of approaches to create this appearance before settling in on using facet_wrap. Along the way, he also tries out some new features from the recently released version 4 of ggplot2. He recreated the NY Times figure using R, ggplot2, showtext, ggtext, and other tools from the tidyverse. The functions I used from these packages include aes, coord_cartesian, element_blank, element_text, element_textbox_simple, facet_wrap, factor, font_add_google, geom_col, geom_text, ggplot, ggsave, labs, library, margin, margin_auto, mutate, paste0, scale_fill_manual, showtext_auto, showtext_opts, theme, tribble, unique, and unit. You can find the code he developed in this episode [here](https://www.riffomonas.org/code_club/2025-09-24-policy-wording). The newsletter describing this visualization at a 30,000 ft view can be [found here](https://shop.riffomonas.org/posts/visualize-this-if-you-support-something-do-you-actually-want-it-doney). You can find the original article presenting the figure [here for free](https://archive.is/crTI0). If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!
 
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 ```R
 library(tidyverse)

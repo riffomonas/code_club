@@ -13,16 +13,7 @@ end_hash:
 After seeing the same poorly laid out figure that looks like a gannt chart in a few seminars I decided to modify it to suit my style. After getting the original data from the published paper I recreate the original and customize it using R, ggplot2, and other tools from the tidyverse. The plot was generated using functions from the tidyverse including the dplyr, ggplot2, and rvest packages. The functions he uses from these packages include aes, annotate, as.numeric, coord_cartesian, drop_na, dup_axis, element_blank, element_line, element_text, geom_rect, geom_text, ggplot, ggsave, html_table, if_else, library, margin, mutate, n, nest, pivot_longer, pivot_wider, pluck, read_html, scale_fill_manual, scale_x_continuous, select, separate, seq, str_replace, theme, unit, and unnest. The newsletter describing this visualization at a 30,000 ft view can be found [here](https://shop.riffomonas.org/posts/visualizing-the-timeline-of-antibiotic-discovery-and-resistance-with-ggplot2). You can find the original article describing the data in the journal [Antibiotics](https://www.mdpi.com/2079-6382/11/9/1237). The data are availble in Table 1 of that paper. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!
 
 
-Want more practice on the concepts covered in Code Club? You can sign up for my weekly newsletter at https://shop.riffomonas.org/youtube to get practice problems, tips, and insights. If you're interested in purchasing a video workshop be sure to check out https://riffomonas.org/workshops/
-
-Support Riffomonas by becoming a Patreon member!
-https://www.patreon.com/riffomonas
-
-You can also find complete tutorials for learning R with the tidyverse using...
-Microbial ecology data: https://www.riffomonas.org/minimalR/
-General data: https://www.riffomonas.org/generalR/
-
-If you want to cite this video, please consider citing https://journals.asm.org/doi/10.1128/mra.01310-22
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 

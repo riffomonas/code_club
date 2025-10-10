@@ -12,18 +12,7 @@ end_hash:
 
 Pat recreates a barplot from the New York Times showing the regressive impacts of Trump's spending bill on various income groups in the United States using the ggplot2 R package. The plot was generated using functions from the tidyverse including the dplyr, ggplot2, readxl, showtext, ggtext, and glue packages. The functions he uses from these packages include aes, as.numeric, case_when, download.file, element_rect, element_text, element_textbox_simple, factor, font_add_google, function, geom_col, geom_hline, geom_text, ggplot, glue, if_else, labs, library, margin, mutate, read_excel, scale_color_manual, scale_fill_manual, scale_x_discrete, select, showtext_auto, showtext_opts, str_remove, theme, and theme_void. The newsletter describing this visualization at a 30,000 ft view can be [found here](https://shop.riffomonas.org/posts/how-would-you-make-a-labelled-bar-plot-with-positive-and-negative-values). You can find the original article describing the data [here for free](https://archive.is/jG4bM). The data are [availble from the CBO]https://archive.is/ksh2e. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!
 
-
-Want more practice on the concepts covered in Code Club? You can sign up for my weekly newsletter at https://shop.riffomonas.org/youtube to get practice problems, tips, and insights. If you're interested in purchasing a video workshop be sure to check out https://riffomonas.org/workshops/
-
-Support Riffomonas by becoming a Patreon member!
-https://www.patreon.com/riffomonas
-
-You can also find complete tutorials for learning R with the tidyverse using...
-Microbial ecology data: https://www.riffomonas.org/minimalR/
-General data: https://www.riffomonas.org/generalR/
-
-If you want to cite this video, please consider citing https://journals.asm.org/doi/10.1128/mra.01310-22
-
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ```R

@@ -13,17 +13,7 @@ end_hash:
 Pat recreates a horizontal stacked barplot from YouGov that shows people's preferences for different card games using the ggplot2 R package. The plot was generated using functions from the tidyverse including the dplyr, ggplot2, showtext, and ggtext packages. The functions he uses from these packages include aes, arrange, as.character, coord_cartesian, cumsum, element_blank, element_text, element_textbox_simple, font_add_google, geom_col, geom_text, ggplot, ggsave, labs, length, library, margin, mutate, nest, pivot_longer, pivot_wider, position_stack, scale_fill_manual, showtext_auto, showtext_opts, theme, tribble, unit, and unnest. The newsletter describing this visualization at a 30,000 ft view can be [found here](https://shop.riffomonas.org/posts/visualizing-how-americans-feel-about-different-card-games). You can find the original article describing the data [here](https://today.yougov.com/entertainment/articles/45795-how-americans-feel-about-30-card-games). The data are availble as a [PDF here](https://d3nkl3psvxxpe9.cloudfront.net/documents/crosstabs_Card_Games.pdf). If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!
 
 
-Want more practice on the concepts covered in Code Club? You can sign up for my weekly newsletter at https://shop.riffomonas.org/youtube to get practice problems, tips, and insights. If you're interested in purchasing a video workshop be sure to check out https://riffomonas.org/workshops/
-
-Support Riffomonas by becoming a Patreon member!
-https://www.patreon.com/riffomonas
-
-You can also find complete tutorials for learning R with the tidyverse using...
-Microbial ecology data: https://www.riffomonas.org/minimalR/
-General data: https://www.riffomonas.org/generalR/
-
-If you want to cite this video, please consider citing https://journals.asm.org/doi/10.1128/mra.01310-22
-
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ```R

@@ -12,19 +12,7 @@ end_hash:
 
 This summer the US Bureau of Labor Statistics revised their projections for the number of jobs created in in May and June. The New York Times had an interesting visualization of the data. I decided to recreate the original using R, readxl, ggplot2, and other tools from the tidyverse. The functions I used from these packages include aes, annotate, arrange, as.character, bind_rows, c, element_blank, element_line, element_text, factor, filter, font_add_google, function, geom_col, ggplot, ggsave, if_else, labs, lag, library, margin, month, mutate, pivot_longer, position_identity, read_excel, rename, scale_color_manual, scale_fill_manual, scale_x_discrete, scale_y_continuous, select, showtext_auto, showtext_opts, theme, tibble, unit, and ymd. The newsletter describing this visualization at a 30,000 ft view can be [found here](https://shop.riffomonas.org/posts/plotting-the-us-job-creation-numbers-and-revisions-with-ggplot2). You can find the original article presenting the [figure here](https://archive.is/R2UEJ). If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!
 
-You can [download the xlsx workbook from this episode here](https://riffomonas.org/code_club/assets/data/SeriesReport-20250825104608_f91c65.xlsx).
-
-
-Want more practice on the concepts covered in Code Club? You can sign up for my weekly newsletter at https://shop.riffomonas.org/youtube to get practice problems, tips, and insights. If you're interested in purchasing a video workshop be sure to check out https://riffomonas.org/workshops/
-
-Support Riffomonas by becoming a Patreon member!
-https://www.patreon.com/riffomonas
-
-You can also find complete tutorials for learning R with the tidyverse using...
-Microbial ecology data: https://www.riffomonas.org/minimalR/
-General data: https://www.riffomonas.org/generalR/
-
-If you want to cite this video, please consider citing https://journals.asm.org/doi/10.1128/mra.01310-22
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
