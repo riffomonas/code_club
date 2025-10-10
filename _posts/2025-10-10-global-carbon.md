@@ -131,7 +131,7 @@ patchwork   +
   plot_annotation(
   title = "China accounts for almost a third of current global\nemissions, with a cumulative share of 15%",
   subtitle = "Fossil carbon dioxide emissions",
-  caption = "Source: Global Carbon Budget <span style='font-family:wqy-microhei;'>\U25CF</span> Includes carbon dioxide emissions from fossil\nfuels and fossil carbonates<br>&copy; *FT*",
+  caption = "Source: Global Carbon Budget <span style='font-family:wqy-microhei;'>\U25CF</span> Includes carbon dioxide emissions from fossil<br>>fuels and fossil carbonates<br>&copy; *FT*",
   theme = theme(
     text = element_text(family = "franklin"),
     plot.title = element_text(
