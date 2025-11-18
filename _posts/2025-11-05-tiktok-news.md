@@ -3,7 +3,7 @@ layout: post
 title: "Recreating Pew Research plot showing where Americans get their news from on social media (CC379)"
 blurb: "Practicing more features from latest version of ggplot2"
 author: "PD Schloss"
-date: 2025-10-29 12:00
+date: 2025-11-05 12:00
 comments: false
 youtube: ccxlUJRTyjk
 start_hash: 

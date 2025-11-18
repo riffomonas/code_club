@@ -3,7 +3,7 @@ layout: post
 title: "Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC373)"
 blurb: "Pat's favorite type of figure"
 author: "PD Schloss"
-date: 2025-10-10 9:00
+date: 2025-10-15 9:00
 comments: false
 youtube: AYpjjvuOE_o
 start_hash: 

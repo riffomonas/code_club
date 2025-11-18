@@ -3,7 +3,7 @@ layout: post
 title: "Using ggplot2 to desmontrate the regressive nature of Trump's spending bill (CC364)"
 blurb: "Making a bar plot more sophisticated"
 author: "PD Schloss"
-date: 2025-07-23 9:00
+date: 2025-07-30 9:00
 comments: false
 youtube: -tx7p68I0m4
 start_hash: 
