@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "How to constructively critique a figure from a scientific publication (CC382)"
-blurb: "A critique of a paper in *Nature Microbiology*"
+title: "How to constructively critique a figure from a scientific publication (CC383)"
+blurb: "A critique of a paper in <i>Nature Microbiology</i>"
 author: "PD Schloss"
 date: 2025-11-18 09:00
 comments: false
