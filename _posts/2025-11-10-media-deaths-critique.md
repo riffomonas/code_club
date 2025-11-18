@@ -5,7 +5,7 @@ blurb: "A constructive critique"
 author: "PD Schloss"
 date: 2025-11-10 12:00
 comments: false
-youtube: J9UWsECiVCq53oc7JQQqeI
+youtube: VCq53oc7JQQ
 start_hash: 
 end_hash: 
 ---
