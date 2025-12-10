@@ -3,7 +3,7 @@ layout: post
 title: "Using model cartoons to improve the interpretability of a complex dataset (CC388)"
 blurb: "A great way to help your audience"
 author: "PD Schloss"
-date: 2025-12-03 12:00
+date: 2025-12-08 12:00
 comments: false
 youtube: M173jOoDW5w
 start_hash: 
