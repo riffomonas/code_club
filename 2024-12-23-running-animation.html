@@ -1,0 +1,1445 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Combining three animations of cross country running with ggplot2, gganimate, and magick R packages (CC327)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2024-12-23-running-animation">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="combining-three-animations-of-cross-country-running-with-ggplot2-gganimate-and-magick-r-packages-cc327">Combining three animations of cross country running with ggplot2, gganimate, and magick R packages (CC327)</h1>
+
+  <p class="meta">December 23, 2024 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    16 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Combining three animations of cross country running with ggplot2, gganimate, and magick R packages (CC327)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2024-12-23-running-animation&text=Combining three animations of cross country running with ggplot2, gganimate, and magick R packages (CC327)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Challenged by a viewer, Pat recreates an animated dashboard that was made with P5.js using the ggplot2, gganimate, and magick R packages. Along the way he also uses geom_path, geom_point, geom_text, geom_line, geom_segment, coord_equal, coord_radial, labs, theme_void, theme, transition_states, animate, image_composite, image_append, and image_write. You can find the code he developed in this episode at https://www.riffomonas.org/code_club/2024-12-23-running-animation. The original video can be seen at https://www.youtube.com/watch?v=2vEeJBZgeTE&amp;ab_channel=EricHill. The newsletter describing how he would go about generating the animation can be found at https://shop.riffomonas.org/posts/watching-this-data-viz-animation-is-making-me-exhausted.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/qk4aJ5Od4mc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">gganimate</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">magick</span><span class="p">)</span><span class="w">
+
+</span><span class="n">peyton</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"nxn_10_28_2024.csv"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">pretty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste</span><span class="p">(</span><span class="w">
+    </span><span class="n">paste</span><span class="p">(</span><span class="n">format</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">distance_meters</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="n">nsmall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">big.mark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">),</span><span class="w"> </span><span class="s2">"meters"</span><span class="p">),</span><span class="w">
+    </span><span class="n">paste</span><span class="p">(</span><span class="n">format</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">elapsed_time_minutes_rounded</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">nsmall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="s2">"minutes"</span><span class="p">),</span><span class="w">
+                        </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\n"</span><span class="w">
+                        </span><span class="p">))</span><span class="w">
+</span><span class="n">nxn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">peyton</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">nxn_lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_lat</span><span class="p">,</span><span class="w">
+         </span><span class="n">nxn_long</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_long</span><span class="p">,</span><span class="w">
+         </span><span class="n">nxn_distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance_meters</span><span class="p">,</span><span class="w">
+         </span><span class="n">nxn_elevation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">elevation_feet</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">x_range</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">range</span><span class="p">(</span><span class="n">peyton</span><span class="o">$</span><span class="n">position_long</span><span class="p">)</span><span class="w">
+</span><span class="n">y_range</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">range</span><span class="p">(</span><span class="n">peyton</span><span class="o">$</span><span class="n">position_lat</span><span class="p">)</span><span class="w">
+
+</span><span class="n">label_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.40</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">x_range</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x_range</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x_range</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w">
+</span><span class="n">label_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.80</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">y_range</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_range</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y_range</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w">
+
+
+
+</span><span class="n">course</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">peyton</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_lat</span><span class="p">,</span><span class="w">
+             </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_path</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxn</span><span class="p">,</span><span class="w"> </span><span class="n">mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxn_long</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxn_lat</span><span class="p">),</span><span class="w">
+            </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w">
+            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lightgray"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">lineend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"round"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label_x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label_y</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w">
+            </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_equal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="kc">NA</span><span class="p">,</span><span class="w"> </span><span class="m">-1461700000</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_void</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">transition_states</span><span class="p">(</span><span class="n">elapsed_time_minutes_rounded</span><span class="p">)</span><span class="w">
+
+
+</span><span class="c1"># ggsave("course.png", width = 1100, height = 669, units = "px")</span><span class="w">
+
+
+
+
+</span><span class="n">elevation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">peyton</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">distance_meters</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">elevation_feet</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxn</span><span class="p">,</span><span class="w"> </span><span class="n">mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxn_distance</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxn_elevation</span><span class="p">),</span><span class="w">
+            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lightgray"</span><span class="p">,</span><span class="w"> </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#XC Sabermetrics\nBy Pat Schloss (after Eric Hill) 12/17/2024\nCross country times for 20XX NXN at Glendoveer Golf Course"</span><span class="w">
+      </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_void</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+                                </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)),</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">transition_states</span><span class="p">(</span><span class="n">elapsed_time_minutes_rounded</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ggsave("elevation.png", width = 1100, height = 300, units = "px")</span><span class="w">
+
+
+
+</span><span class="n">heart_bpm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">peyton</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heart_rate_bpm</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heart_rate_bpm</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_segment</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"green"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Heart rate (bpm)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">150</span><span class="p">,</span><span class="w"> </span><span class="m">200</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_radial</span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">pi</span><span class="o">/</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">pi</span><span class="o">/</span><span class="m">2</span><span class="p">,</span><span class="w">
+               </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+   </span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">),</span><span class="w">
+   </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w">
+   </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+   </span><span class="n">axis.ticks.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+   </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.5</span><span class="p">),</span><span class="w">
+   </span><span class="n">axis.ticks.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">),</span><span class="w">
+   </span><span class="n">axis.title.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">),</span><span class="w">
+   </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+   </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">transition_states</span><span class="p">(</span><span class="n">elapsed_time_minutes_rounded</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># ggsave("heart_rate_bpm.png", width = 400, height = 295, units = "px")</span><span class="w">
+
+
+</span><span class="n">n_frames</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1000</span><span class="w">
+</span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">150</span><span class="w">
+
+</span><span class="n">course_gif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">animate</span><span class="p">(</span><span class="n">course</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1100</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">629</span><span class="p">,</span><span class="w">
+                      </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">nframes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_frames</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span><span class="w">
+                      </span><span class="n">renderer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">magick_renderer</span><span class="p">(</span><span class="n">loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">elevation_gif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">animate</span><span class="p">(</span><span class="n">elevation</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1100</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w">
+                         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">nframes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_frames</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span><span class="w">
+                         </span><span class="n">renderer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">magick_renderer</span><span class="p">(</span><span class="n">loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">heart_bpm_gif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">animate</span><span class="p">(</span><span class="n">heart_bpm</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">400</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">259</span><span class="p">,</span><span class="w">
+                         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="n">nframes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_frames</span><span class="p">,</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span><span class="w">
+                         </span><span class="n">renderer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">magick_renderer</span><span class="p">(</span><span class="n">loop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">))</span><span class="w">
+
+</span><span class="n">course_elevation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">image_append</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">course_gif</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">elevation_gif</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span><span class="w">
+                                 </span><span class="n">stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+
+</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">course_gif</span><span class="p">)){</span><span class="w">
+  </span><span class="n">dummy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">image_append</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">course_gif</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">elevation_gif</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="w">
+                        </span><span class="n">stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+  </span><span class="n">course_elevation</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">course_elevation</span><span class="p">,</span><span class="w"> </span><span class="n">dummy</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span><span class="n">course_elevation_bpm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">image_composite</span><span class="p">(</span><span class="n">course_elevation</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">heart_bpm_gif</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w">
+                                        </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"+695+300"</span><span class="p">)</span><span class="w">
+
+</span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">2</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">heart_bpm_gif</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">dummy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">image_composite</span><span class="p">(</span><span class="n">course_elevation</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">heart_bpm_gif</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w">
+                           </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"+695+300"</span><span class="p">)</span><span class="w">
+  </span><span class="n">course_elevation_bpm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">course_elevation_bpm</span><span class="p">,</span><span class="w"> </span><span class="n">dummy</span><span class="p">)</span><span class="w">
+  
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">image_write</span><span class="p">(</span><span class="n">course_elevation_bpm</span><span class="p">,</span><span class="w"> </span><span class="s2">"nxn_animation.gif"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">nxn_10_28_2024.csv:</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>position_lat,position_long,distance_meters,elevation_feet,pace_minutes_per_mile,elapsed_time_minutes_rounded,distance_miles,cadence_rpm,heart_rate_bpm
+543189718,-1461750078,0,297.244104,0,0,0,0,172
+543189811,-1461751024,6.145368941412133,297.244104,4.3646416657879055,0.02,0.003818564716847983,117,172
+543189858,-1461752008,12.507054883993703,295.93176800000003,4.2891525754247075,0.03,0.007771542920696499,117,172
+543189891,-1461752948,18.554097922182354,295.2756,4.336885594626009,0.05,0.011529010601974943,117,172
+543189917,-1461753821,24.1783395905878,294.61943199999996,4.437415271274129,0.07,0.015023761039051911,115,172
+543189924,-1461754704,29.861576792882897,293.307096,4.491111356806287,0.08,0.018555169692472007,113,172
+543189946,-1461755608,35.69230285001321,292.650928,4.508927335853679,0.1,0.022178223899246407,109,172
+543189951,-1461757441,47.481578634442165,291.99476,4.519198241463025,0.13,0.029503758456536324,105,172
+543189951,-1461757441,47.481578634442165,291.99476,5.084098021645903,0.15,0.029503758456536324,105,172
+543189968,-1461758347,53.32213728390593,290.68242399999997,5.030243478523924,0.17,0.033132922368117323,105,165
+543190110,-1461759267,59.379012924483604,290.026256,4.968854349968542,0.18,0.036896499760450625,105,162
+543190327,-1461761010,70.77498509601863,288.057752,4.547764998654857,0.2,0.04397764617546238,105,158
+543190327,-1461761010,70.77498509601863,288.057752,4.926745415209428,0.22,0.04397764617546238,105,158
+543190392,-1461761858,76.2714030640891,287.40158399999996,4.923374313058384,0.23,0.0473929704500535,104,158
+543190450,-1461762755,82.07263133416349,286.74541600000003,4.902182292192653,0.25,0.05099769553615985,103,158
+543190509,-1461763613,87.61821232423456,286.089248,4.898037998597965,0.27,0.05444356837227346,102,158
+543190580,-1461764429,92.90814593374684,285.43308,4.9078545490706444,0.28,0.05773058889591189,101,158
+543190644,-1461765230,98.09975361992451,284.120744,4.921541412535543,0.3,0.060956512371484285,101,158
+543190699,-1461766024,103.23236577221256,283.464576,4.936672036150341,0.32,0.06414577763071357,101,163
+543190762,-1461766857,108.62062520450388,282.808408,4.938718274330235,0.33,0.06749389513993556,99,166
+543190813,-1461767669,113.87122842457121,282.15224,4.946543633478967,0.35,0.07075647683185109,99,166
+543190819,-1461768443,118.84651911963499,281.49607199999997,4.9651545346424415,0.37,0.07384798682667118,99,166
+543190821,-1461769178,123.5759950566401,280.839904,4.992180450449952,0.38,0.07678675423256745,99,166
+543190826,-1461769892,128.15798215892107,280.183736,5.022987949371217,0.4,0.0796338760976059,99,166
+543190810,-1461770654,133.0546121756505,279.52756800000003,5.039722579838837,0.42,0.08267650849146266,98,166
+543190807,-1461771400,137.85291626904538,278.8714,5.058874962830613,0.43,0.0856580438372534,98,166
+543190832,-1461772135,142.57255958355032,278.215232,5.079539864580986,0.45,0.0885907015195983,97,166
+543190872,-1461772892,147.45935697777963,277.559064,5.093100558186319,0.47,0.09162722418990371,97,166
+543190892,-1461774407,157.20345399929346,276.246728,4.948031655017927,0.48,0.09768194042234299,97,166
+543190892,-1461774407,157.20345399929346,276.246728,5.1186534362254426,0.5,0.09768194042234299,97,166
+543190881,-1461775138,161.90343216935375,274.934392,5.135730121295823,0.52,0.1006023787200677,97,166
+543190824,-1461775844,166.45592150468988,274.27822399999997,5.156408128397375,0.53,0.10343117147693458,97,166
+543190819,-1461776567,171.1067366628051,273.62205600000004,5.173010819230949,0.55,0.10632106121938503,97,166
+543190826,-1461777292,175.76738454397594,272.965888,5.188444578039211,0.57,0.10921706074786929,96,166
+543190859,-1461777994,180.30020863431187,272.30971999999997,5.2067697191117075,0.58,0.11203363405763349,96,166
+543190881,-1461778691,184.79370243575835,272.965888,5.225307936755442,0.6,0.11482576859815723,96,166
+543190912,-1461779361,189.11020953498038,272.30971999999997,5.2478728450129095,0.62,0.11750792842716914,95,166
+543190950,-1461780075,193.72169440420618,272.965888,5.261406936385581,0.63,0.12037337940037915,95,166
+543190980,-1461780807,198.4413378192667,272.965888,5.2714369470372935,0.65,0.12330603714520655,95,166
+543191011,-1461781515,203.00365967654741,274.27822399999997,5.285093554681733,0.67,0.1261409395631423,92,166
+543191016,-1461782256,207.78229862549756,276.902896,5.292634040249803,0.68,0.1291102555243128,92,166
+543191039,-1461782995,212.54127232944748,278.215232,5.300325850377956,0.7,0.13206735203838063,92,166
+543191074,-1461783724,217.24125049950774,280.183736,5.309122142693329,0.72,0.13498779033610533,92,166
+543191095,-1461784438,221.8429027462334,280.839904,5.319902742242205,0.73,0.13784713158576398,92,163
+543191079,-1461785143,226.38555945906944,283.464576,5.3316342388800555,0.75,0.14066981461907954,92,163
+543191069,-1461785849,230.92821617190543,285.43308,5.342904188091292,0.77,0.14349249765239505,93,163
+543191079,-1461786544,235.40204482890726,286.74541600000003,5.355304655840656,0.78,0.1462724128082986,93,163
+543191084,-1461787203,239.63989124979494,289.370088,5.372527892937328,0.8,0.14890569503634718,93,163
+543191129,-1461787870,243.95639834901698,291.99476,5.387414891463618,0.82,0.15158785486535908,93,163
+543191220,-1461788547,248.4007291385184,293.307096,5.399004549293399,0.83,0.15434944085060856,95,163
+543191317,-1461789220,252.81556226163056,295.2756,5.41081801991428,0.85,0.157092697790169,95,163
+543191389,-1461789871,257.05340868251824,297.900272,5.425959299594302,0.87,0.15972598001821756,93,163
+543191449,-1461790551,261.46824170507483,299.212608,5.4369267081779835,0.88,0.1624692368952955,93,163
+543191510,-1461791209,265.73558589290735,299.868776,5.450553395523419,0.9,0.16512084823151563,94,163
+543191586,-1461791871,270.0619256146295,300.524944,5.462555782255778,0.92,0.1678091177840789,94,163
+543191638,-1461792552,274.4669261152415,301.181112,5.47261080934752,0.93,0.17054626500008793,94,163
+543191682,-1461793241,278.92108952724305,302.493448,5.481381858185598,0.95,0.17331396070888877,94,163
+543191723,-1461793897,283.15893594813076,303.80578399999996,5.4940711234283555,0.97,0.17594724293693736,94,163
+543191778,-1461794538,287.31812169068405,305.11812,5.507893680198623,0.98,0.17853164756402257,94,163
+543191828,-1461795178,291.46747481073726,307.742792,5.521508020903556,1,0.18110994246755643,94,168
+543191857,-1461795834,295.6954886091248,309.711296,5.533267825726423,1.02,0.18373711497205367,94,168
+543191911,-1461796496,299.982497941402,310.367464,5.543605637257884,1.03,0.186400945692894,94,168
+543191951,-1461797166,304.3186702856243,311.6798,5.552754940779642,1.05,0.1890953249690086,94,168
+543192007,-1461797841,308.6941730192915,313.648304,5.560938570829601,1.07,0.1918141430768461,94,168
+543192040,-1461799230,317.63199761023947,316.27297600000003,5.48890439182395,1.08,0.19736786360261938,92,168
+543192040,-1461799230,317.63199761023947,316.27297600000003,5.573349074775089,1.1,0.19736786360261938,92,168
+543192030,-1461799895,321.91900694251666,316.92914399999995,5.582448673663504,1.12,0.2000316943234597,92,168
+543192014,-1461800527,325.97986676173537,316.92914399999995,5.5951880856488385,1.13,0.20255500190247888,92,170
+543191965,-1461801118,329.80474444539544,316.27297600000003,5.611626367329022,1.15,0.20493167661612552,86,165
+543191855,-1461801714,333.7771108632242,314.304472,5.6252009866030495,1.17,0.20739999680814758,86,160
+543191608,-1461802328,338.32960019856034,312.335968,5.628788215837465,1.18,0.21022878956501445,86,158
+543191308,-1461802880,342.8230940000069,310.367464,5.633249433306707,1.2,0.21302092410553825,86,158
+543190949,-1461803333,347.20842925561874,309.055128,5.63935137614934,1.22,0.21574585187444464,86,158
+543190571,-1461803677,351.3282846087271,308.39896,5.649566953816941,1.23,0.21830581766980695,91,158
+543190149,-1461803899,355.4481399618354,307.742792,5.659545722242308,1.25,0.22086578346516922,91,158
+543189681,-1461804013,359.79414492855784,307.742792,5.66573236965292,1.27,0.22356627246483518,91,158
+543189195,-1461804070,364.258140862504,306.430456,5.669934134557204,1.28,0.22634007783470492,94,158
+543188694,-1461804067,368.84996058728507,305.11812,5.672067842081019,1.3,0.2291933094232947,94,163
+543188232,-1461804016,373.0878070081727,302.493448,5.679532521648199,1.32,0.23182659165134326,94,172
+543187757,-1461803957,377.4534771193398,303.14961600000004,5.684903694735926,1.33,0.23453930003562942,94,176
+543187288,-1461803892,381.76015169661724,301.83728,5.691031372301402,1.35,0.23721535020357243,93,177
+543186802,-1461803855,386.21431510861885,301.83728,5.694846739988797,1.37,0.23998304591237332,93,177
+543186331,-1461803831,390.5209895853407,301.181112,5.700727300293172,1.38,0.24265909601783386,93,177
+543185851,-1461803779,394.9259900859527,301.181112,5.705058812436288,1.4,0.2453962432338429,93,177
+543185384,-1461803713,399.22283204073005,300.524944,5.71084154099864,1.42,0.2480661836782346,95,177
+543184468,-1461803610,407.6395293486158,301.181112,5.658726645947861,1.43,0.25329608991798863,95,177
+543184468,-1461803610,407.6395293486158,301.181112,5.7245257929937665,1.45,0.25329608991798863,94,177
+543184017,-1461803622,411.76921732422426,302.493448,5.732253004902958,1.47,0.25586216543690227,94,177
+543183569,-1461803624,415.8694074323324,303.14961600000004,5.7402338907439,1.48,0.25840991178516187,93,177
+543183136,-1461803617,419.8417739507167,301.83728,5.749808975138716,1.5,0.26087823203966637,93,177
+543182209,-1461803591,428.3272994149921,301.181112,5.698521520031536,1.52,0.26615090621931486,93,177
+543182209,-1461803591,428.3272994149921,301.181112,5.761142635636278,1.53,0.26615090621931486,93,177
+543181748,-1461803579,432.54548069143516,300.524944,5.766970437449733,1.55,0.2687719690627432,93,177
+543181306,-1461803513,436.6260056550986,300.524944,5.774505642536004,1.57,0.2713074960263826,94,177
+543180853,-1461803415,440.80485654209656,302.493448,5.780611599099552,1.58,0.273904120038088,94,178
+543180414,-1461803380,444.82638597187037,302.493448,5.788649417399496,1.6,0.27640298878538433,94,178
+543179939,-1461803307,449.20188860498206,305.774288,5.79197549995445,1.62,0.27912180683073934,93,177
+543179473,-1461803276,453.4692327928146,305.774288,5.796619652622899,1.63,0.2817734181669595,93,178
+543179015,-1461803285,457.66774892481277,304.461952,5.802049644612888,1.65,0.2843822616257676,92,178
+543178563,-1461803271,461.80726942236583,303.14961600000004,5.808122805620393,1.67,0.2869544468057501,92,178
+543178111,-1461803253,465.946789919919,301.83728,5.814088057420151,1.68,0.2895266319857327,92,178
+543177641,-1461803208,470.2534644971964,301.83728,5.8178795193465325,1.7,0.2922026821536757,92,178
+543177177,-1461803152,474.5208086850289,301.181112,5.82208468578901,1.72,0.29485429348989584,93,178
+543176717,-1461803117,478.74882258397196,302.493448,5.826693529209418,1.73,0.2974814660568755,93,179
+543176241,-1461803100,483.1046600726389,301.83728,5.829678810335899,1.75,0.3001880647176103,92,177
+543175766,-1461803054,487.4604975613059,302.493448,5.832610739859491,1.77,0.3028946633783451,92,176
+543175318,-1461802946,491.6196833038592,303.80578399999996,5.837824977591023,1.78,0.3054790680054303,92,176
+543174843,-1461802886,495.9853534150264,304.461952,5.840519241252716,1.8,0.30819177638971657,92,176
+543174360,-1461802813,500.4395168270279,303.80578399999996,5.842133234941656,1.82,0.3109594720985174,93,176
+543173863,-1461802742,505.01167130680875,304.461952,5.84235342330172,1.83,0.31380048424000445,93,176
+543173393,-1461802693,509.32817840603076,302.493448,5.8455022247493575,1.85,0.3164826440690164,94,176
+543172923,-1461802636,513.6446856058083,303.14961600000004,5.848598101993783,1.87,0.3191648039605107,94,171
+543172464,-1461802624,517.8530342597512,302.493448,5.852864550652354,1.88,0.32177975708038775,94,165
+543171463,-1461802584,527.0268409862576,304.461952,5.801879073706839,1.9,0.32748011047153347,94,161
+543171463,-1461802584,527.0268409862576,304.461952,5.8527727497919875,1.92,0.32748011047153347,91,158
+543170957,-1461802569,531.6579909999282,305.11812,5.852240950643545,1.93,0.33035778082936373,91,158
+543170459,-1461802578,536.2203129577646,305.774288,5.852469449897867,1.95,0.333192683309782,91,158
+543169973,-1461802609,540.6744763697661,305.774288,5.853864888507817,1.97,0.3359603790185829,93,158
+543169472,-1461802663,545.2662959939917,303.80578399999996,5.853759328454493,1.98,0.33881361054469017,93,158
+543169001,-1461802689,549.5828031937692,303.80578399999996,5.856587908674362,2,0.34149577043618456,93,157
+543168540,-1461802675,553.8108169921568,303.80578399999996,5.860308671759452,2.02,0.3441229429406818,93,162
+543168061,-1461802670,558.1961523483241,303.14961600000004,5.862320356204587,2.03,0.3468478707720706,92,166
+543167590,-1461802676,562.502826825046,303.80578399999996,5.865120747252914,2.05,0.34952392087753115,92,166
+543167149,-1461802658,566.54402149982,305.11812,5.870628242671131,2.07,0.35203500907193014,92,166
+543166706,-1461802625,570.6147138409833,305.774288,5.875753963822602,2.08,0.3545644263120182,92,166
+543165857,-1461802438,578.4906187213621,307.086624,5.842124125487033,2.1,0.35945829888113273,92,167
+543165857,-1461802438,578.4906187213621,307.086624,5.888490189975026,2.12,0.35945829888113273,92,167
+543165437,-1461802331,582.4039897058567,305.11812,5.894977931728499,2.13,0.3618899609192941,92,168
+543165007,-1461802174,586.4648494245199,305.774288,5.899894944079363,2.15,0.36441326843583083,92,168
+543164545,-1461802041,590.7715240017974,303.80578399999996,5.902287418515986,2.17,0.36708931860377386,92,167
+543164033,-1461801826,595.6583213960267,302.493448,5.898894618699597,2.18,0.37012584127407927,92,167
+543163510,-1461801569,600.722105391925,301.83728,5.893820067916521,2.2,0.3732723385934141,92,168
+543162980,-1461801338,605.7957220103233,300.524944,5.888734772664064,2.22,0.3764249456363002,92,169
+543162486,-1461801110,610.5448631923286,299.212608,5.8868608735382075,2.23,0.37937593248929913,92,169
+543161981,-1461800813,615.5496516543373,298.55644,5.882571763737064,2.25,0.3824857715922908,92,168
+543161463,-1461800456,620.8199200188493,297.900272,5.87583809041206,2.27,0.3857605726688266,92,168
+543160975,-1461800050,626.0016951830825,297.244104,5.870047469427306,2.28,0.3889803864833301,92,168
+543160487,-1461799582,631.3801219928736,296.587936,5.862525396454862,2.3,0.39232239426900073,92,168
+543160042,-1461799004,636.8962052159999,297.244104,5.853864888500772,2.32,0.3957499379969428,92,169
+543159624,-1461798389,642.4122883385706,296.587936,5.845353108637287,2.33,0.3991774816624024,94,169
+543159200,-1461797783,647.9087063166966,296.587936,5.837163419982477,2.35,0.4025928059432417,94,171
+543158852,-1461797168,652.9921555575952,297.244104,5.832797991395445,2.37,0.4057515227096793,94,173
+543158554,-1461796501,658.0854373204382,298.55644,5.8284129220124505,2.38,0.4089163491371856,94,174
+543158314,-1461795795,663.139388794392,299.868776,5.8244406308332595,2.4,0.4120567367954515,96,174
+543158131,-1461795093,667.9475254097314,300.524944,5.822670472426098,2.42,0.4150443818023111,96,174
+543158012,-1461794382,672.6573362022918,301.181112,5.82177649139466,2.43,0.41797092982358725,96,170
+543157948,-1461793670,677.2786535934621,301.83728,5.821655501882559,2.45,0.42084249045786604,96,168
+543157942,-1461792966,681.8114777843535,301.83728,5.822291737055328,2.47,0.4236590638301127,96,167
+543158007,-1461792292,686.1869804174653,301.83728,5.824254584712804,2.48,0.42637788187546777,94,167
+543158115,-1461791630,690.5624831511324,302.493448,5.826192557755073,2.5,0.4290966999833052,94,167
+543158256,-1461790965,695.0363117075788,302.493448,5.827281632786611,2.52,0.43187661507672637,94,167
+543158439,-1461790313,699.5494707540255,303.14961600000004,5.828029091741253,2.53,0.4346809690643528,93,167
+543158651,-1461789698,703.964303776582,303.14961600000004,5.829581099473509,2.55,0.4374242259414307,93,167
+543158886,-1461789116,708.2709783538595,303.14961600000004,5.83200421812231,2.57,0.44010027610937374,93,167
+543159131,-1461788537,712.6169832200263,303.80578399999996,5.834076038829132,2.58,0.4428007650465572,93,167
+543159411,-1461787973,717.0514814875833,303.14961600000004,5.835402489259688,2.6,0.4455562413707379,93,167
+543159689,-1461787408,721.4958122770847,303.14961600000004,5.836633091525251,2.62,0.4483178273559874,93,167
+543159994,-1461786855,726.018803845476,302.493448,5.837216121978911,2.63,0.45112829100468266,93,167
+543160277,-1461786296,730.4434694905326,303.14961600000004,5.838577765606632,2.65,0.4538776576053119,93,167
+543160558,-1461785773,734.6813159114205,302.493448,5.8414080232996595,2.67,0.4565109398333606,94,167
+543160897,-1461785244,739.282968158146,302.493448,5.8413298461690975,2.68,0.45937028108301914,94,167
+543161223,-1461784723,743.7666293370924,303.14961600000004,5.842179292008322,2.7,0.46215630589999157,94,165
+543161542,-1461784211,748.1617972152043,303.14961600000004,5.843709675643506,2.72,0.46488734339244925,94,164
+543161864,-1461783712,752.5274673263714,303.14961600000004,5.845451305977206,2.73,0.46760005177673547,93,165
+543162179,-1461783194,756.9324678269834,302.493448,5.846869024796009,2.75,0.4703371989927445,93,165
+543162498,-1461782686,761.3178030825952,301.83728,5.848421402080718,2.77,0.4730621267616509,92,168
+543162809,-1461782166,765.7129709607071,301.181112,5.849880877748009,2.78,0.4757931642541086,92,169
+543163121,-1461781636,770.1573017502085,301.181112,5.850950175710349,2.8,0.47855475023935806,92,169
+543163427,-1461781102,774.5918000177654,301.181112,5.852081487603353,2.82,0.4813102265635388,93,170
+543163722,-1461780594,778.8394790611532,303.14961600000004,5.854603919363761,2.83,0.4839496185151386,94,170
+543164042,-1461780081,783.2444794612098,304.461952,5.855922537947672,2.85,0.4866867656686653,94,171
+543164373,-1461779549,787.8166339409906,307.742792,5.8559836573327315,2.87,0.4895277778101524,95,170
+543164684,-1461779038,792.1429737632683,313.648304,5.857861295697611,2.88,0.4922160474251981,95,167
+543165002,-1461778497,796.6856304761043,314.96064,5.858127499062473,2.9,0.49503873045851365,94,167
+543165319,-1461777944,801.2774501003299,315.616808,5.8580312384250774,2.92,0.497891961984621,94,172
+543165509,-1461777365,805.3874729314936,316.92914399999995,5.861440394005487,2.93,0.5004458181189143,93,177
+543165639,-1461776759,809.4679978951572,317.585312,5.865028651342553,2.95,0.5029813450825539,93,180
+543165721,-1461776107,813.7255094604895,317.585312,5.867304487601471,2.97,0.5056268466952226,93,181
+543165925,-1461774801,822.3191933700441,316.27297600000003,5.838605866646865,2.98,0.510966727584006,93,175
+543165925,-1461774801,822.3191933700441,316.27297600000003,5.8712237765164,3,0.510966727584006,93,175
+543165977,-1461774137,826.6160354253769,314.96064,5.873152860910834,3.02,0.51363666809088,93,174
+543165998,-1461773461,830.9522076690437,314.96064,5.8747839185126205,3.03,0.5163310473045122,92,172
+543165966,-1461772780,835.3178777802108,316.27297600000003,5.876190526466278,3.05,0.5190437556887983,92,171
+543165931,-1461772096,839.7228782808228,317.585312,5.877307217635247,3.07,0.5217809029048075,92,171
+543165843,-1461771468,843.7935706219861,317.585312,5.880741261169978,3.08,0.5243103201448955,93,171
+543165788,-1461770869,847.6676112170358,316.92914399999995,5.885507401700907,3.1,0.5267175433513339,93,171
+543165776,-1461770259,851.5809822015303,314.304472,5.889958134535135,3.12,0.5291492053894953,93,173
+543165765,-1461769662,855.4156924071351,314.304472,5.89491017224247,3.13,0.5315319897642109,94,174
+543165748,-1461769041,859.3880589255193,312.992136,5.898872979848259,3.15,0.5340003100187154,94,174
+543165728,-1461768435,863.2620995205691,311.02363199999996,5.9034716526575535,3.17,0.5364075332251539,94,174
+543165693,-1461767817,867.2246334164532,307.742792,5.907426368280397,3.18,0.538869743756107,93,173
+543165650,-1461767145,871.5509731381754,305.11812,5.90887757425925,3.2,0.5415580133086703,93,172
+543165582,-1461766491,875.7789869365629,301.83728,5.910978009921468,3.22,0.5441851858131674,94,171
+543165520,-1461765893,879.6530275316125,299.868776,5.915437682592022,3.23,0.5465924090196058,94,170
+543165477,-1461765308,883.4385748258278,297.900272,5.920451233444463,3.25,0.5489446449015297,93,169
+543165475,-1461764761,886.9586421169839,295.2756,5.927195568877424,3.27,0.5511319187474268,93,169
+543165473,-1461764153,890.8621804789784,294.61943199999996,5.931332345734641,3.28,0.5535574710620369,92,170
+543165425,-1461763502,895.0803617554214,294.61943199999996,5.933346576372726,3.3,0.5561785339054652,91,170
+543165317,-1461762831,899.4656970110333,292.650928,5.9342389054641735,3.32,0.5589034616743717,91,170
+543165237,-1461762154,903.8805301341455,290.68242399999997,5.934928884761478,3.33,0.5616467186139321,91,171
+543165182,-1461761487,908.1970372333675,289.370088,5.936254776191988,3.35,0.564328878442944,92,171
+543165137,-1461760834,912.4053858873103,288.057752,5.938271975525696,3.37,0.566943831562821,92,171
+543165080,-1461760159,916.7710559984773,288.057752,5.939251278757323,3.38,0.5696565399471071,93,172
+543165002,-1461759462,921.2547171774238,288.71392,5.939460496619838,3.4,0.5724425647640796,93,173
+543164912,-1461758828,925.4139029199771,288.71392,5.941750297875954,3.42,0.5750269693911648,92,173
+543164836,-1461758164,929.7402426416993,288.71392,5.942950959041169,3.43,0.5777152389437281,92,173
+543164702,-1461757520,934.0665823634214,288.057752,5.944140497941251,3.45,0.5804035084962913,92,173
+543164547,-1461756896,938.3339265512539,287.40158399999996,5.945692866332255,3.47,0.5830551198325113,91,173
+543164345,-1461756323,942.4537819043622,287.40158399999996,5.948161887938104,3.48,0.5856150856278737,91,173
+543164110,-1461755726,946.8587824049742,287.40158399999996,5.948817399880094,3.5,0.5883522328438827,92,173
+543163881,-1461755173,950.9884702800273,286.089248,5.9511892206924735,3.52,0.590918308300314,93,173
+543163604,-1461754708,954.9116738870221,286.74541600000003,5.954827888447639,3.53,0.5933560800620268,95,173
+543163324,-1461754253,958.7857143815161,285.43308,5.958742307383434,3.55,0.5957633032059827,95,173
+543162715,-1461753584,965.7668535304945,284.776912,5.943442055761216,3.57,0.6001011927439165,94,173
+543162715,-1461753584,965.7668535304945,284.776912,5.971215149479726,3.58,0.6001011927439165,94,173
+543162395,-1461753302,969.1984275208164,287.40158399999996,5.977748039500977,3.6,0.6022334792652991,94,173
+543162059,-1461753014,972.7774904464177,287.40158399999996,5.983327524018119,3.62,0.6044574113900218,93,173
+543161346,-1461752357,980.545237183184,294.61943199999996,5.963282921514287,3.63,0.609284077437449,94,173
+543161346,-1461752357,980.545237183184,294.61943199999996,5.990637430328572,3.65,0.609284077437449,94,173
+543161039,-1461751944,984.4192771749003,297.244104,5.994309000396501,3.67,0.6116913002689925,94,173
+543160813,-1461751385,988.5686301943981,299.868776,5.996281376540332,3.68,0.614269595110044,93,172
+543160654,-1461750676,993.3571021680705,304.461952,5.994378040891595,3.7,0.6172450210446957,92,172
+543160496,-1461749263,1002.5604068626328,307.742792,5.966104677972656,3.72,0.6229637036689779,92,173
+543160496,-1461749263,1002.5604068626328,307.742792,5.992858510609305,3.73,0.6229637036689779,91,173
+543160469,-1461748553,1007.1325607390804,308.39896,5.992284665656336,3.75,0.6258047154355701,91,175
+543160512,-1461747836,1011.7538782308065,309.055128,5.991424855156782,3.77,0.6286762761323317,91,176
+543160644,-1461746352,1021.3603191406518,311.02363199999996,5.961333676825744,3.78,0.6346454566099469,92,175
+543160644,-1461746352,1021.3603191406518,311.02363199999996,5.98759505866198,3.8,0.6346454566099469,92,175
+543160739,-1461745597,1026.276614301826,311.6798,5.985047547353428,3.82,0.6377003083884238,92,175
+543160799,-1461744849,1031.1240812060548,312.992136,5.982923664677604,3.83,0.6407123921645239,92,175
+543160856,-1461744103,1035.9518834686166,313.648304,5.980933187026434,3.85,0.643712256868416,92,175
+543160917,-1461743360,1040.760020083956,314.304472,5.979074150860775,3.87,0.6466999018752757,92,176
+543161090,-1461741899,1050.3074650576896,316.27297600000003,5.950261113609612,3.88,0.6526324238866179,93,175
+543161212,-1461741212,1054.85995429247,315.616808,5.950008789754276,3.9,0.6554612165810022,93,175
+543161212,-1461741212,1054.85995429247,315.616808,5.975436177744678,3.92,0.6554612165810022,93,175
+543161716,-1461739941,1064.309074046758,315.616808,5.947586862712926,3.93,0.6613326419816559,95,174
+543161716,-1461739941,1064.309074046758,315.616808,5.97278850196171,3.95,0.6613326419816559,95,174
+543162076,-1461739441,1068.9205582120949,315.616808,5.972113909017613,3.97,0.6641980925174885,95,174
+543162972,-1461738848,1078.0550346497123,313.648304,5.946391845152511,3.98,0.669874007139394,93,174
+543162972,-1461738848,1078.0550346497123,313.648304,5.971272145759843,4,0.669874007139394,92,174
+543163456,-1461738763,1082.509198665047,311.02363199999996,5.971480280541697,4.02,0.6726417032230897,92,174
+543164419,-1461738891,1091.4175256901613,308.39896,5.947315774100337,4.03,0.6781770947656564,92,174
+543164419,-1461738891,1091.4175256901613,308.39896,5.9718914591172805,4.05,0.6781770947656564,92,174
+543164887,-1461739179,1096.08800579161,306.430456,5.970915928969305,4.07,0.6810792037677619,95,174
+543165270,-1461739676,1100.8371464708375,303.14961600000004,5.96952209301264,4.08,0.6840301903083486,95,175
+543165729,-1461741014,1110.551745926518,301.83728,5.9414556991174905,4.1,0.6900665775575814,92,177
+543165729,-1461741014,1110.551745926518,301.83728,5.965607958056992,4.12,0.6900665775575814,92,177
+543165792,-1461741813,1115.7236884682507,301.83728,5.961994654607485,4.13,0.6932802816485334,92,178
+543165770,-1461743419,1126.0479079044942,306.430456,5.931151732636983,4.15,0.6996954701334052,92,178
+543165770,-1461743419,1126.0479079044942,306.430456,5.9549716191134365,4.17,0.6996954701334052,92,178
+543165771,-1461744191,1131.0231990017803,305.11812,5.952491224413921,4.18,0.7027869803781552,93,178
+543165749,-1461744948,1135.900163874065,303.80578399999996,5.950547605299381,4.2,0.7058173933873917,93,178
+543165715,-1461745658,1140.4821510769013,302.493448,5.950159173403625,4.22,0.7086645153149126,93,176
+543165671,-1461747129,1149.9312698256338,297.244104,5.924591186827806,4.23,0.7145359400907414,93,174
+543165671,-1461747129,1149.9312698256338,297.244104,5.947916348980671,4.25,0.7145359400907414,93,174
+543165679,-1461747838,1154.5034247076367,293.963264,5.947593732839884,4.27,0.7173769524821584,92,174
+543165717,-1461748557,1159.134574520196,290.026256,5.946970971442239,4.28,0.7202546227150236,92,175
+543165857,-1461749978,1168.3968751508703,284.776912,5.9227837280088735,4.3,0.7260099638055789,93,177
+543165857,-1461749978,1168.3968751508703,284.776912,5.945740254086427,4.32,0.7260099638055789,93,177
+543166047,-1461750688,1173.2738400231551,283.464576,5.943886609224173,4.33,0.7290403768148155,93,176
+543166360,-1461751366,1178.435949238499,282.808408,5.9406105223824595,4.35,0.7322479707448389,93,174
+543166954,-1461752712,1188.661843455297,280.839904,5.912069418250498,4.37,0.7386020626190222,93,171
+543166954,-1461752712,1188.661843455297,280.839904,5.934634568701837,4.38,0.7386020626190222,93,171
+543167311,-1461753361,1193.9616091845317,278.8714,5.930756856442256,4.4,0.7418951925537995,93,171
+543167642,-1461753993,1199.0352265068188,276.246728,5.928031283985718,4.42,0.745047800034063,93,171
+543168232,-1461755284,1208.9268117597237,274.934392,5.901714311622612,4.43,0.7511941614324653,93,171
+543168232,-1461755284,1208.9268117597237,274.934392,5.923901207530968,4.45,0.7511941614324653,93,171
+543168557,-1461755871,1213.734948375063,272.965888,5.92253303981818,4.47,0.7541818064393248,95,170
+543168978,-1461757193,1223.0759095835158,267.716544,5.899231282483189,4.48,0.7599860250683609,95,171
+543168978,-1461757193,1223.0759095835158,267.716544,5.921161510299111,4.5,0.7599860250683609,95,171
+543169149,-1461757821,1227.412081726627,266.404208,5.922096125294833,4.52,0.7626804042195106,95,172
+543169389,-1461759201,1236.507227875355,264.435704,5.900228079703623,4.53,0.7683318800721757,97,173
+543169389,-1461759201,1236.507227875355,264.435704,5.921920094702533,4.55,0.7683318800721757,97,173
+543169448,-1461759877,1240.8237353767993,263.123368,5.922935807720962,4.57,0.7710140401511174,95,173
+543169587,-1461760540,1245.268066065745,263.123368,5.923336402555131,4.58,0.7737756260738844,94,174
+543169925,-1461761920,1254.677854525588,263.779536,5.900290638985702,4.6,0.7796226120804727,97,173
+543169925,-1461761920,1254.677854525588,263.779536,5.921668503619707,4.62,0.7796226120804727,97,173
+543170205,-1461762615,1259.7908021367646,263.123368,5.918926105841784,4.63,0.7827996583299767,97,173
+543170474,-1461763321,1264.9529113521085,263.123368,5.91597594886038,4.65,0.7860072522600001,95,174
+543170884,-1461764617,1274.107053436948,262.4672,5.8945230018734724,4.67,0.791695386578938,93,174
+543170884,-1461764617,1274.107053436948,262.4672,5.9155748697373065,4.68,0.791695386578938,93,174
+543171097,-1461765223,1278.462891227282,263.123368,5.9164001175966074,4.7,0.7944019854271205,93,174
+543171312,-1461765829,1282.8383936592822,263.779536,5.917129056046474,4.72,0.7971208033475103,93,174
+543171761,-1461766976,1291.2944208538352,263.779536,5.899152465655163,4.73,0.8023751481065748,94,174
+543171761,-1461766976,1291.2944208538352,263.779536,5.919924129266625,4.75,0.8023751481065748,94,174
+543171917,-1461767626,1295.7190869011142,264.435704,5.920409300815345,4.77,0.8051245149571341,94,177
+543172099,-1461768282,1300.2519104886724,266.404208,5.920398658574954,4.78,0.8079410879544859,93,178
+543172289,-1461768918,1304.6962421831738,267.060376,5.920789644548893,4.8,0.8107026745020778,93,177
+543172720,-1461770210,1313.9192115194032,269.02888,5.899643041499779,4.82,0.8164335761985679,93,176
+543172720,-1461770210,1313.9192115194032,269.02888,5.920057031262753,4.83,0.8164335761985679,93,176
+543172932,-1461770869,1318.5798593000184,272.30971999999997,5.919473852833997,4.85,0.8193295756645695,93,177
+543173115,-1461771557,1323.2896696903567,274.934392,5.918674884816414,4.87,0.8222561234359158,93,177
+543173560,-1461772733,1331.9030190460226,276.902896,5.900537467281692,4.88,0.8276082238967668,93,176
+543173560,-1461772733,1331.9030190460226,276.902896,5.920675820412346,4.9,0.8276082238967668,93,176
+543173854,-1461773268,1336.278521478023,276.246728,5.921361606995984,4.92,0.8303270418171568,93,176
+543174372,-1461774297,1344.4395720086832,276.246728,5.905368178656511,4.93,0.8353980961193305,93,176
+543174372,-1461774297,1344.4395720086832,276.246728,5.925318746827648,4.95,0.8353980961193305,93,176
+543174638,-1461774796,1348.4611008351237,275.59056,5.92753867974619,4.97,0.8378969644917319,93,176
+543174948,-1461775228,1352.4334680573968,274.934392,5.929960960065724,4.98,0.8403652851836136,92,175
+543175689,-1461775980,1360.751838738059,274.27822399999997,5.913422103079706,5,0.8455340939379242,92,174
+543175689,-1461775980,1360.751838738059,274.27822399999997,5.933133510089972,5.02,0.8455340939379242,92,174
+543175965,-1461776406,1364.4783909006069,273.62205600000004,5.936586992279244,5.03,0.847849671853435,92,174
+543176294,-1461776811,1368.470422764547,272.30971999999997,5.938869313362072,5.05,0.8503302116175246,92,174
+543176675,-1461777269,1373.0327443201609,272.965888,5.938670703276391,5.07,0.8531651138480129,92,173
+543177518,-1461778035,1382.1868864050005,273.62205600000004,5.918744959261292,5.08,0.8588532481669507,93,173
+543177518,-1461778035,1382.1868864050005,273.62205600000004,5.938150680439198,5.1,0.8588532481669507,93,173
+543177970,-1461778337,1386.759040281448,274.934392,5.937914298119238,5.12,0.861694259933543,93,173
+543178403,-1461778626,1391.1345437190043,276.246728,5.938518818302994,5.13,0.864413078478758,93,173
+543179355,-1461779048,1400.2591868302325,282.808408,5.9189763423454265,5.15,0.8700828829397347,93,171
+543179355,-1461779048,1400.2591868302325,282.808408,5.938131605589263,5.17,0.8700828829397347,93,171
+543179828,-1461779078,1404.5756943316765,282.808408,5.9389790812490295,5.18,0.8727650430186763,93,170
+543180290,-1461779028,1408.8233735761755,283.464576,5.9401115547629715,5.2,0.8754044350952412,93,172
+543180761,-1461778920,1413.1890436873425,283.464576,5.940741170358763,5.22,0.8781171434795274,93,175
+543181737,-1461778449,1422.638162436075,281.49607199999997,5.920136890075239,5.23,0.8839885682553562,91,175
+543181737,-1461778449,1422.638162436075,281.49607199999997,5.938990829215606,5.25,0.8839885682553562,91,175
+543182224,-1461778130,1427.554457597249,284.120744,5.937326795644098,5.27,0.8870434200338332,91,175
+543182599,-1461777675,1432.028286254251,286.089248,5.937508182123324,5.28,0.8898233351897369,91,174
+543183335,-1461776779,1440.8776173432534,285.43308,5.919657504102965,5.3,0.8953220682660304,93,174
+543183335,-1461776779,1440.8776173432534,285.43308,5.9382727792731,5.32,0.8953220682660304,93,174
+543183704,-1461776350,1445.2334551335869,284.776912,5.938934388889644,5.33,0.8980286671142126,93,174
+543184049,-1461775899,1449.5204646669752,286.74541600000003,5.9398740548158555,5.35,0.9006924979600179,93,174
+543184642,-1461774835,1458.261637210143,290.68242399999997,5.922662376181481,5.37,0.9061240242646942,93,176
+543184642,-1461774835,1458.261637210143,290.68242399999997,5.941055737598195,5.38,0.9061240242646942,93,176
+543184922,-1461774302,1462.5486467435308,290.68242399999997,5.941980815031259,5.4,0.9087878551104992,96,177
+543185185,-1461773752,1466.8356562769195,292.650928,5.942900485156749,5.42,0.9114516859563048,96,177
+543185700,-1461772554,1475.8914721367578,295.93176800000003,5.924609520242841,5.43,0.9170787230397293,93,175
+543185700,-1461772554,1475.8914721367578,295.93176800000003,5.942783169077941,5.45,0.9170787230397293,93,175
+543185898,-1461771904,1480.443961371538,296.587936,5.942626376200545,5.47,0.9199075157341134,93,175
+543186085,-1461770605,1488.988482470259,300.524944,5.926538566656051,5.48,0.9252168481925876,93,176
+543186085,-1461770605,1488.988482470259,300.524944,5.944552361691479,5.5,0.9252168481925876,93,176
+543186090,-1461769976,1493.029676943922,302.493448,5.946427234792861,5.52,0.9277279362620217,93,177
+543186092,-1461769433,1496.5202463675778,303.14961600000004,5.95048058205782,5.53,0.9298968809372649,93,177
+543186032,-1461768881,1500.1189743370685,303.80578399999996,5.954085744397134,5.55,0.9321330323841255,93,177
+543186026,-1461767680,1507.8473906843894,307.086624,5.941356790269817,5.57,0.9369352595998295,93,177
+543186026,-1461767680,1507.8473906843894,307.086624,5.959145283653858,5.58,0.9369352595998295,93,177
+543186041,-1461767101,1511.5837741622154,307.086624,5.962159791636421,5.6,0.9392569464266193,93,177
+543186056,-1461766493,1515.4971454483768,307.742792,5.9644627906303285,5.62,0.9416886086522281,93,176
+543186062,-1461765297,1523.2058961484756,307.086624,5.951886537197955,5.63,0.9464786161708997,93,174
+543186062,-1461765297,1523.2058961484756,307.086624,5.969495668964812,5.65,0.9464786161708997,93,174
+543186050,-1461764695,1527.0701048249139,308.39896,5.971954597578171,5.67,0.948879730091164,93,174
+543186095,-1461764035,1531.3374487110798,310.367464,5.9728283105498114,5.68,0.9515313412399368,93,174
+543186114,-1461762636,1540.3441009556398,311.6798,5.955317382855462,5.7,0.9571278293931922,92,175
+543186114,-1461762636,1540.3441009556398,311.6798,5.972730591577261,5.72,0.9571278293931922,92,175
+543186090,-1461761947,1544.788432650141,311.6798,5.972910252077433,5.73,0.9598894159407838,92,175
+543186096,-1461761245,1549.3114239168656,312.335968,5.9727856240841435,5.75,0.9626998794020317,91,175
+543186048,-1461759874,1558.1312570378122,311.02363199999996,5.956190976475678,5.77,0.9681802832451889,92,174
+543186048,-1461759874,1558.1312570378122,311.02363199999996,5.9734054012631805,5.78,0.9681802832451889,92,174
+543186027,-1461759183,1562.585421053147,309.711296,5.973543509518328,5.8,0.9709479793288845,92,174
+543185993,-1461758518,1566.87242958098,309.055128,5.9743181107837104,5.82,0.9736118095498653,92,175
+543185931,-1461757869,1571.070946215756,309.055128,5.975425036838166,5.83,0.9762206533210858,92,175
+543185890,-1461757203,1575.3776203908112,309.055128,5.976115744023618,5.85,0.9788967032390988,92,175
+543185827,-1461756573,1579.4778108005858,309.055128,5.977584027310744,5.87,0.9814444497748057,92,176
+543185789,-1461755968,1583.3911820867472,309.055128,5.979750155099658,5.88,0.9838761120004147,92,176
+543185715,-1461754801,1590.9327783048993,309.711296,5.9682634800678365,5.9,0.9885622542811957,92,176
+543185715,-1461754801,1590.9327783048993,309.711296,5.98512298142396,5.92,0.9885622542811957,92,176
+543185655,-1461754262,1594.4430133757778,309.711296,5.988768859446349,5.93,0.9907434186534715,92,176
+543185477,-1461753183,1601.5421430897577,305.11812,5.978970357611958,5.95,0.9951546243116792,92,176
+543185477,-1461753183,1601.5421430897577,305.11812,5.995718173739722,5.97,0.9951546243116792,92,178
+543185425,-1461752631,1605.1310387384149,305.11812,5.999022780242874,5.98,0.9973846662224358,92,179
+543185383,-1461751376,1613.2134276857407,305.774288,5.985593619718504,6,1.002406842361304,92,179
+543185383,-1461751376,1613.2134276857407,305.774288,6.002220268662167,6.02,1.002406842361304,92,179
+543185370,-1461750050,1621.7579487844614,305.774288,5.987135548769315,6.03,1.007716174819778,92,177
+543185370,-1461750050,1621.7579487844614,305.774288,6.003674597246578,6.05,1.007716174819778,92,177
+543185381,-1461749385,1626.0351259970162,305.11812,6.004377874276769,6.07,1.0103738961294793,92,177
+543185297,-1461748171,1633.8815332110057,303.80578399999996,5.991959311411299,6.08,1.0152494396529048,92,177
+543185297,-1461748171,1633.8815332110057,303.80578399999996,6.008375638291877,6.1,1.0152494396529048,92,177
+543185223,-1461747601,1637.617917694387,302.493448,6.011045816592228,6.12,1.0175711271045194,95,178
+543185075,-1461746422,1645.326668394486,299.868776,5.999184755388686,6.13,1.022361134623191,95,176
+543185075,-1461746422,1645.326668394486,299.868776,6.015486887876155,6.15,1.022361134623191,93,176
+543185016,-1461745802,1649.3481972209265,297.900272,6.017081990361548,6.17,1.0248600029955923,93,176
+543185013,-1461744557,1657.4010892057518,295.2756,6.0040298823716505,6.18,1.0298638505261486,92,176
+543185013,-1461744557,1657.4010892057518,295.2756,6.02021325132683,6.2,1.0298638505261486,91,176
+543185142,-1461743876,1661.943746119699,296.587936,6.0198970974152015,6.22,1.032686533684429,91,176
+543185457,-1461742670,1670.222786511472,294.61943199999996,6.006116517916249,6.23,1.0378309036694993,92,176
+543185457,-1461742670,1670.222786511472,294.61943199999996,6.022175652990891,6.25,1.0378309036694993,92,177
+543185655,-1461742167,1673.929673026797,292.650928,6.024863228033519,6.27,1.0401342618879772,95,177
+543186210,-1461741120,1682.3857012269057,293.307096,6.010524019130874,6.28,1.0453886072718666,95,178
+543186480,-1461740633,1686.358067443623,293.307096,6.01227117522533,6.3,1.0478569273389235,94,178
+543186480,-1461740633,1686.358067443623,293.307096,6.028176654524868,6.32,1.0478569273389235,94,178
+543186761,-1461740178,1690.2616054033954,293.307096,6.030123759590534,6.33,1.0502824794036036,93,178
+543187306,-1461739063,1699.0224435937853,296.587936,6.014816954615401,6.35,1.0557262254053124,93,178
+543187306,-1461739063,1699.0224435937853,296.587936,6.030603875756124,6.37,1.0557262254053124,93,178
+543187537,-1461738481,1703.3094531271738,297.244104,6.031172813493245,6.38,1.0583900562511177,93,178
+543188138,-1461737333,1712.532422463403,297.244104,6.014353868514916,6.4,1.0641209579476079,91,177
+543188138,-1461737333,1712.532422463403,297.244104,6.03001624838084,6.42,1.0641209579476079,91,178
+543188431,-1461736745,1717.1734056023513,297.900272,6.02933904804732,6.43,1.0670047383414016,91,179
+543188996,-1461735619,1726.0719003066322,299.212608,6.0137952527678395,6.45,1.0725340203478646,91,179
+543188996,-1461735619,1726.0719003066322,299.212608,6.029334775384811,6.47,1.0725340203478646,92,179
+543189252,-1461735138,1729.9656059455713,301.181112,6.031268847662242,6.48,1.0749534628764408,92,179
+543190007,-1461734177,1739.2180732498564,308.39896,6.014605161302968,6.5,1.0807026938060673,92,178
+543190007,-1461734177,1739.2180732498564,308.39896,6.030027225819129,6.52,1.0807026938060673,92,177
+543190361,-1461733744,1743.4854171360223,311.6798,6.0306524868663995,6.53,1.0833543049548402,92,178
+543191149,-1461733045,1751.9906079458533,314.96064,6.01668579283033,6.55,1.0886391986440735,92,178
+543191149,-1461733045,1751.9906079458533,314.96064,6.031995425890967,6.57,1.0886391986440735,92,178
+543191569,-1461732726,1756.3562780570205,314.304472,6.032273633221636,6.58,1.09135190702836,90,178
+543192498,-1461732358,1765.2252747932453,315.616808,6.0171606149498755,6.6,1.096862859801686,90,178
+543192498,-1461732358,1765.2252747932453,315.616808,6.032355464987628,6.62,1.096862859801686,90,178
+543193514,-1461732222,1774.576068322532,314.96064,6.0156838904954775,6.63,1.1026731879668261,90,177
+543193514,-1461732222,1774.576068322532,314.96064,6.030798674139938,6.65,1.1026731879668261,90,177
+543194008,-1461732183,1779.1088919100903,314.304472,6.030509645654407,6.67,1.105489760964178,93,176
+543195185,-1461732120,1789.8952434977284,312.335968,6.00915372323593,6.68,1.1121921057686557,94,178
+543195185,-1461732120,1789.8952434977284,312.335968,6.024139143992129,6.7,1.1121921057686557,94,178
+543195909,-1461732076,1796.5224097450355,309.711296,6.016846923088147,6.72,1.1163100461959783,94,178
+543197384,-1461732003,1810.0520532563203,306.430456,5.9866911822630025,6.73,1.1247169978104816,94,179
+543197384,-1461732003,1810.0520532563203,306.430456,6.001509724793356,6.75,1.1247169978104816,94,180
+543198067,-1461731994,1816.3055812564005,304.461952,5.995614089232952,6.77,1.1286027696176075,94,179
+543199286,-1461731980,1827.4655710912657,304.461952,5.973677337268677,6.78,1.1355372830422819,94,179
+543199286,-1461731980,1827.4655710912657,304.461952,5.988354677163686,6.8,1.1355372830422819,94,179
+543199837,-1461731982,1832.5096904454972,301.83728,5.986508224502948,6.82,1.138671561289409,95,179
+543200905,-1461732006,1842.293117152567,299.868776,5.969276313458615,6.83,1.1447507159161936,95,179
+543200905,-1461732006,1842.293117152567,299.868776,5.983835523979246,6.85,1.1447507159161936,95,179
+543201441,-1461731998,1847.1995799929075,299.212608,5.982462021443157,6.87,1.1477994581585667,95,179
+543202504,-1461731948,1856.9436774166436,297.900272,5.965514087146523,6.88,1.1538541746409359,95,179
+543202504,-1461731948,1856.9436774166436,297.900272,5.9799584311831975,6.9,1.1538541746409359,95,179
+543203075,-1461731942,1862.174614888933,297.244104,5.977564211397669,6.92,1.1571045365733363,95,179
+543204164,-1461731807,1872.1841920140612,297.900272,5.95993210190659,6.93,1.1633242149042846,94,178
+543204164,-1461731807,1872.1841920140612,297.900272,5.974258861766943,6.95,1.1633242149042846,94,178
+543204698,-1461731709,1877.1201518169023,298.55644,5.972838404873155,6.97,1.1663912857549694,94,178
+543205800,-1461731491,1887.3165480656442,299.212608,5.954781500848558,6.98,1.172727048396016,95,178
+543206364,-1461731373,1892.5376542226554,298.55644,5.9525262151928775,7,1.1759713014171371,95,178
+543206364,-1461731373,1892.5376542226554,298.55644,5.966698896657622,7.02,1.1759713014171371,94,178
+543206868,-1461731231,1897.2376322921602,297.244104,5.966055318537773,7.03,1.1788917396523795,94,178
+543207862,-1461730884,1906.608090463114,296.587936,5.950801875200313,7.05,1.1847142868897276,94,178
+543207862,-1461730884,1906.608090463114,296.587936,5.964869964739794,7.07,1.1847142868897276,95,178
+543208331,-1461730727,1911.0229241895593,295.2756,5.965125547356286,7.08,1.1874575442041826,95,178
+543208835,-1461730559,1915.7622325479533,295.2756,5.964369589227705,7.1,1.1904024212086652,93,178
+543209815,-1461730212,1925.0146998522387,293.963264,5.9496357789955825,7.12,1.196151652138292,93,178
+543209815,-1461730212,1925.0146998522387,293.963264,5.9635693522485,7.13,1.196151652138292,93,178
+543210300,-1461729995,1929.675347632854,293.307096,5.963065763427737,7.15,1.1990476516042938,93,178
+543211241,-1461729401,1939.1048017399194,295.2756,5.947900971099888,7.17,1.2049068573079147,93,178
+543211241,-1461729401,1939.1048017399194,295.2756,5.961733298939656,7.18,1.2049068573079147,93,179
+543211677,-1461728979,1943.9326029969259,296.587936,5.960725172331663,7.2,1.2079067213869823,93,179
+543212432,-1461727863,1953.9225154803871,297.900272,5.943976918899423,7.22,1.2141141806457225,93,178
+543212432,-1461727863,1953.9225154803871,297.900272,5.957704348273325,7.23,1.2141141806457225,93,178
+543212700,-1461727185,1958.9273035401736,297.900272,5.956175596161273,7.25,1.2172240194987844,93,178
+543212867,-1461725615,1969.182695725027,295.93176800000003,5.938777218955576,7.27,1.223596440606104,93,178
+543212867,-1461725615,1969.182695725027,295.93176800000003,5.952398267622906,7.28,1.223596440606104,93,178
+543212843,-1461724820,1974.3054746514822,295.2756,5.950539139377029,7.3,1.2267795957668872,94,178
+543212656,-1461723282,1984.3445497446662,294.61943199999996,5.933951507992128,7.32,1.2330176033309719,94,178
+543212656,-1461723282,1984.3445497446662,294.61943199999996,5.947468481814433,7.33,1.2330176033309719,94,178
+543212432,-1461721871,1993.665845305897,296.587936,5.933115134540045,7.35,1.2388096022629755,94,178
+543212432,-1461721871,1993.665845305897,296.587936,5.946568910355328,7.37,1.2388096022629755,94,178
+543212284,-1461721221,1998.0610133851198,294.61943199999996,5.94691232503238,7.38,1.241540639880398,94,178
+543212142,-1461720562,2002.4955117532322,294.61943199999996,5.947137424329744,7.4,1.2442961162670612,94,178
+543211875,-1461719269,2011.1776883602881,293.963264,5.93480049147954,7.42,1.2496909841054644,94,176
+543211875,-1461719269,2011.1776883602881,293.963264,5.948137121797472,7.43,1.2496909841054644,94,176
+543211673,-1461718662,2015.504028182566,292.650928,5.948677269978625,7.45,1.2523792537205103,94,176
+543211161,-1461717518,2024.2353684048999,293.307096,5.9362688355763025,7.47,1.2578046704890824,94,176
+543211161,-1461717518,2024.2353684048999,293.307096,5.949519435655714,7.48,1.2578046704890824,91,174
+543210844,-1461717048,2028.424051713287,292.650928,5.9504569519401755,7.5,1.2604074040993745,91,176
+543210097,-1461716368,2036.5457719550577,288.057752,5.939897104164017,7.52,1.2654540196323076,91,178
+543210097,-1461716368,2036.5457719550577,288.057752,5.953067607720922,7.53,1.2654540196323076,91,178
+543209727,-1461716099,2040.350983689829,286.089248,5.955111202498427,7.55,1.2678184744614744,91,177
+543208915,-1461715712,2048.207224230207,284.776912,5.945364897299404,7.57,1.2727001281458281,91,177
+543208915,-1461715712,2048.207224230207,284.776912,5.958460414694336,7.58,1.2727001281458281,91,177
+543208483,-1461715616,2052.2090884149807,283.464576,5.959911233726463,7.6,1.275186777446022,91,176
+543207674,-1461715426,2059.711354344244,282.808408,5.951225305176741,7.62,1.2798484809575628,92,176
+543207674,-1461715426,2059.711354344244,282.808408,5.964247680023956,7.63,1.2798484809575628,92,176
+543207272,-1461715345,2063.4280731804024,284.120744,5.966503586928575,7.65,1.2821579487121444,92,176
+543206439,-1461715270,2071.0778289499453,285.43308,5.957416549424864,7.67,1.286911298389368,92,179
+543206439,-1461715270,2071.0778289499453,285.43308,5.970367454967092,7.68,1.286911298389368,92,179
+543205604,-1461715163,2078.747249361154,286.74541600000003,5.961243245809853,7.7,1.2916768671387986,93,180
+543205604,-1461715163,2078.747249361154,286.74541600000003,5.974146369718532,7.72,1.2916768671387986,94,180
+543205215,-1461715076,2082.365642977867,288.71392,5.976646180576144,7.73,1.2939252382826918,94,181
+543204848,-1461714959,2085.787384144578,290.68242399999997,5.979701044704112,7.75,1.2960514149555582,95,182
+543204126,-1461714821,2092.4538806807745,293.963264,5.97346849492651,7.77,1.300193794152121,95,182
+543204126,-1461714821,2092.4538806807745,293.963264,5.9862870968469535,7.78,1.300193794152121,95,182
+543203705,-1461714767,2096.327920672491,294.61943199999996,5.9880192770476,7.8,1.3026010169836648,95,182
+543202940,-1461714635,2103.3778877767477,296.587936,5.98070104589239,7.82,1.306981674336528,95,182
+543202940,-1461714635,2103.3778877767477,296.587936,5.993453073708792,7.83,1.306981674336528,95,181
+543202525,-1461714592,2107.192932837908,297.244104,5.995330946267835,7.85,1.3093522393266233,95,180
+543202095,-1461714544,2111.1358020921252,297.244104,5.996838915235668,7.87,1.3118022307853687,94,181
+543201218,-1461714276,2119.355847553342,297.900272,5.9862357146455265,7.88,1.3169099429289908,92,181
+543200817,-1461714101,2123.2003905825577,297.244104,5.9880292300208255,7.9,1.3192988371522225,92,181
+543200389,-1461713843,2127.4480688215012,297.900272,5.988681237418395,7.92,1.3219382286039627,92,180
+543200389,-1461713843,2127.4480688215012,297.900272,6.0012889873919075,7.93,1.3219382286039627,92,180
+543199959,-1461713535,2131.8530692215577,299.868776,6.001470356806433,7.95,1.3246753757574892,93,180
+543199543,-1461713234,2136.1400787549455,299.868776,6.0019824827246895,7.97,1.3273392066032943,94,180
+543199147,-1461712945,2140.200938875831,301.181112,6.003126824818226,7.98,1.329862514369761,95,180
+543198741,-1461712617,2144.478116088386,301.181112,6.003661172110254,8,1.3325202356794623,95,182
+543198069,-1461711735,2152.884980673216,298.55644,5.992676083094303,8.02,1.3377440321331826,93,185
+543198069,-1461711735,2152.884980673216,298.55644,6.005134869129842,8.03,1.3377440321331826,93,185
+543197655,-1461710482,2161.842470308053,298.55644,5.992660047128194,8.05,1.3433099719810937,92,184
+543197655,-1461710482,2161.842470308053,298.55644,6.0050672107868435,8.07,1.3433099719810937,92,184
+543197601,-1461709799,2166.2769686761653,298.55644,6.005156244917514,8.08,1.3460654483677565,92,184
+543197591,-1461709040,2171.153933548451,300.524944,6.004021086931876,8.1,1.3490958613769937,92,184
+543197957,-1461707629,2180.9275279346866,303.80578399999996,5.9894132959582285,8.12,1.3551689064676742,92,184
+543197957,-1461707629,2180.9275279346866,303.80578399999996,6.0017118858883265,8.13,1.3551689064676742,92,184
+543198256,-1461707061,2185.480017169468,303.80578399999996,6.0014829222677495,8.15,1.357997699162059,92,184
+543199105,-1461706328,2194.634159254307,303.80578399999996,5.988671632541722,8.17,1.3636858334809967,92,184
+543199105,-1461706328,2194.634159254307,303.80578399999996,6.000893411383645,8.18,1.3636858334809967,92,185
+543199592,-1461706145,2199.2358110988107,303.80578399999996,6.000533427748494,8.2,1.3665451744807255,92,188
+543200675,-1461706155,2209.1667276461603,301.83728,5.985700476044514,8.22,1.372715975273193,92,187
+543200675,-1461706155,2209.1667276461603,301.83728,5.997841856320465,8.23,1.372715975273193,92,187
+543201165,-1461706261,2213.699551233718,301.181112,5.997677052696942,8.25,1.3755325482705445,92,179
+543202108,-1461706545,2222.539050001887,298.55644,5.985891376496637,8.27,1.3810251718107343,93,176
+543202108,-1461706545,2222.539050001887,298.55644,5.9979597058847345,8.28,1.3810251718107343,93,176
+543202614,-1461706756,2227.366852264449,296.587936,5.99700134103194,8.3,1.3840250365146265,93,176
+543203710,-1461707191,2237.7893979256937,295.93176800000003,5.981056280693735,8.32,1.3905013222350118,93,176
+543203710,-1461707191,2237.7893979256937,295.93176800000003,5.993042365424585,8.33,1.3905013222350118,93,176
+543204256,-1461707401,2242.97117278826,294.61943199999996,5.991155465139165,8.35,1.3937211358620678,93,176
+543205391,-1461707813,2253.6985284397865,291.338592,5.974539701481227,8.37,1.4003868222002727,93,176
+543205391,-1461707813,2253.6985284397865,291.338592,5.986441174990152,8.38,1.4003868222002727,93,176
+543206038,-1461708019,2259.7750696370867,291.99476,5.9822130890978515,8.4,1.4041626192334042,93,176
+543207250,-1461708559,2271.4070239441803,289.370088,5.963386654415046,8.42,1.4113903985137886,95,176
+543207819,-1461708859,2276.9722703803627,286.74541600000003,5.96059110741804,8.43,1.4148484909219698,95,176
+543207819,-1461708859,2276.9722703803627,286.74541600000003,5.972370931741,8.45,1.4148484909219698,95,176
+543208390,-1461709186,2282.606344067935,285.43308,5.9693802957939175,8.47,1.4183493507077032,95,176
+543209551,-1461709892,2294.1694701180836,282.15224,5.950984809314867,8.48,1.4255343619857108,95,176
+543209551,-1461709892,2294.1694701180836,282.15224,5.962676331533561,8.5,1.4255343619857108,95,176
+543210131,-1461710331,2300.1870153792715,280.839904,5.958738242452578,8.52,1.4292735005525692,95,176
+543211179,-1461711191,2311.2683456419136,279.52756800000003,5.941774217849442,8.53,1.4361591370635873,95,176
+543211179,-1461711191,2311.2683456419136,279.52756800000003,5.95337924561868,8.55,1.4361591370635873,95,176
+543211613,-1461711731,2316.548445723926,278.8714,5.9513883073681875,8.57,1.4394400473013322,95,176
+543212291,-1461712861,2326.1253886657155,274.27822399999997,5.938416619316551,8.58,1.445390898545811,95,176
+543212291,-1461712861,2326.1253886657155,274.27822399999997,5.949947525373476,8.6,1.445390898545811,95,176
+543212529,-1461713453,2330.510724424105,271.653552,5.950260682348952,8.62,1.4481158266271297,95,176
+543212932,-1461714700,2339.3502231922735,270.99738399999995,5.939242670431351,8.63,1.4536084501673192,95,176
+543212932,-1461714700,2339.3502231922735,270.99738399999995,5.9507083898723385,8.65,1.4536084501673192,95,176
+543213036,-1461715311,2343.40124998677,271.653552,5.951867326780706,8.67,1.4561256477728572,94,176
+543213045,-1461716646,2351.9752690535465,271.653552,5.941574237849057,8.68,1.4614533094644677,93,176
+543213045,-1461716646,2351.9752690535465,271.653552,5.952978411050302,8.7,1.4614533094644677,93,176
+543213032,-1461717315,2356.281943228602,271.653552,5.953481234979843,8.72,1.4641293593824811,93,176
+543213052,-1461718016,2360.7951021744934,270.34121600000003,5.953461464623038,8.73,1.4669337133076252,93,176
+543213092,-1461719415,2369.8214200662756,268.372712,5.9421038567565025,8.75,1.472542421157913,93,176
+543213092,-1461719415,2369.8214200662756,268.372712,5.953422149816992,8.77,1.472542421157913,92,176
+543213129,-1461720108,2374.2952487232774,268.372712,5.953501222843967,8.78,1.4753223363138166,92,176
+543213179,-1461721484,2383.164245459502,266.404208,5.942600065011193,8.8,1.4808332890871427,91,176
+543213179,-1461721484,2383.164245459502,266.404208,5.953854989376745,8.82,1.4808332890871427,91,176
+543213210,-1461722147,2387.4315893456683,267.060376,5.95444775469476,8.83,1.4834849002359156,91,176
+543213148,-1461723583,2396.6742243291196,271.653552,5.942676253376411,8.85,1.489228021629438,91,188
+543213148,-1461723583,2396.6742243291196,271.653552,5.9538677340795685,8.87,1.489228021629438,91,188
+543213124,-1461724315,2401.393868045847,276.246728,5.953335625988078,8.88,1.4921606795617128,91,190
+543213111,-1461725005,2405.8283664139594,276.902896,5.953511148157888,8.9,1.4949161559483761,91,190
+543213013,-1461726378,2414.7170277918513,276.902896,5.942703914444044,8.92,1.50043932779391,91,190
+543213013,-1461726378,2414.7170277918513,276.902896,5.953811772228052,8.93,1.50043932779391,91,190
+543212923,-1461727057,2419.1613584807974,275.59056,5.953961255831757,8.95,1.5032009137166773,91,190
+543212785,-1461727707,2423.5368609127977,276.246728,5.9542792874618256,8.97,1.5059197316370672,91,187
+543212375,-1461728924,2432.2583688142986,273.62205600000004,5.94395638721326,8.98,1.5113390388695358,91,182
+543212375,-1461728924,2432.2583688142986,273.62205600000004,5.954984135612542,9,1.5113390388695358,91,182
+543212073,-1461729411,2436.437219801852,273.62205600000004,5.955779289282672,9.02,1.5139356629437235,91,180
+543211330,-1461730185,2444.8735823547377,275.59056,5.946198924798768,9.03,1.5191777886305802,92,180
+543211330,-1461730185,2444.8735823547377,275.59056,5.95716977152349,9.05,1.5191777886305802,92,180
+543210959,-1461730484,2448.7771203145103,276.246728,5.958626945787239,9.07,1.5216033406952605,91,179
+543210233,-1461730949,2456.0729024784923,278.215232,5.951847623055101,9.08,1.5261367408244948,91,179
+543210233,-1461730949,2456.0729024784923,278.215232,5.9627684443818065,9.1,1.5261367408244948,91,179
+543209557,-1461731239,2462.5427475702418,282.15224,5.957994576057536,9.12,1.5301569261748555,90,181
+543209557,-1461731239,2462.5427475702418,282.15224,5.968886705081406,9.13,1.5301569261748555,90,181
+543209246,-1461731361,2465.502356585558,284.776912,5.972600659118041,9.15,1.531995946528116,90,180
+543208899,-1461731454,2468.737278628655,286.74541600000003,5.975639231051748,9.17,1.534006038890884,89,181
+543208521,-1461731562,2472.2671793467557,288.057752,5.977956504916156,9.18,1.5361994229601923,89,182
+543207670,-1461731762,2480.1725814913016,289.370088,5.969716829583423,9.2,1.541111624325066,88,182
+543207670,-1461731762,2480.1725814913016,289.370088,5.980531533984843,9.22,1.541111624325066,88,182
+543207267,-1461731802,2483.8696356857936,291.338592,5.982428567578162,9.23,1.5434088730074402,89,181
+543206443,-1461731873,2491.4210652303345,293.307096,5.975061866398615,9.25,1.5481011254491497,89,180
+543206443,-1461731873,2491.4210652303345,293.307096,5.985827743635371,9.27,1.5481011254491497,89,180
+543206020,-1461731906,2495.30493854844,294.61943199999996,5.987260088283047,9.28,1.5505144584416222,89,180
+543205151,-1461731939,2503.269336629098,297.244104,5.978925951353826,9.3,1.5554633182727688,89,180
+543205151,-1461731939,2503.269336629098,297.244104,5.9896408724136,9.32,1.5554633182727688,89,180
+543204714,-1461731982,2507.2810331347046,297.900272,5.990755112077487,9.33,1.5579560771090664,89,179
+543203833,-1461732056,2515.3634220820304,299.868776,5.982168965288097,9.35,1.5629782532479344,89,179
+543203833,-1461732056,2515.3634220820304,299.868776,5.992832368078273,9.37,1.5629782532479344,89,179
+543203404,-1461732094,2519.296458009859,299.212608,5.994123327032264,9.38,1.5654221345457513,89,179
+543202525,-1461732145,2527.3493499946844,298.55644,5.985637086551492,9.4,1.5704259820763073,89,178
+543202525,-1461732145,2527.3493499946844,298.55644,5.996249918265235,9.42,1.5704259820763073,89,178
+543202126,-1461732169,2531.0070739002867,299.212608,5.998181839639044,9.43,1.5726987919894408,89,178
+543201259,-1461732200,2538.951806333722,299.868776,5.989977029914919,9.45,1.577635432123555,90,178
+543201259,-1461732200,2538.951806333722,299.868776,6.000541363301013,9.47,1.577635432123555,90,178
+543200423,-1461732241,2546.6212267449314,300.524944,5.993002613181815,9.48,1.582401000872986,90,178
+543199993,-1461732266,2550.564095999149,299.868776,5.994254378465575,9.5,1.5848509923317315,90,178
+543199993,-1461732266,2550.564095999149,299.868776,6.00477061421727,9.52,1.5848509923317315,90,178
+543199584,-1461732308,2554.3103128033636,299.868776,6.006464676497489,9.53,1.58717878931945,89,178
+543198799,-1461732414,2561.5372667104,300.524944,5.999989615508329,9.55,1.5916694214463074,89,178
+543198799,-1461732414,2561.5372667104,300.524944,6.010460801573788,9.57,1.5916694214463074,89,178
+543198370,-1461732506,2565.4998006062847,299.868776,6.011632377839942,9.58,1.5941316319772607,89,178
+543197958,-1461732584,2569.3050133466113,299.868776,6.013168510451101,9.6,1.5964960874312522,89,177
+543197110,-1461732635,2577.0825912981,297.244104,6.005428924005759,9.62,1.601328862327476,89,177
+543197110,-1461732635,2577.0825912981,297.244104,6.015836946404382,9.63,1.601328862327476,88,178
+543196712,-1461732585,2580.7403152037023,297.244104,6.017703876871536,9.65,1.6036016722406095,88,178
+543196312,-1461732515,2584.4275370773607,297.244104,6.019496817049914,9.67,1.6058928113868796,88,178
+543195998,-1461732495,2587.3084855148977,296.587936,6.023161039324362,9.68,1.607682954201659,90,178
+543195393,-1461732603,2592.883564271914,301.181112,6.020554958619389,9.7,1.6111471561459445,91,176
+543195393,-1461732603,2592.883564271914,301.181112,6.03089955476822,9.72,1.6111471561459445,91,176
+543195102,-1461732715,2595.6366895219485,303.14961600000004,6.034836358223775,9.73,1.612857873116898,91,175
+543194408,-1461732974,2602.2048598331444,305.774288,6.029911496286313,9.75,1.6169391550779477,90,175
+543194408,-1461732974,2602.2048598331444,305.774288,6.040219037305605,9.77,1.6169391550779477,90,175
+543194041,-1461733143,2605.734759545689,307.086624,6.0423301370135425,9.78,1.619132538522431,88,176
+543193677,-1461733403,2609.461311708237,307.742792,6.043980008147903,9.8,1.6214481164379417,88,177
+543192927,-1461734304,2618.497461920853,303.80578399999996,6.033366296159826,9.82,1.6270629338243336,88,178
+543192927,-1461734304,2618.497461920853,303.80578399999996,6.04360970243514,9.83,1.6270629338243336,88,178
+543192629,-1461734868,2623.0401188348,301.181112,6.043368870408936,9.85,1.6298856169826141,88,178
+543192327,-1461736185,2632.0664367265827,296.587936,6.0328345484627315,9.87,1.6354943248329021,88,179
+543192327,-1461736185,2632.0664367265827,296.587936,6.043025147362161,9.88,1.6354943248329021,88,179
+543192303,-1461737675,2641.643379668372,293.963264,6.031270580512699,9.9,1.6414451760773807,91,178
+543192303,-1461737675,2641.643379668372,293.963264,6.0414242346886455,9.92,1.6414451760773807,92,179
+543192313,-1461738400,2646.28436280732,293.963264,6.040964792501639,9.93,1.6443289564711747,92,179
+543192385,-1461739786,2655.202522153268,293.963264,6.030776510039659,9.95,1.6498704575498455,92,179
+543192385,-1461739786,2655.202522153268,293.963264,6.040878313239056,9.97,1.6498704575498455,92,179
+543192370,-1461740446,2659.4600337186002,293.307096,6.041293143330866,9.98,1.652515959162514,92,179
+543192418,-1461741732,2667.7390741103736,290.68242399999997,6.032598973483472,10,1.6576603291475847,92,179
+543192418,-1461741732,2667.7390741103736,290.68242399999997,6.042653305105945,10.02,1.6576603291475847,93,179
+543192476,-1461742400,2672.065413932651,290.026256,6.042907700714559,10.03,1.6603485987626303,93,179
+543192575,-1461743824,2681.2883842744363,289.370088,6.032125113754476,10.05,1.6660795010839453,92,180
+543192575,-1461743824,2681.2883842744363,289.370088,6.042128637989557,10.07,1.6660795010839453,92,180
+543192601,-1461744515,2685.742547284215,286.74541600000003,6.04209501877821,10.08,1.6688471965428158,92,181
+543192587,-1461745197,2690.1278830426045,287.40158399999996,6.042216097777446,10.1,1.6715721246241344,92,183
+543192556,-1461746640,2699.409848314946,285.43308,6.03137620746865,10.12,1.6773396847868978,92,185
+543192556,-1461746640,2699.409848314946,285.43308,6.0413125768384495,10.13,1.6773396847868978,93,185
+543192515,-1461747370,2704.1294910261176,286.089248,6.040687420557487,10.15,1.680272342094348,93,185
+543192466,-1461748077,2708.701645908121,286.089248,6.040393322036733,10.17,1.683113354485765,93,185
+543192307,-1461749554,2718.3179191387994,284.776912,6.028892187805149,10.18,1.689088644499484,93,185
+543192231,-1461750284,2723.0670598180272,284.776912,6.028227597559408,10.2,1.6920396310400707,93,185
+543192231,-1461750284,2723.0670598180272,284.776912,6.03807764265346,10.22,1.6920396310400707,92,184
+543192193,-1461750981,2727.5703864430852,287.40158399999996,6.037942319847188,10.23,1.694837875429111,92,181
+543192183,-1461752365,2736.4787134681987,288.057752,6.02808818457549,10.25,1.7003732669716771,92,180
+543192183,-1461752365,2736.4787134681987,288.057752,6.037889953981305,10.27,1.7003732669716771,92,180
+543192134,-1461753041,2740.8542159001995,290.026256,6.038037182226131,10.28,1.7030920848920674,92,180
+543192054,-1461753736,2745.3968728141463,290.68242399999997,6.037816304135544,10.3,1.7059147680503477,92,180
+543191964,-1461755144,2754.4920189628747,291.99476,6.02761751315029,10.32,1.7115662439030128,92,179
+543191964,-1461755144,2754.4920189628747,291.99476,6.037355182799967,10.33,1.7115662439030128,92,179
+543191935,-1461755874,2759.201829353213,293.307096,6.036770787407202,10.35,1.714492791674359,92,179
+543191848,-1461757335,2768.641116786667,297.900272,6.025877182917976,10.37,1.7203581075389087,92,181
+543191848,-1461757335,2768.641116786667,297.900272,6.03556508835675,10.38,1.7203581075389087,92,181
+543191827,-1461758014,2773.016619218668,297.900272,6.035714277369129,10.4,1.723076925459299,92,182
+543191846,-1461759354,2781.6201352479447,297.900272,6.026688590906046,10.42,1.728422915759221,93,182
+543191846,-1461759354,2781.6201352479447,297.900272,6.0363312926514965,10.43,1.728422915759221,93,182
+543191871,-1461760005,2785.808818556332,296.587936,6.036883395578898,10.45,1.731025649369513,93,180
+543191860,-1461760674,2790.09582808972,296.587936,6.03722107454141,10.47,1.733689480215318,93,178
+543191840,-1461761355,2794.4909961689427,295.93176800000003,6.037324038544403,10.48,1.7364205178327408,93,177
+543191848,-1461762701,2803.1436758134982,294.61943199999996,6.0282568267200975,10.5,1.7417970570628323,93,177
+543191848,-1461762701,2803.1436758134982,294.61943199999996,6.037825488349812,10.52,1.7417970570628323,93,177
+543191778,-1461764058,2811.9045140038884,293.307096,6.02855274147592,10.53,1.747240803064541,92,178
+543191778,-1461764058,2811.9045140038884,293.307096,6.038091590750407,10.55,1.747240803064541,92,178
+543191722,-1461764708,2816.1226952803313,293.307096,6.038571885320685,10.57,1.7498618659079694,92,178
+543191660,-1461765363,2820.380206845664,292.650928,6.038966528458085,10.58,1.7525073675206384,92,176
+543191534,-1461766712,2829.1410450360536,291.99476,6.029746742365965,10.6,1.757951113522347,92,175
+543191534,-1461766712,2829.1410450360536,291.99476,6.039227476237611,10.62,1.757951113522347,92,175
+543191523,-1461767378,2833.4182212430537,291.99476,6.0395774045524195,10.63,1.760608834207224,92,176
+543191514,-1461768054,2837.7740590333865,291.338592,6.03975885445866,10.65,1.7633154330554057,92,176
+543191473,-1461769422,2846.593892154334,291.338592,6.030467985140542,10.67,1.7687958368985635,92,176
+543191473,-1461769422,2846.593892154334,291.338592,6.039890591367325,10.68,1.7687958368985635,92,176
+543191459,-1461770111,2851.028390522446,291.338592,6.039904077154582,10.7,1.7715513132852263,92,176
+543191440,-1461770786,2855.3743959919457,290.68242399999997,6.040104708350117,10.72,1.7742518025973044,92,176
+543191427,-1461771455,2859.681070167001,290.026256,6.040387806482875,10.73,1.7769278525153176,92,176
+543191429,-1461772813,2868.422242710169,290.026256,6.031331350873246,10.75,1.782359378819994,91,176
+543191429,-1461772813,2868.422242710169,290.026256,6.040682252192429,10.77,1.782359378819994,91,176
+543191421,-1461773507,2872.8960713671704,289.370088,6.040611715692211,10.78,1.7851392939758972,91,176
+543191416,-1461774876,2881.7060721672833,288.71392,6.031452051224685,10.8,1.7906135882829504,91,176
+543191416,-1461774876,2881.7060721672833,288.71392,6.040759847600031,10.82,1.7906135882829504,91,176
+543191411,-1461775542,2885.9930817006716,288.71392,6.041080547702755,10.83,1.7932774191287557,91,176
+543191418,-1461776212,2890.299755875727,288.71392,6.0413591927628305,10.85,1.795953469046769,91,175
+543191429,-1461777578,2899.0999243550064,289.370088,6.032272701750389,10.87,1.8014216538177181,91,173
+543191429,-1461777578,2899.0999243550064,289.370088,6.041524653746938,10.88,1.8014216538177181,91,173
+543191449,-1461778275,2903.5835863383973,291.338592,6.041433104435376,10.9,1.8042076791345505,91,175
+543191431,-1461779707,2912.7967233537934,291.338592,6.0315325791443515,10.92,1.8099324712949367,91,181
+543191431,-1461779707,2912.7967233537934,291.338592,6.0407410258300684,10.93,1.8099324712949367,91,181
+543191428,-1461780443,2917.536031712187,291.338592,6.040121804308332,10.95,1.8128773482994192,91,182
+543191419,-1461781200,2922.412996584472,291.338592,6.039220108164195,10.97,1.8159077613086556,91,182
+543191437,-1461782678,2931.9309435901496,291.338592,6.028763298572951,10.98,1.8218219540868614,91,180
+543191437,-1461782678,2931.9309435901496,291.338592,6.037911649557129,11,1.8218219540868614,91,178
+543191448,-1461784137,2941.311235087492,291.338592,6.027775001106246,11.02,1.8276506114851383,91,178
+543191448,-1461784137,2941.311235087492,291.338592,6.036894176599598,11.03,1.8276506114851383,91,178
+543191463,-1461784848,2945.8833889639395,291.338592,6.036629646176967,11.05,1.8304916232517303,91,178
+543191469,-1461785555,2950.4457115251093,290.68242399999997,6.036386049661349,11.07,1.8333265261070435,93,178
+543191507,-1461786964,2959.5211920266147,289.370088,6.026938315130757,11.08,1.838965782262676,93,178
+543191507,-1461786964,2959.5211920266147,289.370088,6.036001380266292,11.1,1.838965782262676,93,178
+543191530,-1461787656,2963.9753560419495,288.057752,6.035980122730858,11.12,1.8417334783463715,93,178
+543191558,-1461788333,2968.3410261531167,288.057752,6.036138876497953,11.13,1.8444461867306579,93,178
+543191595,-1461789712,2977.219855210175,288.057752,6.027146758610218,11.15,1.849963249040088,93,179
+543191595,-1461789712,2977.219855210175,288.057752,6.0361559465902035,11.17,1.849963249040088,93,180
+543191605,-1461790365,2981.4282031602293,288.057752,6.036632258187373,11.18,1.8525782017225878,93,180
+543191643,-1461791766,2990.454521052011,290.026256,6.027380745338711,11.2,1.8581869095728754,93,179
+543191643,-1461791766,2990.454521052011,290.026256,6.036350061924036,11.22,1.8581869095728754,93,179
+543191676,-1461792481,2995.0660062229035,290.68242399999997,6.036011436510961,11.23,1.8610523607335328,94,178
+543191716,-1461793948,3004.5151249716364,291.338592,6.025955685668551,11.25,1.8669237855093619,94,178
+543191731,-1461794666,3009.136442463362,291.99476,6.025614883215482,11.27,1.8697953462061232,94,179
+543191731,-1461794666,3009.136442463362,291.99476,6.034528514699528,11.28,1.8697953462061232,94,179
+543191791,-1461795374,3013.728262992587,291.99476,6.0342341488817635,11.3,1.8726485782945725,93,180
+543191898,-1461796790,3022.8922363927054,293.307096,6.024814286819104,11.32,1.87834282152479,93,180
+543191898,-1461796790,3022.8922363927054,293.307096,6.033687356460958,11.33,1.87834282152479,93,180
+543191933,-1461797519,3027.5922144622095,296.587936,6.033180067231933,11.35,1.8812632597600318,93,181
+543192029,-1461798947,3036.8348494456613,297.244104,6.02365035973967,11.37,1.8870063811535545,93,183
+543192029,-1461798947,3036.8348494456613,297.244104,6.032482691645446,11.38,1.8870063811535545,93,183
+543192065,-1461799625,3041.210352883217,299.868776,6.032623156963354,11.4,1.8897251996987692,93,183
+543192080,-1461800293,3045.507194737439,303.14961600000004,6.032919037289396,11.42,1.8923951400806784,93,182
+543191939,-1461801602,3054.071380477827,307.742792,6.024784091257176,11.43,1.8977166916113606,93,182
+543191939,-1461801602,3054.071380477827,307.742792,6.033566575355219,11.45,1.8977166916113606,93,182
+543191776,-1461802196,3058.171570887602,308.39896,6.034247884914224,11.47,1.9002644381470677,93,182
+543191114,-1461803072,3066.4899425738195,309.711296,6.026625885867151,11.48,1.905433247526203,93,182
+543191114,-1461803072,3066.4899425738195,309.711296,6.035372802972909,11.5,1.905433247526203,93,182
+543190696,-1461803359,3070.7277884919295,309.711296,6.035778359382257,11.52,1.9080665294418393,93,181
+543190240,-1461803565,3075.10329092393,306.430456,6.035912589163759,11.53,1.9107853473622294,92,181
+543189282,-1461803698,3083.942789692099,303.80578399999996,6.02730928152393,11.55,1.916277970902419,92,181
+543189282,-1461803698,3083.942789692099,303.80578399999996,6.036006697514585,11.57,1.916277970902419,92,181
+543188807,-1461803685,3088.2887951615994,301.83728,6.036197681988873,11.58,1.9189784602144977,92,181
+543188333,-1461803635,3092.6446329519326,301.181112,6.036368938445098,11.6,1.9216850590626795,92,180
+543187407,-1461803566,3101.1301581145412,298.55644,6.02850102386538,11.62,1.9269577330548806,92,179
+543187407,-1461803566,3101.1301581145412,298.55644,6.037150236238214,11.63,1.9269577330548806,92,179
+543186955,-1461803520,3105.2795111340392,297.244104,6.037720898481366,11.65,1.9295360278959321,92,179
+543186037,-1461803378,3113.715873686925,297.900272,6.029976431697105,11.67,1.9347781535827888,92,179
+543186037,-1461803378,3113.715873686925,297.900272,6.038590683742387,11.68,1.9347781535827888,92,179
+543185593,-1461803309,3117.7963984494772,299.868776,6.039290445445394,11.7,1.937313680421463,92,179
+543184733,-1461803209,3125.7018015995786,302.493448,6.032597327001478,11.72,1.9422258824111616,92,179
+543184733,-1461803209,3125.7018015995786,302.493448,6.041178546527795,11.73,1.9422258824111616,92,179
+543184300,-1461803163,3129.6741678162966,303.14961600000004,6.042081055739454,11.75,1.9446942024782188,91,179
+543183422,-1461803033,3137.7565567636225,303.14961600000004,6.0350658155791015,11.77,1.9497163786170868,91,179
+543183422,-1461803033,3137.7565567636225,303.14961600000004,6.043614067442527,11.78,1.9497163786170868,91,179
+543182966,-1461803013,3141.9354077511757,303.14961600000004,6.044112795301587,11.8,1.9523130026912745,91,179
+543182504,-1461803000,3146.1732546748412,302.493448,6.044496851874339,11.82,1.9549462852317356,91,179
+543182039,-1461803018,3150.430766240174,301.181112,6.04484214372824,11.83,1.9575917868444046,91,179
+543181586,-1461802979,3154.570285933282,301.83728,6.045412614529181,11.85,1.960163971524527,91,179
+543181136,-1461802982,3158.6999743111132,301.83728,6.046000407967943,11.87,1.9627300472933709,91,179
+543180703,-1461802971,3162.672340527831,302.493448,6.046887444392966,11.88,1.9651983673604279,91,180
+543179835,-1461803010,3170.6269062876545,305.11812,6.040176459116475,11.9,1.9701411176554704,89,180
+543179835,-1461803010,3170.6269062876545,305.11812,6.048636090011596,11.92,1.9701411176554704,89,180
+543179400,-1461803010,3174.609105830761,306.430456,6.049497757501381,11.93,1.9726155478834562,89,179
+543178505,-1461803017,3182.799653323922,305.11812,6.042357388067345,11.95,1.9777049307939418,89,178
+543178505,-1461803017,3182.799653323922,305.11812,6.050784664759211,11.97,1.9777049307939418,89,178
+543178046,-1461803022,3187.008001273976,305.11812,6.051210934819604,11.98,1.9803198834764413,89,179
+543177588,-1461803041,3191.1966855879186,303.80578399999996,6.051673369810516,12,1.982922617711558,89,179
+543176723,-1461803087,3199.1217533796867,303.14961600000004,6.045066060053167,12.02,1.9878470387734641,90,179
+543176723,-1461803087,3199.1217533796867,303.14961600000004,6.053450340302894,12.03,1.9878470387734641,90,179
+543176289,-1461803060,3203.1039519172377,301.181112,6.054298359062765,12.05,1.990321468376625,90,179
+543175860,-1461803047,3207.036987845066,300.524944,6.0552370948431,12.07,1.9927653496744417,90,179
+543175006,-1461802934,3214.8833950590556,301.83728,6.0488015511086495,12.08,1.9976408931978673,90,179
+543175006,-1461802934,3214.8833950590556,301.83728,6.057144725661902,12.1,1.9976408931978673,90,179
+543174571,-1461802872,3218.8852592438293,302.493448,6.057947010485911,12.12,2.000127542498061,90,179
+543173667,-1461802704,3227.223296577269,303.14961600000004,6.050606627491892,12.13,2.0053085715742287,90,182
+543173667,-1461802704,3227.223296577269,303.14961600000004,6.058917900331854,12.15,2.0053085715742287,90,182
+543173211,-1461802655,3231.42181220649,302.493448,6.059346155110415,12.17,2.0079174147206245,90,184
+543172761,-1461802596,3235.5515005843204,302.493448,6.059902203109959,12.18,2.010483490489468,90,185
+543171834,-1461802557,3244.046858067763,301.181112,6.052300986704757,12.2,2.0157622740177734,90,180
+543171834,-1461802557,3244.046858067763,301.181112,6.060569157451622,12.22,2.0157622740177734,90,180
+543171355,-1461802546,3248.4321938261523,300.524944,6.060644486926385,12.23,2.018487202099092,90,179
+543170897,-1461802529,3252.630709455373,299.868776,6.0610677205654895,12.25,2.021096045245488,90,180
+543169954,-1461802510,3261.2735567790946,299.212608,6.0532295097716995,12.27,2.026466474939475,90,182
+543169954,-1461802510,3261.2735567790946,299.212608,6.061454006388237,12.28,2.026466474939475,90,182
+543169460,-1461802497,3265.7965480458197,297.900272,6.0612722528122,12.3,2.029276938400723,90,182
+543168510,-1461802481,3274.4983903000975,297.900272,6.053355955846637,12.32,2.034684025936159,92,184
+543168510,-1461802481,3274.4983903000975,297.900272,6.061547235895144,12.33,2.034684025936159,92,184
+543168039,-1461802472,3278.8050644751534,297.244104,6.061765981559348,12.35,2.0373600758541723,94,184
+543167568,-1461802456,3283.1117396557634,297.244104,6.061984151480657,12.37,2.0400361263970095,94,184
+543166621,-1461802379,3291.803749589209,297.244104,6.054125696027182,12.38,2.045437104396342,94,184
+543166621,-1461802379,3291.803749589209,297.244104,6.06227391365306,12.4,2.045437104396342,94,184
+543166148,-1461802312,3296.1595863739867,297.900272,6.06240013861576,12.42,2.0481437026196994,94,184
+543165669,-1461802226,3300.574420100432,298.55644,6.062417664273663,12.43,2.050886959934154,93,184
+543164765,-1461801990,3309.000949326929,297.900272,6.055085298200198,12.45,2.0561229754600827,91,184
+543164765,-1461801990,3309.000949326929,297.900272,6.063191168746651,12.47,2.0561229754600827,91,184
+543164330,-1461801867,3313.051977126981,297.244104,6.0638733727589385,12.48,2.058640173690445,90,183
+543163442,-1461801536,3321.4588417118107,295.93176800000003,6.056600716338318,12.5,2.063863970144165,90,183
+543163442,-1461801536,3321.4588417118107,295.93176800000003,6.064676183960103,12.52,2.063863970144165,90,183
+543162532,-1461801114,3330.229512223035,295.93176800000003,6.056758128121407,12.53,2.0693138256819785,90,183
+543162532,-1461801114,3330.229512223035,295.93176800000003,6.064812327759867,12.55,2.0693138256819785,90,183
+543161625,-1461800614,3339.1378392481483,295.2756,6.056665015627818,12.57,2.0748492172245445,90,183
+543161625,-1461800614,3339.1378392481483,295.2756,6.064697727850136,12.58,2.0748492172245445,90,183
+543161178,-1461800308,3343.680496162096,294.61943199999996,6.06448015092198,12.6,2.0776719003828252,90,183
+543160747,-1461799960,3348.2133197496537,293.307096,6.064280974442661,12.62,2.0804884733801767,90,181
+543159938,-1461799147,3357.2789679303255,289.370088,6.055894925884097,12.63,2.0861216199997052,90,181
+543159938,-1461799147,3357.2789679303255,289.370088,6.063884233174182,12.65,2.0861216199997052,91,181
+543159595,-1461798644,3361.792126876217,287.40158399999996,6.063722135096757,12.67,2.0889259739248494,92,181
+543158990,-1461797456,3371.2510789513385,286.74541600000003,6.054664926652674,12.68,2.0948035088616073,92,181
+543158990,-1461797456,3371.2510789513385,286.74541600000003,6.062621122351298,12.7,2.0948035088616073,92,181
+543158768,-1461796822,3375.813401512508,286.74541600000003,6.062373093300695,12.72,2.09763841171692,92,181
+543158426,-1461795472,3385.056035490404,287.40158399999996,6.053744000635982,12.73,2.103381532485618,92,181
+543158426,-1461795472,3385.056035490404,287.40158399999996,6.061667749327914,12.75,2.103381532485618,92,181
+543158327,-1461794773,3389.6478560196297,288.71392,6.06136926490642,12.77,2.1062347645740673,93,180
+543158326,-1461793400,3398.516851750299,290.026256,6.0534434766952305,12.78,2.111745716722569,93,181
+543158326,-1461793400,3398.516851750299,290.026256,6.061335841071626,12.8,2.111745716722569,93,181
+543158394,-1461792724,3402.9021875086883,291.99476,6.0614067630413375,12.82,2.1144706448038875,93,181
+543158510,-1461792075,3407.218694004577,293.307096,6.061599950425405,12.83,2.1171528042580046,93,182
+543158850,-1461790843,3415.753382782465,294.61943199999996,6.054306819760533,12.85,2.1224560271803754,91,182
+543158850,-1461790843,3415.753382782465,294.61943199999996,6.062159357788757,12.87,2.1224560271803754,91,182
+543159070,-1461790269,3419.95189941724,295.2756,6.062560023197892,12.88,2.125064870951595,91,182
+543159315,-1461789721,3424.1405827256276,297.244104,6.062977117450759,12.9,2.1276676045618874,91,182
+543159551,-1461789176,3428.2506054562364,297.900272,6.063532315942498,12.92,2.1302214606336984,91,182
+543159786,-1461788629,3432.3802928285113,298.55644,6.064051442713074,12.93,2.1327875357777173,91,182
+543160344,-1461787503,3441.2492895647356,300.524944,6.056217160203482,12.95,2.138298488551043,91,182
+543160344,-1461787503,3441.2492895647356,300.524944,6.064011519483023,12.97,2.138298488551043,91,182
+543160606,-1461786925,3445.673955612015,301.83728,6.064008938696984,12.98,2.141047855401603,91,182
+543161198,-1461785870,3454.3659655454594,303.80578399999996,6.05651520674834,13,2.1464488334009344,91,182
+543161198,-1461785870,3454.3659655454594,303.80578399999996,6.064279969833915,13.02,2.1464488334009344,91,182
+543161526,-1461785346,3458.8889568121845,305.11812,6.064104667296953,13.03,2.149259296862182,91,182
+543162131,-1461784285,3467.689125291464,307.086624,6.056450345223711,13.05,2.1547274816331314,91,182
+543162131,-1461784285,3467.689125291464,307.086624,6.064185275421952,13.07,2.1547274816331314,91,182
+543162414,-1461783708,3472.212116558189,307.742792,6.064010768886389,13.08,2.1575379450943797,92,182
+543162703,-1461783139,3476.735107824913,307.086624,6.063836716392627,13.1,2.1603484085556275,92,182
+543163302,-1461782032,3485.7319277486395,304.461952,6.055880592908157,13.12,2.1659387871727787,92,180
+543163302,-1461782032,3485.7319277486395,304.461952,6.063575485656452,13.13,2.1659387871727787,92,180
+543163613,-1461781512,3490.1270958278624,303.80578399999996,6.063624738852137,13.15,2.1686698247902014,92,178
+543164250,-1461780485,3498.946929954365,305.11812,6.0560059233621155,13.17,2.1741502292581836,91,178
+543164250,-1461780485,3498.946929954365,305.11812,6.063671753644853,13.18,2.1741502292581836,91,178
+543164563,-1461779955,3503.401092964144,307.086624,6.063618591277697,13.2,2.1769179247170545,92,178
+543165072,-1461778883,3511.7292969711957,308.39896,6.056876408918654,13.22,2.1820928436322937,94,179
+543165072,-1461778883,3511.7292969711957,308.39896,6.064514336294339,13.23,2.1820928436322937,94,182
+543165594,-1461777735,3520.5392977713086,312.335968,6.056956959264474,13.25,2.187567137939347,94,181
+543165594,-1461777735,3520.5392977713086,312.335968,6.064575773049712,13.27,2.187567137939347,93,181
+543165827,-1461777171,3524.747646726918,313.648304,6.06494473058737,13.28,2.1901820912466716,92,180
+543166068,-1461775987,3532.712044807575,317.585312,6.058864047937388,13.3,2.1951309510778176,91,179
+543166068,-1461775987,3532.712044807575,317.585312,6.066456609400968,13.32,2.1951309510778176,91,180
+543166122,-1461775368,3536.733574639571,318.24148,6.067142523975228,13.33,2.197629820075044,91,181
+543166176,-1461774093,3544.9536201007877,320.20998399999996,6.060640364425741,13.35,2.202737532218666,91,182
+543166176,-1461774093,3544.9536201007877,320.20998399999996,6.068206706953115,13.37,2.202737532218666,91,182
+543166139,-1461773487,3548.847325739727,320.866152,6.069106864769726,13.38,2.205156974747242,91,182
+543165965,-1461772269,3556.8117238203845,322.178488,6.063058062808222,13.4,2.210105834578389,91,182
+543165965,-1461772269,3556.8117238203845,322.178488,6.070599179801763,13.42,2.210105834578389,91,182
+543165901,-1461771628,3560.961076839882,321.52232,6.071057840893873,13.43,2.2126841294194404,91,182
+543165832,-1461770964,3565.2677510149374,321.52232,6.0712475223882,13.45,2.2153601793374538,93,182
+543165749,-1461769607,3573.989258916438,320.20998399999996,6.06393689607897,13.47,2.220779486569922,93,182
+543165749,-1461769607,3573.989258916438,320.20998399999996,6.071441768475107,13.48,2.220779486569922,93,182
+543165699,-1461768919,3578.4237572845504,320.20998399999996,6.071413413733484,13.5,2.223534962956585,95,182
+543165566,-1461767702,3586.2308342096503,318.897648,6.065675451180858,13.52,2.22838606771077,93,182
+543165566,-1461767702,3586.2308342096503,318.897648,6.0731547057445825,13.53,2.22838606771077,93,182
+543165479,-1461767052,3590.4195175180375,317.585312,6.073540123543638,13.55,2.230988801321062,93,182
+543165431,-1461765794,3598.511738786197,313.648304,6.067335864992308,13.57,2.236017086996034,94,184
+543165431,-1461765794,3598.511738786197,313.648304,6.07478959455618,13.58,2.236017086996034,94,184
+543165264,-1461764431,3607.410233490478,309.711296,6.067240092852546,13.6,2.2415463690024966,92,183
+543165264,-1461764431,3607.410233490478,309.711296,6.074675436103591,13.62,2.2415463690024966,92,183
+543165026,-1461763784,3612.0610489502596,306.430456,6.074279578702877,13.63,2.2444362589323945,92,182
+543164948,-1461763112,3616.43655138226,303.80578399999996,6.074347133673246,13.65,2.2471550768527844,92,183
+543164844,-1461761809,3624.88274625598,299.212608,6.0675930431268466,13.67,2.2524033120757454,92,184
+543164844,-1461761809,3624.88274625598,299.212608,6.0749925468379775,13.68,2.2524033120757454,93,184
+543164777,-1461761168,3629.061597243533,298.55644,6.075388198631458,13.7,2.254999936149933,93,184
+543164656,-1461759905,3637.252144736694,296.587936,6.0690816734486654,13.72,2.2600893190604188,93,184
+543164656,-1461759905,3637.252144736694,296.587936,6.076456013270596,13.73,2.2600893190604188,93,184
+543164558,-1461759286,3641.342502825635,294.61943199999996,6.076996322875043,13.75,2.2626309560600215,92,184
+543164521,-1461758680,3645.255873106241,292.650928,6.077830502047616,13.77,2.2650626176608055,92,184
+543164435,-1461757403,3653.5250821827353,288.057752,6.071415733490562,13.78,2.2702008787345966,92,184
+543164435,-1461757403,3653.5250821827353,288.057752,6.078757227726947,13.8,2.2702008787345966,92,184
+543164355,-1461756750,3657.782593748068,287.40158399999996,6.079014748262761,13.82,2.2728463803472656,92,184
+543164003,-1461755471,3666.6319248370705,286.74541600000003,6.071658438324405,13.83,2.2783451134235593,93,184
+543164003,-1461755471,3666.6319248370705,286.74541600000003,6.078973689454917,13.85,2.2783451134235593,93,184
+543163736,-1461754890,3671.076255526016,285.43308,6.078920670672834,13.87,2.281106699346326,93,184
+543163486,-1461754340,3675.2846044816256,285.43308,6.079258090495005,13.88,2.2837216526536506,93,182
+543162925,-1461753422,3683.1211783692256,287.40158399999996,6.073605758989627,13.9,2.288591086016147,93,180
+543162925,-1461753422,3683.1211783692256,287.40158399999996,6.0808882598996865,13.92,2.288591086016147,93,179
+543162630,-1461753036,3686.7494043067727,288.71392,6.082179233682684,13.93,2.2908455666961443,93,180
+543161946,-1461752347,3694.379494429093,294.61943199999996,6.07687787187367,13.95,2.295586696676335,93,182
+543161946,-1461752347,3694.379494429093,294.61943199999996,6.084138179964319,13.97,2.295586696676335,92,182
+543161583,-1461752053,3698.1847071694197,297.900272,6.085130800265277,13.98,2.2979511521303264,92,182
+543161260,-1461751734,3701.78343513891,299.212608,6.086460862655656,14,2.300187303577187,92,182
+543160748,-1461750702,3709.9346523431814,305.11812,6.08031796977503,14.02,2.3052522477184323,92,182
+543160748,-1461750702,3709.9346523431814,305.11812,6.087547836564298,14.03,2.3052522477184323,91,182
+543160632,-1461750126,3713.7791953723968,307.086624,6.088468325789268,14.05,2.3076411419416636,90,182
+543160563,-1461748730,3722.825178911402,314.304472,6.080878968362666,14.07,2.3132620694889843,90,182
+543160563,-1461748730,3722.825178911402,314.304472,6.08808380126357,14.08,2.3132620694889843,90,182
+543160604,-1461748032,3727.3186722100704,314.96064,6.087940419257261,14.1,2.3160542037170955,91,182
+543160678,-1461746620,3736.4138183587984,318.897648,6.080299837696329,14.12,2.3217056795697606,91,182
+543160678,-1461746620,3736.4138183587984,318.897648,6.087478467965156,14.13,2.3217056795697606,92,182
+543160712,-1461745930,3740.848316726911,319.55381600000004,6.087432334044675,14.15,2.3244611559564237,92,182
+543160795,-1461744544,3749.8058063617477,320.866152,6.0800437437729755,14.17,2.3300270958043345,92,184
+543160795,-1461744544,3749.8058063617477,320.866152,6.087196736412709,14.18,2.3300270958043345,92,184
+543160901,-1461743872,3754.230472409027,321.52232,6.087167042074495,14.2,2.332776462654894,92,185
+543161028,-1461743198,3758.7141333868617,323.490824,6.087041876929693,14.22,2.335562487346901,91,185
+543161168,-1461742533,3763.187962043864,325.459328,6.086932913716538,14.23,2.338342402502805,91,184
+543161293,-1461741886,3767.5044685397525,324.80316,6.087078380795824,14.25,2.341024561956922,91,184
+543161649,-1461740630,3776.225976441254,326.771664,6.080122714205504,14.27,2.3464438691893905,91,184
+543161649,-1461740630,3776.225976441254,326.771664,6.087225661301538,14.28,2.3464438691893905,90,184
+543161941,-1461740063,3780.748967707978,327.42783199999997,6.087037832070511,14.3,2.3492543326506383,90,184
+543162764,-1461739192,3790.1882551414324,327.42783199999997,6.07895512896458,14.32,2.355119648515188,90,185
+543163221,-1461738973,3794.6030878623224,326.771664,6.078951113609485,14.33,2.3578629052048186,90,186
+543163221,-1461738973,3794.6030878623224,326.771664,6.086019661416008,14.35,2.3578629052048186,90,186
+543163724,-1461738921,3799.214573033215,326.771664,6.085692421124325,14.37,2.360728356365476,90,186
+543164606,-1461739094,3807.395288205542,325.459328,6.079661268262049,14.38,2.3658116297398575,90,186
+543164606,-1461739094,3807.395288205542,325.459328,6.08670606695065,14.4,2.3658116297398575,90,186
+543165067,-1461739352,3811.9281117930996,324.80316,6.086504690776976,14.42,2.368628202737209,90,186
+543165459,-1461739673,3816.067632491764,324.80316,6.086931077660031,14.43,2.3712003880421566,91,186
+543166186,-1461740610,3825.084118062713,322.834656,6.079595188557032,14.45,2.3768029863563407,91,186
+543166186,-1461740610,3825.084118062713,322.834656,6.086607409074399,14.47,2.3768029863563407,91,186
+543166390,-1461741196,3829.2728013711,321.52232,6.086954070841031,14.48,2.3794057199666323,91,186
+543166512,-1461741833,3833.490982647543,320.20998399999996,6.0872531344481535,14.5,2.382026782810061,91,186
+543166569,-1461742513,3837.876317400377,318.24148,6.087286405612459,14.52,2.384751710266555,91,186
+543166515,-1461743830,3846.30284763243,316.92914399999995,6.080923836006224,14.53,2.3899877264173077,91,186
+543166515,-1461743830,3846.30284763243,316.92914399999995,6.087897372515405,14.55,2.3899877264173077,91,186
+543166484,-1461744487,3850.501364267205,316.27297600000003,6.088225172670402,14.57,2.3925965701885277,91,186
+543166499,-1461745141,3854.7097122172595,315.616808,6.088536730089279,14.58,2.3952115228710276,91,186
+543166489,-1461746482,3863.283731284036,313.648304,6.081966957210913,14.6,2.4005391845626383,90,186
+543166489,-1461746482,3863.283731284036,313.648304,6.088909841865263,14.62,2.4005391845626383,90,186
+543166436,-1461747167,3867.6494013952033,312.335968,6.088971936849111,14.63,2.4032518929469244,90,186
+543166404,-1461748587,3876.715049575875,308.39896,6.08165178469317,14.65,2.408885039566453,90,186
+543166404,-1461748587,3876.715049575875,308.39896,6.088570614937416,14.67,2.408885039566453,90,186
+543166409,-1461749311,3881.346199388435,307.742792,6.0882164209907375,14.68,2.4117627097993184,90,186
+543166480,-1461750009,3885.8790239815485,307.086624,6.088017113759824,14.7,2.414579283421495,91,186
+543166728,-1461751413,3895.1511559275004,307.742792,6.080411102221716,14.72,2.420340733423329,92,185
+543166728,-1461751413,3895.1511559275004,307.742792,6.087297185010189,14.73,2.420340733423329,92,185
+543166892,-1461752119,3899.929795580339,307.742792,6.086715978041762,14.75,2.4233100498218767,92,185
+543167193,-1461753553,3909.5264031637953,312.992136,6.078635845534069,14.77,2.4292731201385633,92,185
+543167193,-1461753553,3909.5264031637953,312.992136,6.085496608339412,14.78,2.4292731201385633,92,185
+543167400,-1461754229,3914.2558792013565,314.304472,6.084996161482354,14.8,2.4322118876069423,93,185
+543167864,-1461755552,3923.724663597311,313.648304,6.077147704719915,14.82,2.438095532079804,93,185
+543167864,-1461755552,3923.724663597311,313.648304,6.083983641395641,14.83,2.438095532079804,93,185
+543168108,-1461756165,3928.2574881904247,313.648304,6.083791368525862,14.85,2.4409121057019805,93,185
+543168351,-1461756771,3932.7509814890936,312.335968,6.083660380722653,14.87,2.4437042399300917,93,185
+543168799,-1461757871,3940.9316966614206,307.742792,6.077837808495388,14.88,2.448787513304473,93,185
+543168799,-1461757871,3940.9316966614206,307.742792,6.084643897866603,14.9,2.448787513304473,93,185
+543169034,-1461758438,3945.1695435850856,306.430456,6.084906635347898,14.92,2.4514207958449337,92,185
+543169433,-1461759546,3953.1831042754666,305.11812,6.079356820248112,14.93,2.456400203981425,92,185
+543169664,-1461760065,3957.145638171351,303.14961600000004,6.080047387671651,14.95,2.4588624145123785,92,185
+543169852,-1461760617,3961.088507425568,303.14961600000004,6.080766761000209,14.97,2.4613124059711238,92,185
+543169852,-1461760617,3961.088507425568,303.14961600000004,6.087538216190632,14.98,2.4613124059711238,92,185
+543170028,-1461761183,3965.070705963119,302.493448,6.088189036249819,15,2.4637868355742847,91,185
+543170459,-1461762297,3973.26125345628,297.244104,6.08238945080968,15.02,2.46887621848477,91,185
+543170670,-1461762875,3977.4401044438337,294.61943199999996,6.082742676536087,15.03,2.471472842558958,91,185
+543170670,-1461762875,3977.4401044438337,294.61943199999996,6.08948629369411,15.05,2.471472842558958,91,185
+543170854,-1461763473,3981.6287877522204,293.963264,6.089816661944994,15.07,2.47407557616925,91,185
+543170965,-1461764083,3985.6404852633827,293.307096,6.090416774021339,15.08,2.4765683356303723,91,185
+543171233,-1461765289,3993.6835439218194,292.650928,6.0848671991011685,15.1,2.4815660729999998,91,185
+543171233,-1461765289,3993.6835439218194,292.650928,6.091583388062649,15.12,2.4815660729999998,91,185
+543171361,-1461765893,3997.7050737538157,291.99476,6.0921649339674255,15.13,2.484064941997226,92,185
+543171466,-1461766488,4001.618444034421,291.338592,6.092909991542979,15.15,2.4864966035980096,92,185
+543171721,-1461767555,4008.855231267847,291.338592,6.088601838987812,15.17,2.490993345885796,92,185
+543171721,-1461767555,4008.855231267847,291.338592,6.095292610239447,15.18,2.490993345885796,92,185
+543171926,-1461768101,4012.837429805398,290.68242399999997,6.095927988088534,15.2,2.4934677754889574,92,185
+543172102,-1461768662,4016.7999637012826,290.026256,6.096591952457626,15.22,2.4959299860199105,92,186
+543172492,-1461769805,4024.970846552776,287.40158399999996,6.090879561938512,15.23,2.501007149858188,92,186
+543172492,-1461769805,4024.970846552776,287.40158399999996,6.097543543953762,15.25,2.501007149858188,92,186
+543172681,-1461770347,4028.864552191715,286.74541600000003,6.098308100223318,15.27,2.5034265923867642,92,186
+543172904,-1461770882,4032.8664163764884,285.43308,6.098907607449622,15.28,2.5059132416869576,92,186
+543173434,-1461771925,4041.1454577738164,281.49607199999997,6.093050165426176,15.3,2.5110576122968524,91,186
+543173434,-1461771925,4041.1454577738164,281.49607199999997,6.09968747497457,15.32,2.5110576122968524,91,186
+543173695,-1461772402,4045.0391634127554,279.52756800000003,6.100446910345195,15.33,2.513477054825429,91,186
+543174242,-1461773424,4053.2985391628617,278.215232,6.0946334846339845,15.35,2.5186092057382914,92,186
+543174242,-1461773424,4053.2985391628617,278.215232,6.101250893412089,15.37,2.5186092057382914,92,186
+543174720,-1461774468,4061.253104922686,281.49607199999997,6.0959051374213615,15.38,2.523551956033334,92,186
+543174720,-1461774468,4061.253104922686,281.49607199999997,6.102509585024202,15.4,2.523551956033334,92,186
+543175002,-1461774943,4065.2353034602365,283.464576,6.103129703762793,15.42,2.526026385636495,92,186
+543175652,-1461775835,4073.494679210343,284.120744,6.097339661060135,15.43,2.5311585365493574,92,182
+543175652,-1461775835,4073.494679210343,284.120744,6.103924261126075,15.45,2.5311585365493574,92,182
+543175966,-1461776242,4077.3883848492815,284.776912,6.104673625358702,15.47,2.5335779790779336,92,180
+543176628,-1461777044,4085.342950609106,286.089248,6.09935272703397,15.48,2.538520729372977,91,179
+543176628,-1461777044,4085.342950609106,286.089248,6.105918230507634,15.5,2.538520729372977,91,179
+543177348,-1461777788,4093.4941678133773,286.74541600000003,6.100312180650402,15.52,2.5435856735142215,91,180
+543177348,-1461777788,4093.4941678133773,286.74541600000003,6.106864610489983,15.53,2.5435856735142215,91,181
+543177719,-1461778114,4097.486199677317,287.40158399999996,6.1074609603250805,15.55,2.546066213278311,91,181
+543178487,-1461778645,4105.3129422496395,286.74541600000003,6.1023507064494895,15.57,2.550929537729529,91,181
+543178487,-1461778645,4105.3129422496395,286.74541600000003,6.108884272516352,15.58,2.550929537729529,91,181
+543178873,-1461778914,4109.245978177468,286.089248,6.1095646581699325,15.6,2.5533734190273454,91,181
+543179687,-1461779472,4117.53485189563,286.089248,6.103779867646492,15.62,2.5585238991733443,91,180
+543179687,-1461779472,4117.53485189563,286.089248,6.110294040397449,15.63,2.5585238991733443,91,180
+543180103,-1461779773,4121.782530134572,287.40158399999996,6.1105045731701155,15.65,2.5611632906250836,91,181
+543180507,-1461780024,4125.813892287402,286.74541600000003,6.111035056735176,15.67,2.5636682691584145,91,183
+543181275,-1461780653,4133.906114561118,286.74541600000003,6.105560931285513,15.68,2.5686965554582115,91,184
+543181275,-1461780653,4133.906114561118,286.74541600000003,6.112049306345328,15.7,2.5686965554582115,91,184
+543181668,-1461780924,4137.90797874589,286.089248,6.112620305538844,15.72,2.5711832047584045,91,183
+543182465,-1461781487,4146.059195950162,284.120744,6.107072154541187,15.73,2.5762481488996496,91,181
+543182902,-1461781735,4150.365871130773,283.464576,6.107197723533259,15.75,2.5789241994424876,92,180
+543182902,-1461781735,4150.365871130773,283.464576,6.113660366626946,15.77,2.5789241994424876,92,180
+543183328,-1461781948,4154.5053908238815,282.808408,6.114024962579101,15.78,2.58149638412261,92,180
+543184229,-1461782396,4163.246564372605,282.15224,6.1076305731202565,15.8,2.5869279110521113,92,180
+543184229,-1461782396,4163.246564372605,282.15224,6.114073221404139,15.82,2.5869279110521113,92,180
+543184709,-1461782607,4167.858048537942,280.839904,6.11374388712814,15.83,2.589793361587944,92,180
+543185657,-1461782995,4176.884366429724,276.902896,6.10695359560636,15.85,2.5954020694382316,92,180
+543185657,-1461782995,4176.884366429724,276.902896,6.113375208220036,15.87,2.5954020694382316,92,180
+543186121,-1461783233,4181.397525375615,276.246728,6.113191465662057,15.88,2.598206423363376,91,180
+543187047,-1461783785,4190.590997749343,274.934392,6.106180730532498,15.9,2.6039189964515534,91,180
+543187492,-1461784116,4195.182817273014,273.62205600000004,6.105890839337486,15.92,2.606772227915179,91,180
+543187492,-1461784116,4195.182817273014,273.62205600000004,6.112284442310615,15.93,2.606772227915179,91,180
+543187905,-1461784487,4199.656645930015,272.30971999999997,6.112159913091083,15.95,2.609552143071082,91,180
+543188682,-1461785341,4208.643633532909,270.34121600000003,6.105481378513203,15.97,2.6151364121521303,92,180
+543188682,-1461785341,4208.643633532909,270.34121600000003,6.111854532352987,15.98,2.6151364121521303,92,180
+543189067,-1461785760,4213.087964221854,269.02888,6.1117736488456735,16,2.6178979980748966,92,180
+543189435,-1461786156,4217.306145498297,268.372712,6.112020670078178,16.02,2.6205190609183253,92,180
+543190171,-1461787038,4226.125978619244,267.716544,6.105611805518637,16.03,2.6259994647614824,92,180
+543190171,-1461787038,4226.125978619244,267.716544,6.1119585953372635,16.05,2.6259994647614824,92,180
+543190545,-1461787508,4230.698133501247,267.060376,6.1116932755338835,16.07,2.6288404771528993,92,180
+543191188,-1461788540,4239.576962558305,266.404208,6.105220378178402,16.08,2.6343575394623295,92,180
+543191415,-1461789138,4243.952464990306,267.060376,6.105246044516942,16.1,2.63707635738272,92,180
+543191415,-1461789138,4243.952464990306,267.060376,6.111566174997808,16.12,2.63707635738272,92,180
+543191604,-1461789753,4248.26897249175,267.060376,6.1116701496039925,16.13,2.6397585174616616,92,180
+543191822,-1461791139,4257.432946897423,273.62205600000004,6.104815113750798,16.15,2.645452761316703,92,180
+543191822,-1461791139,4257.432946897423,273.62205600000004,6.11111523254724,16.17,2.645452761316703,92,180
+543191862,-1461791855,4262.0542643891495,278.215232,6.110782277991346,16.18,2.648324322013465,92,179
+543191862,-1461792555,4266.5575900086515,280.839904,6.110619029508312,16.2,2.6511225657776802,92,179
+543191931,-1461793981,4275.760894703214,284.120744,6.103739422301074,16.22,2.6568412484019626,92,179
+543191931,-1461793981,4275.760894703214,284.120744,6.11001253578751,16.23,2.6568412484019626,92,179
+543191983,-1461794659,4280.146230461603,284.120744,6.110019048853754,16.25,2.659566176483281,92,180
+543192015,-1461795406,4284.964199397776,287.40158399999996,6.10940864733772,16.27,2.6625599310262444,92,180
+543192052,-1461796122,4289.585516889502,287.40158399999996,6.109079668300665,16.28,2.665431491723006,92,180
+543192061,-1461797577,4298.955975060455,289.370088,6.102002940290891,16.3,2.6712540389603534,92,179
+543192061,-1461797577,4298.955975060455,289.370088,6.1082422071010045,16.32,2.6712540389603534,91,179
+543192065,-1461798317,4303.714949066072,291.99476,6.1077201854111705,16.33,2.674211135661869,91,179
+543192093,-1461799673,4312.45612160924,294.61943199999996,6.1015598206669095,16.35,2.6796426619665454,91,179
+543192093,-1461799673,4312.45612160924,294.61943199999996,6.107779555448425,16.37,2.6796426619665454,91,179
+543192071,-1461800286,4316.398990863457,296.587936,6.108414380245304,16.38,2.6820926534252902,92,178
+543191884,-1461801503,4324.461715169116,300.524944,6.103228040479445,16.4,2.687102610491951,92,178
+543191884,-1461801503,4324.461715169116,300.524944,6.109430508000258,16.42,2.687102610491951,91,178
+543191692,-1461802000,4328.109605748329,301.181112,6.110478494246452,16.43,2.689369310244156,91,178
+543191085,-1461802830,4335.847854416484,302.493448,6.105759216858591,16.45,2.6941776469959633,91,177
+543190711,-1461803149,4339.839886280424,303.14961600000004,6.106323280983127,16.47,2.6966581867600534,91,177
+543190711,-1461803149,4339.839886280424,303.14961600000004,6.11250377013392,16.48,2.6966581867600534,90,177
+543190277,-1461803393,4344.117062487424,303.14961600000004,6.112659861149141,16.5,2.69931590744493,90,175
+543189838,-1461803545,4348.2467508652535,303.14961600000004,6.113022985193746,16.52,2.7018819832137733,90,173
+543188923,-1461803554,4356.643783129251,303.80578399999996,6.107397343272138,16.53,2.70709967013139,91,175
+543188923,-1461803554,4356.643783129251,303.80578399999996,6.1135539938197905,16.55,2.70709967013139,91,175
+543188462,-1461803496,4360.881629047361,303.80578399999996,6.1137635921472,16.57,2.709732952047026,91,177
+543188015,-1461803422,4365.001485104358,303.80578399999996,6.11413804960678,16.58,2.7122929182797657,91,178
+543187140,-1461803298,4373.044543762794,303.14961600000004,6.109026270519756,16.6,2.717290655649393,91,179
+543187140,-1461803298,4373.044543762794,303.14961600000004,6.115159831032326,16.62,2.717290655649393,91,179
+543186720,-1461803257,4376.898919112844,302.493448,6.115902871271338,16.63,2.719685659408729,91,179
+543186306,-1461803176,4380.723796494837,302.493448,6.116685790927966,16.65,2.7220623339349284,91,179
+543185881,-1461803173,4384.607669812943,301.181112,6.117385032644807,16.67,2.724475666927401,91,179
+543184994,-1461803143,4392.739222375547,299.868776,6.112166989085894,16.68,2.7295283919964377,91,179
+543184994,-1461803143,4392.739222375547,299.868776,6.118273050014051,16.7,2.7295283919964377,91,179
+543184550,-1461803137,4396.800081490877,297.244104,6.118722669831068,16.72,2.73205169913808,91,179
+543183632,-1461803129,4405.216779402096,296.587936,6.113120878088028,16.73,2.7372816057527287,91,179
+543183632,-1461803129,4405.216779402096,296.587936,6.119209643902857,16.75,2.7372816057527287,91,179
+543183166,-1461803147,4409.484123288262,296.587936,6.119370561019557,16.77,2.7399332169015014,91,179
+543182716,-1461803153,4413.603978339703,295.93176800000003,6.119735662561016,16.78,2.7424931825094157,91,180
+543181843,-1461803097,4421.60770670925,297.244104,6.114724279807722,16.8,2.747466481109803,91,179
+543181401,-1461803076,4425.658734509302,297.244104,6.115187807478796,16.82,2.7499836793401657,91,178
+543181401,-1461803076,4425.658734509302,297.244104,6.121248449508012,16.83,2.7499836793401657,91,178
+543180990,-1461803033,4429.4246169607395,297.900272,6.122099673209169,16.85,2.752323696024917,91,178
+543180119,-1461802971,4437.418512003897,299.868776,6.117115448971986,16.87,2.7572908844643753,91,178
+543180119,-1461802971,4437.418512003897,299.868776,6.12316002945516,16.88,2.7572908844643753,91,178
+543179252,-1461802882,4445.373077763722,301.181112,6.118236990287004,16.9,2.762233634759418,90,179
+543179252,-1461802882,4445.373077763722,301.181112,6.124270754577228,16.92,2.762233634759418,90,179
+543178812,-1461802785,4449.453602526274,301.181112,6.124682511846855,16.93,2.7647691615980925,90,179
+543178384,-1461802690,4453.416136422158,300.524944,6.125255795636288,16.95,2.7672313721290456,89,180
+543177503,-1461802542,4461.537856663929,301.181112,6.120117369966791,16.97,2.772277987661979,89,180
+543177503,-1461802542,4461.537856663929,301.181112,6.126129273080708,16.98,2.772277987661979,89,180
+543177082,-1461802493,4465.402064334812,300.524944,6.126834628960895,17,2.7746791009574188,89,180
+543176235,-1461802400,4473.179643291855,301.181112,6.122178074024319,17.02,2.7795118764784665,89,180
+543176235,-1461802400,4473.179643291855,301.181112,6.128174330707988,17.03,2.7795118764784665,89,180
+543175802,-1461802370,4477.152009508573,301.181112,6.128728026594703,17.05,2.781980196545524,89,181
+543175386,-1461802352,4480.9572222489005,301.83728,6.12950938182549,17.07,2.7843446519995156,89,181
+543174968,-1461802335,4484.791932957282,302.493448,6.130249090181934,17.08,2.7867274366866432,89,180
+543174164,-1461802320,4492.136877730988,305.11812,6.12619667410945,17.1,2.7912913851212227,88,180
+543174164,-1461802320,4492.136877730988,305.11812,6.132167626033533,17.12,2.7912913851212227,88,181
+543173758,-1461802283,4495.87326221437,305.774288,6.133037356370194,17.13,2.793613072572837,88,180
+543172932,-1461802178,4503.454188721411,307.742792,6.128669204434838,17.15,2.7983236536228584,88,180
+543172509,-1461802177,4507.328229718682,307.742792,6.129352451231984,17.17,2.8007308770792267,88,180
+543172509,-1461802177,4507.328229718682,307.742792,6.135303278854539,17.18,2.8007308770792267,89,180
+543172084,-1461802197,4511.221935357622,308.39896,6.135953494783146,17.2,2.8031503196078034,89,180
+543171639,-1461802228,4515.302460120174,308.39896,6.136348689384562,17.22,2.805685846446478,89,179
+543170750,-1461802366,4523.502840939724,309.055128,6.131154028612276,17.23,2.8107813395178916,90,179
+543170750,-1461802366,4523.502840939724,309.055128,6.137083577962964,17.25,2.8107813395178916,90,179
+543170320,-1461802448,4527.465374835608,309.055128,6.137636631697554,17.27,2.8132435500488446,90,179
+543169876,-1461802546,4531.565564239827,307.742792,6.138002258239997,17.28,2.815791295959727,90,178
+543168969,-1461802608,4539.874103605211,308.39896,6.132677110559166,17.3,2.8209539958027583,90,178
+543168969,-1461802608,4539.874103605211,308.39896,6.138585277332345,17.32,2.8209539958027583,90,178
+543168532,-1461802618,4543.875967789985,307.742792,6.139081890528389,17.33,2.8234406451029526,90,178
+543167652,-1461802636,4551.938692095644,307.742792,6.1341004105538826,17.35,2.8284506021696125,90,178
+543167652,-1461802636,4551.938692095644,307.742792,6.139992918152877,17.37,2.8284506021696125,90,178
+543167201,-1461802645,4556.068379467919,307.742792,6.140314704831933,17.38,2.831016677313631,90,178
+543166764,-1461802657,4560.070243652693,307.742792,6.14080803666952,17.4,2.8335033266138248,90,179
+543166337,-1461802579,4564.0131129069105,307.742792,6.141379886501002,17.42,2.8359533180725705,92,179
+543165506,-1461802339,4571.780859543121,309.055128,6.136812224519098,17.43,2.840779984057515,91,179
+543165506,-1461802339,4571.780859543121,309.055128,6.142679157812138,17.45,2.840779984057515,91,179
+543164625,-1461802145,4579.902578779335,304.461952,6.137642635364816,17.47,2.845826598965623,91,179
+543164625,-1461802145,4579.902578779335,304.461952,6.143499164597036,17.48,2.845826598965623,91,179
+543164189,-1461801992,4583.992935862721,302.493448,6.143868543004101,17.5,2.8483682353404016,91,179
+543163291,-1461801619,4592.566954929498,299.212608,6.138238725746804,17.52,2.853695897032012,91,179
+543162836,-1461801450,4596.873629104553,298.55644,6.138322900158384,17.53,2.8563719469500253,91,179
+543162836,-1461801450,4596.873629104553,298.55644,6.1441578078581545,17.55,2.8563719469500253,91,178
+543162384,-1461801244,4601.20980225322,297.244104,6.144196971737541,17.57,2.8590663267259995,91,178
+543161526,-1461800677,4609.882146539442,295.2756,6.138456638833845,17.58,2.8644550850282986,91,179
+543161526,-1461800677,4609.882146539442,295.2756,6.144275081145537,17.6,2.8644550850282986,91,179
+543161105,-1461800369,4614.218318682553,293.963264,6.1443140257455635,17.62,2.867149464179448,91,178
+543160694,-1461800002,4618.642984729832,293.307096,6.144235170479762,17.63,2.8698988310300075,91,177
+543160311,-1461799595,4623.018487161833,291.99476,6.144221806354556,17.65,2.872617648950398,91,177
+543159621,-1461798628,4631.887483898058,291.338592,6.13824783787841,17.67,2.8781286017237244,92,178
+543159621,-1461798628,4631.887483898058,291.338592,6.1440386377254645,17.68,2.8781286017237244,92,178
+543159273,-1461798052,4636.774281091176,290.026256,6.143347998664389,17.7,2.8811651242690646,92,178
+543158659,-1461796877,4646.203735198241,288.71392,6.136653052326124,17.72,2.887024329972685,93,177
+543158659,-1461796877,4646.203735198241,288.71392,6.142426009101596,17.73,2.887024329972685,93,177
+543158377,-1461796237,4651.061034423304,288.71392,6.14177814235928,17.75,2.8900425232848894,93,177
+543158113,-1461795617,4655.731515530308,288.057752,6.141378049390483,17.77,2.89294463291182,93,177
+543157651,-1461794392,4664.679172844311,290.68242399999997,6.13534792130534,17.78,2.898504463223627,93,176
+543157651,-1461794392,4664.679172844311,290.68242399999997,6.141098013077884,17.8,2.898504463223627,93,176
+543157430,-1461793813,4668.917018762421,291.338592,6.141268782055507,17.82,2.901137745139263,93,176
+543156981,-1461792665,4677.37304696253,291.338592,6.135900724297428,17.83,2.9063920905231524,93,176
+543156981,-1461792665,4677.37304696253,291.338592,6.141635210955651,17.85,2.9063920905231524,93,176
+543156531,-1461791547,4685.671753001525,293.307096,6.13648220554812,17.87,2.911548680205255,93,177
+543156531,-1461791547,4685.671753001525,293.307096,6.142206535963743,17.88,2.911548680205255,93,177
+543156007,-1461790513,4693.881966141908,293.963264,6.137177331640015,17.9,2.9166502828127734,92,178
+543156007,-1461790513,4693.881966141908,293.963264,6.142891649453461,17.92,2.9166502828127734,92,177
+543155785,-1461790017,4697.657679908623,294.61943199999996,6.143664062645801,17.93,2.918996408408803,92,176
+543155446,-1461788967,4705.100950907329,295.2756,6.139645737979184,17.95,2.923621454078895,92,176
+543155446,-1461788967,4705.100950907329,295.2756,6.145346430400706,17.97,2.923621454078895,92,176
+543155286,-1461788409,4708.984824225435,295.93176800000003,6.145973866336917,17.98,2.9260347870713677,92,177
+543154991,-1461787294,4716.654244636645,297.900272,6.141667058368744,18,2.930800355820799,92,177
+543154991,-1461787294,4716.654244636645,297.900272,6.147353787126492,18.02,2.930800355820799,92,177
+543154697,-1461786121,4724.667806332581,299.212608,6.142604275324525,18.03,2.935779764582115,90,177
+543154697,-1461786121,4724.667806332581,299.212608,6.148281358758282,18.05,2.935779764582115,90,177
+543154560,-1461785526,4728.6991674798555,300.524944,6.148712003776922,18.07,2.938284742490621,90,177
+543154421,-1461784939,4732.681367022962,302.493448,6.149205790495268,18.08,2.9407591727186064,90,177
+543154326,-1461784376,4736.417751506342,302.493448,6.150017909787616,18.1,2.94308086017022,90,176
+543154256,-1461783819,4740.055809764722,303.14961600000004,6.150956339642868,18.12,2.945341450386321,90,176
+543154182,-1461783266,4743.674203381435,303.80578399999996,6.151918832424102,18.13,2.9475898215302148,90,176
+543154136,-1461782706,4747.302429318983,304.461952,6.152867114512062,18.15,2.949844302210212,90,177
+543154082,-1461782168,4750.802831063472,305.774288,6.153979521559883,18.17,2.9520193564215593,90,176
+543154036,-1461781025,4758.167441484399,307.742792,6.1500916112228,18.18,2.9565955245531703,90,176
+543154036,-1461781025,4758.167441484399,307.742792,6.155728725440237,18.2,2.9565955245531703,90,176
+543154067,-1461780449,4761.884160320558,309.055128,6.156556805312918,18.22,2.9589049923077524,90,176
+543154086,-1461779878,4765.571381188661,311.02363199999996,6.157421706554644,18.23,2.961196130829198,90,177
+543154120,-1461778755,4772.798335095697,314.304472,6.153717994751835,18.25,2.965686762956055,91,179
+543154120,-1461778755,4772.798335095697,314.304472,6.159337828536996,18.27,2.965686762956055,91,179
+543154137,-1461777692,4779.641818434675,318.897648,6.156130686023457,18.28,2.969939116926613,92,178
+543154137,-1461777692,4779.641818434675,318.897648,6.161742473339795,18.3,2.969939116926613,92,178
+543154096,-1461777189,4782.896406124994,320.866152,6.1631575995633145,18.32,2.9719614289864134,92,176
+543154053,-1461776622,4786.554129025041,321.52232,6.164051606092743,18.33,2.974234238274722,92,177
+543153880,-1461775368,4794.7840078126455,324.146992,6.1590655495391236,18.35,2.979348060579272,92,178
+543153880,-1461775368,4794.7840078126455,324.146992,6.16465961452508,18.37,2.979348060579272,91,178
+543153829,-1461774710,4799.041519377979,324.146992,6.164779685111221,18.38,2.9819935621919416,91,178
+543153765,-1461773435,4807.261564839195,325.459328,6.159817933890709,18.4,2.987101274335563,91,179
+543153765,-1461773435,4807.261564839195,325.459328,6.165397479120683,18.42,2.987101274335563,91,179
+543153729,-1461772925,4810.565315139237,325.459328,6.166738984565272,18.43,2.989154134700708,92,181
+543153691,-1461771790,4817.89059426572,321.52232,6.162930107906551,18.45,2.9937058634382545,96,182
+543153691,-1461771790,4817.89059426572,321.52232,6.168497343776384,18.47,2.9937058634382545,96,182
+543153711,-1461770468,4826.395785075552,318.897648,6.163184494452109,18.48,2.9989907571274887,96,182
+543153711,-1461770468,4826.395785075552,318.897648,6.168741919604906,18.5,2.9989907571274887,96,182
+543153684,-1461769765,4830.928609668666,318.24148,6.168506045337143,18.52,3.001807330749665,93,182
+543153714,-1461769062,4835.45160093539,317.585312,6.168283157026514,18.53,3.0046177942109127,93,182
+543153867,-1461767766,4843.917461456332,316.92914399999995,6.163039985207461,18.55,3.0098782491309057,94,183
+543153867,-1461767766,4843.917461456332,316.92914399999995,6.168577307745832,18.57,3.0098782491309057,94,183
+543153988,-1461767160,4847.968488250829,318.24148,6.16895545817733,18.58,3.0123954467364444,94,182
+543154133,-1461765854,4856.47367906066,318.897648,6.163674710945778,18.6,3.017680340425678,93,183
+543154133,-1461765854,4856.47367906066,318.897648,6.16919771695917,18.62,3.017680340425678,93,183
+543154216,-1461765186,4860.839349171826,318.24148,6.1691750153758536,18.63,3.0203930488099635,93,183
+543154490,-1461763884,4869.541191426106,315.616808,6.163658919827302,18.65,3.0258001363454,94,183
+543154490,-1461763884,4869.541191426106,315.616808,6.169167104742252,18.67,3.0258001363454,94,183
+543154710,-1461763236,4874.093680660886,313.648304,6.168908034321924,18.68,3.028628929039784,94,183
+543154918,-1461761875,4883.041337974889,310.367464,6.16309711858408,18.7,3.034188759351591,94,184
+543154918,-1461761875,4883.041337974889,310.367464,6.168590075017756,18.72,3.034188759351591,94,184
+543154937,-1461761172,4887.564329241614,309.711296,6.168369485449752,18.73,3.036999222812839,93,183
+543155021,-1461760490,4892.018493256949,307.742792,6.168236085287233,18.75,3.0397669188965346,92,182
+543155292,-1461759118,4901.182467662621,306.430456,6.16217566528117,18.77,3.045461162751576,92,181
+543155292,-1461759118,4901.182467662621,306.430456,6.167648290205932,18.78,3.045461162751576,92,181
+543155397,-1461758418,4905.793951827959,305.774288,6.167318133841799,18.8,3.048326613287409,92,180
+543155623,-1461757043,4914.8792656558535,303.14961600000004,6.1613750199197135,18.82,3.0539719796039706,95,184
+543155623,-1461757043,4914.8792656558535,303.14961600000004,6.1668323937194645,18.83,3.0539719796039706,95,184
+543155719,-1461756379,4919.24493576702,302.493448,6.166812060816794,18.85,3.0566846879882563,95,185
+543155904,-1461755070,4927.82878715463,303.14961600000004,6.161513040485546,18.87,3.0620184592159707,93,185
+543155904,-1461755070,4927.82878715463,303.14961600000004,6.166956073206823,18.88,3.0620184592159707,93,185
+543155964,-1461754374,4932.3419461005215,305.11812,6.166751278071282,18.9,3.064822813141115,93,185
+543156020,-1461753692,4936.756778821411,305.11812,6.166669677537019,18.92,3.067566069830745,93,184
+543156183,-1461752354,4945.4881190437445,303.14961600000004,6.161205918043605,18.93,3.072991486599317,93,182
+543156183,-1461752354,4945.4881190437445,303.14961600000004,6.166629514802446,18.95,3.072991486599317,93,182
+543156297,-1461751679,4949.952115379914,303.80578399999996,6.166486992569742,18.97,3.0757652922191174,92,182
+543156543,-1461750285,4959.214415005033,304.461952,6.160378461199414,18.98,3.081520632684848,92,181
+543156543,-1461750285,4959.214415005033,304.461952,6.165787046327772,19,3.081520632684848,92,180
+543156693,-1461749577,4963.973389010649,305.774288,6.165279290393808,19.02,3.084477729386363,92,180
+543156906,-1461748158,4973.3241825399355,307.742792,6.1590806354841305,19.03,3.090288057551503,92,180
+543156906,-1461748158,4973.3241825399355,307.742792,6.164473875970543,19.05,3.090288057551503,92,179
+543156985,-1461747468,4977.817675838604,309.711296,6.164297555989516,19.07,3.0930801917796145,93,179
+543157210,-1461746126,4986.706338222051,312.335968,6.158688638083406,19.08,3.098603364249973,93,181
+543157210,-1461746126,4986.706338222051,312.335968,6.164067405452912,19.1,3.098603364249973,93,181
+543157320,-1461745442,4991.219497167943,312.335968,6.163867638117248,19.12,3.101407718175117,93,181
+543157490,-1461744100,5000,310.367464,6.158407733333331,19.13,3.106863683249034,93,181
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
