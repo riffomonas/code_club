@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Creating a visualization that looks like a 96 well plate in R with ggplot2 (CC395)"
-blurb: "Not a fan of this petal plot"
+blurb: "Unique approach to MIC data"
 author: "PD Schloss"
-date: 2026-01-14 12:00
+date: 2026-01-21 12:00
 comments: false
 youtube: 9OR9lueCuyE
 start_hash: 
