@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Creating multiple ROC curves in R with custom functions and map, map_dfr, and map2 (CC123)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2021-07-05-roc-curves">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="creating-multiple-roc-curves-in-r-with-custom-functions-and-map-map-dfr-and-map2-cc123">Creating multiple ROC curves in R with custom functions and map, map_dfr, and map2 (CC123)</h1>
+
+  <p class="meta">July 5, 2021 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    11 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Creating multiple ROC curves in R with custom functions and map, map_dfr, and map2 (CC123)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2021-07-05-roc-curves&text=Creating multiple ROC curves in R with custom functions and map, map_dfr, and map2 (CC123)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/X3mRjpt8ZVA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<p>This is the R script that I generated in this episode</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">broom</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w">
+
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">19760620</span><span class="p">)</span><span class="w">
+
+</span><span class="n">shared</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"raw_data/baxter.subsample.shared"</span><span class="p">,</span><span class="w">
+         </span><span class="n">col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cols</span><span class="p">(</span><span class="n">Group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_character</span><span class="p">(),</span><span class="w">
+                          </span><span class="n">.default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_double</span><span class="p">()))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rename_all</span><span class="p">(</span><span class="n">tolower</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">starts_with</span><span class="p">(</span><span class="s2">"otu"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"otu"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"count"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">taxonomy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"raw_data/baxter.cons.taxonomy"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rename_all</span><span class="p">(</span><span class="n">tolower</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">otu</span><span class="p">,</span><span class="w"> </span><span class="n">taxonomy</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">otu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tolower</span><span class="p">(</span><span class="n">otu</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace_all</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\(\\d+\\)"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">";unclassified"</span><span class="p">,</span><span class="w"> </span><span class="s2">"_unclassified"</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace_all</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">";unclassified"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace_all</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">";$"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace_all</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">".*;"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w">
+         </span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">metadata</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"raw_data/baxter.metadata.tsv"</span><span class="p">,</span><span class="w">
+         </span><span class="n">col_types</span><span class="o">=</span><span class="n">cols</span><span class="p">(</span><span class="n">sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_character</span><span class="p">()))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rename_all</span><span class="p">(</span><span class="n">tolower</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rename</span><span class="p">(</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sample</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">srn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx_bin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Adv Adenoma"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">dx_bin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Cancer"</span><span class="p">,</span><span class="w">
+         </span><span class="n">lesion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx_bin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Adv Adenoma"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">dx_bin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Cancer"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">dx_bin</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Adenoma"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">composite</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">inner_join</span><span class="p">(</span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"otu"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">taxonomy</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">count</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="o">=</span><span class="s2">"drop"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">rel_abund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">count</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ungroup</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">metadata</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"group"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">sig_genera</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">composite</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">taxonomy</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">.x</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">wilcox.test</span><span class="p">(</span><span class="n">rel_abund</span><span class="o">~</span><span class="n">srn</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="o">=</span><span class="n">.x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">tidy</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">test</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">p.adjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">(</span><span class="n">p.value</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s2">"BH"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">p.adjust</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="n">p.adjust</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">composite</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">sig_genera</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"taxonomy"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">rel_abund</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">rel_abund</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="o">/</span><span class="m">20000</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">"(.*)"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*\\1*"</span><span class="p">),</span><span class="w">
+         </span><span class="n">taxonomy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace</span><span class="p">(</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\*(.*)_unclassified\\*"</span><span class="p">,</span><span class="w">
+                                </span><span class="s2">"Unclassified&lt;br&gt;*\\1*"</span><span class="p">),</span><span class="w">
+         </span><span class="n">srn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">srn</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nb">T</span><span class="p">,</span><span class="w"> </span><span class="nb">F</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rel_abund</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">srn</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="n">srn</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="o">/</span><span class="m">10530</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitterdodge</span><span class="p">(</span><span class="n">dodge.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">,</span><span class="w">
+                                              </span><span class="n">jitter.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
+              </span><span class="n">shape</span><span class="o">=</span><span class="m">21</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_summary</span><span class="p">(</span><span class="n">fun.data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median_hilow</span><span class="p">,</span><span class="w"> </span><span class="n">fun.args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">conf.int</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span><span class="w">
+               </span><span class="n">geom</span><span class="o">=</span><span class="s2">"pointrange"</span><span class="p">,</span><span class="w">
+               </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">0.8</span><span class="p">),</span><span class="w">
+               </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_log10</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+                     </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nb">F</span><span class="p">,</span><span class="w"> </span><span class="nb">T</span><span class="p">),</span><span class="w">
+                     </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"gray"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="p">),</span><span class="w">
+                     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SRN"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+                     </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nb">F</span><span class="p">,</span><span class="w"> </span><span class="nb">T</span><span class="p">),</span><span class="w">
+                     </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"gray"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="p">),</span><span class="w">
+                     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Healthy"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SRN"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="w"> </span><span class="s2">"Relative abundance (%)"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_markdown</span><span class="p">()</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"figures/significant_genera.tiff"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">4</span><span class="p">)</span><span class="w">
+
+</span><span class="n">get_sens_spec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="p">,</span><span class="w"> </span><span class="n">actual</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">){</span><span class="w">
+
+  </span><span class="c1"># threshold &lt;- 100</span><span class="w">
+  </span><span class="c1"># score &lt;- test$score</span><span class="w">
+  </span><span class="c1"># actual &lt;- test$srn</span><span class="w">
+  </span><span class="c1"># direction &lt;- "greaterthan"</span><span class="w">
+
+  </span><span class="n">predicted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"greaterthan"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">score</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">score</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">threshold</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+  </span><span class="n">tp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">predicted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">actual</span><span class="p">)</span><span class="w">
+  </span><span class="n">tn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="n">predicted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">actual</span><span class="p">)</span><span class="w">
+  </span><span class="n">fp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">predicted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">actual</span><span class="p">)</span><span class="w">
+  </span><span class="n">fn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="o">!</span><span class="n">predicted</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">actual</span><span class="p">)</span><span class="w">
+
+  </span><span class="n">specificity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tn</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">tn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fp</span><span class="p">)</span><span class="w">
+  </span><span class="n">sensitivity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">tp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fn</span><span class="p">)</span><span class="w">
+
+  </span><span class="n">tibble</span><span class="p">(</span><span class="s2">"specificity"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">specificity</span><span class="p">,</span><span class="w"> </span><span class="s2">"sensitivity"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sensitivity</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">get_roc_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">){</span><span class="w">
+
+  </span><span class="c1"># x &lt;- test</span><span class="w">
+  </span><span class="c1"># direction &lt;- "greaterthan"</span><span class="w">
+
+  </span><span class="n">thresholds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="o">$</span><span class="n">score</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">sort</span><span class="p">()</span><span class="w">
+
+  </span><span class="n">map_dfr</span><span class="p">(</span><span class="n">.x</span><span class="o">=</span><span class="n">thresholds</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">get_sens_spec</span><span class="p">(</span><span class="n">.x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">$</span><span class="n">score</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">$</span><span class="n">srn</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">rbind</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">specificity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sensitivity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1"># get_sens_spec(100, test$score, test$srn, "greaterthan")</span><span class="w">
+</span><span class="c1"># get_roc_data(test, "greaterthan")</span><span class="w">
+
+</span><span class="n">roc_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">composite</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">sig_genera</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="o">=</span><span class="s2">"taxonomy"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="n">rel_abund</span><span class="p">,</span><span class="w"> </span><span class="n">fit_result</span><span class="p">,</span><span class="w"> </span><span class="n">srn</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="o">=</span><span class="n">taxonomy</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="o">=</span><span class="n">rel_abund</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="o">=-</span><span class="nf">c</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">srn</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"metric"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"score"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="c1"># filter(metric == "fit_result") %&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">metric</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Lachnospiraceae_unclassified"</span><span class="p">,</span><span class="w">
+                             </span><span class="s2">"lessthan"</span><span class="p">,</span><span class="s2">"greaterthan"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">roc_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map2</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">.y</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">get_roc_data</span><span class="p">(</span><span class="n">.x</span><span class="p">,</span><span class="w"> </span><span class="n">.y</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">roc_data</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span><span class="w"> </span><span class="n">specificity</span><span class="p">,</span><span class="w"> </span><span class="n">sensitivity</span><span class="p">)</span><span class="w">
+
+</span><span class="n">roc_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="o">-</span><span class="n">specificity</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">sensitivity</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">metric</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_abline</span><span class="p">(</span><span class="n">slope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">intercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"figures/roc_figure.tiff"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="o">=</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="o">=</span><span class="m">4</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">git</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install git
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “mikropml_demo”</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/mikropml_demo.git
+cd mikropml_demo
+git reset --hard 46f2d22d6668933736bf93db6a39f8432da9a99f
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/mikropml_demo.git
+git push -u origin master
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser.</li>
+      <li>Go to the <code class="language-plaintext highlighter-rouge">mikropml_demo</code> directory on your computer and double click on the <code class="language-plaintext highlighter-rouge">mikropml_demo.Rproj</code> icon. This will launch RStudio and you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Using ggplot2 to desmontrate the regressive nature of Trump's spending bill (CC364)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-07-30-cbo-estimates">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="using-ggplot2-to-desmontrate-the-regressive-nature-of-trump-s-spending-bill-cc364">Using ggplot2 to desmontrate the regressive nature of Trump's spending bill (CC364)</h1>
+
+  <p class="meta">July 30, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    3 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Using ggplot2 to desmontrate the regressive nature of Trump's spending bill (CC364)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-07-30-cbo-estimates&text=Using ggplot2 to desmontrate the regressive nature of Trump's spending bill (CC364)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat recreates a barplot from the New York Times showing the regressive impacts of Trump’s spending bill on various income groups in the United States using the ggplot2 R package. The plot was generated using functions from the tidyverse including the dplyr, ggplot2, readxl, showtext, ggtext, and glue packages. The functions he uses from these packages include aes, as.numeric, case_when, download.file, element_rect, element_text, element_textbox_simple, factor, font_add_google, function, geom_col, geom_hline, geom_text, ggplot, glue, if_else, labs, library, margin, mutate, read_excel, scale_color_manual, scale_fill_manual, scale_x_discrete, select, showtext_auto, showtext_opts, str_remove, theme, and theme_void. The newsletter describing this visualization at a 30,000 ft view can be <a href="https://shop.riffomonas.org/posts/how-would-you-make-a-labelled-bar-plot-with-positive-and-negative-values">found here</a>. You can find the original article describing the data <a href="https://archive.is/jG4bM">here for free</a>. The data are [availble from the CBO]https://archive.is/ksh2e. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/-tx7p68I0m4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>```R
+library(tidyverse)
+library(showtext)
+library(ggtext)
+library(readxl)
+library(glue)</p>
+
+<p>font_add_google(“Libre Franklin”, “franklin”, regular.wt = 500)
+font_add_google(“Libre Franklin”, “franklin_light”)
+showtext_opts(dpi = 300)
+showtext_auto()</p>
+
+<h1 id="1-get-the-data-link-in-bottom-right-corner-of-plot-to-the-cbo">1. Get the data! Link in bottom right corner of plot to the CBO</h1>
+<h1 id="-in-ms-excel-format">* In MS Excel format</h1>
+<h1 id="-read-in-with-readxl">* Read in with {readxl}</h1>
+<h1 id="2-do-some-data-clean-up-to-get-in-tidy-format-to-make-bar-plot">2. Do some data clean up to get in tidy format to make bar plot</h1>
+<h1 id="-create-a-variable-to-indicate-positive-or-negative-net-effect">* create a variable to indicate positive or negative net effect</h1>
+<h1 id="-create-bar-plot-with-geom_col">* create bar plot with geom_col()</h1>
+<h1 id="-add-text-with-geom_text">* add text with geom_text()</h1>
+<h1 id="-stylize-the-percent-to-have-the-percent-sign-and-positivenegative-sign">* stylize the percent to have the percent sign and positive/negative sign</h1>
+<h1 id="-color-label-by-direction-of-effect">* color label by direction of effect</h1>
+<h1 id="-match-the-colors-and-remove-the-legend">* match the colors and remove the legend</h1>
+<p>#</p>
+<h1 id="gluenet_effect">glue(“+{net_effect}%”)</h1>
+<h1 id="paste0-net_effect-">paste0(“+”, net_effect, “%”)</h1>
+<p>#</p>
+<h1 id="3-axis-work">3. Axis work</h1>
+<h1 id="-remove-x-and-y-axis-lines-text-ticks">* remove x and y axis lines, text, ticks</h1>
+<h1 id="-remove-gridlines-and-background">* remove gridlines and background</h1>
+<h1 id="-add-zero-line-with-geom_hline">* add zero line with geom_hline</h1>
+<h1 id="-add-decile-information-to-top-of-negative-bars-bottom-of-positive-bars">* add decile information to top of negative bars, bottom of positive bars</h1>
+<h1 id="4-add-titles">4. Add titles</h1>
+<h1 id="-need-to-stylize-various-elements">* Need to stylize various elements</h1>
+
+<p>nd_to_range &lt;- function(x){</p>
+
+<p>decile_number &lt;- as.numeric(str_remove(x, “\w\w$”))
+  upper &lt;- 10 * decile_number
+  lower &lt;- 10 * (decile_number - 1)</p>
+
+<p>glue(“{lower}th-\n{upper}th”)</p>
+
+<p>}</p>
+
+<p>decile_to_text &lt;- function(x){</p>
+
+<p>case_when(x == “Lowest” ~ “Bottom\n10%”,
+            x == “Highest” ~ “Top\n10%”,
+            TRUE ~ nd_to_range(x))</p>
+
+<p>}</p>
+
+<p>data_url &lt;- “https://www.cbo.gov/system/files/2025-06/61387-Data.xlsx”
+download.file(data_url, “cbo-data.xlsx”)</p>
+
+<p>nudge &lt;- 0.2</p>
+
+<p>read_excel(“cbo-data.xlsx”, sheet = “Figure 2”, range = “A8:F18”) %&gt;%
+  select(decile = “Household \r\nincome decile”,
+         net_effect = “Net effect”) %&gt;%
+  mutate(direction = if_else(net_effect &lt; 0, “negative”, “positive”),
+         decile = decile_to_text(decile),
+         decile = factor(decile, levels = decile),
+         decile_y = if_else(net_effect &lt; 0, 0.45, -0.45),
+         label_y = if_else(net_effect &lt; 0,
+                           net_effect - nudge, net_effect + nudge),
+         label = if_else(net_effect &lt; 0,
+                         glue(“{net_effect}%”),
+                         glue(“+{net_effect}%”))) %&gt;%
+  ggplot(aes(x = decile, y = net_effect, fill = direction,
+             label = label)) +
+  geom_col(width = 0.8) +
+  geom_text(aes(y = label_y, color = direction),
+            family = “franklin”, size = 9, size.unit = “pt”) +
+  geom_text(aes(y = decile_y, label = decile),
+            color = “gray50”, lineheight = 0.9,
+            size = 8, size.unit = “pt”, family = “franklin_light”) +
+  geom_hline(yintercept = 0, linewidth = 0.3) +
+  scale_fill_manual(breaks = c(“negative”, “positive”),
+                    values = c(“#D35400”, “#59A497”)) +
+  scale_color_manual(breaks = c(“negative”, “positive”),
+                    values = c(“#D35400”, “#59A497”)) +
+  scale_x_discrete(expand = expansion(0, 0.48)) +
+  labs(
+    title = “How the Bill Would Affect Households at Different Income Ranks”,
+    subtitle = “Estimated annual average change in resources between 2026-34”,
+    caption = “Note: Estimated annual average effect of the House version of the One Big Beautiful Bill Act on after-tax income. Groups are based on income adjusted for household size.    •     Source: Congressional Budget Office”
+  ) +
+  theme_void() +
+  theme(
+    text = element_text(family = “franklin”),
+    legend.position = “none”,
+    plot.background = element_rect(fill = “white”, color = NA),
+    plot.title = element_text(face = “bold”, size = 11,
+                              margin = margin(l = -10)),
+    plot.subtitle = element_text(size = 9.5, color = “gray40”,
+                                 margin = margin(l = -10, t = 8, b = 12)),
+    plot.caption = element_textbox_simple(color = “gray40”, size = 8,
+                                          margin = margin(l = -10, t = 15),
+                                          lineheight = 1.4),
+    plot.margin = margin(t = 8, l = 18, r = 10, b = 6)
+  )```</p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
