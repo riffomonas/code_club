@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Customizing bash to improve reproducibility</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-08-13-customizing-bash">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="customizing-bash-to-improve-reproducibility">Customizing bash to improve reproducibility</h1>
+
+  <p class="meta">August 13, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    9 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Customizing bash to improve reproducibility" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-08-13-customizing-bash&text=Customizing bash to improve reproducibility&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In past episodes of Code Club we haven’t spent much time talking about how to customize your bash environment. Perhaps you’ve already found how you can change the background and font colors using the themes that are built into the software. If you’re going to spend a lot of time looking at the screen, it’s nice to be able to create a pleasant working environment. Besides these aesthetic customizations, we can also customize the behavior of our command line environment to make it easier to interact with the command line.</p>
+
+<p>In today’s episode we’ll see how we can modify the hidden <code class="language-plaintext highlighter-rouge">.bashrc</code> file that lives in your home directory. First, we’ll customize our command line environment by creating aliases that are words that stand in for other things. For example, if there are arguments that you always use when running a command, you can put that into an alias. By default R will prompt you to save your session and offer to load data from a previous session. Both practices are problematic from a reproducibility stand point because you may lose track of what variables were created previously. But we can create an alias that always tells R to turn off those features. Second, we’ll see how we can customize our prompt. I’ll share with you the code used to generate a prompt that will tell us the status of our project’s repository. In the exercises, I’ll encourage you to make your own customizations.</p>
+
+<p>An important point to remember in customizing our environment is that we don’t want those customizations to impact our actual analysis. This is because if you get my code and my code depends on the customizations, but I don’t give you those customization, then your version of the analysis will break. For example, imagine if were I create an alias for <code class="language-plaintext highlighter-rouge">sed</code> that is called <code class="language-plaintext highlighter-rouge">sed</code>, but runs <code class="language-plaintext highlighter-rouge">sed -E</code>. I might code my bash scripts in a way that assumes I always have access to the enhanced regular expressions. Now, you get a hold of my code and try to run those scripts. But it doesn’t work for you. Why? Because you don’t have the same <code class="language-plaintext highlighter-rouge">sed</code> alias that I have. We always want to be mindful of how much our bash scripts depend on our aliases.</p>
+
+<p>Today’s video won’t do anything with the data from the project that we’ve been working on over the recent episodes. So, even if you’re only watching this video to learn more about customizing your command line environment and don’t know what a 16S rRNA gene is, you should get a lot out of today’s video. Please take the time to follow along on your own computer and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/ZUDBDnZEjuo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="pats-fancy-command-prompts">Pat’s fancy command prompts</h2>
+
+<p>This code originally from <a href="https://kbroman.org">Karl Broman</a> who was kind enough to share it with Pat</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># color prompt to include branch information</span>
+<span class="k">function </span>color_my_prompt <span class="o">{</span>
+  <span class="nb">local </span><span class="nv">__user_and_host</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[01;32m</span><span class="se">\]\u</span><span class="s2">@</span><span class="se">\h</span><span class="s2">"</span>
+  <span class="nb">local </span><span class="nv">__cur_location</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[01;34m</span><span class="se">\]\W</span><span class="s2">"</span>
+  <span class="nb">local </span><span class="nv">__git_branch</span><span class="o">=</span><span class="s1">'`git branch 2&gt; /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'</span>
+  <span class="nb">local </span><span class="nv">__prompt_tail</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[35m</span><span class="se">\]</span><span class="s2">$"</span>
+  <span class="nb">local </span><span class="nv">__last_color</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[00m</span><span class="se">\]</span><span class="s2">"</span>
+
+  <span class="nv">RED</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[0;31m</span><span class="se">\]</span><span class="s2">"</span>
+  <span class="nv">YELLOW</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[0;33m</span><span class="se">\]</span><span class="s2">"</span>
+  <span class="nv">GREEN</span><span class="o">=</span><span class="s2">"</span><span class="se">\[\0</span><span class="s2">33[0;32m</span><span class="se">\]</span><span class="s2">"</span>
+
+  <span class="c"># Capture the output of the "git status" command.</span>
+  <span class="nv">git_status</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>git status 2&gt; /dev/null<span class="si">)</span><span class="s2">"</span>
+
+  <span class="c"># Set color based on clean/staged/dirty.</span>
+  <span class="k">if</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">git_status</span><span class="k">}</span> <span class="o">=</span>~ <span class="s2">"working directory clean"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+      </span><span class="nv">state</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">"</span>
+  <span class="k">elif</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">git_status</span><span class="k">}</span> <span class="o">=</span>~ <span class="s2">"working tree clean"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+      </span><span class="nv">state</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">"</span>
+  <span class="k">elif</span> <span class="o">[[</span> <span class="k">${</span><span class="nv">git_status</span><span class="k">}</span> <span class="o">=</span>~ <span class="s2">"Changes to be committed"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+      </span><span class="nv">state</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">"</span>
+  <span class="k">else
+      </span><span class="nv">state</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">RED</span><span class="k">}</span><span class="s2">"</span>
+  <span class="k">fi
+
+  </span><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">"</span><span class="nv">$__user_and_host</span><span class="s2"> </span><span class="nv">$__cur_location</span><span class="s2"> </span><span class="k">${</span><span class="nv">state</span><span class="k">}</span><span class="nv">$__git_branch$__prompt_tail$__last_color</span><span class="s2"> "</span>
+<span class="o">}</span>
+
+<span class="c"># Tell bash to execute this function just before displaying its prompt.</span>
+<span class="nv">PROMPT_COMMAND</span><span class="o">=</span>color_my_prompt
+</code></pre></div></div>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li>A good practice is to make a backup copy of your <code class="language-plaintext highlighter-rouge">.bashrc</code> and <code class="language-plaintext highlighter-rouge">.bash_profile</code> files before you start modifying them.</li>
+  <li>You can load the modified files either by restarting the command line interface or by running</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/.bash_profile
+</code></pre></div></div>
+
+<p>or</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>source ~/.bashrc
+</code></pre></div></div>
+
+<h3 id="alias">Alias</h3>
+
+<p>Syntax:</p>
+
+<p><code class="language-plaintext highlighter-rouge">alias alias_name="commands"</code></p>
+
+<p>Example:</p>
+
+<p><code class="language-plaintext highlighter-rouge">alias R="R --no-save --no-restore"</code></p>
+
+<h3 id="customizing-the-prompt">Customizing the prompt</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PS1</code> is the environmental variable that defines what the prompt looks like</li>
+  <li><code class="language-plaintext highlighter-rouge">PROMPT_COMMAND</code> is the environment variable that tells bash which command to run before generating the prompt</li>
+  <li>Useful meta characters for defining elements of the prompt
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">\h</code>: Host</li>
+      <li><code class="language-plaintext highlighter-rouge">\u</code>: Username</li>
+      <li><code class="language-plaintext highlighter-rouge">\W</code>: Current working directory</li>
+      <li><code class="language-plaintext highlighter-rouge">\w</code>: Full path to current directory</li>
+      <li><code class="language-plaintext highlighter-rouge">\d</code>: Date</li>
+      <li><code class="language-plaintext highlighter-rouge">\n</code>: Newline</li>
+      <li><code class="language-plaintext highlighter-rouge">\t</code>: Time</li>
+    </ul>
+  </li>
+  <li>Don’t forget to add a space following the actual prompt character (e.g. <code class="language-plaintext highlighter-rouge">$</code>)</li>
+  <li>
+    <p>As an example, here’s what the default prompt looks like</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">PS1</span><span class="o">=</span><span class="s2">"</span><span class="se">\h</span><span class="s2">:</span><span class="se">\W</span><span class="s2"> </span><span class="se">\u</span><span class="nv">$ </span><span class="s2">"</span>
+</code></pre></div>    </div>
+  </li>
+  <li><a href="https://code.tutsplus.com/tutorials/how-to-customize-the-command-prompt--net-20586">Here</a> and <a href="https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html">here</a> are several other tutorials on customizing your prompt</li>
+</ul>
+
+<h3 id="specific-notes-for-mac-os-x-about-bash-files">Specific notes for Mac OS X about .bash files</h3>
+<ul>
+  <li>
+    <p>When <code class="language-plaintext highlighter-rouge">Terminal.app</code> is started, it runs <code class="language-plaintext highlighter-rouge">.bash_profile</code> first. You will want to call <code class="language-plaintext highlighter-rouge">.bashrc</code> from within your <code class="language-plaintext highlighter-rouge">.bash_profile</code> using something like…</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  [[ -s ~/.bashrc ]] &amp;&amp; source ~/.bashrc
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Terminal.app</code> has a preferences tab that will allow you to customize the appearance of your environment</li>
+  <li>With Catalina (OS X 10.15), the default shell script has become <code class="language-plaintext highlighter-rouge">zsh</code>. For the most part, the differences between bash and zsh should be minimal. You can tell <code class="language-plaintext highlighter-rouge">Terminal.app</code> to use <code class="language-plaintext highlighter-rouge">bash</code> in your <code class="language-plaintext highlighter-rouge">Terminal.app</code> preferences by going to the “General” tab and selecting the “Command” radio button and putting <code class="language-plaintext highlighter-rouge">/bin/bash</code> in the field for “Shell opens with”.</li>
+</ul>
+
+<h3 id="specific-notes-for-linux-and-windows-10-about-bash-files">Specific notes for Linux and Windows 10 about .bash files</h3>
+<ul>
+  <li>When the command line interface opens, it will run <code class="language-plaintext highlighter-rouge">.bashrc</code> first, the <code class="language-plaintext highlighter-rouge">.bash_profile</code> file is not used</li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>
+    <p>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard eda3a3fb
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser</li>
+      <li>
+        <p>Within <code class="language-plaintext highlighter-rouge">Schloss_rrnAnalysis_XXXX_2020/</code> run</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make data/v19/rrnDB.align
+make data/v4/rrnDB.align
+</code></pre></div>        </div>
+      </li>
+      <li>Then you should now be good to go</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Create an alias for <code class="language-plaintext highlighter-rouge">rm</code> that prompts you whenever you are about to delete a file. Normally this would be achieved using <code class="language-plaintext highlighter-rouge">rm -i &lt;file_name&gt;</code>. Where could this cause problems with our bash scripts?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias rm="rm -i"
+</code></pre></div>  </div>
+
+  <p>There are places in our bash scripts where we do some “garbage collection” with <code class="language-plaintext highlighter-rouge">rm</code>. We likely don’t want to be asked about deleting stuff if we’re automating it. If we want to keep this alias, then we need to go back and add <code class="language-plaintext highlighter-rouge">-f</code> to our <code class="language-plaintext highlighter-rouge">rm</code> commands.</p>
+</div>
+
+<p>2. Create an alias called <code class="language-plaintext highlighter-rouge">lsl</code> that runs <code class="language-plaintext highlighter-rouge">ls -lth</code> whenever it is used</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">alias </span><span class="nv">lsl</span><span class="o">=</span><span class="s1">'ls -lth'</span>
+</code></pre></div>  </div>
+</div>
+
+<p>3. The customized prompt outputs my user and computer name (i.e. user and host). To free up some room in the prompt, I’d like to remove that information. How would you modify the <code class="language-plaintext highlighter-rouge">color_my_prompt</code> function to do this?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Modify the <code class="language-plaintext highlighter-rouge">export PS1</code> line to be</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">"</span><span class="nv">$__cur_location</span><span class="s2"> </span><span class="k">${</span><span class="nv">state</span><span class="k">}</span><span class="nv">$__git_branch$__prompt_tail$__last_color</span><span class="s2"> "</span>
+</code></pre></div>  </div>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

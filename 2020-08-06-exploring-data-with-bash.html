@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Using cut, sort, and unique to explore data with bash</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-08-06-exploring-data-with-bash">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="using-cut-sort-and-unique-to-explore-data-with-bash">Using cut, sort, and unique to explore data with bash</h1>
+
+  <p class="meta">August 6, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    5 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Using cut, sort, and unique to explore data with bash" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-08-06-exploring-data-with-bash&text=Using cut, sort, and unique to explore data with bash&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>A lot of bioinformatics is getting data from one format to another. Sometimes that conversion can be pretty sophisticated and other times it can be pretty simple. For example, I have a file with a bunch of aligned sequences and I want to know how many times each sequence occurs in each genome. I know that the header for each sequence in my FASTA file has the information I need to know which genome the sequence comes from, but I don’t know which field it is. To figure this out, I’m going to use some of my favorite tools to help me. These tools will include <code class="language-plaintext highlighter-rouge">grep</code>, which we saw in the last episode, as well as <code class="language-plaintext highlighter-rouge">cut</code>, <code class="language-plaintext highlighter-rouge">sort</code>, and <code class="language-plaintext highlighter-rouge">uniq</code>.</p>
+
+<p>Much of what we’ll do today you could also do in R or Python. However, using these bash commands will allow me to get to my answer in a single line of code, whereas R or Python will require a lot more effort. The <code class="language-plaintext highlighter-rouge">cut</code> command “cuts” text out of a line based on how we define different regions of the line. For example, we’ve seen that the header lines start with the genus and species name of the organism that was sequenced. We previously put an underscore (i.e. <code class="language-plaintext highlighter-rouge">_</code>) between the genus and species names. We can use <code class="language-plaintext highlighter-rouge">cut</code> to extract the genus name by pulling out anything that occurs before the underscore. The <code class="language-plaintext highlighter-rouge">sort</code> command sorts the lines we give the command. We can also sort lines based on specific fields within the line. For example, we could sort header lines based on the GenBank RefSeq accession number. Finally, the <code class="language-plaintext highlighter-rouge">uniq</code> function deconvolutes a set of lines to return the unique lines. We can also ask it to count the number of times each line occurred in the original set of lines. Hopefully, you can see from my description of these three commands that we could count the number of genera represented in the dataset, the number of 16S rRNA gene copies per genome, or numerous other questions about our data.</p>
+
+<p>We’ll use these commands to help us figure out which bit of information between the pipe characters corresponds to a unique identifier for each genome. This will allow us to use mothur’s <code class="language-plaintext highlighter-rouge">count.seqs</code> function to count the number of times each unique 16S rRNA gene sequence appears in each genome and the number of times it appears in more distantly related genomes. If we can generate this information, we can use it to quantify how specific an amplicon sequence variant or ASV is to a genome, species, genus, or any other taxonomic level.</p>
+
+<p>Even if you’re only watching this video to learn more about bash commands and don’t know what a 16S rRNA gene is, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/gPX7d3BcZpg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<h3 id="common-cut-arguments">Common <code class="language-plaintext highlighter-rouge">cut</code> arguments</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-f</code>: which field you want</li>
+  <li><code class="language-plaintext highlighter-rouge">-d</code>: the delimiter used to define fields</li>
+</ul>
+
+<h3 id="common-sort-arguments">Common <code class="language-plaintext highlighter-rouge">sort</code> arguments</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-n</code>: numerical sort</li>
+  <li><code class="language-plaintext highlighter-rouge">-r</code>: reverse sort</li>
+  <li><code class="language-plaintext highlighter-rouge">-k</code>: which field to sort on</li>
+  <li><code class="language-plaintext highlighter-rouge">-t</code>: the delimiter to define fields based on (default is a space character)</li>
+</ul>
+
+<h3 id="common-uniq-arguments">Common <code class="language-plaintext highlighter-rouge">uniq</code> arguments</h3>
+<ul>
+  <li>default: return the unique lines</li>
+  <li><code class="language-plaintext highlighter-rouge">-c</code>: the number of times each unique line appears</li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>
+    <p>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 77e314f5
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser</li>
+      <li>
+        <p>Within <code class="language-plaintext highlighter-rouge">Schloss_rrnAnalysis_XXXX_2020/</code> run</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make data/v19/rrnDB.align
+make data/v4/rrnDB.align
+</code></pre></div>        </div>
+      </li>
+      <li>Then you should now be good to go</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. How many genomes are in the rrnDB archive that are from the <em>Thermus</em>?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>16</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grep "&gt;Thermus" data/raw/rrnDB-5.6_16S_rRNA.fasta | cut -f 2 -d "|" | sort | uniq | wc -l
+</code></pre></div>  </div>
+</div>
+
+<p>2. Which organism has the most copies of the 16S rRNA gene per genome?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p><em>Photobacterium damselae</em> has 21 copies</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grep "&gt;" data/raw/rrnDB-5.6_16S_rRNA.fasta | cut -f 1,2 -d "|" | sort | uniq -c | sort -r | cut -f 1 -d "|" | head
+</code></pre></div>  </div>
+</div>
+
+<p>3. After the species <em>coli</em>, which <em>Escherichia</em> species has the most genomes represented in the rrnDB?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p><em>Escherichia</em> with 6868</p>
+
+  <ul>
+    <li>957 coli</li>
+    <li>15 albertii</li>
+    <li>5 fergusonii</li>
+    <li>1 sp.</li>
+    <li>1 marmotae</li>
+  </ul>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grep "&gt;Escherichia" data/v19/rrnDB.align | cut -f 1,2 -d "|" | sort | uniq | cut -f 1 -d "|" | cut -f 2 -d "_" | sort | uniq -c | sort -r
+</code></pre></div>  </div>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

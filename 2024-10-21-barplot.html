@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Recreating a grouped and labelled barplot in R with ggplot2 (CC308)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2024-10-21-barplot">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="recreating-a-grouped-and-labelled-barplot-in-r-with-ggplot2-cc308">Recreating a grouped and labelled barplot in R with ggplot2 (CC308)</h1>
+
+  <p class="meta">October 21, 2024 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    3 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Recreating a grouped and labelled barplot in R with ggplot2 (CC308)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2024-10-21-barplot&text=Recreating a grouped and labelled barplot in R with ggplot2 (CC308)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat recreates a grouped bar plot that had text annotation that provided the value of each bar of the barplot using the geom_col and geom_text functions from ggplot2 in R. He customizes the appearance to match the original figure using the scale_color_manual, scale_x_discrete, scale_y_continuous, coord_cartesian, labs, and theme functions. The plot was included in a slide deck to report the results of a study performed by Oxford University Press. You can find their press release at https://corp.oup.com/news/how-are-researchers-responding-to-ai/ and the slide deck is at https://fdslive.oup.com/www.oup.com/academic/pdf/Researchers-and-AI-survey-findings.pdf. The figure I recreate in this episode is on slide 20. The newsletter describing how I would go about generating the figure can be found at https://shop.riffomonas.org/posts/whatever-you-do-don-t-use-ai-to-figure-out-this-plot.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/_vXSrZ3E05s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(ggtext)
+library(glue)
+
+questions &lt;- c("Generating ideas for\nresearch",
+               "Discovering existing\nresearch",
+               "Summarising existing\nresearch",
+               "Designing the\nresearch",
+               "Collecting research\ndata",
+               "Analysing research\ndata",
+               "Writing up the\nresearch",
+               "Editing write-up of\nresearch",
+               "Creating marketing /\noutreach content\n", "Another stage\n")
+
+  
+oup_data &lt;- tibble(
+  question = rep(questions, each = 8),
+  cohort = rep(
+    c("Pioneers", "Careful optimists", "Cautious time savers",
+      "Neutrals", "Wary observers", "Concerned pessimists",
+      "Sceptics", "Challengers"),
+    times = 10),
+  positives =   rep(
+    c(383, 636, 531, 159, 373, 410, 293, 580, 135, 194),
+    each = 8),
+  rate = c(39, 34, 26, 25, 17, 5, 12, 6,
+           50, 49, 44, 40, 43, 26, 32, 19,
+           57, 47, 37, 31, 25, 11, 11, 8,
+           20, 17, 7, 11, 5, 1, 2, 1,
+           24, 29, 25, 24, 24, 15, 27, 27,
+           43, 30, 26, 24, 17, 7, 24, 14,
+           31, 21, 18, 22, 10, 13, 8, 13,
+           59, 48, 38, 38, 26, 15, 23, 6,
+           15, 10, 8, 7, 6, 5, 5, 8,
+           8, 5, 13, 11, 11, 35, 15, 34)
+) %&gt;%
+  mutate(
+    question = factor( question, levels = questions),
+    cohort = factor(
+      cohort,
+      levels =     c("Pioneers", "Careful optimists", "Cautious time savers",
+                     "Neutrals", "Wary observers", "Concerned pessimists",
+                     "Sceptics", "Challengers")),
+    pretty_rate = glue("{rate}%")
+  )
+
+pretty_label &lt;- oup_data %&gt;%
+  select(question, positives) %&gt;%
+  distinct() %&gt;%
+  mutate(pretty = glue("{question} (N={positives})")) %&gt;%
+  pull(pretty)
+
+
+oup_data %&gt;%
+  ggplot(aes(x = question, y = rate, fill = cohort, 
+             label = pretty_rate)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(y = rate + 1), position = position_dodge(width = 0.9),
+            vjust = 0, size = 1.5, fontface = "bold") +
+  annotate("segment", x = seq(0.5, 10.5, 1), xend = seq(0.5, 10.5, 1),
+           y = 0, yend = -1, 
+           linewidth = 0.25, color = "gray") +
+  scale_fill_manual(values = c("#742FA0", "#021F62", "#056FBF", "#08AEF0",
+                               "#94D052", "#FFFF04", "#FFBF05", "#C10100")) +
+  scale_y_continuous(breaks = seq(0, 70, by = 10),
+                     labels = scales::label_percent(scale = 1),
+                     expand = c(0, 0)) +
+  scale_x_discrete(expand = expansion(add = 0.5),
+                   labels = pretty_label) +
+  coord_cartesian(clip = "off", ylim = c(0, 70)) + 
+  guides(fill = guide_legend(nrow = 1)) +
+  labs(fill = NULL, x = NULL, y = NULL,
+       title = "AI has most commonly been used to support the discovery of existing research, followed by editing the research write-up",
+       caption = "Multiple-response question, therefore percentages do not sum to 100") +
+  theme_classic() +
+  theme(legend.position = "top",
+        legend.text = element_text(size = 5, margin = margin(l = 1)),
+        legend.key.size = unit(5, unit = "pt"),
+        axis.text = element_text(size = 5, face = "bold"),
+        axis.line = element_line(linewidth = 0.25, color = "gray"),
+        axis.ticks.y = element_line(linewidth = 0.25, color = "gray"),
+        axis.ticks.x = element_blank(),
+        plot.title.position = "plot",
+        plot.title = element_textbox_simple(face = "bold",
+                                            margin = margin(b = 15)),
+        plot.caption.position = "plot",
+        plot.caption = element_text(size = 5, hjust = 0)
+        )
+
+ggsave("ai_barplot.png", width = 8, height = 3.5)
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

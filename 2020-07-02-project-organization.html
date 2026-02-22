@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Project organization</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-02-project-organization">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="project-organization">Project organization</h1>
+
+  <p class="meta">July 2, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    18 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Project organization" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-02-project-organization&text=Project organization&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>I <strong>love</strong> starting new projects. Everything feels so simple and obvious. Weeks, months, and years after staring things have gotten complicated, confusing, and tedious. We’re ready for it to be done already. With each project, I tell myself, this is going to be different! Well dear reader, today is that day. We are going to start a new project with the goal of answering a question that is important to those of us interested in analyzing microbial communities: <em>To what degree do inter- and intra-genomic variation limit the interpretation of amplicon sequence variants (ASVs)?</em> Along the way we’ll learn different elements of what it takes to make an analysis reproducible and how to use a variety of tools that will help out. We’ll get started in this session with using the command line to set up our project directory. Even if you don’t find the problem we are studying interesting, you will hopefully find the approach generalizable to a variety of problems that do interest you.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/3HkgewL_Tg8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="the-problem">The problem</h2>
+
+<p>Within the field of microbial ecology we regularly sequence a portion of the 16S rRNA gene. Over the past ~30 years we have used this approach to characterize the biodiversity in and between communities. Traditionally, researchers would compare the sequences for this gene to a database to determine the relatives of our sequences. When we cluster sequences together based on who they are similar to in a database, I call that phylotyping. Because our databases are pretty inadequate considering the diversity of bacteria, about 20 years ago researchers started clustering these sequences into bins based on their similarity to each other rather than their similarity to something in a database. We generally do this based on a distance threshold of 3% or similarity level of 97%. People like to think that this relates to some definition of species for bacteria, but that is a stretch. Instead, we generally call these bins operational taxonomic units or OTUs. In recent years people have started to more seriously question why we need to use a 3% distance. Why not use a smaller distance? Why not define a bin where we require sequences to be identical to each other or perhaps only one or two nucleotides different from each other. These have been called a variety of things including oligotypes, amplicon sequence variants (ASVs), and exact sequence variants (ESVs). Because these bins, in practice, allow for some difference between sequences, I’m going to run with calling them ASVs. The logic behind ASVs is that by looking at a more fine scale, we would more accurately represent the genome level diversity of the community than we could by using phylotypes or OTUs. Of course phylotypes and ASVs are all OTUs with a different definition.</p>
+
+<p>In some regards, the idea behind ASVs is not novel. Sue Huse laid the ground work for this idea with her <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2909393/">single-linkage preclustering (SLP)</a> methodology and Murat Eren took it the next step to develop methods for <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3864673/">oligotyping</a>. The mothur software package, which my research group develops has generated the data for ASVs as part of its workflow since <a href="https://mothur.org/wiki/mothur_v.1.8.0/">February 2010</a> when we first included the <a href="https://mothur.org/wiki/pre.cluster/"><code class="language-plaintext highlighter-rouge">pre.cluster</code></a> function as an alternative to SLP. Those that push for ASVs have gone so far as to say that <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5702726/">“ASVs should replace OTUs as the standard unit of marker-gene analysis and reporting”</a>. I’m not sure that I agree with that claim for a number of reasons, which I’ve mostly laid out in a <a href="http://www.academichermit.com/2017/10/11/Review-of-Updating-the-97-identity-threshold.html">preprint review</a>. There are other reasons that I have concerns about ASVs, but there is one question that I’d like to take on in the next episodes of Code Club.</p>
+
+<p>One of the somewhat unspoken challenges of using 16S rRNA genes is that many bacterial genomes have more than one copy. Some have 1, some have 21. This variation complicates efforts to quantify the number of bacteria in a community. For ASVs, there is another potential problem. These different copies are not identical. This is something that has also been discussed by Noah Fierer and his group <a href="http://fiererlab.org/2017/10/09/intragenomic-heterogeneity-and-its-implications-for-esvs/">here</a> and <a href="http://fiererlab.org/2017/05/02/lumping-versus-splitting-is-it-time-for-microbial-ecologists-to-abandon-otus/">here</a>. In <a href="http://www.academichermit.com/2017/10/11/Review-of-Updating-the-97-identity-threshold.html">my review</a>, I stated:</p>
+
+<blockquote>
+  <p>As an example of intragenomic variation, <em>E. coli</em> ATCC 70096 has 7 copies of the 16S rRNA gene and 6 of these are different from each other in the full length version of the gene. Fortunately, within the V4 region the 7 copies are identical. Alternatively, <em>Staphylococcus aureus</em> ATCC BAA-1718 and <em>Staphylococcus epidermidis</em> ATCC 12228 both have 5 copies of the 16S rRNA gene. Considering the V4 region of these species, 4 of the 5 copies in each genome are identical between the two species. The remaining <em>S. aureus</em> copy is 1 nt different from the other <em>S. aureus</em> copies; however the remaining <em>S. epidermidis</em> copy is 1.7 and 2.0% different from the other <em>S. epidermidis</em> and <em>S. aureus</em> copies. The less restrictive threshold would lump the two species together; however, the more restrictive threshold suggested by Edgar would generate 3 OTUs. None of these reflect the biology he claims and the method would split sequences from the same strain into different OTUs.</p>
+</blockquote>
+
+<p>These examples naturally have a biased representation: they were strains found in the HMP mock community. As far as I am aware, there has not been a systematic analysis of the impacts of intra- and inter-genomic variation between 16S rRNA gene operons from the perspective of ASVs. A <a href="https://aem.asm.org/content/79/19/5962.abstract">2013 study</a> from Dong-Lei Sun and colleagues came close to answering my questions, but the work was done 7 years ago and there are now more data available (N=<a href="https://rrndb.umms.med.umich.edu">15,829 genomes</a>) than they had access to (N=2,013 genomes). Regardless, I think this is an interesting question that serves as a motivation to learn tools designed to foster better reproducible analyses.</p>
+
+<p>To answer this and related questions we will leverage the tremendous <a href="https://rrndb.umms.med.umich.edu">rrnDB database</a> developed by my colleague, Tom Schmidt, and his lab who are also at the University of Michigan (we share lab space). This database provides searchable and downloadable versions, which include the sequences for each 16S rRNA gene in a genome and taxonomic information about the genome. Among the 15,829 genomes represented, there are data for 15,486 bacterial genomes representing 4,568 species and 343 archaeal genomes representing 261 species. The database has been updated every Fall since 2014. Of course, these data do not tell us about the variation for bacteria, but if the results of analyzing known biodiversity are problematic, then it would also be troubling for the as yet unknown biodiversity.</p>
+
+<h2 id="organization">Organization</h2>
+
+<p>A lot of my thinking on project organization is adapted from a Commentary published by <a href="http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1000424">William Stafford Noble</a> in <em>PLOS Computational Biology</em>. As he states in the Commentary:</p>
+
+<blockquote>
+  <p>Someone unfamiliar with your project should be able to look at your computer files and understand in detail what you did and why. This “someone” could be any of a variety of people: someone who read your published article and wants to try to reproduce your work, a collaborator who wants to understand the details of your experiments, a future student working in your lab who wants to extend your work after you have moved on to a new job, your research advisor, who may be interested in understanding your work or who may be evaluating your research skills. Most commonly, however, that “someone” is you.</p>
+</blockquote>
+
+<p>Quick. Go look at the current project you are working on. Where are the files? What kind of organization do you have? Noble’s Commentary is based on his experience working on computational biology projects. I’m going to share my organization based on my experience working on bioinformatics projects related to studying microbial communities. With time and experience, you’ll likely develop a structure that works well for the types of projects you work on. Here are a few general principles to keep in mind:</p>
+
+<ul>
+  <li>Different types of things should stay separate (e.g. code and data)</li>
+  <li>Everything should be contained within one directory</li>
+  <li>All code should assume that it is run from the root of that directory (i.e. project home or project root)</li>
+  <li>Raw data should stay raw and separate from other data</li>
+  <li>Directories and filenames will be in lower case with no spaces using <a href="https://medium.com/better-programming/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841">snake_case</a>. I violate this rule for naming the project root.</li>
+</ul>
+
+<p>My basic project structure looks like this:</p>
+
+<p><img src="assets/images/directory_structure.png" alt="" /></p>
+
+<p>As we go through the project, we’ll add files and directories to better serve our analysis, but this is the basic structure we’ll use. The code and data directories should be clear what they’ll contain. The exploratory directory will contain any notes that I make about the progress of my analysis - this will be like my notebook. The submission directory will</p>
+
+<h2 id="command-line-interface">Command line interface</h2>
+
+<p>You can hopefully generate a directory that looks like this using the graphical interface on your computer (i.e. Finder in Mac OS X and Windows Explorer in Windows). But don’t! Because many of our future steps will use the command line, we need to get more comfortable working there. For today’s episode of Code Club, we’re going to learn some tools for working with directories and files from the command line. Before we get going, it will be best to work from within a unix-type shell. If you are using a Mac then you can find the Terminal app already installed in <code class="language-plaintext highlighter-rouge">/Applications/Utilities</code>. If you are using a computer that runs Windows, <del>you need to go ahead and install <a href="https://gitforwindows.org">git for windows</a>, which includes Git BASH</del> you should <a href="https://itsfoss.com/install-bash-on-windows/">install the Ubuntu Linux BASH shell for Windows 10</a> (if you don’t have Windows 10, you probably should). This will appear as the Ubuntu program in your Windows Start menu. When I talk about using the command line interface, I am referring to Terminal and the Linux BASH shell.</p>
+
+<h3 id="your-computer-is-like-a-tree">Your computer is like a tree</h3>
+
+<p>When you start up your command line interface you will generally be plopped into your home directory. You’ll find something that looks like this awaiting you…</p>
+
+<pre><code class="language-BASH">pschloss@rideau ~ $
+</code></pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">$</code> is the prompt where you will enter the commands that I share with you below.</p>
+
+<p>Open your Finder/Windows Explorer window and navigate to your home directory. Here you’ll see a number of different directories. In mine, I see directories including Applications, Desktop, Documents, Downloads and others. These are the directories within our home directory. We can move to these directories using the <code class="language-plaintext highlighter-rouge">cd</code> command (short for change directory). Go ahead and try this</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Documents
+</code></pre></div></div>
+
+<p>This will move you to your Documents directory. There are two ways to remind yourself where you are. First you can use <code class="language-plaintext highlighter-rouge">ls</code> to list the contents of the directory you are in</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span>
+</code></pre></div></div>
+
+<p>This should generate a list that looks like the visual output you see in your Finder/Windows Explorer for that directory. Another approach is to use <code class="language-plaintext highlighter-rouge">pwd</code> to see your working directory</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">pwd</span>
+</code></pre></div></div>
+
+<p>On my computer this outputs <code class="language-plaintext highlighter-rouge">/Users/pschloss/Documents</code>, which tells me that I am in my Documents directory. As you move around your directories, it helps to think of your computer as a tree. The root of the tree or the computer is the <code class="language-plaintext highlighter-rouge">/</code> directory. This is literally called the “root”. I can look at the output of <code class="language-plaintext highlighter-rouge">pwd</code> and see that within the root directory there is a directory called Users and in that directory there is a directory called pschloss and in that one called Documents. You can use <code class="language-plaintext highlighter-rouge">ls</code> to see what is in any directory, even if you aren’t located in the directory. From Documents, notice what happens when you run this</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> /Users/pschloss/Desktop
+</code></pre></div></div>
+
+<p>The output should look like what you see on your Desktop.</p>
+
+<h3 id="making-directories">Making directories</h3>
+
+<p>I want to put our project directory within our Documents directory. To make directories we can use <code class="language-plaintext highlighter-rouge">mkdir</code>. The basic template that I use to name a project directory is <code class="language-plaintext highlighter-rouge">LastName_ProjectBlurb_Journal_Year</code>. The idea is that I can sort projects by the lead researcher’s “last name” to find the project for anyone in my lab. The “project blurb” is a one or two word description of the project (e.g. rrnAnalysis). The “journal” is where we think we’ll submit the manuscript (yes, it is aspirational to think that we’re going to publish every project!<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>). Finally, the year is the current year, until the project is published and then we use the publication year. I could see an argument for putting the year first so that we could sort projects chronologically. I’ll name my project “Schloss_rrnAnalysis_XXXX_2020” (I’m not sure if or where I’d submit this, maybe <em>mSphere</em>?). To create this directory, I’ll do the following</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>Schloss_rrnAnalysis_XXXX_2020
+</code></pre></div></div>
+
+<p>If you look in your Documents directory using Finder/Windows Explorer, you should see the new directory. Now we want to move into our new directory.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Schloss_rrnAnalysis_XXXX_2020
+</code></pre></div></div>
+
+<p>This will be empty, which we can check by using <code class="language-plaintext highlighter-rouge">ls</code>.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span>
+</code></pre></div></div>
+
+<p>Next, I want to create the directories that I have outlined in the screen shot I put above. I can create directories individually like we did above, or I can create multiple directories at once. For example</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>code exploratory submission data
+</code></pre></div></div>
+
+<p>Use <code class="language-plaintext highlighter-rouge">ls</code> to confirm that those directories have been created</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span>
+</code></pre></div></div>
+
+<h3 id="making-files">Making files</h3>
+
+<p>Similar to how we can make directories from the command line interface, we can also create files from the command line. To create an empty file, we can use <code class="language-plaintext highlighter-rouge">touch</code> and name the file(s) that we want to create</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">touch </span>README.md LICENSE.md
+</code></pre></div></div>
+
+<p>Again we can use <code class="language-plaintext highlighter-rouge">ls</code> to list the contents of the directory. We can also use the <code class="language-plaintext highlighter-rouge">-F</code> flag with <code class="language-plaintext highlighter-rouge">ls</code> to help distinguish between directories and files.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-F</span>
+</code></pre></div></div>
+
+<p>You’ll notice that your directory names have a trailing <code class="language-plaintext highlighter-rouge">/</code> character where as your files do not.</p>
+
+<h3 id="paths">Paths</h3>
+
+<p>As I mentioned above, <code class="language-plaintext highlighter-rouge">pwd</code> gives us our current location or “working directory”. This output is known as our “path”. Specifically, the output from <code class="language-plaintext highlighter-rouge">pwd</code> is the “absolute path” since it traces the path all the way back to the root of my computer at <code class="language-plaintext highlighter-rouge">/</code>. For our project, everything we do will be done relative to the project root using “relative paths”. For example, if we want a raw data file, we would look in <code class="language-plaintext highlighter-rouge">data/raw/</code> rather than <code class="language-plaintext highlighter-rouge">/Users/pschloss/Documents/Schloss_rrnAnalysis_XXXX_2020/data/raw</code>. Aside relative paths being shorter, they are more “portable” and lend themselves to greater reproducibility. This is because if you give me your project directory, it will work on my computer even if I put it on my Desktop or some other directory. Relative paths are your friend. We want to run everything from our project root because if you change directories in the middle of an analysis and the analysis hits a bug and needs to be restarted, it may not be clear from the code which directory you need to be in to restart the analysis. To demonstrate this a bit more clearly, we need to generate our data directories. The path to my relative path to my raw directory from my project root is <code class="language-plaintext highlighter-rouge">data/raw/</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>data/mothur/ data/processed data/references/ data/raw/
+</code></pre></div></div>
+
+<p>If we are working from our project root, we can denote this with <code class="language-plaintext highlighter-rouge">./</code>. Note the added <code class="language-plaintext highlighter-rouge">.</code> before the <code class="language-plaintext highlighter-rouge">/</code>, which distinguishes it from the root of the computer. Finally, we can see the contents of our project directory using the <code class="language-plaintext highlighter-rouge">-R</code> flag</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-R</span>
+</code></pre></div></div>
+
+<p>You could combine that with the <code class="language-plaintext highlighter-rouge">-F</code> flag that we saw earlier</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-RF</span>
+</code></pre></div></div>
+
+<p>The output from <code class="language-plaintext highlighter-rouge">ls -F</code> shows you the relative path to every directory and file, relative to the project root.</p>
+
+<h3 id="caveat-emptor-deleting-things">Caveat emptor: deleting things</h3>
+
+<p>If we added a directory that we don’t really want, we could always remove the file or directory using <code class="language-plaintext highlighter-rouge">rm</code> or <code class="language-plaintext highlighter-rouge">rmdir</code>, respectively. To remove the <code class="language-plaintext highlighter-rouge">LICENSE.md</code> file we could do</p>
+
+<pre><code class="language-BASH">rm LICENSE.md
+</code></pre>
+
+<p>Alternatively, if we want to remove the <code class="language-plaintext highlighter-rouge">data/raw</code> directory, we coudl do</p>
+
+<pre><code class="language-BASH">rmdir data/raw/
+</code></pre>
+
+<p>After running these commands, go back and recreate the deleted file and directory. Remember that with “great power comes great responsibility”. Many people have accidentally deleted their projects using these commands. Once something is deleted, it is gone - it does not go to the Trash. Be careful. In the next episode we’ll talk about adding version control to our project and how we can use it to maintain a historical documentation of everything we’ve done. One benefit of version control is that it can serve as a back up of your work.</p>
+
+<p>It may not feel like it, but we’ve done a lot today. We’ve introduced the project we will be working on, described the differences between absolute and relative paths, and learned how to create directories and files (<code class="language-plaintext highlighter-rouge">mkdir</code>, <code class="language-plaintext highlighter-rouge">touch</code>), move between directories (<code class="language-plaintext highlighter-rouge">cd</code>), list the contents of directories (<code class="language-plaintext highlighter-rouge">ls</code>), and how to delete things (<code class="language-plaintext highlighter-rouge">rm</code>, <code class="language-plaintext highlighter-rouge">rmdir</code>).</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Quit your command line interface by typing <code class="language-plaintext highlighter-rouge">exit</code> at the prompt. Restart the command line interface and navigate to your project root.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Documents/Schloss_rrnAnalysis_XXXX_2020
+</code></pre></div>  </div>
+</div>
+
+<p>2. Put a file called <code class="language-plaintext highlighter-rouge">README.md</code> into every subdirectory of the project. Use <code class="language-plaintext highlighter-rouge">ls</code> to confirm that every directory now has a <code class="language-plaintext highlighter-rouge">README.md</code> file. Do not use <code class="language-plaintext highlighter-rouge">cd</code>!</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <pre><code class="language-BASH">touch code/README.md data/README.md exploratory/README.md submission/README.md
+touch data/mothur/README.md data/processed/README.md data/raw/README.md data/references/README.md
+
+ls -FR
+</code></pre>
+</div>
+
+<p>3. Thinking ahead, what questions might you want to answer with the data from the rrnDB?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Many, many possible questions!</p>
+
+  <ul>
+    <li>If we assume that the sequences in the rrnDB represent a microbial community, what would be it’s richness at each level from phylum through strain and ASV? How does the answer change if we look at a subregion versus full-length sequences?</li>
+    <li>Are ASVs specific to a strain? Species? Genus? How does the answer change if we look at a subregion versus full-length sequences?</li>
+    <li>What OTU threshold would we use to limit splitting species into different OTUs? Genera? Families?</li>
+    <li>How does copy number vary among Archaea vs. Bacteria?</li>
+  </ul>
+</div>
+
+<hr />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>It’s good to be aspirational. Where would we be without goals? As this series develops and if it turns into a paper, I would be very happy to be generous in providing co-authorship to anyone that contributes code or ideas. Stay tuned for ways to make your contributions! <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

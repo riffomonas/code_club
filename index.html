@@ -1,0 +1,3323 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Code Club</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="index">
+
+	<h1>Code Club</h1>
+	<p><strong>Code Club</strong> is an opportunity for people to learn to program and analyze data better. In each session we’ll provide background material, disperse participants to work on several exercises, and then come back to share solutions and debrief. The entire session should not last more than one hour. Videos of Pat Schloss presenting the material are posted to YouTube for people to engage with asynchronously.</p>
+
+<p>Although this may evolve over time, the primary language used in these Code Clubs will be <a href="http://www.academichermit.com/2020/03/23/Why-R.html">R</a> and we will use RStudio as the primary interface for our activities. To participate, you will need internet access, R, Rstudio, and the tidyverse package. Here are some <a href="setup-instructions">instructions</a> to help you get set up and ready for your first Code Club.</p>
+
+<ul class="post-preview">
+	
+
+  
+    <li>
+      <span class="post-date">Feb 22, 2026</span>
+      <a class="post-link" href="/code_club/2026-02-22-2026-01-28-uturn-nytimes"></a>
+			
+		      
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 18, 2026</span>
+      <a class="post-link" href="/code_club/2026-02-18-siv-jitterplot">Refactoring a plot to better align with the text and make interpretation easier for readers (CC400)</a>
+			
+			<p>Make it easy for your audience</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 11, 2026</span>
+      <a class="post-link" href="/code_club/2026-02-11-theanine">Adding professional polish to your data visualizations (CC398)</a>
+			
+			<p>Show us you care</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 4, 2026</span>
+      <a class="post-link" href="/code_club/2026-02-04-ama">Ask me anything about data visualization, R, reproducible research, and science (CC397)</a>
+			
+			<p>That bar plot... yikes!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 21, 2026</span>
+      <a class="post-link" href="/code_club/2026-01-21-mic-plot-livestream">Creating a visualization that looks like a 96 well plate in R with ggplot2 (CC395)</a>
+			
+			<p>Unique approach to MIC data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 14, 2026</span>
+      <a class="post-link" href="/code_club/2026-01-14-petal-plot-redo">Creating and refactoring faceted petal plots in R with ggplot2 (CC393)</a>
+			
+			<p>Not a fan of this petal plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 17, 2025</span>
+      <a class="post-link" href="/code_club/2025-12-17-invader-displacement">How to insert images into ggplot2 generated figures in R (CC390)</a>
+			
+			<p>Let's add some jitter...</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 10, 2025</span>
+      <a class="post-link" href="/code_club/2025-12-10-invader-displacement">Remaking a jittered plot with P values from Nature Microbiology in R with ggplot2 (CC389)</a>
+			
+			<p>Someone listened to me!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 8, 2025</span>
+      <a class="post-link" href="/code_club/2025-12-08-invader-displacement-critique">Using model cartoons to improve the interpretability of a complex dataset (CC388)</a>
+			
+			<p>A great way to help your audience</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-12-03-lymph-node">How to combine map and patchwork to make facets of facets with ggplot2 in R (CC387)</a>
+			
+			<p>Soooo cool!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 26, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-26-lymph-node">How to simplify a busy set of panels from a figure in Nature in R with ggplot2 (CC386)</a>
+			
+			<p>An improvement</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 19, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-19-hydrogenase-refactor">How to convert heat maps to a jittered dot plot in R using ggplot2 and patchwork (CC384)</a>
+			
+			<p>So much better...</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 18, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-18-nature-micro-critique">How to constructively critique a figure from a scientific publication (CC383)</a>
+			
+			<p>A critique of a paper in <i>Nature Microbiology</i></p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 18, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-18-lymph-node-critique">How overly precise P-values make data visualizations worse (CC385)</a>
+			
+			<p><i>Nature</i> has a precision problem</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 14, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-14-media-deaths-dotplot">Converting a stacked bar plot to a dot plot in R with ggplot2 (CC382)</a>
+			
+			<p>Dot plots are superior to stacked bar plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 12, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-12-media-deaths">Creating a stacked bar plot infographic from Our World in Data in R with ggplot2 (CC381)</a>
+			
+			<p>If you insist on making a stacked bar plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 10, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-10-media-deaths-critique">Why shouldn't you use a stacked bar plot? A case study from Our World in Data (CC380)</a>
+			
+			<p>A constructive critique</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 5, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-05-tiktok-news">Recreating Pew Research plot showing where Americans get their news from on social media (CC379)</a>
+			
+			<p>Practicing more features from latest version of ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-11-03-tiktok-news-critique">Data viz critique: Where are Americans getting their news from? (CC378)</a>
+			
+			<p>How about that Pew style?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 29, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-29-dollary-year">Recreating graphic from the FT showing the year to date change in the US Dollar Index (CC377)</a>
+			
+			<p>How do we recreate this plate of data spaghetti?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 27, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-27-dollary-year-critique">Data viz critique: Is the dollar having its worst year in decades? (CC376)</a>
+			
+			<p>How did the FT do?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 22, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-22-shutdown-blame">Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC375)</a>
+			
+			<p>Pat's favorite type of figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 20, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-20-shutdown-critique">Do you have a framework for critiquing data visualizations? (CC374)</a>
+			
+			<p>The DAIJ model</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 15, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-15-israel-sentiment">Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC373)</a>
+			
+			<p>Pat's favorite type of figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 10, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-10-global-carbon">Creating stacked area plots with ggplot2 and patchwork (CC372)</a>
+			
+			<p>Trying Positron and ggplot2 yet again</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-10-03-vaccines">Using the new ggplot2 and Positron to recreate a bar plot from the Washington Post (CC371)</a>
+			
+			<p>Trying Positron and ggplot2 again</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 24, 2025</span>
+      <a class="post-link" href="/code_club/2025-09-24-policy-wording">Using ggplot2 to make a faceted bar plot that you can't tell has facets (CC370)</a>
+			
+			<p>Trying out the new margin_auto ggplot2 function</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 12, 2025</span>
+      <a class="post-link" href="/code_club/2025-09-12-media-education">Trying Positron for the first time by remaking a plot from Pew (CC369)</a>
+			
+			<p>Cool, but some kinks to be worked out</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-09-03-tx-jerrymandering">Creating a beeswarm plot in R with ggplot2 using several approaches (CC368)</a>
+			
+			<p>Deceptively simple plot!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 27, 2025</span>
+      <a class="post-link" href="/code_club/2025-08-27-jobs-numbers">Using ggplot2 to display the revised change in US Jobs Numbers for May and June (CC367)</a>
+			
+			<p>Jobs data gets political</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 20, 2025</span>
+      <a class="post-link" href="/code_club/2025-08-20-antibiotics">Modifying a published figure showing antibiotic discovery and resistance in R with ggplot2 (CC366)</a>
+			
+			<p>An interesting gantt chart</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 13, 2025</span>
+      <a class="post-link" href="/code_club/2025-08-13-card-games">Using ggplot2 to compare people's preference for different card games (CC365)</a>
+			
+			<p>A horizontal stacked barplot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 30, 2025</span>
+      <a class="post-link" href="/code_club/2025-07-30-cbo-estimates">Using ggplot2 to desmontrate the regressive nature of Trump's spending bill (CC364)</a>
+			
+			<p>Making a bar plot more sophisticated</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 16, 2025</span>
+      <a class="post-link" href="/code_club/2025-07-16-israelis-palestinians">Using ggplot2 to recreate a visual showing changes in US sentiment towards Israelis/Palestenians (CC363)</a>
+			
+			<p>Making a line plot more sophisticated</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 9, 2025</span>
+      <a class="post-link" href="/code_club/2025-07-09-la-waffle">Using ggplot2 to recreate a visual of perceptions of Trump's policies in LA from (CC362)</a>
+			
+			<p>Wait until you see how I made those points!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 25, 2025</span>
+      <a class="post-link" href="/code_club/2025-06-25-waterfall">Visualizing contributions to the US GDP as a Washington Post waterfall plot using ggplot2 (CC361)</a>
+			
+			<p>Four geom_segment calls!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 18, 2025</span>
+      <a class="post-link" href="/code_club/2025-06-18-fertility-heatmap">Visualizing the US baby boom as a NY Times-styled heatmap (CC360)</a>
+			
+			<p>Remixing two data visualizations</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 11, 2025</span>
+      <a class="post-link" href="/code_club/2025-06-11-fertility_ridgeline">Using the ggridges R package to recreate an infographic describing the baby boom (CC359)</a>
+			
+			<p>Livestream!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 12, 2025</span>
+      <a class="post-link" href="/code_club/2025-05-12-waffle">Making a waffle chart in R with the tidyverse to assess proposals for cutting the US budget (CC358)</a>
+			
+			<p>Waffles!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 2, 2025</span>
+      <a class="post-link" href="/code_club/2025-05-02-sandp500_weekly">Exploring the volatility of the S&amp;P500 under Trump using the quantmod and tidyverse R packages (CC357)</a>
+			
+			<p>That's a lot of volatility...</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 23, 2025</span>
+      <a class="post-link" href="/code_club/2025-04-23-covid">Showing the change in the US death rate since before the COVID-19 pandemic with R's tidyverse (CC356)</a>
+			
+			<p>That's a lot of deaths...</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 17, 2025</span>
+      <a class="post-link" href="/code_club/2025-04-17-biplot">Plotting a regression line on a scatter plot of smoking and drinking data with ggplot2 (CC355)</a>
+			
+			<p>Measuring the relationship between smoking and excessive drinking</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-04-03-ncaa-finals">Scraping data from the web in R using rvest to create NY Times plot of March Madness Championship Game viewership (CC354)</a>
+			
+			<p>March Madness!!!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 28, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-28-glass-ceiling">Visualizing the The Economist's Glass Ceiling Index in R with ggplot2 and ggborderline (CC353)</a>
+			
+			<p>Fun with geom_borderline and geom_text</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 24, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-24-pew3">Replacing a stacked bar plot with a dot plot in R with ggplot2 using sentiment analysis data from the Pew Research Center (CC352)</a>
+			
+			<p>Please stop making stacked bar plots</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 20, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-20-pew2">Recreating a sentiment analysis visualization from the Pew Research Center in R with ggplot2 (CC351)</a>
+			
+			<p>Alternative to stacked bar plots</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 17, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-17-pew1">Recreating a stacked barplot from the Pew Research Center in R with ggplot2 (CC350)</a>
+			
+			<p>Laying stacked bar plots</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 13, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-13-fentanyl-heatmap">Recreating a NYT heatmap of deaths by drug overdoses in R with ggplot2 (CC349)</a>
+			
+			<p>Creating a heatmap</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 10, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-10-fentanyl-extract">How to extract data from a heatmap with R using the tidyverse (CC348)</a>
+			
+			<p>Playing with PNG files</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 6, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-06-plate-05">How to recreate a historic map in R using the sf and ggplot2 packages (CC347)</a>
+			
+			<p>Recreating Plate 5</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-03-03-plate-09">How to draw braces to annotate a bar plot in R using ggplot2 (CC346)</a>
+			
+			<p>Recreating Plate 9</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 27, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-27-panel-17">How to create a serperntine bar plot using R and ggplot2 to recreate a DuBois data portrait (CC345)</a>
+			
+			<p>Recreating Plate 17</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 24, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-24-panel-25">How to recreate DuBois's iconic spiral plot from the 1900 Paris Exposition using R and ggplot2 (CC344)</a>
+			
+			<p>Recreating Panel 25</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 20, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-20-panel-22">How to recreate DuBois's bullseye plot from the 1900 Paris Exposition using R and ggplot2 (CC343)</a>
+			
+			<p>Recreating Panel 22</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 17, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-17-panel-27">How to recreate WEB DuBois's fan plot from the 1900 Paris Exposition using R and ggplot2 (CC342)</a>
+			
+			<p>Recreating Panel 27</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 16, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-16-siv-critique">How to improve the structure of a data visualization to be aligned with your text (CC399)</a>
+			
+			<p>Take it easy on your audience</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 13, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-13-panel-51">How to recreate WEB DuBois's Panel 51 from the 1900 Paris Exposition using R and ggplot2 (CC341)</a>
+			
+			<p>Recreating an area plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 10, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-10-panel-12">Using R's ggplot2 to recreate WEB DuBois's Panel 12 from the 1900 Paris Exposition (CC340)</a>
+			
+			<p>Recreating an area plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 6, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-06-health-gif">Using gganimate to animate changes in life expectancy and health care spending with R (CC339)</a>
+			
+			<p>Animating bubble plots with gganimate</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 3, 2025</span>
+      <a class="post-link" href="/code_club/2025-02-03-health-expenditure">Using ggplot2 to visualize relationship between life expectancy and health care spending in R (CC338)</a>
+			
+			<p>Bubble plots with ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 30, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-30-vaccination-arrows">Visualizing the effect of the pandemic on kindergarten vaccination rates with dplyr and ggplot2 (CC337)</a>
+			
+			<p>The pandemic resulted in decreased vaccination rates</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 27, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-27-vaccination-line">Visualizing changes in kindergarten vaccination rates with dplyr and ggplot2 (CC336)</a>
+			
+			<p>The pandemic resulted in decreased vaccination rates</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 23, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-23-poverty-by-state">Using readxl and dplyr to format messy data to show how much the poverty rate has changed (CC335)</a>
+			
+			<p>National Poverty Awareness Month</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 20, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-20-poverty-recreate">Using ggplot2 to see how much has the rate of poverty changed in the US over the past 65 years (CC334)</a>
+			
+			<p>National Poverty Awareness Month</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 16, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-16-gapminder-positron">Positron or RStudio? Using Positron for the first time to create a scatter plot with the ggplot2 R package (CC333)</a>
+			
+			<p>Or Virtual Studio Code?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 13, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-13-flooding-nyt">Recreating a New York Times bar chart using the ggplot2 R package (CC332)</a>
+			
+			<p>Highlighting data with color</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 9, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-09-fluoride-patchwork">Recreating a side-by-side line plot from CNN using patchwork and ggplot2 in R (CC331)</a>
+			
+			<p>Patchworked slope plots</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 6, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-06-fluoride-facet_grid">Creating side-by-side line plots with ggplot2's facet_grid function in R (CC330)</a>
+			
+			<p>Facted slope plots</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 2, 2025</span>
+      <a class="post-link" href="/code_club/2025-01-02-polling-scatter">Visualizing polling bias from the 2024 US presidential election in R with ggplot2 (CC329)</a>
+			
+			<p>Too many aesthetics!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 30, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-30-polling-gradient">Recreating gradient colored lines in R with ggforce's geom_link function (CC328)</a>
+			
+			<p>Animating with R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 23, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-23-running-animation">Combining three animations of cross country running with ggplot2, gganimate, and magick R packages (CC327)</a>
+			
+			<p>Animating with R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 19, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-19-logscale-stat_summary-faceted">Faceted log-scaled line plot with error bars using stat_summary from ggplot2 in R (CC326)</a>
+			
+			<p>Assembling figure using facet_wrap</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 16, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-16-logscale-lineplot">Adding log-scaled tick marks to an axis with ggplot2 in R (CC325)</a>
+			
+			<p>Assembling figure using patchwork</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 12, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-12-lineplot-dilutions">Plotting a dilution series using ggplot2 in R with geom_jitter and stat_summary (CC324)</a>
+			
+			<p>Fun with stat_summary</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 9, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-09-boxplot-dilutions">Recreating published boxplots from a dilution series using ggplot2 in R (CC323)</a>
+			
+			<p>Box plots galore</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 5, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-05-wages-lineplot">Data journalism makeover with ggplot2 in R to make labelled line plot with google fonts (CC322)</a>
+			
+			<p>Fun with google fonts</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 2, 2024</span>
+      <a class="post-link" href="/code_club/2024-12-02-wages-barplot">Using ggplot2 and R to recreate a data journalist's figure about Michigan wages (CC321)</a>
+			
+			<p>Implementing some cool effects</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 29, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-29-simple-barplot">Going for simple with ggplot2 and dplyr (CC320)</a>
+			
+			<p>Dot plot with error bars</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 27, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-27-hashed-barplot">Adding patterns to barplots with ggpattern and ggplot2 in R (CC319)</a>
+			
+			<p>Decorating barplots</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 25, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-25-negative-barplot">Creating bar plot with error bars using ggplot2's stat_summary in R (CC318)</a>
+			
+			<p>Descending barplot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 21, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-21-faceted-axis">Putting a break in the x-axis using facet_grid from ggplot2 R package (CC317)</a>
+			
+			<p>Breaking axes</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 18, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-18-broken-axis">Creating a broken x-axis using only the ggplot2 package in R (CC316)</a>
+			
+			<p>Breaking axes</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 14, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-14-venn-formula">Recreating a Venn diagram with geom_ribbon from ggplot2 in R (CC315)</a>
+			
+			<p>Making a Venn diagram with geom_ribbon()</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 11, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-11-venn-symbol">Recreating a Venn diagram with ggplot2 in R as a scatter plot (CC314)</a>
+			
+			<p>Making a Venn diagram with geom_point()</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 7, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-07-slope-split">Making a labelled slope plot with the help of R's ggrepel and ggplot2 (CC313)</a>
+			
+			<p>Visualizing a paired data set</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 4, 2024</span>
+      <a class="post-link" href="/code_club/2024-11-04-diagonal-scatterplot">Making a labelled scatter plot with the help of R's ggrepel and ggplot2 (CC312)</a>
+			
+			<p>What do you value most about rural areas?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 31, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-31-faceted-boxplots">Using ggplot2's facet_wrap to create three panelled figure in R (CC311)</a>
+			
+			<p>Three different y-axes!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 28, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-28-boxplots">Composing two box plots with significance lines in R's ggplot2 and patchwork (CC310)</a>
+			
+			<p>Recreating a figure published in mBio</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 24, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-24-dotplot">Data viz makeover from bar plot to dot plot with ggplot2 in R (CC309)</a>
+			
+			<p>Don't use AI!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 21, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-21-barplot">Recreating a grouped and labelled barplot in R with ggplot2 (CC308)</a>
+			
+			<p>Don't try to make this with AI!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 17, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-17-histogram">Converting a 1D scatter plot to a histogram or density plot using the ggplot2 package in R (CC307)</a>
+			
+			<p>Working with geom_histogram() and geom_density()</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 16, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-16-submit-to-cran">Submitting an R package to CRAN with help from the devtools package (CC306)</a>
+			
+			<p>phylotypr is live on CRAN!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 14, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-14-scatter-plot">Customizing axes in a 1D scatter plot using the ggplot2 package in R (CC305)</a>
+			
+			<p>Recreating a published scatter plot originally made in Prism with R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 7, 2024</span>
+      <a class="post-link" href="/code_club/2024-10-07-speed">Comparing and optimizing performance of phyloytypr to mothur (CC304)</a>
+			
+			<p>purrr, furrr, and data files in packages</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 23, 2024</span>
+      <a class="post-link" href="/code_club/2024-09-23-revisiting-issues">Closing issues on GitHub when building R packages with test driven development (CC303)</a>
+			
+			<p>Putting it all together</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 16, 2024</span>
+      <a class="post-link" href="/code_club/2024-09-16-revisiting-rcpp">The effect of debug mode when benchmarking R package performance (CC302)</a>
+			
+			<p>Putting it all together</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 9, 2024</span>
+      <a class="post-link" href="/code_club/2024-09-09-pre-commit-hooks">Using the precommit R package to automate testing code and documentation quality(CC301)</a>
+			
+			<p>Pre-commit hooks with R package development</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 26, 2024</span>
+      <a class="post-link" href="/code_club/2024-08-26-lintr-styler">Using lintr and styler to improve the quality and readability of R code (CC300)</a>
+			
+			<p>Stylish R code</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 19, 2024</span>
+      <a class="post-link" href="/code_club/2024-08-19-gha">How to use GitHub actions to build on other operating systems and test code coverage (CC299)</a>
+			
+			<p>Integrating R package development and GitHub actions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 12, 2024</span>
+      <a class="post-link" href="/code_club/2024-08-12-pkgdown">How to create a website for your R package with pkgdown (CC298)</a>
+			
+			<p>Host a website for your R package for free</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 5, 2024</span>
+      <a class="post-link" href="/code_club/2024-08-05-vignette">How to create a vignette for an R package (CC297)</a>
+			
+			<p>Write a vignette for your R package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 29, 2024</span>
+      <a class="post-link" href="/code_club/2024-07-29-data-package">How to create a data only R package with devtools (CC296)</a>
+			
+			<p>Creating a data R package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 22, 2024</span>
+      <a class="post-link" href="/code_club/2024-07-22-remove-large-files">Using the BFG Repo-Cleaner to delete files from your GitHub history (CC295)</a>
+			
+			<p>Removing big and sensitive data from git and GitHub</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 15, 2024</span>
+      <a class="post-link" href="/code_club/2024-07-15-exporting-data">Adding built in data to an R package (CC294)</a>
+			
+			<p>Creating a pre-build dataset</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 8, 2024</span>
+      <a class="post-link" href="/code_club/2024-07-08-documentation">Using Roxygen2 to document functions in an R package (CC293)</a>
+			
+			<p>Documenting R functions with Roxygen2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 1, 2024</span>
+      <a class="post-link" href="/code_club/2024-07-01-joins">Benchmarking R functions for joining data frames (CC292)</a>
+			
+			<p>Joins with base R, dplyr and data.table</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 24, 2024</span>
+      <a class="post-link" href="/code_club/2024-06-24-read_tsv">Benchmarking R functions for reading tsv files (CC291)</a>
+			
+			<p>Tradeoffs between performance and dependencies</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 17, 2024</span>
+      <a class="post-link" href="/code_club/2024-06-17-read-text">Benchmarking methods for reading text files in R (CC290)</a>
+			
+			<p>Refactoring a function for speed</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 10, 2024</span>
+      <a class="post-link" href="/code_club/2024-06-10-tempfile">Writing an R function to read FASTA-formatted files (CC289)</a>
+			
+			<p>Making use of the tempfile function</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 3, 2024</span>
+      <a class="post-link" href="/code_club/2024-06-03-rcpp">Incorporating C++ code in an R package with Rcpp and devtools (CC288)</a>
+			
+			<p>Will our code run any faster?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 30, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-30-matrix-division">Integrating ideas from Stack Overflow to improve our R code (CC287)</a>
+			
+			<p>Getting R help from Stack Overflow</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 27, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-27-profvis">Using R's profvis package to diagnose and resolve bottlenecks (CC286)</a>
+			
+			<p>Profiling R code with profvis</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 23, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-23-filter_print">Base R's paste and paste0 functions: how to use the sep and collapse arguments (CC285)</a>
+			
+			<p>How to use R's paste and paste0 functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 20, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-20-consensus">Finding the consensus classification using anonymous functions (CC284)</a>
+			
+			<p>Fun with anonymous functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 16, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-16-classification">Generating and classifying bootstrap replicates with test driven development (CC283)</a>
+			
+			<p>TDD for the win</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 9, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-09-sparse">Refactoring R code to make it faster and more memory efficient (CC281)</a>
+			
+			<p>Refactoring with TDD</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 9, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-09-strings">Benchmarking string manipulations with base R, stringi, and stringr (CC282)</a>
+			
+			<p>stringi is really fast</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 6, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-06-phylotypr">Renaming our R package, updating RStudio and R, organizing code, and passing Check! (CC280)</a>
+			
+			<p>Introducing phylotypr</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 2, 2024</span>
+      <a class="post-link" href="/code_club/2024-05-02-databases.md">Comparing duckdb and duckplyr to tibbles, data.tables, and data.frames (CC279)</a>
+			
+			<p>Benchmarking R's data frames (part 3)</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 29, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-29-dataframes">Accessing values from data frames, data tables, tibbles, matrices, and vectors (CC278)</a>
+			
+			<p>Benchmarking R's data frames (part 2)</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 25, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-25-dataframes">The tutorial you need to maximize your use data frames in R (CC277)</a>
+			
+			<p>Benchmarking R's data frames (part 1)</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 22, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-22-lists">The tutorial you need to maximize your use of R's lists (CC276)</a>
+			
+			<p>Benchmarking R's lists</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 18, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-18-vectors2">Evaluating the performance of various methods for generating vectors in R (CC275)</a>
+			
+			<p>Benchmarking R's vectors (part 2)</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 15, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-15-the-team">The Team, The Team, The Team: Reductionism vs holism in microbiome research (CC274)</a>
+			
+			<p>Stick with holism</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 11, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-11-vectors">The tutorial you need to maximize your use of R's vectors (CC273)</a>
+			
+			<p>Benchmarking R's vectors (part 1)</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 8, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-08-kmer-database">Brute force building a kmer database in R (CC272)</a>
+			
+			<p>Putting things together</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 4, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-04-probabilities">Using base R and testthat to calculate probabilities (CC271)</a>
+			
+			<p>testthat and TDD</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 1, 2024</span>
+      <a class="post-link" href="/code_club/2024-04-01-base4">Base conversion in R to represent DNA sequences in base 4 (CC270)</a>
+			
+			<p>10 different nucleotides</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 28, 2024</span>
+      <a class="post-link" href="/code_club/2024-03-28-tdd">Demonstration of test driven development in R with testthat (CC269)</a>
+			
+			<p>TDD in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 25, 2024</span>
+      <a class="post-link" href="/code_club/2024-03-25-journal_club">Understanding the RDP's Bayesian Classifier for 16S rRNA genes (CC268)</a>
+			
+			<p>Journal Club!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 21, 2024</span>
+      <a class="post-link" href="/code_club/2024-03-21-phylotyper-setup">Picking a name for my R package (CC267)</a>
+			
+			<p>Creating the skeleton for a new R package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 18, 2024</span>
+      <a class="post-link" href="/code_club/2024-03-18-r-packages">Development of a example R package (CC266)</a>
+			
+			<p>Creating the regexcite R package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 14, 2024</span>
+      <a class="post-link" href="/code_club/2024-03-14-gif">How to turn your git history into a GIF with imagemagick (CC265)</a>
+			
+			<p>Dumping your git history</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 10, 2022</span>
+      <a class="post-link" href="/code_club/2022-11-10-map-background">How to add maps to a ggplot2 figure in R (CC264)</a>
+			
+			<p>Adding country outlines</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 7, 2022</span>
+      <a class="post-link" href="/code_club/2022-11-07-case_when">Incorporating logic into a visual made with R using a case_when statement (CC263)</a>
+			
+			<p>Adding some polish with case_when</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 3, 2022</span>
+      <a class="post-link" href="/code_club/2022-11-03-fonts">How to use a custom font in R with showtext and google fonts (CC262)</a>
+			
+			<p>Using showtext with google fonts</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 31, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-31-git-rebase">Rewrite your commit history using git rebase to squash commits (CC261)</a>
+			
+			<p>Pros and cons of git rebase</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 27, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-27-github-actions">Using GitHub actions to run Snakemake pipelines (CC260)</a>
+			
+			<p>Reproducible pipelines with GitHub actions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 24, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-24-index-page">Using GitHub pages to host a web page made with Rmarkdown (CC259)</a>
+			
+			<p>GitHub pages and R Markdown</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 20, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-20-world-map">Creating a heatmap map with geom_tile from ggplot2 in R (CC258)</a>
+			
+			<p>How to make a heat map in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 17, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-17-bump-snakemake">How to force Snakemake to rerun a rule and visualize a pipeline (CC257)</a>
+			
+			<p>Fun with reproducibility</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 13, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-13-z-score">Live coding in R: No edits! Pat calculates the z-score (CC256)</a>
+			
+			<p>Normalizing failure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 10, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-10-10000_subscribers">Thank you! Riffomonas channel hits 10,000 subscribers (CC255)</a>
+			
+			<p>100,000 here we come!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 6, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-06-joining">Join data frames in R with inner_join and anti_join (CC254)</a>
+			
+			<p>Fun with inner_join and anti_join</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 3, 2022</span>
+      <a class="post-link" href="/code_club/2022-10-03-rounding">Six approaches to rounding numbers in R (CC253)</a>
+			
+			<p>round, trunc, floor, ceiling, signif, as.integer</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 29, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-29-split">How to split files from the command line and integrate bash and R scripts (CC252)</a>
+			
+			<p>Splitting and integrating</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 22, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-22-archive">Using the archive R package to read and write tar.gz and other archive files (CC250)</a>
+			
+			<p>Fun tools in the readr package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 19, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-19-read_fwf">R tools in readr for reading in fixed width files and other formats (CC249)</a>
+			
+			<p>Fun tools in the readr package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 15, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-15-snakemake">An introduction to Snakemake tutorial for beginners (CC248)</a>
+			
+			<p>Tracking dependencies with Snakemake</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 12, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-12-bash-scripts">How to write a bash script for your reproducible data analysis pipeline (CC247)</a>
+			
+			<p>Bash scripting a reproducible pipeline</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 8, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-08-project-setup">Organizating a new project with git and conda and synching it to GitHub (CC246)</a>
+			
+			<p>Visualizing drought</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 6, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-06-lag-lead">Using the dplyr lag and lead function to find the length of drought (CC245)</a>
+			
+			<p>Is Ann Arbor getting more or less droughty with time?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 1, 2022</span>
+      <a class="post-link" href="/code_club/2022-09-01-pipes-revisited">A head to head comparison of the base R and magrittr pipe (CC244)</a>
+			
+			<p>More pipes</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 29, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-29-time-capsule">Recreating a jitter plot made with R's ggplot2 two years later (CC243)</a>
+			
+			<p>An R time capsule</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 25, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-25-facets-patchwork">Comparing the same multi-panel figure made using facet_wrap, facet_grid, and patchwork (CC242)</a>
+			
+			<p>Multi-panel figures in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 22, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-22-pipes">The magrittr and base R pipe: what's the difference? (CC241)</a>
+			
+			<p>Team magrittr</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 18, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-18-drop-argument">Using the drop argument with factors in count and group_by to include missing data (CC240)</a>
+			
+			<p>Fun with factors!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 15, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-15-drought">Creating a sliding window with the slider R package to quantify the level of drought (CC239)</a>
+			
+			<p>That wasn't even the dryest summer!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 11, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-11-snow">Using factors in R to create a new calendar and see how much snow do we get in Michigan (CC238)</a>
+			
+			<p>Can't wait for winter!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 8, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-08-models">Fitting and visualizing linear regression models with the ggplot2 R package (CC237)</a>
+			
+			<p>Putting the stats back in Rstats</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 4, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-04-facets">Stylizing the appearance of facet labels with ggplot2's facet_wrap (CC236)</a>
+			
+			<p>Everything you'd want to know about facet_wrap</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 1, 2022</span>
+      <a class="post-link" href="/code_club/2022-08-01-temp_prcp_correlation">Visualizing correlation with double y-axes using the ggplot2 R package (CC235)</a>
+			
+			<p>How and why not.</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 28, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-28-dates">Using lubridate and ggplot2 to work with dates in R (CC234)</a>
+			
+			<p>Has this year been wetter than most?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 25, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-25-group_by">Using dplyr's group_by function with and without summarize (CC233)</a>
+			
+			<p>Calculating group averages and normalizing temperature data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 21, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-21-fixing-anomalies">Removing outliers in R with tools from dplyr and ggplot2 (CC232)</a>
+			
+			<p>Dealing with data anomalies</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 18, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-18-local-weather">Scraping weather data from the internet with R and the tidyverse (CC231)</a>
+			
+			<p>What's the weather like where you live?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 14, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-14-conda">How to create a conda or mamba environment for R programming to enhance reproducibility (CC230)</a>
+			
+			<p>It's not just for Python</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 11, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-11-renv">Using renv to track the version of your packages in R (CC229)</a>
+			
+			<p>Automate what packages get loaded</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 7, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-07-anomaly-rug">A rug chart in R with ggplot2's geom_segment showing latitudinal temperature anomalies (CC228)</a>
+			
+			<p>Fun with <code>geom_segment</code></p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 5, 2022</span>
+      <a class="post-link" href="/code_club/2022-07-05-anomaly-map">Creating a raster map of global climate change in R with ggplot2's geom_raster (CC227)</a>
+			
+			<p>Combining <code>geom_raster</code> and <code>facet_grid</code></p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 30, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-30-anomaly-distribution">How to create a ridgeline plot in R with ggridges in RStudio (CC226)</a>
+			
+			<p>Showing a change in distributions with time</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 27, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-27-monthly-anomaly">Programming a line plot in R to show climate change with and without animation (CC225)</a>
+			
+			<p>Static and animated line plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 23, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-23-climate-tornado">Demonstrating climate change using the ggplot2 R package to create a tornado plot (CC224)</a>
+			
+			<p>Fun with geom_segment</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 20, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-20-climate-spiral-plotly">Using R to make a 3D interactive figure showing climate change with plotly (CC223)</a>
+			
+			<p>Interactive! 3D!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 16, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-16-polar-to-cartesian">How to create spirals in cartesian coordinates with ggplot2 in R (CC222)</a>
+			
+			<p>Fun trigonometry fun</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 13, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-13-microbiome-data-prize">Why should we engage in open data science? 2022 ASM Microbiome Data Prize Talk (CC221)</a>
+			
+			<p>Open science is critical to the advancement of all science</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 9, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-09-nasa-animation">How I adapt one figure to look like another in R (CC220)</a>
+			
+			<p>Creating NASA's version of a climate spiral</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 6, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-06-climate-spiral-animation">Recreating animated climate temperature spirals in R with ggplot2 and gganimate (CC219)</a>
+			
+			<p>Animated climate spiral</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 2, 2022</span>
+      <a class="post-link" href="/code_club/2022-06-02-climate-spiral">How to recreate climate temperature spirals in R with ggplot2 (CC218)</a>
+			
+			<p>Polar coordinates!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 30, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-30-temperature-lines">Using ggplot2 to recreate a line plot of annual temperature anomalies (CC217)</a>
+			
+			<p>More fun with color gradients</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 26, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-26-warming-stripes">Using ggplot2 to recreate iconic warming stripes visualization of climate change (CC216)</a>
+			
+			<p>It's getting warmer</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 23, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-23-temperature-bars">Plotting the global temperature index as bars using ggplot2 and NASA GISS data (CC215)</a>
+			
+			<p>Fun with the scale_fill_gradient functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 19, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-19-temperature-index">Plotting the global temperature index using ggplot2 and NASA GISS data (CC214)</a>
+			
+			<p>Spoiler: it's getting warmer</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 16, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-16-climate-viz-project">Tutorial for Creating a new RStudio project with GitHub to visualize climate change (CC213)</a>
+			
+			<p>New project day!!!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 12, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-12-pubs-per-year">Using the rentrez R package to search PubMed to plot the number of papers by year (CC212)</a>
+			
+			<p>How fast is the microbiome literature growing?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 9, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-09-unifrac-mantel">Using the mantel test to compare ecological matrices using the vegan R package (CC211)</a>
+			
+			<p>Comparing phylogenetic and bin-based approaches</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 5, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-05-phylogenetic-diversity">Is phylogenetic diversity any better than richness or Shannon diversity? (CC210)</a>
+			
+			<p>Not really</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 2, 2022</span>
+      <a class="post-link" href="/code_club/2022-05-02-membership-structure">How to use R to create a heatmap from a distance matrix with ggplot2 (CC209)</a>
+			
+			<p>Building a heatmap from a matrix</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 29, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-29-adonis-betadisper">Using adonis and betadisper from the vegan R package to compare groups (CC208)</a>
+			
+			<p>Testing for significance with beta diversity</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 25, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-25-jitter-distance-plot">Alternatives to ordination in R: Visualizing community change relative to a specific point (CC207)</a>
+			
+			<p>Replacing ordinations</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 21, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-21-time-0-plot">Alternatives to ordination in R: Visualizing community change relative to a specific point (CC206)</a>
+			
+			<p>Replacing ordinations</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 18, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-18-one-day-lag-plot">Alternatives to ordination: Displaying one day time lag in beta diversity (CC205)</a>
+			
+			<p>Replacing ordinations</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 14, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-14-timelag-plot">Alternatives to ordination: Displaying temporal trends in beta diversity (CC204)</a>
+			
+			<p>Ordinations are over rated</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 11, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-11-biplot">How to create a biplot using vegan and ggplot2 (CC203)</a>
+			
+			<p>So much tidyverse</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 7, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-07-sampling-depth">How to find the best sampling depth for rarefaction (CC202)</a>
+			
+			<p>This isn't an arbitrary process</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 4, 2022</span>
+      <a class="post-link" href="/code_club/2022-04-04-estimation">Is richness estimation an alternative to rarefaction? Trying breakaway and Chao1 (CC201)</a>
+			
+			<p>Integrating complex data with nest/map/unnest</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 31, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-31-rarefaction-vegan">How to rarefy community data in R with vegan and the tidyverse (CC200)</a>
+			
+			<p>Using rarefy, rrarefy, drarefy, and rarecurve</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 24, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-24-rarefaction-collectors">Generating a rarefaction curve from collector's curves in R within the tidyverse (CC198)</a>
+			
+			<p>Species abundance curves and rarefaction</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 24, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-24-rarefaction-empirical">Using R to compare empirical and exact rarefaction values (CC199)</a>
+			
+			<p>It's all in the number of iterations</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 21, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-21-rarefaction-math">Implementing the mathematical formula for rarefaction to measure richness in R (CC197)</a>
+			
+			<p>Finding an exact solution for rarefaction</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 17, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-17-alpha-diversity">Using vegan to calculate alpha diversity metrics within the tidyverse in R (CC196)</a>
+			
+			<p>Writing functions in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 14, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-14-variance-stabilizing">How to use DESeq2's variance stabilizing transformation with microbiome data (CC195)</a>
+			
+			<p>VST is not scale invariant</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 11, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-11-compositionality">How to calculate the Aitchison distance in R using two center logratio transformations (CC194)</a>
+			
+			<p>Aitchison distance is not scale invariant</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 7, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-07-false-detection">Rarefaction controls the false positive rate when using adonis from the vegan R package (CC193)</a>
+			
+			<p>Creating a simulation in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 3, 2022</span>
+      <a class="post-link" href="/code_club/2022-03-03-sequencing-depth">Repeating and parallelizing a function in R with the purrr and furrr packages (CC192)</a>
+			
+			<p>Relationship between sampling depth and Bray-Curtis distances</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 28, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-28-variation-with-difference">Differences in sampling effort impact Bray-Curtis distances and rarefaction can minimize it (CC191)</a>
+			
+			<p>Using cut_width to discretize data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 24, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-24-normalization">Is normalization an acceptable alternative to rarefaction? Nope. (CC190)</a>
+			
+			<p>Rarefaction vs. normalization</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 21, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-21-null-model">Rarefying ecological distances with R: Should you? (CC189)</a>
+			
+			<p>Yes.</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 17, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-17-distances">Using the vegan R package to ecological distances (CC188)</a>
+			
+			<p>Using vegdist and avgdist</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 14, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-14-nmds">Running non-metric multidimensional scaling (NMDS) with in R with vegan and ggplot2 (CC187)</a>
+			
+			<p>NMDS with R's vegan and ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 10, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-10-pcoa">Performing principle coordinate analysis (PCoA) in R and visualizing with ggplot2 (CC186)</a>
+			
+			<p>PCoA with base R and ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 7, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-07-pivot-longer-wider">Reshaping data in R to be long or wide with pivot_longer and pivot_wider (CC185)</a>
+			
+			<p>Filtering a distance matrix in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 3, 2022</span>
+      <a class="post-link" href="/code_club/2022-02-03-adv-regex">Advanced regular expressions in R with str_replace and separate (CC184)</a>
+			
+			<p>Advanced regular expressions in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 31, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-31-basic-regex">How to write a simple regular expression with R using sub and str_replace (CC183)</a>
+			
+			<p>Basic regular expressions in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 27, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-27-command-line-r">An alternative to Rstudio? Make your own R integrated development environment (CC182)</a>
+			
+			<p>You don't have to use RStudio</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 24, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-24-catching-up">How to download files and directories from GitHub without using git (CC181)</a>
+			
+			<p>Using git without knowing it</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 20, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-20-matrics-df-tibbles">What's the difference between a matrix, data frame, and tibble in R? (CC180)</a>
+			
+			<p>Matrices, distance matrices, data frames, and tibbles</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 17, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-17-no-setwd">Using paths in R and why you shouldn't be using setwd (CC179)</a>
+			
+			<p>Navigating your project from within R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 13, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-13-organization">Three approaches to organize your R project (CC178)</a>
+			
+			<p>Using R, a GUI, and bash with git to organize a project</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 10, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-10-functions">A tutorial for writing functions in R (CC177)</a>
+			
+			<p>Nearly everything you need to know to start writing functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 6, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-06-attributes">How to get and set attributes of objects in R with the attr other functions (CC176)</a>
+			
+			<p>How to change the data about your data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 3, 2022</span>
+      <a class="post-link" href="/code_club/2022-01-03-if-else-blocks">How to write an if else block in R and how its different from ifelse and if_else (CC175)</a>
+			
+			<p>When to use if...else vs. ifelse or if_else</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 23, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-23-lists">Indexing and looping over lists in R, a tutorial (CC174)</a>
+			
+			<p>Replacing a for loop with lapply</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 20, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-20-for-loops">For loops in R: a tutorial on how to simplify your code without compromising performance (CC173)</a>
+			
+			<p>High-performance for loops in base R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 16, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-16-matrices">Creating and using a matrix using base R (CC172)</a>
+			
+			<p>Working with vectors in base R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 13, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-13-accessing-vectors">Using base R to access and remove values from a vector (CC171)</a>
+			
+			<p>Working with vectors in base R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 9, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-09-vectors">Creating a vector in base R with the c, :, seq, and rep functions (CC170)</a>
+			
+			<p>Everything in R is a vector</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 6, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-06-scan">Using the R scan function to read non-rectangular data (CC169)</a>
+			
+			<p>Reading irregular data into R with scan</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 2, 2021</span>
+      <a class="post-link" href="/code_club/2021-12-02-r-or-python">R vs Python: Which should you learn for reproducible data science (CC168)</a>
+			
+			<p>The first programming language you should learn</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 29, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-29-rstudio-community">Getting and giving help in a R discussion forum: How to alter borders on plotting symbols (CC167)</a>
+			
+			<p>Overriding the appearance of ggplot2 legends</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 24, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-24-final-figure">Using the patchwork R package to combine two ggplot2 plots into one figure (CC166)</a>
+			
+			<p>Assembling figures with patchwork</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 22, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-22-four-plots">Visualizing the same data four ways wiht ggplot2: slope, dumbbell, scatter, and dot charts (CC165)</a>
+			
+			<p>Experimenting with ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 18, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-18-joins">Using dplyr's join functions in R to filter and merge data frames (CC164)</a>
+			
+			<p>All the ways to join data with dplyr</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 15, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-15-group_by">Using dplyr's group_by for grouping data in R (CC163)</a>
+			
+			<p>Using group_by without summarize</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 11, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-11-arranging-rows">Using dplyr's slice and arrange functions in R to order and pick rows from a data frame (CC162)</a>
+			
+			<p>How to arrange rows in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 8, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-08-filter-function">Using dplyr's filter function to pick rows from a data frame in R (CC161)</a>
+			
+			<p>Everything you ever wanted to know about filter</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 4, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-04-select-function">Using the select function and its helper functions in R to pick columns from a data frame (CC160)</a>
+			
+			<p>Everything you ever wanted to know about select</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 1, 2021</span>
+      <a class="post-link" href="/code_club/2021-11-01-finding-data">Finding and loading data into R (CC159)</a>
+			
+			<p>Loading data without downloading a file</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 28, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-28-dot-chart">Cleveland dot chart vs bar plot with R's ggplot2 (CC158)</a>
+			
+			<p>Plotting the difference in intention</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 25, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-25-labeled-scatter-plot">Creating a labeled scatter plot in R with ggplot2 (CC157)</a>
+			
+			<p>Labelled scatter chart</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 21, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-21-slope-plotly">Create an interactive slope chart with the plotly and ggplot2 R packages (CC156)</a>
+			
+			<p>Making an interactive figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 18, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-18-highlight">Applying concepts from Storytelling with Data in R using ggplot2 (CC155)</a>
+			
+			<p>Using color to highlight message</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 14, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-14-scales_xy">Manipulating position scales for continuous and discrete data in ggplot2 (CC154)</a>
+			
+			<p>Changing axis values</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 11, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-11-time-travel">Easy ways to go back in your git commit history with RStudio (CC153)</a>
+			
+			<p>Creating a parallel analysis with git</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 7, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-07-dark-mode">How to create your own custom ggplot2 theme (CC152)</a>
+			
+			<p>Manipulating theme options</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 4, 2021</span>
+      <a class="post-link" href="/code_club/2021-10-04-color-gradient">Creating a color gradient in R with ggplot2 (CC151)</a>
+			
+			<p>Manipulating color with ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 30, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-30-geom_repel">How to prevent labels from overlapping in R with ggplot2 and ggrepel packages (CC150)</a>
+			
+			<p>Separating text labels</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 27, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-27-geom_text">How to add text to a figure using the R ggplot2 package with geom_text (CC149)</a>
+			
+			<p>Replacing a legend with text labels</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 23, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-23-factors">How to set the order and value of factors in R  using factor and fct_reorder (CC148)</a>
+			
+			<p>Plotting with categorical and ordinal data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 20, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-20-text">Modifying the appearance of text in an R figure with ggplot2's theme function (CC147)</a>
+			
+			<p>Everything you'd ever want to know about modifying appearance of text in a ggplot2 figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 16, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-16-slope">Two methods of creating a slope plot in R with ggplot2 (CC146)</a>
+			
+			<p>Converting a dumbbell chart into slope plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 13, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-13-github">Connecting an existing RStudio project to git and GitHub (CC145)</a>
+			
+			<p>Synergy between two great tools</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 9, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-09-makeover">A data visualization makeover: riffing off of other people's COVID-19 figures (CC144)</a>
+			
+			<p>Focusing a data visualization story</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 6, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-06-resources">Resources for learning R (CC143)</a>
+			
+			<p>How to start your own Code Club</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 2, 2021</span>
+      <a class="post-link" href="/code_club/2021-09-02-critique">Data visualization review: How I critique visuals and plan what to change (CC142)</a>
+			
+			<p>How to constructively critique a figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 30, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-30-legend">Positioning and formatting a legend in the ggplot2 R package (CC141)</a>
+			
+			<p>Putting on the finishing touches</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 26, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-26-fonts">Customizing fonts in R with an installed font and directly from google fonts (CC140)</a>
+			
+			<p>How to use anything but arial as your font in a figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 23, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-23-color">Four ways to set a color in R using ggplot2 and how to read hexadecimal (CC139)</a>
+			
+			<p>Color matching with the digital color meter and ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 19, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-19-arrows">How to add an arrow to lines in R to indicate the passage of time (CC138)</a>
+			
+			<p>Making our own geom_arrow</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 17, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-17-alternating-background">How to create alternating background colors in R with ggplot2 (CC137)</a>
+			
+			<p>Recreating a figure showing desire to receive COVID-19 vaccine</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 12, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-12-aug-oct-ipsos">Recreating a labelled dumbbell chart in R showing people's openness to the COVID-19 vaccine (CC136)</a>
+			
+			<p>Get vaccinated!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 9, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-09-roc-curves">How to pool ROC curves in R to better understand a model's performance (CC135)</a>
+			
+			<p>Comparing machine learning models</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 5, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-05-feature-importance">Understanding model interpretability in R with ggplot2 and mikropml (CC134)</a>
+			
+			<p>Visualizing the features of machine learning models</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 2, 2021</span>
+      <a class="post-link" href="/code_club/2021-08-02-model-compare">Using ggplot2 to group x-axis discrete values into subgroups (CC133)</a>
+			
+			<p>Creating multi grouped x-axis titles and labels</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 29, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-29-dry">Applying the DRY principle to repetitive R code (CC132)</a>
+			
+			<p>Learning what new to you code is doing</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 26, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-26-understanding-code">How to understand R code written by someone else (CC131)</a>
+			
+			<p>Learning what new to you code is doing</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 21, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-21-slurm">Three ways to use slurm on a high performance computer (HPC) (CC130)</a>
+			
+			<p>Submitting jobs on an HPC</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 19, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-19-handling-proofs">ACCEPTED! What to check when examining paper proofs (CC129)</a>
+			
+			<p>Reviewing page proofs</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 16, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-16-mikropml-make">Creating an executable R script that you can parallelize with GNU Make (CC128)</a>
+			
+			<p>Writing programs with R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 14, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-14-mikropml-splits">How to run your R code in parallel with the furrr package (CC127)</a>
+			
+			<p>Performing 100 splits in parallel</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 12, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-12-mikropml-hp">How to tune hyperparameters for machine learning in R with the mikropml package (CC126)</a>
+			
+			<p>Hyperparameter selection with mikropml</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 9, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-09-mikropml-preprocess">Building machine learning models in R with mikropml: preprocessing data (CC125)</a>
+			
+			<p>Preprocessing data with mikropml</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 7, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-07-mikropml-intro">Introduction to building machine learning models in R with mikropml (CC124)</a>
+			
+			<p>Introducing mikropml</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 5, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-05-roc-curves">Creating multiple ROC curves in R with custom functions and map, map_dfr, and map2 (CC123)</a>
+			
+			<p>Building ROC curves</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 2, 2021</span>
+      <a class="post-link" href="/code_club/2021-07-02-wilcox.test">Testing for significance with microbiome data on individual taxa using R (CC122)</a>
+			
+			<p>Using map with wilcox.test</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 30, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-30-data-cleaning">Cleaning and manipulating data with the tidyverse: dplyr, readr, and stringr in action (CC121)</a>
+			
+			<p>Data curation with the tidyverse</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 28, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-28-setting-up-project">Integrating RStudio with a new or existing project on GitHub (CC120)</a>
+			
+			<p>Creating an RStudio project from a GitHub repository</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 24, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-24-response-to-reviewers">How to respond to peer review and prepare to resubmit a manuscript (CC119)</a>
+			
+			<p>Reading scary emails</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 21, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-21-juneteenth-movie">Juneteenth 2021: Creating a data based movie in R with gganimate of lynchings (CC118)</a>
+			
+			<p>Creating a movie to 'say' victims' names</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 18, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-18-juneteenth-map">Juneteenth 2021: Using ggplot2 and R to create a map showing the history of lynchings (CC117)</a>
+			
+			<p>Creating a map of horror</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 16, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-16-juneteenth-aggregated">Juneteenth 2021: a data visualization of lynchings using R's ggplot2 package (CC116)</a>
+			
+			<p>Using R skills for good</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 14, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-14-ggtext">Using functions from the ggtext R package to customize the appearance of text in figures (CC115)</a>
+			
+			<p>Trying to emulate the original LDA score plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 10, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-10-lefse">Using the R system function to run another program and create lefse LDA plots (CC114)</a>
+			
+			<p>Running mothur through R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 8, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-08-dynamic-stars-and-bars">How to dynamically add significance bars and stars to a figure in ggplot2 (CC113)</a>
+			
+			<p>Indicating significance</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 3, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-03-filter-by-significance">Using the broom R package to easily perform thousands of statistical tests (CC112)</a>
+			
+			<p>Testing for signifance with OTU data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 1, 2021</span>
+      <a class="post-link" href="/code_club/2021-06-01-working-with-text">String manipulation in R with regular expressions using stringr and glue (CC111)</a>
+			
+			<p>Removing underscores and applying italicization to axis labels</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 28, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-28-log-scale">Using a log scale for an axis using the ggplot2 R packge (CC110)</a>
+			
+			<p>Increasing separation among low abundance populations</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 26, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-26-summary-plots">Creating a grouped box plot and range plot in ggplot2 with stat_summary and geom_boxplot (CC109)</a>
+			
+			<p>Using range plot to simplify data presentation</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 24, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-24-grouped-jitterplots">How to create a grouped plot of jittered data with the ggplot2 R package (CC108)</a>
+			
+			<p>Using jitterplots to represent relative abundance data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 21, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-21-grouped-bar-charts">How to create a grouped bar chart in R with ggplot2's geom_col and position_dodge functions (CC107)</a>
+			
+			<p>Dodging stacked bar charts</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 19, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-19-grouped-stacked-barchart">Grouped stacked barchart for individuals using ggplot2 with geom_col and facet_grid (CC106)</a>
+			
+			<p>Faceting stacked barcharts</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 17, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-17-heatmap">How to create a heatmap in R with geom_tile and geom_text from ggplot2 (CC105)</a>
+			
+			<p>Creating and customizing heatmaps</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 14, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-14-pie-chart">Creating a pie chart in R with ggplot2 using microbiome data ... and why you shouldn't (CC104)</a>
+			
+			<p>Getting the most from a pie chart</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 12, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-12-stacked-barchart-2">Improving the appearance of a stacked barchart with ggplot2, dplyr, and forcats (CC103)</a>
+			
+			<p>Improving the appearance of a problematic figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 10, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-10-stacked-barcharts">Creating a stacked barchart in R with ggplot2 with microbiome data (CC102)</a>
+			
+			<p>Remaking and critiquing an iconic chart type</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 7, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-07-dplyr-overview">How to clean and join data from mothur with the dplyr R package (CC101)</a>
+			
+			<p>Using dplyr with mothur data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 5, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-05-strip-roc-animation">Animate two synchronized figures in R with gganimate, magick, and ggplot2 (CC100)</a>
+			
+			<p>Aminating graphs in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 3, 2021</span>
+      <a class="post-link" href="/code_club/2021-05-03-patchwork">Learning to use the patchwork R package (how to learn a package in general) (CC099)</a>
+			
+			<p>Creating multipanel figures in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 30, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-30-cowplot">How to combine multiple plots in R with cowplot and ggplot2 (CC098)</a>
+			
+			<p>Creating multipanel figures in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 28, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-28-line-plots">Using geom_line to change the appearance of a line plot with ggplot2 in R (CC097)</a>
+			
+			<p>Creating attractive ROC curves</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 26, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-26-roc-curve">Writing DRY code in R with functions</a>
+			
+			<p>Creating a ROC curve with homemade functions in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 23, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-23-faceted-bars-stars">Adding lines and stars to indicate signficance to a faceted figure</a>
+			
+			<p>For fun with stars and bars</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 21, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-21-coord_flip">Rotating axis labels and flipping coordiantes in R</a>
+			
+			<p>Using coord_flip and guide_axis to improve the readability of a figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 19, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-19-1000">Welcome to the Riffomonas channel!</a>
+			
+			<p>We crossed the 1,000 subscriber threshold. Is 100,000 possible? YES!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 16, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-16-testing-significance">Testing for significance and showing significant results with R</a>
+			
+			<p>Using kruskal.test and pairwise.wilcox.test to compare groups</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 14, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-14-violin-plot">Creating a violin with the data overlayed as a stripchart or dotplot</a>
+			
+			<p>Combining geom_violin and geom_dotplot or geom_jitter</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 12, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-12-boxplot">Creating a boxplot with the data overlayed as a stripchart/jitter plot</a>
+			
+			<p>Combining geom_jitter and geom_boxplot or stat_summary</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 9, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-09-stripchart">Creating a strip chart/jitter plot with a line to indicate the median</a>
+			
+			<p>Combining geom_jitter and stat_summary</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 7, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-07-stat_summary">Using stat_summary to add a statistics layer to ggplot2 figures</a>
+			
+			<p>Why didn't I know about this function!?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 5, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-05-barplot">Creating barplots with error bars in ggplot2</a>
+			
+			<p>Should we be using barplots in scientific  papers?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 2, 2021</span>
+      <a class="post-link" href="/code_club/2021-04-02-pco1">Plotting principal coordinate axis 1 vs diversity in ggplot2</a>
+			
+			<p>Blending community structure analyses with other data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 31, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-31-size-gradient">Scaling the size of points in an ordiantion by diversity</a>
+			
+			<p>A bubble chart for microbial ecology</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 29, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-29-glue">Replacing paste and paste0 with the glue R package</a>
+			
+			<p>Easier intergration of variable values into text</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 26, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-26-plotly">Incorporating interactivity with the plotly R package</a>
+			
+			<p>Adding more data with interactivity</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 24, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-24-rgl">Visualizing an ordination in 3D with RGL</a>
+			
+			<p>Leveraging the RGL R package</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 22, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-22-reproducibility">Reusing R code to repeat an analysis for a new dataset</a>
+			
+			<p>Rerunning old Code</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 18, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-18-vegan">Testing for significance between groups using adonis from the vegan R package</a>
+			
+			<p>Are the differences between groups significant?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 15, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-15-zpattern">Using the Z pattern to improve the design of data visualizations</a>
+			
+			<p>Strategically placing titles and labels</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 11, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-11-ellipses">Different options to indicate grouping of data in a scatter plot</a>
+			
+			<p>Adding ellipses, connections, and contours to an ordination</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 8, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-08-scatterplot">Critiquing and improving a published ordination</a>
+			
+			<p>Creating and improving a scatterplot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 4, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-04-installation">Installing R and RStudio on a Mac or Windows computer</a>
+			
+			<p>Getting set up for big things</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 1, 2021</span>
+      <a class="post-link" href="/code_club/2021-03-01-submission">Submitting a manuscript to the journal mSphere</a>
+			
+			<p>Reaching a big milestone!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 25, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-25-reproducibility">Testing the reproducibility of your data analysis</a>
+			
+			<p>Feeling the power of make, git, and R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 22, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-22-editing">Ten tips to editing and more effective writing</a>
+			
+			<p>Smoothing the rough edges of your manuscript</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 18, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-18-abstract">Writing a title and abstract to attract readers</a>
+			
+			<p>Getting eyeballs on your science</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 15, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-15-citations">Inserting references into an R markdown document</a>
+			
+			<p>Roll your own reference manager for free</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 11, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-11-room-to-breathe">The value of stepping back and letting your data breathe</a>
+			
+			<p>Replacing a beloved figure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 8, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-08-figure-captions">Writing declarative figure legends for scientific papers</a>
+			
+			<p>How to write figure legends</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 4, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-04-colors">Picking colors that work well together and show empathy for your audience</a>
+			
+			<p>How to use ColorBrewer and wesanderson</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Feb 1, 2021</span>
+      <a class="post-link" href="/code_club/2021-02-01-annotation">Adding text and line annotations to a ggplot2 figure</a>
+			
+			<p>How to call attention to data points</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 28, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-28-theme-function">Using ggplot's theme function to customize the appearance of a faceted plot</a>
+			
+			<p>Don't fear the theme function!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 25, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-25-publication-quality-figures">Creating publication quality figures</a>
+			
+			<p>Harnessing the power of ggplot2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 21, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-21-lump-split">Recalculating the rate of lumping and splitting over a large number of iterations</a>
+			
+			<p>Repeating a function with the purrr and furrr packages</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 18, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-18-heavy-lifting">How to extract the heavy lifting from your R markdown document</a>
+			
+			<p>Using scripts to do the heavy lifting</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 14, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-14-formatting-inline">Formatting the output from inline code in a R Markdown document</a>
+			
+			<p>Fun with significant digits</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 12, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-12-inline-r-code">Inserting R code into your text with R Markdown</a>
+			
+			<p>The biggest game changer for reproducibility</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 7, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-07-rough-draft">Writing the rough draft of a scientific paper</a>
+			
+			<p>Expanding an outline until a manuscript emerges</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jan 4, 2021</span>
+      <a class="post-link" href="/code_club/2021-01-04-cover-page">Setting up a manuscript in R markdown</a>
+			
+			<p>Text is more important than formatting, but we still want it to look nice</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 23, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-23-recap">Outlining a manuscript</a>
+			
+			<p>Don't start with figure legends!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 21, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-21-roc-curves">Balancing the sensitivity and specificity of ASVs</a>
+			
+			<p>Creating ROC curves</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 17, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-17-furrr">Parallelization of R code with the furrr package</a>
+			
+			<p>Can we reduce a 16 hr job to 1 hr?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 14, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-14-nest-mutate-unnest">Summarizing data with functions that output multiple values</a>
+			
+			<p>Using nest, mutate, unnest to do cool things</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 11, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-11-Rcpp">Overcoming bottlenecks in R with the Rcpp package</a>
+			
+			<p>Creating a confusion matrix using C++ code in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 9, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-09-reassess-for-loops">Reassessing for loops: how to make them fast</a>
+			
+			<p>Faster than dplyr?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 7, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-07-for-loops">Benchmarking the problems with for loops and a possible solution</a>
+			
+			<p>Creating a confusion matrix, method 2</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Dec 3, 2020</span>
+      <a class="post-link" href="/code_club/2020-12-03-expand_grid">Performing all possible pairwise comparisons with <code>expand_grid</code></a>
+			
+			<p>Creating a confusion matrix</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 30, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-30-facet-grid">Using facet_grid to study rate of lumping and splitting of genomes with ASVs</a>
+			
+			<p>Lumping and splitting</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 25, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-25-n-easvs-per-genome">Writing functions in R</a>
+			
+			<p>Named and anonymous functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 19, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-19-functions">Writing functions in R</a>
+			
+			<p>Named and anonymous functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 16, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-16-advanced-make">Creating variables and using functions with make</a>
+			
+			<p>Building 50+ targets with a single command</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 12, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-12-shared">Two approach to make messy data tidy</a>
+			
+			<p>Making a large shared file tidy</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 9, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-09-mothur">Running commands from mothur at the command line (and elsewhere!)</a>
+			
+			<p>Simulating ASVs in mothur</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 5, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-05-asvs-or-esvs">Refactoring code with the help of make and git</a>
+			
+			<p>Changing ASVs to ESVs</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Nov 2, 2020</span>
+      <a class="post-link" href="/code_club/2020-11-02-commenting-code">Deciphering smelly code and documenting it with comments</a>
+			
+			<p>Comments to the rescue</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 29, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-29-map">Repeating steps in an analysis with purrr's map functions</a>
+			
+			<p>Iterating with map functions</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 26, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-26-slice">Using dplyr's slice functions to pick specific and random rows from a data frame in R</a>
+			
+			<p>Down sampling data with the slice_sample function</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 22, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-22-pseudocode">Planning a data analysis with pseudocode</a>
+			
+			<p>Separating the <i>what</i> and the <i>how</i> in your analysis</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 19, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-19-pivots">Untidying data with pivot_wider</a>
+			
+			<p>Tidy depends on the question</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 15, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-15-facets">Faceting plots in R with facet_wrap and facet_grid</a>
+			
+			<p>Making multi-panel figures in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 12, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-12-distributions">Plotting distributions in R</a>
+			
+			<p>What does plotting data have to do with rock &amp; roll?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 8, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-08-overplotting">Making sophisticated plots with minimal effort</a>
+			
+			<p>Combining data frames and geoms in the same plot</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 5, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-05-group-by-summarize">Specifying how grouping should be treated after summarize</a>
+			
+			<p>What's up with the new .groups argument?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Oct 1, 2020</span>
+      <a class="post-link" href="/code_club/2020-10-01-factors">Using factors to order categorical variables</a>
+			
+			<p>Demistifying factors in R</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 28, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-28-self-joining-data">Self joining data frames with <code>inner_join</code></a>
+			
+			<p>Using self joins to traverse a tree structure</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 24, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-24-splitting-data">Splitting taxonomy data to put each rank in its own column</a>
+			
+			<p>Using <code>separate</code>, <code>pivot_longer</code>, and <code>pivot_wider</code> clean up taxonomy data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 21, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-21-joining-data">Joining data frames to incorporate taxonomy data to our genomes</a>
+			
+			<p>Using <code>inner_join</code> and <code>anti_join</code> to merge three data frames</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 17, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-17-combining-data">Combining similar data frames</a>
+			
+			<p>Using <code>map_dfr</code> to apply a function across a vector</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 14, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-14-rmarkdown">Generating reproducible, dynamic documents</a>
+			
+			<p>R markdown is a game changer</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 10, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-10-grouping-and-summarizing">Measuring the sensitivity and specificity of ASVs for genomes</a>
+			
+			<p>Grouping and summarizing our data with <code>dplyr</code></p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Sep 8, 2020</span>
+      <a class="post-link" href="/code_club/2020-09-08-optimizing-R">Why is our R script so sloooooowwwwwwwww?</a>
+			
+			<p>We'll speed up the R script that we wrote in the last episode. Should we?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 20, 2020</span>
+      <a class="post-link" href="/code_club/2020-08-20-R-scripting">Running R scripts from the command line</a>
+			
+			<p>You've probably run R code in R, but what about from the command line?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 17, 2020</span>
+      <a class="post-link" href="/code_club/2020-08-17-command-line-life">The command line life</a>
+			
+			<p>You owe it to your analysis to get comfortable with the command line</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 13, 2020</span>
+      <a class="post-link" href="/code_club/2020-08-13-customizing-bash">Customizing bash to improve reproducibility</a>
+			
+			<p>Creating aliases and packing more information into our prompt</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 10, 2020</span>
+      <a class="post-link" href="/code_club/2020-08-10-test-driven-development">The value of Test Driven Development in data analysis</a>
+			
+			<p>Measure twice, cut once</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 6, 2020</span>
+      <a class="post-link" href="/code_club/2020-08-06-exploring-data-with-bash">Using cut, sort, and unique to explore data with bash</a>
+			
+			<p>Simple bash commands can help us to do complicated things</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Aug 3, 2020</span>
+      <a class="post-link" href="/code_club/2020-08-03-fun-with-regexs">Fun with regular expressions in sed and grep</a>
+			
+			<p>Expanding our bash toolset</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 30, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-30-if-else-statements-in-bash">Building logic into bash scripts with if-else statements</a>
+			
+			<p>A smarter bash script</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 27, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-27-using-sed-to-parse-filenames">You sed what? Modifying variables with sed in bash</a>
+			
+			<p>We clean up the code in our Makefile shell scripts</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 23, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-23-automating-analysis">Automating the steps of our analysis plan with make</a>
+			
+			<p>Automation tools can provide a reproducibility map for our analysis</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 20, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-20-bash-scripting">Scripting an analysis from the command line</a>
+			
+			<p>Anyone can write a computer program!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 16, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-16-markdown">Making text files look attractive</a>
+			
+			<p>Using markdown to apply light formatting to our text files</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 13, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-13-downloading-data">Downloading data from the command line</a>
+			
+			<p>Who needs a browser, let's get our data directly</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 9, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-09-github-flow">Laying out a plan for our project</a>
+			
+			<p>Plans are worthless, but planning is everything</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 6, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-06-connecting-project-to-version-control">Setting up and using version control for a project</a>
+			
+			<p>If we want to track the history of our project, it's best to start from the beginning</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jul 2, 2020</span>
+      <a class="post-link" href="/code_club/2020-07-02-project-organization">Project organization</a>
+			
+			<p>We're starting a new project! How do we get organized?</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 25, 2020</span>
+      <a class="post-link" href="/code_club/2020-06-25-smoothing-lamb-prices">Smoothing lamb prices</a>
+			
+			<p>Rolling averages are in the news. We'll use <code>lag</code> to smooth our prices data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 18, 2020</span>
+      <a class="post-link" href="/code_club/2020-06-18-comparing-lamb-prices">Comparing lamb prices</a>
+			
+			<p>Do the prices for different classes of lamb move together? We'll use <code>pivot_longer</code></p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 11, 2020</span>
+      <a class="post-link" href="/code_club/2020-06-11-predicting-lamb-futures">Predicting lamb futures</a>
+			
+			<p>How much do lamb prices fluctuate at the local livestock auction? We'll track the variation with <code>separate</code>, <code>geom_smooth</code>, and <code>geom_ribbon</code></p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Jun 4, 2020</span>
+      <a class="post-link" href="/code_club/2020-06-04-eat-more-lamb">Eat more lamb!</a>
+			
+			<p>Is lamb production in Michigan on the rise? Using <code>googlesheets4</code> to access data for southern Michigan</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 28, 2020</span>
+      <a class="post-link" href="/code_club/2020-05-28-when-is-she-due">When is she due?</a>
+			
+			<p>She's expecting! We'll use the <code>lubridate</code> package to figure out the due date.</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 21, 2020</span>
+      <a class="post-link" href="/code_club/2020-05-21-so-cold-in-dexter">So cold in Dexter</a>
+			
+			<p>My wife planted a garden, was it too soon? We'll use <code>mutate</code>, <code>filter</code>, <code>group_by</code>, and <code>summarize</code> to find out</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 14, 2020</span>
+      <a class="post-link" href="/code_club/2020-05-14-like-the-weather">Like the weather</a>
+			
+			<p>Gee whiz it was cold Saturday morning. Is this normal? We'll use <code>filter</code>, <code>group_by</code>, and <code>summarize</code> to find out</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">May 7, 2020</span>
+      <a class="post-link" href="/code_club/2020-05-07-fun-with-themes">Fun with ggplot2's themes</a>
+			
+			<p>Ever feel like <code>ggplot2</code>'s <code>theme</code> function was a black hole? We'll break it down</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 16, 2020</span>
+      <a class="post-link" href="/code_club/2020-04-16-filtering-the-candy">Find the candy that I like...</a>
+			
+			<p>The Easter-induced candy stupor as faded, now to analyze the data</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 9, 2020</span>
+      <a class="post-link" href="/code_club/2020-04-09-the-data-are-2">The data is...</a>
+			
+			<p>The data are in and ... we need to analyze it/them</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Apr 2, 2020</span>
+      <a class="post-link" href="/code_club/2020-04-02-the-data-are">The data are...</a>
+			
+			<p>We've invited the rhinoceri, Washington and Lincoln to the next Code Club!</p>
+			
+    </li>
+  
+    <li>
+      <span class="post-date">Mar 26, 2020</span>
+      <a class="post-link" href="/code_club/2020-03-26-candy-crush">Candy Crush</a>
+			
+			<p>Let's explore people's favorite candies using functions from the tidyverse</p>
+			
+    </li>
+  
+</ul>
+
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

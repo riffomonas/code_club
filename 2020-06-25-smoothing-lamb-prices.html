@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Smoothing lamb prices</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-06-25-smoothing-lamb-prices">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="smoothing-lamb-prices">Smoothing lamb prices</h1>
+
+  <p class="meta">June 25, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    19 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Smoothing lamb prices" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-06-25-smoothing-lamb-prices&text=Smoothing lamb prices&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In <a href="2020-06-18-comparing-lamb-prices">recent Code Club episodes</a> we have been looking at how to plot lamb prices from the United Producers livestock auction that I have been recording in a Google workbook. The data are pretty noisy. One way of smoothing the data has been to use <code class="language-plaintext highlighter-rouge">geom_smooth</code>. By adjusting the value of the <code class="language-plaintext highlighter-rouge">span</code> argument we have been able to make the smoothed line more (small values) or less squiggly (large values). With the ongoing COVID-19 pandemic there has been a lot in the news of 7-day rolling averages. Rolling averages are also called moving averages. The <a href="https://c0eib122.caspio.com/dp/74321000d8cf077bf4c747f4a37a">Ann Arbor News</a> has been plotting daily case counts along with a rolling average for the state of Michigan. I noticed that this representation of the data puts the rolling average at the 4th day of the 7 day series. I haven’t been able to find the raw data that were used to build the plot in an easy to access format. Naturally, this got me to thinking about how to calculate a rolling average for my noisy sheep price data.</p>
+
+<p>For today’s episode of Code Club, we’ll build off of the code and concepts that we have have been working on for the past few weeks. Don’t worry if you missed those episodes. We’ll start with the block of code that we used last week and see how we can add the <code class="language-plaintext highlighter-rouge">lag</code> function from the <code class="language-plaintext highlighter-rouge">dplyr</code> package to help us calculate the rolling average. Along the way, we’ll use the <code class="language-plaintext highlighter-rouge">mutate</code> and <code class="language-plaintext highlighter-rouge">pivot_longer</code> functions again, but in a new context. As always, don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/L1J3M9jEWvQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>Over the past few episodes we’ve discussed <code class="language-plaintext highlighter-rouge">read_sheet</code>, <code class="language-plaintext highlighter-rouge">separate</code>, and <code class="language-plaintext highlighter-rouge">pivot_longer</code>. Here is the code chunk that we developed to “tidy” the data in my Google workbook that contains my sheep price data for my local livestock auction. Be sure to take your time to go through this code chunk to review the different topics we’ve discussed.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">googlesheets4</span><span class="p">)</span><span class="w">
+
+</span><span class="n">auction_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w">
+			</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"numbers_and_prices"</span><span class="p">,</span><span class="w">
+			</span><span class="n">range</span><span class="o">=</span><span class="s2">"A:J"</span><span class="p">,</span><span class="w">
+			</span><span class="n">col_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Ddcccccccc"</span><span class="p">,</span><span class="w">
+			</span><span class="n">na</span><span class="o">=</span><span class="s2">"NA"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+		</span><span class="n">rename_all</span><span class="p">(</span><span class="n">tolower</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+		</span><span class="n">rename</span><span class="p">(</span><span class="s2">"aged_sheep"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"aged sheep"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"feeder_lambs"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"feeder lambs"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"hair_lambs"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hair lambs"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"new_crop"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"new crop"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"small"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"40-85"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"medium"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"85-105"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"large"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"106-130"</span><span class="p">,</span><span class="w">
+			</span><span class="s2">"extra_large"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;131"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="o">=-</span><span class="nf">c</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span><span class="w"> </span><span class="s2">"total"</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"classes"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"price_range"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">price_range</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"max"</span><span class="p">),</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">convert</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">midpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">min</span><span class="o">+</span><span class="n">max</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="rolling-averages">Rolling averages</h3>
+
+<p>A rolling average is the average value of a set of observations that are typically collected over a period of time. They’re used because they help to smooth noisy data. We’ve been seeing them in the reporting of COVID-19 data, but they’re also commonly used to smooth noisy stock market data. A rolling average can be a lagging average where we average across observations before a point of interest, they can be leading where we average across observations before a point of interest, and they can also be centered where we average across observations where the point of interest is in the middle of the observations. We’re interested in the lagging average.</p>
+
+<p>To calculate a rolling average we need the value of the observation on the day of interest and the values that preceded it. Then we need to average across those values. To generate the values, we are going to use the <code class="language-plaintext highlighter-rouge">mutate</code> function to add the preceding days’ values as separate columns to a data frame.</p>
+
+<h3 id="lag"><code class="language-plaintext highlighter-rouge">lag</code></h3>
+
+<p>We can find values for the the preceding days’ observations using the <code class="language-plaintext highlighter-rouge">lag</code> function. When you run <code class="language-plaintext highlighter-rouge">library(tidyverse)</code> you’ll notice a warning that says, <code class="language-plaintext highlighter-rouge">dplyr::lag() masks stats::lag()</code>. This means that the packages <code class="language-plaintext highlighter-rouge">dplyr</code> and <code class="language-plaintext highlighter-rouge">stats</code> both have <code class="language-plaintext highlighter-rouge">lag</code> functions. If you use <code class="language-plaintext highlighter-rouge">?stats::lag</code> and <code class="language-plaintext highlighter-rouge">?dplyr::lag</code> you can see the differences. The upshot is that the <code class="language-plaintext highlighter-rouge">dplyr</code> version is easier to use and implement for our purposes.</p>
+
+<p>As a simple example, consider the numbers 1 through 10</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="w">
+
+</span><span class="n">lag</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1"># the default lag is 1</span><span class="w">
+</span><span class="n">lag</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span><span class="n">lag</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w">
+</span><span class="n">lag</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You’ll notice that the output vector is the same length as the input, but that the first <code class="language-plaintext highlighter-rouge">n</code> values are bumped to the right and replaced with <code class="language-plaintext highlighter-rouge">NA</code> values. If we have a series of dates and use <code class="language-plaintext highlighter-rouge">n=2</code>, then we are looking at the values starting from two days ago. One other argument to notice is <code class="language-plaintext highlighter-rouge">order_by</code>, which allows us to make sure that our values are in the correct order. For instance, we could chose to lag the <code class="language-plaintext highlighter-rouge">midpoint</code> column of our data frame by a week and we would want to order the observations by the <code class="language-plaintext highlighter-rouge">date</code> column. We’ll see how to do this next</p>
+
+<h3 id="adding-lagged-columns-to-tidy_auction_data">Adding lagged columns to <code class="language-plaintext highlighter-rouge">tidy_auction_data</code></h3>
+
+<p>With this in mind, we can create new columns for this week that we are interested in as well as the three previous weeks using <code class="language-plaintext highlighter-rouge">lag</code> and <code class="language-plaintext highlighter-rouge">mutate</code>. To keep things simple, let’s only focus on the large class of lambs. To create a column with no lag (the observed value for the week) and column with the data for the previous week we can do this</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+		</span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Since our data are weekly, let’s expand this to create columns to calculate a 4 week rolling average.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+		</span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This gives us the data that we need to calculate our rolling average. We need to average across our four columns. My instinct is to do the following…</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+		</span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">lag0</span><span class="p">,</span><span class="w"> </span><span class="n">lag1</span><span class="p">,</span><span class="w"> </span><span class="n">lag2</span><span class="p">,</span><span class="w"> </span><span class="n">lag3</span><span class="p">)))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This gives us a column of <code class="language-plaintext highlighter-rouge">NA</code> values because it is taking all of the rows across the four columns, calculating the mean, and then returning a single value that it repeats across all rows. We get the <code class="language-plaintext highlighter-rouge">NA</code> rather than a number because we’re using the default <code class="language-plaintext highlighter-rouge">na.rm=FALSE</code> in <code class="language-plaintext highlighter-rouge">mean</code>. We want the mean for each row. You could get this to work if you used <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+		</span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">midpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first</span><span class="p">(</span><span class="n">midpoint</span><span class="p">),</span><span class="w"> </span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">lag0</span><span class="p">,</span><span class="w"> </span><span class="n">lag1</span><span class="p">,</span><span class="w"> </span><span class="n">lag2</span><span class="p">,</span><span class="w"> </span><span class="n">lag3</span><span class="p">)))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>With that approach, I also needed to use the <code class="language-plaintext highlighter-rouge">first</code> function to get the observed <code class="language-plaintext highlighter-rouge">midpoint</code> value for each <code class="language-plaintext highlighter-rouge">rolling_average</code> value. The following is a bit simpler. It works because it returns a vector the same length as the original vectors that is used to build a new column.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+		</span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+		</span><span class="n">lag3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag3</span><span class="p">)</span><span class="o">/</span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="n">rolling_average</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That works pretty nicely and gives the same values as we saw using the <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code> approach. I went ahead and got rid of all of the columns except for <code class="language-plaintext highlighter-rouge">date</code>, <code class="language-plaintext highlighter-rouge">midpoint</code>, and <code class="language-plaintext highlighter-rouge">rolling_average</code> to make it easier to see the data we’re interested in and saved it as the variable <code class="language-plaintext highlighter-rouge">large</code>.</p>
+
+<h3 id="plotting-the-observed-and-averaged-data">Plotting the observed and averaged data</h3>
+
+<p>Let’s see what our data look like with and without the 4-week rolling average. We currently have <code class="language-plaintext highlighter-rouge">midpoint</code> and <code class="language-plaintext highlighter-rouge">rolling_average</code> as separate columns. To plot the data together we need to tidy our data frame to get these values together.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"method"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"price"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now we’re ready to add on our <code class="language-plaintext highlighter-rouge">ggplot</code> functions to plot <code class="language-plaintext highlighter-rouge">date</code> on the x-axis, <code class="language-plaintext highlighter-rouge">price</code> on the y-axis, and <code class="language-plaintext highlighter-rouge">method</code> as the color</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"method"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"price"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">method</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Great! I’m going to clean up the plot a bit as we have done in previous weeks</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"method"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"price"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">method</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">theme_light</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+			</span><span class="n">y</span><span class="o">=</span><span class="s2">"Price ($/100 lbs)"</span><span class="p">,</span><span class="w">
+			</span><span class="n">title</span><span class="o">=</span><span class="s2">"A rolling average smooths the noisiness of the large lamb prices"</span><span class="p">,</span><span class="w">
+			</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Lagging four week rolling average of the midpoint prices"</span><span class="p">,</span><span class="w">
+			</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Prices as reported from United Producers in Manchester, MI"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The colors are a bit trippy. I’d like to change the colors of the lines so that the <code class="language-plaintext highlighter-rouge">midpoint</code> data are <code class="language-plaintext highlighter-rouge">gray</code> and the <code class="language-plaintext highlighter-rouge">rolling_average</code> data are <code class="language-plaintext highlighter-rouge">dodgerblue</code>. We can do this with <code class="language-plaintext highlighter-rouge">scale_color_manual</code></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"method"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"price"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">method</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">theme_light</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+			</span><span class="n">y</span><span class="o">=</span><span class="s2">"Price ($/100 lbs)"</span><span class="p">,</span><span class="w">
+			</span><span class="n">title</span><span class="o">=</span><span class="s2">"A rolling average smooths the noisiness of the large lamb prices"</span><span class="p">,</span><span class="w">
+			</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Lagging four week rolling average of the midpoint prices"</span><span class="p">,</span><span class="w">
+			</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Prices as reported from United Producers in Manchester, MI"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"gray"</span><span class="p">,</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That makes it nicer to look at. We can compare this last plot to</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">midpoint</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I kind of prefer the <code class="language-plaintext highlighter-rouge">geom_smooth</code> approach since it does a better job of handling the missing data that seemed to occur frequently in 2019. Which do you prefer?</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. How would you modify the code we generated to calculate a 3 week rolling average? 5 week?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_three</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+				 </span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+				 </span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag2</span><span class="p">)</span><span class="o">/</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="n">rolling_average</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>or</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_five</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+				 </span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+				 </span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+				 </span><span class="n">lag3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+				 </span><span class="n">lag4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag4</span><span class="p">)</span><span class="o">/</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="n">rolling_average</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+</div>
+
+<p>2. We covered calculating the rolling average for the large class of lambs. How would we calculate the rolling averages for each class of lambs? Build a plot showing the prices for the small, medium, large, and extra large classes of lambs.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rolling</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+		</span><span class="n">mutate</span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w">
+				 </span><span class="n">lag1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+				 </span><span class="n">lag2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">),</span><span class="w">
+				 </span><span class="n">lag3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lag</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">order_by</span><span class="o">=</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">lag0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lag3</span><span class="p">)</span><span class="o">/</span><span class="m">4</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">classes</span><span class="p">,</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="n">rolling_average</span><span class="p">)</span><span class="w">
+
+</span><span class="n">rolling</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"small"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">classes</span><span class="o">==</span><span class="s2">"medium"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">classes</span><span class="o">==</span><span class="s2">"extra_large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">rolling_average</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">classes</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>3. We’ve seen how we can repackage other functions we’ve already learned with the <code class="language-plaintext highlighter-rouge">lag</code> function to generate a rolling average. As we saw in the first exercise, pivoting between different lag lengths can be a bit tedious. Also, if we wanted to do something like an average over 50 values, that would be horrible. Thankfully, there’s a package called <code class="language-plaintext highlighter-rouge">zoo</code> that has a function, <code class="language-plaintext highlighter-rouge">rollmean</code>. Install <code class="language-plaintext highlighter-rouge">zoo</code> and look at the <code class="language-plaintext highlighter-rouge">?rollmean</code> documentation and see whether you can figure out how to replace our <code class="language-plaintext highlighter-rouge">mutate</code> functions with a single <code class="language-plaintext highlighter-rouge">mutate</code> function that calls <code class="language-plaintext highlighter-rouge">rollmean</code></p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">zoo</span><span class="p">)</span><span class="w">
+
+</span><span class="n">tidy_auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">classes</span><span class="o">==</span><span class="s2">"large"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">rolling_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rollmean</span><span class="p">(</span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">na.pad</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="o">=</span><span class="s2">"right"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">midpoint</span><span class="p">,</span><span class="w"> </span><span class="n">rolling_average</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
