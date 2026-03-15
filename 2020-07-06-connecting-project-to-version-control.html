@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Setting up and using version control for a project</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-06-connecting-project-to-version-control">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="setting-up-and-using-version-control-for-a-project">Setting up and using version control for a project</h1>
+
+  <p class="meta">July 6, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    8 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Setting up and using version control for a project" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-06-connecting-project-to-version-control&text=Setting up and using version control for a project&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In the last episode of Code Club we started a new project. It was a very exciting day! The project we’re going to be working on over the next Code Club episodes seeks to determine to what degree do inter- and intra-genomic variation limit the interpretation of amplicon sequence variants (ASVs). As I mentioned, this is a newish approach to analyzing 16S rRNA gene sequence data that is all the rage, but not enough people are questioning the assumptions that are baked into the method. We’re going to test the assumptions that ASVs represent a biologically coherent entities. We also got familiar with our command line interface using a unix style environment and set up a basic organization structure for our project. Along the way we’ll learn different elements of what it takes to make an analysis reproducible and how to use a variety of tools that will help out. Even if you don’t find the problem we are studying interesting, you will hopefully find the approach generalizable to a variety of problems that do interest you. For today’s episode we’ll add version control to our project and learn to use git and GitHub to track the history of our project. git is one of those things that can be very confusing, but it doesn’t need to be. We’ll take it slow and we’ll be using git in nearly every episode that follows, so we’ll get a lot of practice!</p>
+
+<p>Please take the time to watch today’s episode, follow along on your own computer, and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end I will provide solutions. The reference notes and links that follow are a supplement to the material in the video.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/DnwEaa5QtpI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="version-control">Version Control</h2>
+
+<p>If you’re like me, you use the undo function in Microsoft Word or Excel countless times a day. Sometimes, I need to undo a large number of things to get back to a point before I screwed things up. One problem with the undo function is that if I quit the program, the thread of changes is broken and I can’t undo something from a previous session in the program. If we use it right, version control is a lot like the undo function. The big difference is that version control won’t lose the thread of changes when we quit an application. It will also keep track of my changes across many files in a project. Even better, it works well with text files like those we’ll be using for our project. Here’s a brief list of things that version control will help us with:</p>
+
+<ul>
+  <li>Documenting the history to a project - When, why, and how did I make a change?</li>
+  <li>Back up system - I can delete a file or even my entire project directory and get it back</li>
+  <li>Facilitates making your work public - I can use version control to share my code with others</li>
+  <li>Enables collaboration -  Other people can make suggestions to improve my project</li>
+</ul>
+
+<p>To achieve these benefits, we’ll use the most popular version control tool called <code class="language-plaintext highlighter-rouge">git</code>. We will be running <code class="language-plaintext highlighter-rouge">git</code> on our computer to maintain what we call our local repository or “local”. Note that even if you doing a project on a computer that’s not in the same room as the computer you’re typing on, I’ll call it your local repository. We’ll also make use of GitHub to host our repository as a remote repository or “remote”. Here are the <code class="language-plaintext highlighter-rouge">git</code> commands we’ll use for today’s episode and somethings you should do to get set up in GitHub.</p>
+
+<h3 id="git">git</h3>
+<p>Watching the video, you’ll see me work through a handful of <code class="language-plaintext highlighter-rouge">git</code> commands. About 95% of what I do with <code class="language-plaintext highlighter-rouge">git</code> uses 5 commands. So if you can master those, you’ll be in good shape. If you’re on a Windows computer, be sure you have the <a href="https://itsfoss.com/install-bash-on-windows/">the Ubuntu Linux BASH shell for Windows 10</a> installed. If you’re using Mac OS X, we’ll be using the Terminal app so much that you probably want to keep it in your Dock. Here are the commands we’ll use.</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">git config</code> - set up your local git environment (typically copy and paste commands from elsewhere). Be sure to customize values in quotes for you</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  git config --global user.name "Your Name"
+  git config --global user.email "your_name@email.com"
+  git config --global github.user "your_github_account_name"
+  git config --global core.autocrlf input	#for mac os x
+  git config --global core.autocrlf true	#for windows
+  git config --global core.editor "nano -w"
+  git config --global --list
+</code></pre></div>    </div>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">git init</code> - create a git repository (look for <code class="language-plaintext highlighter-rouge">.git/</code> when you use <code class="language-plaintext highlighter-rouge">ls -a</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">git status</code> - what files are not being tracked? which have been changed? which have been staged?</li>
+  <li><code class="language-plaintext highlighter-rouge">git add</code> - stage files that are not being tracked and stage changes for committing</li>
+  <li><code class="language-plaintext highlighter-rouge">git commit</code> - commit changes to your repository</li>
+  <li><code class="language-plaintext highlighter-rouge">git pull</code> - get a copy of your remote repository (i.e. GitHub) and merge it with your local repository</li>
+  <li><code class="language-plaintext highlighter-rouge">git push</code> - send your local repository to the remote (i.e. GitHub)</li>
+</ul>
+
+<h3 id="github">GitHub</h3>
+<p>GitHub is the most popular website for hosting <code class="language-plaintext highlighter-rouge">git</code> repositories and we will be using it to host our project’s repository. If you don’t have an account already, go ahead and set up a <a href="https://github.com">GitHub account</a>. You will get unlimited public repositories for free. If you want to keep your repositories private, you will need to create a paid subscription. However, if you are an educator or student, you can <a href="https://docs.github.com/en/github/teaching-and-learning-with-github-education/applying-for-an-educator-or-researcher-discount">apply for an academic discount</a>. This will give you many benefits including unlimited private repositories. If you would prefer to keep your repository private while you are developing your ideas, then I would hope that once you are done with your project you will be willing to convert your private repository into a public repository.</p>
+
+<p>You can connect to GitHub from the command line interface using https or SSH. In the video we’ll use https, which requires us to enter a password. We’ll use a setting that only requires us to enter our password once an hour. You can learn how to use your computer’s <a href="https://docs.github.com/en/github/using-git/caching-your-github-credentials-in-git">password manager</a>. Alternatively, you can use a SSH key to connect to your repositories. I find this to be the most convenient, but it is a bit more involved to set up. GitHub has some <a href="https://docs.github.com/en/github/using-git/caching-your-github-credentials-in-git">great instructions</a> to get you going.</p>
+
+<h2 id="exercises">Exercises</h2>
+<p>1. As an exercise in the last episode we added <code class="language-plaintext highlighter-rouge">README.md</code> files to each of our directories. Commit these files to your repository and push the changes to your GitHub account.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add code/README.md data/README.md data/mothur/README.md data/processed/README.md data/raw/README.md data/references/README.md exploratory/README.md submission/README.md
+git commit -m "Create blank README files to preserve organization structure"
+git pull
+git push
+</code></pre></div>  </div>
+</div>
+
+<p>2. I would like to use a MIT license for this project because we will have a fair amount of code, it is a simple license, and it will allow anyone to use the code and develop it further as long as they provide attribution to us by including the license. You can find the text of the license at https://opensource.org/licenses/MIT. Copy the text of the license into your <code class="language-plaintext highlighter-rouge">LICENSE.md</code> file and make no changes to the file. Save the text and commit the change to your repository.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Copy this into <code class="language-plaintext highlighter-rouge">LICENSE.md</code> using <code class="language-plaintext highlighter-rouge">nano</code></p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Copyright &lt;YEAR&gt; &lt;COPYRIGHT HOLDER&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</code></pre></div>  </div>
+
+  <p>Then run the following commands at the prompt</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add LICENSE.md
+git commit <span class="nt">-m</span> <span class="s2">"Use MIT License for project"</span>
+</code></pre></div>  </div>
+</div>
+
+<p>3. Edit the <code class="language-plaintext highlighter-rouge">LICENSE.md</code> file to indicate the year and your name as the copyright holder (if we’re doing this in parallel, I’m not sure who the true copyright holder is!). Go ahead and commit the change to your repository. Push the changes to your GitHub account.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>In <code class="language-plaintext highlighter-rouge">nano</code> edit <code class="language-plaintext highlighter-rouge">LICENSE.md</code> to change <code class="language-plaintext highlighter-rouge">&lt;YEAR&gt;</code> to the current year (e.g. 2020) and <code class="language-plaintext highlighter-rouge">&lt;COPYRIGHT HOLDER&gt;</code> to your name (or mine). Then do the following</p>
+
+  <p>```bash
+git add LICENSE.md
+git commit -m “Update copyright information”
+git pull
+git push</p>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
