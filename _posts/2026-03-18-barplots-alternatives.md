@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Creating alternatives to dynamite plots in R. Which is the best? (CC408)"
-blurb: "Same figure, six appraoches"
+blurb: "Same figure, six approaches"
 author: "PD Schloss"
 date: 2026-03-18 12:00
 comments: false
