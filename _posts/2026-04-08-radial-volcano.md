@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to create a radial volcano plot in R and why you shouldn\'t! (CC414)"
+title: "How to create a radial volcano plot in R and why you shouldn't! (CC414)"
 blurb: "Volcano plots, multiple ways"
 author: "PD Schloss"
 date: 2026-04-08 12:00
