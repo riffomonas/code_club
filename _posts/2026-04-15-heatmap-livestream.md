@@ -14,6 +14,9 @@ In this livestream, Pat recreates and then refactors a barplot and a set of heat
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+![](assets/images/compounds_original.png)
+![](assets/images/compounds_modified.png)
+
 
 ```
 library(tidyverse)
