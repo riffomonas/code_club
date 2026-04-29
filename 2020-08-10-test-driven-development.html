@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>The value of Test Driven Development in data analysis</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-08-10-test-driven-development">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="the-value-of-test-driven-development-in-data-analysis">The value of Test Driven Development in data analysis</h1>
+
+  <p class="meta">August 10, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    6 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: The value of Test Driven Development in data analysis" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-08-10-test-driven-development&text=The value of Test Driven Development in data analysis&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In last Monday’s episode of Code Club I did something that I do regularly. I screwed up. <a href="https://www.youtube.com/watch?v=yORbSp7Fe10&amp;lc=UgyLCbeiVD4D2AoStBJ4AaABAg">Rasmus Kirkegaard</a> noticed the problem and was kind enough to point out the problem in the comments to that episode. Part of my motivation for making these videos and my general approach to teaching is to normalize mistakes. There are a lot of YouTube tutorials on how to use grep, sed, and every other bash command. The problem is that they’re presented in a way that is too abstract. Those tutorials don’t show how those commands interact with the output from other commands. They’re highly edited and don’t show typos, goofs, or how to identify and solve problems.</p>
+
+<p>Not mine! If you’ve watched along, you’ve seen numerous typos and redos. These are not part of the act. They’re the reality of how I and every other person analyzes data. What I have found is that experience brings the ability to diagnose and solve problems. This process is also missing from from most tutorials. In today’s episode of Code Club, I’m going to show you how I investigated the problem Rasmus pointed out and resolved it. I’m sure I would have found the problem eventually, but by doing these tutorials publicly, we were able to figure it out much faster. Thanks, Rasmus!</p>
+
+<p>As we are doing steps in a data analysis we get a little cocky. We think things are going to work the way we expect. You may recall in last Monday’s episode that there were a few sequences that started and ended with periods to indicate missing data. I wrote a <code class="language-plaintext highlighter-rouge">sed</code> command to convert those periods to hyphens to represent gaps in the alignment. As we were going through my solutions to the exercises, I found a bug in that sed command and thought I fixed it. I even checked the output. Unfortunately, I was flustered and rushing. Instead of checking the output for a region that had those leading periods, I checked the output of the full length sequences, which did not have the problem.</p>
+
+<p>Today I’m going to present the approach that I should have taken. It’s related to a concept that is commonly used in programming called Test Driven Development (TDD). It isn’t as widely used in data analysis, but there are ideas in Test Driven Development that we can draw from to make our analysis more robust. The idea is that we start with a set of tests that fail. We then write code to generate output that passes the test. If we later find a situation that produces the wrong output, then we add that situation to our set of tests and modify the code so the test passes. Because modifying the code can cause other tests to fail, every time the code is updated the tests are rerun. This sounds a bit like make, right? Programming languages including R and Python have frameworks that make Test Driven Development much easier to execute. I’m not aware of such a framework for bash. In today’s episode we’re going to figure out where the problem is, create a set of test sequences that trigger the problem, and then modify our code to resolve the problem. Along the way we’ll learn more about sed and grep.</p>
+
+<p>Even if you’re only watching this video to learn more about bash commands and don’t know what a 16S rRNA gene is, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/h_qFha7vu9I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<h3 id="grep"><code class="language-plaintext highlighter-rouge">grep</code></h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-B #</code>: return the # lines that occur before the line that matches the pattern</li>
+  <li><code class="language-plaintext highlighter-rouge">-A #</code>: return the # lines that occur after the line that matches the pattern</li>
+  <li><code class="language-plaintext highlighter-rouge">[.\A]</code>: match the characters in the brackets</li>
+  <li><code class="language-plaintext highlighter-rouge">[^.\A]</code>: match anything that does not contain the characters in the brackets</li>
+</ul>
+
+<h3 id="sed"><code class="language-plaintext highlighter-rouge">sed</code></h3>
+<ul>
+  <li>Excellent <a href="https://www.grymoire.com/Unix/Sed.html">sed tutorial</a></li>
+  <li><code class="language-plaintext highlighter-rouge">sed '/pattern_a/ s/pattern_b/replacement/'</code> - on lines containing <code class="language-plaintext highlighter-rouge">pattern_a</code>, replace <code class="language-plaintext highlighter-rouge">pattern_b</code> with <code class="language-plaintext highlighter-rouge">replacement</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sed '/pattern_a/ !s/pattern_b/replacement/'</code> - on lines <em>not</em> containing <code class="language-plaintext highlighter-rouge">pattern_a</code>, replace <code class="language-plaintext highlighter-rouge">pattern_b</code> with <code class="language-plaintext highlighter-rouge">replacement</code></li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>
+    <p>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 863a98a3c
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser</li>
+      <li>
+        <p>Within <code class="language-plaintext highlighter-rouge">Schloss_rrnAnalysis_XXXX_2020/</code> run</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make data/v19/rrnDB.align
+make data/v4/rrnDB.align
+</code></pre></div>        </div>
+      </li>
+      <li>Then you should now be good to go</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Write a pipeline to generate a fasta file that contains the 21 copies of the V4 region of the 16S rRNA gene from <em>Photobacterium damselae</em> (GCF_003130755.1)</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grep -A 1 "GCF_003130755.1" data/v4/rrnDB.align | grep -v "^--$" &gt; photobacterium_damselae.fasta
+</code></pre></div>  </div>
+</div>
+
+<p>2. Write a <code class="language-plaintext highlighter-rouge">sed</code> statement to unalign the sequences in <code class="language-plaintext highlighter-rouge">data/v4/rrnDB.align</code>. How would you test that it works?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sed "/^[^&gt;]/ s/[.-]//g" test.fasta
+sed "/^[^&gt;]/ s/[.-]//g" data/v4/rrnDB.align
+</code></pre></div>  </div>
+</div>
+
+<p>3. Add a test statement to <code class="language-plaintext highlighter-rouge">code/extract_region.sh</code> to make sure that none of the sequences have periods in them.</p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

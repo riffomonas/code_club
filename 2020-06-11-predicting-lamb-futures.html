@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Predicting lamb futures</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-06-11-predicting-lamb-futures">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="predicting-lamb-futures">Predicting lamb futures</h1>
+
+  <p class="meta">June 11, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    18 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Predicting lamb futures" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-06-11-predicting-lamb-futures&text=Predicting lamb futures&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>As I’ve mentioned over the past few code clubs, I have sheep on my farm. I like raising sheep because they have a pretty quick growing period of about six months, they’re small enough that I can have a decent number of them, they taste good, and in southeastern Michigan there’s a pretty strong Middle Eastern clientele that eat a lot of lamb. Last week, we created a figure showing the number of lambs being sold at my local livestock auction. That’s only part of the equation - lamb numbers could be dropping because prices are falling or with the decline in sheep, they could be getting more valuable. Also, you may have noticed this, but the total number of sheep sold in the figure from last week was the total - I don’t know how many animals were sold in each weight category. Although I’ve been recording the number of sheep sold and the price for each class for the past 5 years, I’ve never really plotted the data. Today we’ll plot the price for each weight class to see what has happened to the prices over the past 5 years. As a reminder, we saw that sheep sales began to fall about 2 or 3 years ago.</p>
+
+<p>For today’s Code Club, we’ll build off of what we did last week using the <code class="language-plaintext highlighter-rouge">googlesheets4</code> package to read that spreadsheet, we’ll remember how to use the <code class="language-plaintext highlighter-rouge">rename</code> function to fix my bad column names, we’ll learn to use the <code class="language-plaintext highlighter-rouge">separate</code> function to split my price ranges into two columns, and we’ll see how we can use the <code class="language-plaintext highlighter-rouge">geom_ribbon</code> function from the <code class="language-plaintext highlighter-rouge">ggplot2</code> package to plot the data. Along the way we’ll also see the <code class="language-plaintext highlighter-rouge">mutate</code>, <code class="language-plaintext highlighter-rouge">geom_line</code>, and <code class="language-plaintext highlighter-rouge">geom_smooth</code> functions again. Finally, we’ll use <code class="language-plaintext highlighter-rouge">ggplot2</code>’s <code class="language-plaintext highlighter-rouge">labs</code> function to give our plots descriptive titles and axis labels. Don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/I5azya4jHoc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>Today we’ll use the <code class="language-plaintext highlighter-rouge">tidyverse</code> package, but we’ll also use the <a href="https://googlesheets4.tidyverse.org"><code class="language-plaintext highlighter-rouge">googlesheets4</code></a> package for reading my googlesheet. If you haven’t already, you’ll need to instal it as <a href="2020-06-04-eat-more-lamb">described last week</a>. We’ll read in the spreadsheet and go ahead and clean up the column names. Things like <code class="language-plaintext highlighter-rouge">Aged sheep</code> or <code class="language-plaintext highlighter-rouge">&gt;131</code> don’t work very well with R. Of course, I could change my spread sheet, but I’d like to use <code class="language-plaintext highlighter-rouge">rename</code> to practice <a href="2020-04-02-the-data-are">those skills</a> and in case anyone else is using the spreadsheet I don’t want to break their code.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">googlesheets4</span><span class="p">)</span><span class="w">
+
+</span><span class="n">auction_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w">
+		</span><span class="n">sheet</span><span class="o">=</span><span class="s2">"numbers_and_prices"</span><span class="p">,</span><span class="w">
+		</span><span class="n">range</span><span class="o">=</span><span class="s2">"A:J"</span><span class="p">,</span><span class="w">
+		</span><span class="n">col_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Ddcccccccc"</span><span class="p">,</span><span class="w">
+		</span><span class="n">na</span><span class="o">=</span><span class="s2">"NA"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename_all</span><span class="p">(</span><span class="n">tolower</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="s2">"aged_sheep"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"aged sheep"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"feeder_lambs"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"feeder lambs"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"hair_lambs"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hair lambs"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"new_crop"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"new crop"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"small"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"40-85"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"medium"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"85-105"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"large"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"106-130"</span><span class="p">,</span><span class="w">
+		</span><span class="s2">"extra_large"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"&gt;131"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="separating-columns">Separating columns</h3>
+
+<p>For today’s task, I’d like to take the large lambs (those weighing between 105 and 130 pounds) and see how the high and low prices have varied over the course of the time I’ve been tracking these data. In the spreadsheet I have a price stored as <code class="language-plaintext highlighter-rouge">150-170</code>. This is the range in prices from the low to high price per 100 lbs of lamb. In other words, for that week, the prices ranged from $1.50 to $1.70 per live pound of lamb. Since each row has the same <code class="language-plaintext highlighter-rouge">&lt;min&gt;-&lt;max&gt;</code> format, it’s relatively straightforward to separate the data into two columns using <code class="language-plaintext highlighter-rouge">dplyr</code>’s <code class="language-plaintext highlighter-rouge">separate</code> function.</p>
+
+<p>The syntax for <code class="language-plaintext highlighter-rouge">separate</code> requires that you give it a column that you want to separate and the column names that you want for the new columns. The <code class="language-plaintext highlighter-rouge">separate</code> function will guess what character you want to separate on, but it’s safest and more descriptive to provide a value to the <code class="language-plaintext highlighter-rouge">sep</code> argument.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">large</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"max"</span><span class="p">))</span><span class="w"> </span><span class="c1">#try running this without the sep argument</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You’ll notice a couple of things. First, we no longer have the <code class="language-plaintext highlighter-rouge">large</code> column. We could use <code class="language-plaintext highlighter-rouge">remove=FALSE</code> to keep that column if we wanted to keep it around. Second, my <code class="language-plaintext highlighter-rouge">min</code> and <code class="language-plaintext highlighter-rouge">max</code> columns are character types although they are actually numbers now. We can get <code class="language-plaintext highlighter-rouge">separate</code> to convert these columns to numbers using <code class="language-plaintext highlighter-rouge">convert=TRUE</code>. Let’s include these arguments along with a <code class="language-plaintext highlighter-rouge">select</code> function call to make it easier to see what we’ve done</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">large</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"max"</span><span class="p">),</span><span class="w"> </span><span class="n">remove</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">convert</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">large</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Nice, eh? I don’t need the <code class="language-plaintext highlighter-rouge">large</code> column, so let’s get rid of that from our output and save the output as <code class="language-plaintext highlighter-rouge">large_prices</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">large</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"max"</span><span class="p">),</span><span class="w"> </span><span class="n">convert</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="plotting-the-average-price">Plotting the average price</h3>
+
+<p>We don’t have more fine scale price data for the weight class to know whether larger lambs had a lower price or what the average price was. The reality is that the true prices are kind of chunky. At the auction they may sell a dozen lambs together for the same price and other times they may sell one or two lambs per lot. Also, just because two lambs are 120 pounds, doesn’t mean that their carcass qualities are going to be the same - so weight isn’t everything. The range is really the best statistic to report. Let’s create a line plot of the midpoint between the max and min price using <code class="language-plaintext highlighter-rouge">mutate</code> and <code class="language-plaintext highlighter-rouge">geom_line</code>. We’ll start with creating the midpoint</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">mid_point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And we can plot these data like we did last week with <code class="language-plaintext highlighter-rouge">geom_line</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">mid_point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">mid_point</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Wow, that’s pretty seasonal! Let’s fit a smoothed line to the data using the <code class="language-plaintext highlighter-rouge">span</code> argument in <code class="language-plaintext highlighter-rouge">geom_smooth</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">mid_point</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">min</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">mid_point</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">span</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This shows that the prices have fallen with the number of lambs sold. Interestingly, they seem to spike in April and May, but this year the spike fell off in March when the pandemic hit.</p>
+
+<h3 id="plotting-the-range-of-prices">Plotting the range of prices</h3>
+
+<p>Again, the midpoint of the min and max price, really isn’t the mean or median price. We can use <code class="language-plaintext highlighter-rouge">geom_ribbon</code> to plot the range. As the name suggests, it will plot the data to look like a ribbon. For this geom, we need to give it columns corresponding to <code class="language-plaintext highlighter-rouge">ymin</code> and <code class="language-plaintext highlighter-rouge">ymax</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">max</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_ribbon</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can also provide the <code class="language-plaintext highlighter-rouge">fill</code> argument to <code class="language-plaintext highlighter-rouge">geom_ribbon</code> to set the color of the ribbon. If you want to set the color of the boundary line on the ribbon, you would use the <code class="language-plaintext highlighter-rouge">color</code> argument. Normally, <code class="language-plaintext highlighter-rouge">color</code> is set to <code class="language-plaintext highlighter-rouge">NA</code>, which means it has no color.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">max</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_ribbon</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Unfortunately, there isn’t an easy way to smooth the ribbon boundary line.</p>
+
+<h3 id="adding-titles-and-fixing-axis-labels">Adding titles and fixing axis labels</h3>
+
+<p>I’m going to go ahead and add the <code class="language-plaintext highlighter-rouge">theme_light</code> to this plot to make it a little cleaner</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">max</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_ribbon</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I’d also like to add some better labelling to the plot to make it clear what’s going on. For example, the plot doesn’t have a title and the y-axis isn’t labelled. We can fix this with the <code class="language-plaintext highlighter-rouge">ggplot2</code> function, <code class="language-plaintext highlighter-rouge">labs</code>. The <code class="language-plaintext highlighter-rouge">labs</code> function will take arguments to set the main <code class="language-plaintext highlighter-rouge">title</code> and <code class="language-plaintext highlighter-rouge">subtitle</code>, a <code class="language-plaintext highlighter-rouge">caption</code>, and the <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code> labels. To see where these will go, let’s give the arguments their own name as their value</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">max</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_ribbon</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"main"</span><span class="p">,</span><span class="w"> </span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"sub"</span><span class="p">,</span><span class="w"> </span><span class="n">caption</span><span class="o">=</span><span class="s2">"caption"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="s2">"y"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Let’s fill them in with more meaningful values</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">max</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_ribbon</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Large lambs have their highest value in April and May"</span><span class="p">,</span><span class="w">
+			</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Prices for lambs between 106 and 130 pounds"</span><span class="p">,</span><span class="w">
+			</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Data as reported by United Producers in Manchester, MI"</span><span class="p">,</span><span class="w">
+			</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+			</span><span class="n">y</span><span class="o">=</span><span class="s2">"Price ($/100 lbs)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I have to admit that although I’ve been recording these data for the past 5 years, I did not realize that prices for these large lambs was so consistently seasonal. This is valuable information! If a lamb’s value peaks in April and May and it takes about 6 months to get a lamb to 110 pounds, then I likely want to have a group of lambs born in October or November. This plot also causes me to ask other questions - are other weight classes this seasonal? How much has the range in prices varied over this period? These are the types of questions we’ll take on now in the exercises.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. “Aged sheep” are those sheep that are older than 1 year old. Typically, they’re ewes that aren’t able to support a lamb or rams that are no longer needed for breeding. These animals are generally used to produce pet food (it’s unlikely that the “lamb” in fido’s kibble is technically lamb). In Southeastern Michigan, there are anecdotes that some buyers like these animals because they are larger, cheaper, and have a flavor that they like. Is there any seasonal variation to the price in aged sheep? Produce a fitted line plot using the mid-point and a ribbon plot showing the range. Be sure to include an informative title and labels.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aged_sheep</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">aged_sheep</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"max"</span><span class="p">),</span><span class="w"> </span><span class="n">convert</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">midpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">min</span><span class="o">+</span><span class="n">max</span><span class="p">)</span><span class="o">/</span><span class="m">2</span><span class="p">)</span><span class="w">
+
+</span><span class="n">aged_sheep</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">midpoint</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">span</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Aged sheep have their highest value at the beginning of the year"</span><span class="p">,</span><span class="w">
+				</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Prices for aged sheep"</span><span class="p">,</span><span class="w">
+				</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Data as reported by United Producers in Manchester, MI"</span><span class="p">,</span><span class="w">
+				</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+				</span><span class="n">y</span><span class="o">=</span><span class="s2">"Price ($/100 lbs)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+
+</span><span class="n">aged_sheep</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">ymin</span><span class="o">=</span><span class="n">min</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="o">=</span><span class="n">max</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_ribbon</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Aged sheep have their highest value at the beginning of the year"</span><span class="p">,</span><span class="w">
+				</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Prices for aged sheep"</span><span class="p">,</span><span class="w">
+				</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Data as reported by United Producers in Manchester, MI"</span><span class="p">,</span><span class="w">
+				</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+				</span><span class="n">y</span><span class="o">=</span><span class="s2">"Price ($/100 lbs)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>Another surprise to me! Although it varies by year, aged sheep generally sell better at the beginning of the year. This is likely because farmers have already culled their aged sheep going into the winter, which is the time of year when its the most expensive to feed sheep.</p>
+</div>
+
+<p>2. How has the weekly range in price for large lambs varied over the past 5 years?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">large_prices</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">min</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">range</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">span</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+			</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Although there's been seasonal variation in large lamb prices, COVID-19 has\nbeen a major perturbation to the lamb market"</span><span class="p">,</span><span class="w">
+					</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Range of prices for large lambs (106-130 lbs) each week"</span><span class="p">,</span><span class="w">
+					</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Data as reported by United Producers in Manchester, MI"</span><span class="p">,</span><span class="w">
+					</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+					</span><span class="n">y</span><span class="o">=</span><span class="s2">"Difference in high and low prices ($/100 lbs)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+
+</span></code></pre></div>  </div>
+</div>
+
+<p>3. I can sell lambs at 95 pounds or at 125 pounds. If we assume that these lambs would get the midpoint price for their weight class, what is the total difference in price I would receive for each animal? How has this varied over the past 5 years. This difference would tell me the most it should cost me to have an animal gain the extra 30 pounds.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">price_difference</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">auction_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">medium</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"medium_min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"medium_max"</span><span class="p">),</span><span class="w"> </span><span class="n">convert</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">separate</span><span class="p">(</span><span class="n">large</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"large_min"</span><span class="p">,</span><span class="w"> </span><span class="s2">"large_max"</span><span class="p">),</span><span class="w"> </span><span class="n">convert</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">medium_midpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">medium_max</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">medium_min</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+		</span><span class="n">large_midpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">large_max</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">large_min</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+		</span><span class="n">difference</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">large_midpoint</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">125</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">medium_midpoint</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">95</span><span class="p">)</span><span class="o">/</span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">difference</span><span class="p">)</span><span class="w">
+
+</span><span class="n">price_difference</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">difference</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">span</span><span class="o">=</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Depending on the time of year, it should cost you less than $20 to 50 to convert\na medium lamb to a large lamb (don't sell large lambs in January!)"</span><span class="p">,</span><span class="w">
+				</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Difference in total price for a 95 and 125 pound lamb since 2015"</span><span class="p">,</span><span class="w">
+				</span><span class="n">caption</span><span class="o">=</span><span class="s2">"Data as reported by United Producers in Manchester, MI"</span><span class="p">,</span><span class="w">
+				</span><span class="n">x</span><span class="o">=</span><span class="s2">"Date"</span><span class="p">,</span><span class="w">
+				</span><span class="n">y</span><span class="o">=</span><span class="s2">"Difference in total price ($/animal)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>The difference in total price seems to be driven by the strong spring market for large lambs. This is very interesting to me beause it shows me a few things. First, if I have a lamb that will be 125 pounds in January, I probably should have sold it 6 weeks earlier as a medium lamb. Second, it shows me that aside from January, I need to spend less than $20 per lamb to get it to gain the extra 30 pounds for it to get into the large class.</p>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
