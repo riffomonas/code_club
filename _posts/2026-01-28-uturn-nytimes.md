@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Recreating a "U-turn" plot from the New York Times in R with ggplot2 (CC396)"
+title: "Recreating a 'U-turn' plot from the New York Times in R with ggplot2 (CC396)"
 blurb: "Like a barbell plot but reverses itself"
 author: "PD Schloss"
 date: 2026-01-28 12:00
