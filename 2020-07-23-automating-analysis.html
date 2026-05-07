@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Automating the steps of our analysis plan with make</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-23-automating-analysis">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="automating-the-steps-of-our-analysis-plan-with-make">Automating the steps of our analysis plan with make</h1>
+
+  <p class="meta">July 23, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    8 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Automating the steps of our analysis plan with make" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-23-automating-analysis&text=Automating the steps of our analysis plan with make&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In the last episode, we converted the notes we had been keeping in our README files to bash scripts. This was a great step forward towards having an automated and reproducible analysis. You’ll recall that we created scripts for downloading our reference files and files from the rrnDB. In the exercises, we wrote scripts to download and install mothur and to use mothur to align the sequences from the rrnDB against the reference files. This was great because we could call the scripts from  from the command line and everything would be done for us. From my experience, the challenge then becomes remembering the files and scripts that downstream scripts depend on. For example, I anticipate that the rrnDB might update its database this fall. What do I need to run if I want to update the rrnDB files in my database? Our sequence alignment depends on the sequences from the rrnDB and the script that downloads the rrnDB files. So, I would have to run the download script before running the script that aligns the sequences. What would I need to run if SILVA or mothur puts out a new release, which they likely will before the project is done? That’s a lot to keep track of and our project has only just begun! Therefore, we need a tool that will keep track of all of these dependencies.</p>
+
+<p>A few years ago, I was at a conference on reproducible research methods and I heard Karl Broman, a statistician at the University of Wisconsin, say that “make” is central to insuring the reproducibility of his work. That got my attention! This was especially true since I had only ever used make to install software from its source code. The more I thought about it, the more using make made sense. make or more officially, GNU Make, is a program that keeps track of dependencies. The developer writes <strong>rules</strong> that tell make what file needs to be created. That file is called a <strong>target</strong>. The rule also indicates the dependencies or <strong>prerequisites</strong> to building the target as well as the <strong>recipe</strong> for generating the target. Thinking back to the example from the last episode, the target is the alignment file generated from mothur, the prerequisites included the rrnDB fasta file, the SILVA SEED reference alignment, and the script that ran the alignment, and the alignment involved running that script. If the target file doesn’t exist or any of those dependencies are newer than the target file, then make will re-run the dependency. But what if the script to download the rrnDB file changes? If I tell make to generate my alignment, it will see that the download script is newer than the rrnDB fasta file and will re-download the rrnDB fasta file. This will trigger re-running the rule to generate the sequence alignment.</p>
+
+<p>GNU Make is installed with bash so it’s available for people using Mac OS X, Linux, and Windows 10’s bash system. I know GNU Make, so I’ll be using that in our analysis. An newer alternative is Snakemake, which also seems pretty powerful. But when I was trying learn it, I got frustrated installing it and gave up. Perhaps down the road I’ll revisit Snakemake and we can do a head to head comparison with make. For now, I’m pretty happy with make.</p>
+
+<p>As I go forward with this project using Make will become baked into our workflow much like using GitHub flow. As I mentioned earlier, when we install software from source code, we typically enter “make install”. My goal for this project isn’t to install software. Rather, I want to generate a manuscript that I can submit to a journal. At the end of this project, I hope to be able to write “make manuscript.pdf” and it does everything from downloading my data all the way through generating a PDF version of my manuscript and its figures. If we can do that, then we will have great confidence that our analysis is reproducible. But it would also be great to rerun this analysis with a new version of the rrnDB, SILVA, or mothur. This would allow me to see how robust my analysis is to updates in the database. Not only is reproducibility great for transparency and getting things “right”, but it’s also great for improving the rigor of our work. Given the growing popularity of amplicon sequence variants in microbial ecology, if I’m going to critique their use, then I want to make sure that my analysis is rigorous and that anyone can reproduce what I am doing. First, I need to show you how to use make! In today’s episode we’ll ease into the use of make and in future episodes we’ll see how we can improve the sophistication of our use of this great tool.</p>
+
+<p>Even if you don’t have a clue what amplicon sequence variants are, I’m sure you’ll get a lot out of this episode. Please take the time to watch today’s episode, follow along on your own computer, and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/8j8pqDKsueI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li>GNU Make reference material</li>
+  <li>Makefile should be in your project root directory. You can run <code class="language-plaintext highlighter-rouge">make &lt;target&gt;</code> from the project’s root directory to generate <code class="language-plaintext highlighter-rouge">&lt;target&gt;</code>.</li>
+  <li>Use tabs to indent, not lines!</li>
+  <li>Can use <code class="language-plaintext highlighter-rouge">ls -lth</code> to get more full output from <code class="language-plaintext highlighter-rouge">ls</code> including when a file was created</li>
+  <li>If GNU Make needs to generate a dependency to complete a recipe, it will delete the dependency unless you put <code class="language-plaintext highlighter-rouge">.SECONDARY</code> somewhere in the Makefile</li>
+  <li>GNU Make output
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">make -n &lt;target&gt;</code> to see what will run</li>
+      <li><code class="language-plaintext highlighter-rouge">make: '&lt;target&gt;' is up to date.</code>
+        <ul>
+          <li>good sign!</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">make: *** No rule to make target ''&lt;target&gt;'.  Stop.</code>
+        <ul>
+          <li>Most likely have a typo in your target’s name (either in make call or in the recipe’s target)</li>
+          <li>Perhaps you have a dependency that you haven’t created a rule for yet or it doesn’t exist in your file system (look for typos if you think it should)</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">Makefile:2: *** missing separator.  Stop.</code>
+        <ul>
+          <li>Probably using spaces instead of tabs to indent lines</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard da1880d
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser. Then you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Running the following generates an error. What is the error message? How do we resolve the problem?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make data/references/silva.seed_v138.align
+</code></pre></div></div>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>This generates the error:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div>  </div>
+
+  <p>The problem is the path to the file. The following works:</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make data/references/silva_seed/silva.seed_v138.align
+</code></pre></div>  </div>
+</div>
+
+<p>2. Our alignment script only has one line. What are the advantages of putting that line into a bash script file versus the body of the recipe?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Advantages of having a script</p>
+  <ul>
+    <li>If we change the one liner in the Makefile, it doesn’t trigger make to update the target.</li>
+    <li>If it’s a script, we can add more code to the script, change settings, etc. and because it will become a dependency, these types of changes will trigger make to call the script.</li>
+  </ul>
+
+  <p>Disadvantages of having a script</p>
+  <ul>
+    <li>Perhaps a little silly to have a script with only one line in it</li>
+  </ul>
+</div>
+
+<p>3. Complete Issue 10</p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
