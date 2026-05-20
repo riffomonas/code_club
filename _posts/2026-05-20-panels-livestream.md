@@ -3,7 +3,7 @@ layout: post
 title: "Simplifying a set of 12 panels to better compare the data (CC425)"
 blurb: "Less is more"
 author: "PD Schloss"
-date: 2026-05-20 12:00
+date: 2026-05-20 10:00
 comments: false
 youtube: fXwsWC2ovZg
 start_hash: 
