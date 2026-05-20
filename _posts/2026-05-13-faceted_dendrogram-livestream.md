@@ -3,7 +3,7 @@ layout: post
 title: "Recreating a set of dendrorgrams, heatmaps, and a stacked bar plot from Nature Cancer (CC423)"
 blurb: "Fun with patchwork, ggdendro, and ggplot2"
 author: "PD Schloss"
-date: 2026-05-15 12:00
+date: 2026-05-13 12:00
 comments: false
 youtube: tKjpwINieRg
 start_hash: 
