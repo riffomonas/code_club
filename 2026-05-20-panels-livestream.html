@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Simplifying a set of 12 panels to better compare the data (CC425)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-05-20-panels-livestream">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="simplifying-a-set-of-12-panels-to-better-compare-the-data-cc425">Simplifying a set of 12 panels to better compare the data (CC425)</h1>
+
+  <p class="meta">May 20, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    3 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Simplifying a set of 12 panels to better compare the data (CC425)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-05-20-panels-livestream&text=Simplifying a set of 12 panels to better compare the data (CC425)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>The article discussed: https://www.nature.com/articles/s41586-026-10444-4
+Related critique: https://youtu.be/Cmg0HKlhloQ
+Code from this livestream: https://riffomonas.org/code_club/2026-05-20-panels-livestream
+Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
+My newsletter: https://shop.riffomonas.org/youtube 
+Recorded workshops: https://riffomonas.org/workshops/
+If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22</p>
+
+<p>packages: tidyverse, readxl, and glue</p>
+
+<p>functions: aes, annotate, arrange, as.numeric, bind_rows, coord_cartesian, download.file, element_blank, element_line, element_text, expansion, facet_grid, factor, filter, geom_errorbar, geom_line, geom_point, ggplot, ggsave, glue, if_else, label_wrap_gen, labeller, labs, library, map, margin, mutate, read_excel, scale_color_manual, scale_y_continuous, select, str_remove, theme, theme_classic, and unit</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/fXwsWC2ovZg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(readxl)
+library(glue)
+
+download.file("https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-026-10444-4/MediaObjects/41586_2026_10444_MOESM5_ESM.xlsx",
+              "figure_1.xlsx")
+
+d &lt;- glue("Figure 1{letters[9:20]}") %&gt;%
+  map(~read_excel("figure_1.xlsx", sheet = .x)) %&gt;%
+  bind_rows(.id = "panel") %&gt;%
+  select(panel, drug = Injection, genotype = Genotype, time = Time,
+         mean = mean_FI, sem = sem_FI) %&gt;%
+  mutate(diet = if_else(as.numeric(panel) &lt;= 6, "sd", "hfd"),
+         diet = factor(diet,
+                       levels = c("sd", "hfd"),
+                       labels = c("Active phase:\nStandard diet\nconsumed (g)",
+                                  "Inactive phase:\nHigh fat diet\nconsumed (g)")),
+         genotype = factor(genotype,
+                           levels = c("WT", "S33W"),
+                           labels = c("Wild-type", "Humanized (S33W)")),
+         drug = if_else(drug == "Saline", "Vehicle", drug),
+         drug = factor(drug, 
+                       levels = c("Vehicle", "Liraglutide",
+                                  "Danuglipron", "Orfo"),
+                       labels = c("Vehicle", "Liraglutide",
+                                  "Danuglipron", "Orforglipron")),
+         time = str_remove(time, "h.*r") %&gt;% as.numeric(),
+         grouping_set = factor(paste0(drug, panel),
+                               levels = c("Vehicle1", "Vehicle2", "Vehicle3",
+                                          "Vehicle4", "Vehicle5", "Vehicle6",
+                                          "Vehicle7", "Vehicle8", "Vehicle9",
+                                          "Vehicle10", "Vehicle11", "Vehicle12",
+                                          "Liraglutide1", "Liraglutide2",
+                                          "Liraglutide7", "Liraglutide8",
+                                          "Danuglipron3", "Danuglipron4",
+                                          "Danuglipron9", "Danuglipron10", 
+                                          "Orforglipron5", "Orforglipron6",
+                                          "Orforglipron11", "Orforglipron12")
+         )) %&gt;%
+  arrange(grouping_set) 
+
+
+d %&gt;%
+  ggplot(aes(x = time, y = mean, color = drug, group = grouping_set,
+             ymin = mean - sem, ymax = mean + sem)) +
+  geom_line(data = filter(d, drug == "Vehicle"), linewidth = 0.3) +
+  geom_point(data = filter(d, drug == "Vehicle")) +
+  geom_errorbar(data = filter(d, drug == "Vehicle"),
+                width = 0.1, linewidth = 0.3) +
+  geom_line(data = filter(d, drug != "Vehicle"), linewidth = 0.3) +
+  geom_errorbar(data = filter(d, drug != "Vehicle"),
+                width = 0.1, linewidth = 0.3) +
+  geom_point(data = filter(d, drug != "Vehicle")) +
+  facet_grid(diet ~ genotype, switch = "y",
+             labeller = labeller(diet = label_wrap_gen(width = 20),
+                                 genotype = label_wrap_gen(width = 10))) +
+  scale_color_manual(
+    values = c(Vehicle = "gray", Orforglipron = "#B51B8F",
+               Liraglutide = "#25A6E2", Danuglipron = "#E92C2D")) +
+  scale_y_continuous(expand = expansion()) +
+  coord_cartesian(ylim = c(0, 2.4), clip = "off") +
+  labs(
+    color = NULL,
+    x = "Time (h)",
+    y = NULL
+  ) +
+  annotate(
+    geom = "text",
+    x = c(2, 4), y = c(0.2, 0.3), label = c("***", "***"),
+    color = "#25A6E2", layout = 1,
+    size = 8, size.unit = "pt"
+  ) +
+  annotate(
+    geom = "text",
+    x = c(2, 4, 2, 4, 1, 2, 4), y = c(0.2, 0.45, 0.1, 0.35,-0.05, 0.0, 0.25),
+    label = c("*", "***", "***", "***", "*", "***", "***"),
+    color = c("#25A6E2", "#25A6E2", "#E92C2D", "#E92C2D",
+              "#B51B8F","#B51B8F","#B51B8F"), layout = 2,
+    size = 8, size.unit = "pt"
+  ) +
+  annotate(
+    geom = "text",
+    x = c(1, 2, 4), y = c(0.35, 0.45, 0.55), label = c("*", "**", "***"),
+    color = "#25A6E2", layout = 3,
+    size = 8, size.unit = "pt"
+  ) +
+  annotate(
+    geom = "text",
+    x = c(0.9, 2, 4, 1, 2, 4, 1.1, 2, 4),
+    y = c(0.1, 0.35, 0.4, 0.0, 0.25, 0.3, 0.1, 0.15, 0.2),
+    label = c("*", "**", "***", "***", "***", "***", "*", "**", "**"),
+    color = c("#25A6E2", "#25A6E2", "#25A6E2",
+              "#E92C2D", "#E92C2D","#E92C2D",
+              "#B51B8F","#B51B8F","#B51B8F"), layout = 4,
+    size = 8, size.unit = "pt"
+  ) +
+  theme_classic() +
+  theme(
+    strip.placement = "outside",
+    strip.text = element_text(size = 8, margin = margin()),
+    strip.clip = "off",
+    strip.background = element_blank(),
+    axis.title.x = element_text(size = 8),
+    axis.text = element_text(size = 7),
+    axis.text.y = element_text(margin = margin(l = 3, r = 1)),
+    axis.line = element_line(linewidth = 0.2),
+    axis.ticks = element_line(linewidth = 0.2),
+    legend.key.size = unit(10, "pt"),
+    legend.key.spacing = unit(3, "pt"),
+    legend.text = element_text(size = 7),
+    legend.box.spacing = unit(3, "pt")
+  )  
+  
+# ggsave("figure_1.png", width = 7.5, height = 2.87) #original aspect ratio
+ggsave("figure_1.png", width = 4.5, height = 2.87)
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Fun with ggplot2's themes</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-05-07-fun-with-themes">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="fun-with-ggplot2-s-themes">Fun with ggplot2's themes</h1>
+
+  <p class="meta">May 7, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    12 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Fun with ggplot2's themes" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-05-07-fun-with-themes&text=Fun with ggplot2's themes&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>If you’re like me, you’re not a big fan of <code class="language-plaintext highlighter-rouge">ggplot2</code>’s default plot style. Somewhere I heard that developers make these types of default themes ugly so that you have to change them. Aside from using some of the other built in themes (e.g. <code class="language-plaintext highlighter-rouge">theme_classic</code>, <code class="language-plaintext highlighter-rouge">theme_dark</code>), there are the <code class="language-plaintext highlighter-rouge">ggthemes</code> package with a bunch of other canned themes and the <code class="language-plaintext highlighter-rouge">theme</code> function. For today’s Code Club we are going to see how you can manipulate the built in themes, pick themes from <code class="language-plaintext highlighter-rouge">ggthemes</code>, and use the <code class="language-plaintext highlighter-rouge">theme</code> function to make your own modifications. Altering the styling of a figure can be helpful if you need to modify a figure to adapt something you made for a paper to something you’d like to show in a presentation. Alternatively, as we’ll see, if you have a “brand” and want to have a consistent style across figures, you can create a theme that is then used in each case.</p>
+
+<p>We’ll take a different approach to previous Code Clubs in the video for this week. I’ll present a brief lesson and then turn you loose on your own to work through some lessons. Finally, I’ll come back and give you my solutions. Don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/CHApFmFoP_o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>Here is a code chunk that was modified from the second exercise in the <a href="2020-03-26-candy-crush">first Code Club</a>. You’ll notice I removed the <code class="language-plaintext highlighter-rouge">theme_classic()</code> line from my ggplot block and that I assigned the block to the variable <code class="language-plaintext highlighter-rouge">p</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">candy_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/fivethirtyeight/data/master/candy-power-ranking/candy-data.csv"</span><span class="p">,</span><span class="w">
+	</span><span class="n">col_types</span><span class="o">=</span><span class="s2">"clllllllllddd"</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">pluribus_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">pluribus</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">chocolate</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">fruity</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">chocolate</span><span class="p">,</span><span class="w"> </span><span class="n">fruity</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"type"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"answer"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pluribus_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">winpercent</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">type</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">scale_x_discrete</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"chocolate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fruity"</span><span class="p">),</span><span class="w"> </span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Chocolate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Fruity"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">100</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Contests won (%)"</span><span class="p">,</span><span class="w">
+		</span><span class="n">x</span><span class="o">=</span><span class="s2">"Type of candy"</span><span class="p">,</span><span class="w">
+		</span><span class="n">title</span><span class="o">=</span><span class="s2">"Bite-sized candies containing chocolate are preferred to candy without"</span><span class="p">,</span><span class="w">
+		</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"Data collected by FiveThirtyEight.com"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That <code class="language-plaintext highlighter-rouge">p</code> variable holds the “value” of the plot. If you enter “p” at the R prompt it will generate the figure. This is often done so that you don’t have to repeat all the lines of code to that point and you can add additional layers to the plot. For example, this line of code applies <code class="language-plaintext highlighter-rouge">theme_bw</code> to our figure</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_bw</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="built-in-themes">Built in themes</h3>
+
+<p><code class="language-plaintext highlighter-rouge">theme_bw</code> is one of the themes that is built into <code class="language-plaintext highlighter-rouge">ggplot2</code>. Here are some of the others that you can use…</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_gray</span><span class="p">()</span><span class="w"> </span><span class="c1"># the default</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_linedraw</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_light</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_dark</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_minimal</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_void</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="extra-themes">Extra themes</h3>
+
+<p>If you want more options, you can check out the <code class="language-plaintext highlighter-rouge">ggthemes</code> package, which has people’s attempts at trying to recreate the themes they see from other software packages (e.g. <code class="language-plaintext highlighter-rouge">theme_excel</code>) and websites (e.g. <code class="language-plaintext highlighter-rouge">theme_economist</code>). You can find a gallery of themes in <code class="language-plaintext highlighter-rouge">ggthemes</code> and in other packages (e.g. the <code class="language-plaintext highlighter-rouge">xkcd</code> package) at <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/">allYourFigureAreBelongToUs</a>. Be sure to install <code class="language-plaintext highlighter-rouge">ggthemes</code> or the package with the theme you want before attempting to use the theme</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#install.packages("ggthemes")</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_economist</span><span class="p">()</span><span class="w"> </span><span class="c1">#</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_excel</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="passing-arguments-into-theme_xxxxx-functions">Passing arguments into <code class="language-plaintext highlighter-rouge">theme_xxxxx</code> functions</h3>
+
+<p>You can manipulate a lot in a figure by giving these default themes a few different arguments including <code class="language-plaintext highlighter-rouge">base_size</code>, <code class="language-plaintext highlighter-rouge">base_family</code>, <code class="language-plaintext highlighter-rouge">base_line_size</code>, and <code class="language-plaintext highlighter-rouge">base_rect_size</code>. These will change the font size, font type, thickness of the lines, and the size of border on rectangular elements.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="c1">#a number, default = 11</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mono"</span><span class="p">)</span><span class="w"> </span><span class="c1">#a font family, default = sans (serif, mono, symbol); see extrafont package</span><span class="w">
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_classic</span><span class="p">(</span><span class="n">base_line_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="c1">#a number, size for line elements, default = base_size/22</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You should notice that when you change something like <code class="language-plaintext highlighter-rouge">base_size</code> all of the font sizes for the titles, axis titles, axis labels and axis values are scaled according to this base value. We can say that the value is inherited as we go down the cascade of related styles.</p>
+
+<h3 id="digging-into-theme">Digging into <code class="language-plaintext highlighter-rouge">theme</code></h3>
+
+<p>These options may only get you so far. You might find that you like <code class="language-plaintext highlighter-rouge">theme_classic</code>, but want to change one or two things. This brings us to the <code class="language-plaintext highlighter-rouge">theme</code> function. This function has one of the more intimidating help pages</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">?</span><span class="n">theme</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I’d encourage you to skip the <code class="language-plaintext highlighter-rouge">Usage</code> section and go to the <code class="language-plaintext highlighter-rouge">Arguments</code> section for an easier view of the various things you can manipulate. You’ll notice that there is generally a hierarchy to how they’re named. Unfortunately, they are mainly listed alphabetically not hierarchically</p>
+<ul>
+  <li>the first word indicates what gets manipulated (e.g. plot, legend, etc)</li>
+  <li>the second word indicates what about the first word gets manipulated (e.g. plot.background)</li>
+  <li>the third word indicateds a finer level of specificity (e.g. legend.box.background)</li>
+  <li>sometimes the third word overwrites what happens with the second word (e.g. axis.title vs axis.title.x)</li>
+</ul>
+
+<p>When setting the values for the theme parameters for some arguments they take a character or logical value. More frequently they take one of five functions.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">margin()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">element_blank()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">element_rect()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">element_line()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">element_text()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">unit()</code> see <code class="language-plaintext highlighter-rouge">?grid::unit</code> for the various units that are available</li>
+</ul>
+
+<p>You should look at the help pages for those functions to get a sense of their syntax. The arguments that these functions take can be a bit opaque</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">fill</code> / <code class="language-plaintext highlighter-rouge">color</code> / <code class="language-plaintext highlighter-rouge">colour</code> ~ colors</li>
+  <li><code class="language-plaintext highlighter-rouge">linetype</code> is an integer between 0 and 8, name of the line type, or hexidecimal coding</li>
+  <li><code class="language-plaintext highlighter-rouge">linend</code> can be “round”, “butt”, or “square”</li>
+  <li><code class="language-plaintext highlighter-rouge">arrow</code> see <code class="language-plaintext highlighter-rouge">?grid::arrow</code></li>
+  <li><code class="language-plaintext highlighter-rouge">face</code> can be “plain”, “italic”, “bold”, “bold.italic”</li>
+  <li><code class="language-plaintext highlighter-rouge">hjust</code> is a number between 0 and 1 to indicate the horizontal justification (0 for left, 0.5 for center, and 1 for right justification)</li>
+  <li><code class="language-plaintext highlighter-rouge">vjust</code> is a number between 0 and 1 to indicate the vertical justification (0 for top, 0.5 for center, and 1 for bottom)</li>
+  <li>You can also use <code class="language-plaintext highlighter-rouge">rel()</code> so set a size <strong>rel</strong> ative to the size of the parent entity (e.g. <code class="language-plaintext highlighter-rouge">rel(1.5)</code> in <code class="language-plaintext highlighter-rouge">element_text</code> for <code class="language-plaintext highlighter-rouge">plot.title</code> would make it 50% larger than the value of <code class="language-plaintext highlighter-rouge">base_size</code>)</li>
+</ul>
+
+<p>Let’s see how we can put this together to make something garish…</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_gray</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"mono"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">),</span><span class="w">
+		</span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">),</span><span class="w">
+		</span><span class="n">axis.title.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rel</span><span class="p">(</span><span class="m">2.0</span><span class="p">),</span><span class="w"> </span><span class="n">family</span><span class="o">=</span><span class="s2">"serif"</span><span class="p">),</span><span class="w">
+		</span><span class="n">legend.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="o">=</span><span class="kc">NA</span><span class="p">),</span><span class="w">
+		</span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"lightgray"</span><span class="p">),</span><span class="w">
+		</span><span class="n">panel.grid.major.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linetype</span><span class="o">=</span><span class="m">3</span><span class="p">),</span><span class="w">
+		</span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="s2">"pink"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="looking-behind-the-curtain-of-a-theme_xxxx-function">Looking behind the curtain of a <code class="language-plaintext highlighter-rouge">theme_xxxx</code> function</h3>
+<p>One trick you can use to figure out how a theme is made is to recall that if you enter the name of a function at the prompt without any arguments or the parentheses you will often get the code for the function. Well, <code class="language-plaintext highlighter-rouge">theme_excel</code> is a function! For the assignments, try not to use this approach to engineer your own version of these <code class="language-plaintext highlighter-rouge">theme_xxxx</code> functions.</p>
+
+<h2 id="assignment">Assignment</h2>
+<p>1. Without using <code class="language-plaintext highlighter-rouge">theme_xxxxxx</code> functions, make <code class="language-plaintext highlighter-rouge">p</code> look like <code class="language-plaintext highlighter-rouge">p + theme_classic()</code> using <code class="language-plaintext highlighter-rouge">theme()</code>. Hint: Within RStudio’s “Plots” panel you can use the arrow buttons to toggle between versions of plots</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+	</span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">lineend</span><span class="w"> </span><span class="o">=</span><span class="s2">"round"</span><span class="p">),</span><span class="w">
+	</span><span class="n">legend.key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+	</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>2. Without using <code class="language-plaintext highlighter-rouge">theme_xxxxxx</code> functions, make <code class="language-plaintext highlighter-rouge">p</code> look like <code class="language-plaintext highlighter-rouge">p + theme_dark()</code> using <code class="language-plaintext highlighter-rouge">theme()</code>.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_dark</span><span class="p">()</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+	</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">),</span><span class="w">
+	</span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"gray50"</span><span class="p">),</span><span class="w">
+	</span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray40"</span><span class="p">),</span><span class="w">
+	</span><span class="n">legend.key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"gray50"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="kc">NA</span><span class="p">)</span><span class="w">
+	</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>3. Recreate the <code class="language-plaintext highlighter-rouge">theme_fivethirtyeight</code> theme using <code class="language-plaintext highlighter-rouge">theme()</code>.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme_fivethirtyeight</span><span class="p">()</span><span class="w">
+
+</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">theme</span><span class="p">(</span><span class="w">
+	</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">12</span><span class="p">),</span><span class="w">
+	</span><span class="n">plot.title</span><span class="o">=</span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">18</span><span class="p">),</span><span class="w">
+	</span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="s2">"lines"</span><span class="p">),</span><span class="w">
+	</span><span class="n">plot.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">"gray95"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="kc">NA</span><span class="p">),</span><span class="w">
+	</span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"gray80"</span><span class="p">),</span><span class="w">
+	</span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">,</span><span class="w">
+	</span><span class="n">legend.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+	</span><span class="n">legend.key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

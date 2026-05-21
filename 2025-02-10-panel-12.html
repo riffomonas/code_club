@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Using R's ggplot2 to recreate WEB DuBois's Panel 12 from the 1900 Paris Exposition (CC340)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-02-10-panel-12">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="using-r-s-ggplot2-to-recreate-web-dubois-s-panel-12-from-the-1900-paris-exposition-cc340">Using R's ggplot2 to recreate WEB DuBois's Panel 12 from the 1900 Paris Exposition (CC340)</h1>
+
+  <p class="meta">February 10, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    9 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Using R's ggplot2 to recreate WEB DuBois's Panel 12 from the 1900 Paris Exposition (CC340)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-02-10-panel-12&text=Using R's ggplot2 to recreate WEB DuBois's Panel 12 from the 1900 Paris Exposition (CC340)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat recreates an iconic figure that WEB DuBois presented at the 1900 Paris Exposition showing the change in the percentage of Blacks who were free in Georgia between 1790 and 1870 using tools from R’s ggplot2, dplyr, and showtext. The functions he uses from these packages include aes, annotate, arrange, as.character, coord_cartesian, element_blank, element_line, element_rect, element_text, factor, fill, font_add, full_join, geom_area, geom_hline, geom_path, geom_text, ggplot, ggsave, if_else, labs, lead, length, library, margin, mutate, paste0, pivot_longer, runif, scale_fill_manual, scale_x_continuous, scale_y_continuous, select, seq, showtext_auto, showtext_opts, theme, tibble, and tribble. Pat’s newsletter describing how he would go about generating the figure can be <a href="https://shop.riffomonas.org/posts/remaking-classic-hand-drawn-data-visualizations-from-1900">found here</a>. The book Pat mentions by Whitney Battle-Baptiste and Britt Rusert, titled “W.E.B. Du Bois’s Data Portraits: Visualizing Black America” is <a href="https://amzn.to/4heJOWZ">available here</a>. A great set of talks about the DuBois data portraits is <a href="https://www.youtube.com/watch?v=ZZST1AZj-dQ&amp;ab_channel=Tableau">available on YouTube</a>. The Anthony Starks GitHub repository can be <a href="https://github.com/ajstarks/dubois-data-portraits/">found here</a>. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/5TGjhKson_s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">showtext</span><span class="p">)</span><span class="w">
+</span><span class="c1">#Icons made from &lt;a href="https://www.onlinewebfonts.com/icon"&gt;svg icons&lt;/a&gt;is licensed by CC BY 4.0&lt;/div&gt;</span><span class="w">
+
+</span><span class="n">font_add</span><span class="p">(</span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"OnlineWebFonts_COM_5d6bfe4f38a46ad2c2304bc1f8ea8151/B52-ULC W00 ULC/B52-ULC W00 ULC.ttf"</span><span class="p">)</span><span class="w">
+</span><span class="n">font_add</span><span class="p">(</span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">regular</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely-light.otf"</span><span class="p">)</span><span class="w">
+</span><span class="n">showtext_auto</span><span class="p">()</span><span class="w">
+</span><span class="n">showtext_opts</span><span class="p">(</span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">ragged_line</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">1790</span><span class="p">,</span><span class="w"> </span><span class="m">1870</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span><span class="w">
+                      </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runif</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">year</span><span class="p">),</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.95</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.05</span><span class="p">))</span><span class="w">
+
+</span><span class="n">slave_free</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w">
+  </span><span class="o">~</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">slave</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">free</span><span class="p">,</span><span class="w">
+  </span><span class="m">1790</span><span class="p">,</span><span class="w">    </span><span class="m">98.7</span><span class="p">,</span><span class="w">   </span><span class="m">1.3</span><span class="p">,</span><span class="w">
+  </span><span class="m">1800</span><span class="p">,</span><span class="w">    </span><span class="m">98.3</span><span class="p">,</span><span class="w">   </span><span class="m">1.7</span><span class="p">,</span><span class="w">
+  </span><span class="m">1810</span><span class="p">,</span><span class="w">    </span><span class="m">98.3</span><span class="p">,</span><span class="w">   </span><span class="m">1.7</span><span class="p">,</span><span class="w">
+  </span><span class="m">1820</span><span class="p">,</span><span class="w">    </span><span class="m">98.8</span><span class="p">,</span><span class="w">   </span><span class="m">1.2</span><span class="p">,</span><span class="w">
+  </span><span class="m">1830</span><span class="p">,</span><span class="w">    </span><span class="m">99.2</span><span class="p">,</span><span class="w">   </span><span class="m">0.8</span><span class="p">,</span><span class="w">
+  </span><span class="m">1840</span><span class="p">,</span><span class="w">    </span><span class="m">99.1</span><span class="p">,</span><span class="w">   </span><span class="m">0.9</span><span class="p">,</span><span class="w">
+  </span><span class="m">1850</span><span class="p">,</span><span class="w">    </span><span class="m">99.3</span><span class="p">,</span><span class="w">   </span><span class="m">0.7</span><span class="p">,</span><span class="w">
+  </span><span class="m">1860</span><span class="p">,</span><span class="w">    </span><span class="m">99.2</span><span class="p">,</span><span class="w">   </span><span class="m">0.8</span><span class="p">,</span><span class="w">
+  </span><span class="m">1870</span><span class="p">,</span><span class="w">     </span><span class="m">0.0</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="c1">#100.0 ) %&gt;% # adjusted to 10 to highlight slope of line</span><span class="w">
+  
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">pretty_free</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1790</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1870</span><span class="p">,</span><span class="w">
+                               </span><span class="n">paste0</span><span class="p">(</span><span class="n">free</span><span class="p">,</span><span class="w"> </span><span class="s2">"%"</span><span class="p">),</span><span class="w">
+                               </span><span class="nf">as.character</span><span class="p">(</span><span class="n">free</span><span class="p">)))</span><span class="w">
+
+
+</span><span class="n">top_line</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">slave_free</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">free_start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free</span><span class="p">,</span><span class="w">
+         </span><span class="n">free_next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lead</span><span class="p">(</span><span class="n">free</span><span class="p">),</span><span class="w">
+         </span><span class="n">free_slope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">free_next</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">free_start</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">full_join</span><span class="p">(</span><span class="n">ragged_line</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"year"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">fill</span><span class="p">(</span><span class="n">free_start</span><span class="p">,</span><span class="w"> </span><span class="n">free_slope</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">free</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free_start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">free_slope</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">%%</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w">
+         </span><span class="n">free</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">free</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">max</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">),</span><span class="w">
+         </span><span class="n">slave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">free</span><span class="w">
+         </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">,</span><span class="w"> </span><span class="n">slave</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"status"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"percent"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"slave"</span><span class="p">,</span><span class="w"> </span><span class="s2">"free"</span><span class="p">)))</span><span class="w">
+
+
+</span><span class="n">top_line</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percent</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">status</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_area</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="n">orientation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"y"</span><span class="p">,</span><span class="w">
+            </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">1790</span><span class="p">,</span><span class="w"> </span><span class="m">1870</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w">
+             </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_path</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ragged_line</span><span class="p">,</span><span class="w">
+            </span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">),</span><span class="w">
+            </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slave_free</span><span class="p">,</span><span class="w">
+            </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.4</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty_free</span><span class="p">),</span><span class="w">
+            </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+            </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1786</span><span class="p">,</span><span class="w">
+           </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PERCENT\nOF\nFREE NEGROES"</span><span class="p">,</span><span class="w">
+           </span><span class="n">lineheight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SLAVES AND FREE NEGROES."</span><span class="p">,</span><span class="w">
+       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"slave"</span><span class="p">),</span><span class="w">
+                    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#dc143c"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#000000"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_continuous</span><span class="p">(</span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"reverse"</span><span class="p">,</span><span class="w">
+                     </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"top"</span><span class="p">,</span><span class="w">
+                     </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="s2">"1%"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2%"</span><span class="p">,</span><span class="w"> </span><span class="s2">"3%"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"reverse"</span><span class="p">,</span><span class="w">
+                     </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="m">1790</span><span class="p">,</span><span class="w"> </span><span class="m">1870</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3.1</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1870</span><span class="p">,</span><span class="w"> </span><span class="m">1790</span><span class="p">),</span><span class="w">
+                  </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w">
+                              </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)),</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">90</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">110</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.ticks.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)),</span><span class="w">
+    </span><span class="n">axis.ticks.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_rect</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># actually 22x28 inches</span><span class="w">
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"panel_12.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.24</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"in"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

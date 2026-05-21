@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Creating bar plot with error bars using ggplot2's stat_summary in R (CC318)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2024-11-25-negative-barplot">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="creating-bar-plot-with-error-bars-using-ggplot2-s-stat-summary-in-r-cc318">Creating bar plot with error bars using ggplot2's stat_summary in R (CC318)</h1>
+
+  <p class="meta">November 25, 2024 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    2 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Creating bar plot with error bars using ggplot2's stat_summary in R (CC318)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2024-11-25-negative-barplot&text=Creating bar plot with error bars using ggplot2's stat_summary in R (CC318)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat shows how to use stat_summary() and other functions from ggplot2 to create a descending barplot with error bars in R. He customizes the appearance using scale_x_discrete, scale_y_continuous, scale_fill_manual, geom_hline, and theme. The newsletter describing how I would go about generating the figure can be <a href="https://shop.riffomonas.org/posts/some-thoughts-on-how-to-recreate-a-descending-bar-plot-with-ggplot2">found here</a>.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/Oe5O4LRj2rc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(ggtext)
+set.seed(19760620)
+
+mean_sd &lt;- function(x){
+
+  tibble(y = mean(x),
+         ymin = y - sd(x),
+         ymax = y + sd(x))  
+  
+}
+
+
+spore_data &lt;- tibble(
+  fraction_alive = abs(c(
+    rnorm(6, 1e-1, 7e-2),
+    rnorm(3, 1e-4, 7e-5), rnorm(3, 1e-3, 7e-4),
+    rnorm(6, 1e-6, 7e-7),
+    rnorm(6, 1e-8, 7e-9)
+  )),
+  heat = rep(rep(c("before heat", "after heat"), each = 3), 4),
+  treatment = rep(c("A", "B", "C", "D"), each = 6)
+)
+
+spore_data %&gt;% 
+  mutate(log_fraction_alive = log10(fraction_alive),
+         heat = factor(heat, levels = c("before heat", "after heat"))) %&gt;%
+  ggplot(aes(x = treatment, fill = heat, y = log_fraction_alive)) +
+  stat_summary(geom = "col", fun.data = mean_sd, position = position_dodge(),
+               color = "black", linewidth = 0.25) +
+  stat_summary(geom = "errorbar", fun.data = mean_sd,
+               position = position_dodge(width = 0.9), width = 0.3) +
+  geom_hline(yintercept = c(0, -8), linewidth = c(0.5, 1),
+             linetype = c("solid", "dashed")) +
+  scale_fill_manual(name = NULL,
+                    breaks = c("before heat", "after heat"),
+                    values = c("#013062", "#D9ECF5")) +
+  scale_x_discrete(name = NULL,
+                   breaks = c("A", "B", "C", "D"),
+                   labels = c("Val\nNis\nNoHP",
+                            "Val\nNis\nmHP",
+                            "Val\nNis\nvHP",
+                            "TSB\nNis\nvHP\n80\u00B0C\n37\u00B0C\nvHP")) +
+  scale_y_continuous(name = "log&lt;sub&gt;10&lt;/sub&gt; (N/N&lt;sub&gt;0&lt;/sub&gt;) [-]",
+                     limits = c(-10, 0.5),
+                     breaks = seq(0, -10, -1),
+                     expand = c(0, 0)) +
+  theme_classic() +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "vertical",
+    legend.justification = "left",
+    legend.text = element_text(face = "italic", size = 13),
+    legend.background = element_rect(color = "black"),
+    legend.margin = margin(2, 2, 2, 2),
+    legend.key.height = unit(15, "pt"),
+    legend.key.width = unit(30, "pt"),
+    legend.box.spacing = unit(-40, "pt"),
+    legend.box.margin = margin(l = 50),
+    axis.text.x = element_text(size = 14, color = "black",
+                               margin = margin(t = 8)),
+    axis.text.y = element_text(size = 13, color = "black"),
+    axis.ticks.y = element_blank(),
+    axis.title.y = element_markdown(size = 14),
+    axis.ticks.length.x = unit(-5, "pt"),
+    plot.margin = margin(t = 5, r = 0, b = 8, l = 20),
+    panel.grid.major.y = element_line(color = "gray", linewidth = 0.25)
+  )
+  
+ggsave("negative_bars.png", width = 3.7, height = 5.2)
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
