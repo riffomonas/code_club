@@ -10,17 +10,17 @@ start_hash:
 end_hash: 
 ---
 
-The article discussed: https://www.nature.com/articles/s41586-026-10444-4
-Related critique: https://youtu.be/Cmg0HKlhloQ
-Code from this livestream: https://riffomonas.org/code_club/2026-05-20-panels-livestream
-Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
-My newsletter: https://shop.riffomonas.org/youtube 
-Recorded workshops: https://riffomonas.org/workshops/
-If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22
+* The article discussed: https://www.nature.com/articles/s41586-026-10444-4
+* Related critique: https://youtu.be/Cmg0HKlhloQ
+* Code from this livestream: https://riffomonas.org/code_club/2026-05-20-panels-livestream
+* Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
+* My newsletter: https://shop.riffomonas.org/youtube 
+* Recorded workshops: https://riffomonas.org/workshops/
+* If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22
 
-packages: tidyverse, readxl, and glue
+* packages: tidyverse, readxl, and glue
 
-functions: aes, annotate, arrange, as.numeric, bind_rows, coord_cartesian, download.file, element_blank, element_line, element_text, expansion, facet_grid, factor, filter, geom_errorbar, geom_line, geom_point, ggplot, ggsave, glue, if_else, label_wrap_gen, labeller, labs, library, map, margin, mutate, read_excel, scale_color_manual, scale_y_continuous, select, str_remove, theme, theme_classic, and unit
+* functions: aes, annotate, arrange, as.numeric, bind_rows, coord_cartesian, download.file, element_blank, element_line, element_text, expansion, facet_grid, factor, filter, geom_errorbar, geom_line, geom_point, ggplot, ggsave, glue, if_else, label_wrap_gen, labeller, labs, library, map, margin, mutate, read_excel, scale_color_manual, scale_y_continuous, select, str_remove, theme, theme_classic, and unit
 
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
