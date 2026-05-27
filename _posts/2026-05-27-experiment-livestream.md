@@ -12,7 +12,7 @@ end_hash:
 
 * The article discussed: https://www.nature.com/articles/s41564-026-02350-2
 * Related critique: https://youtu.be/g8wdteeviao
-* Code from this livestream:
+
 * Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
 * My newsletter: https://shop.riffomonas.org/youtube 
 * Recorded workshops: https://riffomonas.org/workshops/
