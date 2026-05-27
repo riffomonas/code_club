@@ -5,7 +5,7 @@ blurb: "So much better than the original"
 author: "PD Schloss"
 date: 2026-05-29 09:00
 comments: false
-youtube: https://youtu.be/_EPCR09K1Lk
+youtube: _EPCR09K1Lk
 start_hash: 
 end_hash: 
 ---
