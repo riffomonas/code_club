@@ -3,7 +3,7 @@ layout: post
 title: "Representing paired pre/post data in an ordination with arrows using R and ggplot2 (CC428)"
 blurb: "Adding a sense of direction"
 author: "PD Schloss"
-date: 2026-05-28 10:00
+date: 2026-05-28 09:00
 comments: false
 youtube: GOa_KjF4hM8
 start_hash: 
