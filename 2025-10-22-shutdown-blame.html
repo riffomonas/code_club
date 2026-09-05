@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC375)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-10-22-shutdown-blame">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="using-visual-studio-code-to-recreate-a-new-york-times-slope-plot-with-r-s-ggplot2-cc375">Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC375)</h1>
+
+  <p class="meta">October 22, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    9 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC375)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-10-22-shutdown-blame&text=Using Visual Studio Code to recreate a New York Times slope plot with R's ggplot2 (CC375)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat recreates a diverging barplot from the Washington Post that shows which party Americans are blaming for the current government shutdown in this livestream. He recreated the figure using R, ggplot2, showtext, ggtext, and other tools from the tidyverse. The functions he used from these packages included aes, annotate, coord_cartesian, element_blank, element_geom, element_text, element_textbox_simple, facet_wrap, factor, font_add_google, geom_col, geom_text, ggplot, ggsave, if_else, labs, library, margin, mutate, paste0, rev, scale_fill_manual, showtext_auto, showtext_opts, theme, tribble, unique, and unit. You can find the code he developed in this episode below. The newsletter describing this visualization at a 30,000 ft view can be <a href="https://shop.riffomonas.org/posts/i-don-t-really-like-this-plot-but-i-am-curious-how-to-create-it-anyway">found here</a>. You can find the original article presenting the figure <a href="https://archive.is/vSyct">for free here</a>. Here’s a <a href="https://youtu.be/MFLfl683XIE">video critiquing</a> the original plot. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/wfX7viuy_3o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">showtext</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w">
+
+</span><span class="n">font_add_google</span><span class="p">(</span><span class="s2">"Libre Franklin"</span><span class="p">,</span><span class="w"> </span><span class="s2">"franklin"</span><span class="p">)</span><span class="w">
+</span><span class="n">showtext_opts</span><span class="p">(</span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+</span><span class="n">showtext_auto</span><span class="p">()</span><span class="w">
+
+</span><span class="n">tribble</span><span class="p">(</span><span class="w">
+  </span><span class="o">~</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">blamed</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">party</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">percentage</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2025"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2025"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">23</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2025"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="m">47</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2025"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Sept. 2023"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Sept. 2023"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">13</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Sept. 2023"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="m">33</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Sept. 2023"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2019"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">29</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2019"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2019"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="m">53</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2019"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2018"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">28</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2018"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">25</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2018"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="m">48</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Jan. 2018"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2013"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">29</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2013"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2013"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="m">53</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Oct. 2013"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Nov. 1995"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">24</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Nov. 1995"</span><span class="p">,</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">29</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Nov. 1995"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="m">51</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Nov. 1995"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">date</span><span class="p">))),</span><span class="w">
+    </span><span class="n">pretty_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">party</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="n">percentage</span><span class="p">,</span><span class="w"> </span><span class="s2">"%"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">x_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">blamed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">53</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">percentage</span><span class="p">,</span><span class="w"> </span><span class="n">percentage</span><span class="p">),</span><span class="w">
+    </span><span class="n">hjust_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">blamed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="m">-0.2</span><span class="p">,</span><span class="w"> </span><span class="m">1.2</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percentage</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">party</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_col</span><span class="p">(</span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="w">
+    </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_label</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty_label</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hjust_label</span><span class="p">),</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"white"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">blamed</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"democrats"</span><span class="p">,</span><span class="w"> </span><span class="s2">"republicans"</span><span class="p">,</span><span class="w"> </span><span class="s2">"none"</span><span class="p">),</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#4A8F9B"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#E6823D"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#F5F5F5"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="w">
+    </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">),</span><span class="w">
+    </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">53</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.8</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BLAMED DEMOCRATS"</span><span class="p">,</span><span class="w">
+    </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.5</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.8</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"BLAMED REPUBLICANS"</span><span class="p">,</span><span class="w">
+    </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">fontface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.5</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+
+  </span><span class="c1"># geom_text(</span><span class="w">
+  </span><span class="c1">#   data = tibble(</span><span class="w">
+  </span><span class="c1">#     x = c(52, 1), y = 6.8, blamed = c("democrats", "republicans"),</span><span class="w">
+  </span><span class="c1">#     label = c("BLAMED DEMOCRATS", "BLAMED REPUBLICANS"), hjust = c(1, 0)),</span><span class="w">
+  </span><span class="c1">#   aes(x = x, y = y, label = label, hjust = hjust), inherit.aes = FALSE,</span><span class="w">
+  </span><span class="c1">#   fontface = "bold"</span><span class="w">
+  </span><span class="c1"># ) +</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How blame compares to past government shutdowns or near shutdowns"</span><span class="p">,</span><span class="w">
+    </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2023 Democratic option was \"Biden and the Democrats in Congress,\" 2018/2019 Republican option was \"Trump and Republicans in Congress,\" 2013 Democratic option was \"Obama\" and 1995 Democratic option was \"Clinton\'s administration\""</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"franklin"</span><span class="p">),</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_geom</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"franklin"</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.5</span><span class="p">),</span><span class="w">
+    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.spacing.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.title.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bold"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">)),</span><span class="w">
+    </span><span class="n">plot.caption.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_textbox_simple</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7.75</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"shutdown_blame.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1700</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">808</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"px"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1">#ggsave("shutdown_blame.png", width = 6, height = 2.851765, unit = "in")</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

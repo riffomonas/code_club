@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Representing paired pre/post data in an ordination with arrows using R and ggplot2 (CC428)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-05-28-ordination">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="representing-paired-pre-post-data-in-an-ordination-with-arrows-using-r-and-ggplot2-cc428">Representing paired pre/post data in an ordination with arrows using R and ggplot2 (CC428)</h1>
+
+  <p class="meta">May 28, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    1 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Representing paired pre/post data in an ordination with arrows using R and ggplot2 (CC428)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-05-28-ordination&text=Representing paired pre/post data in an ordination with arrows using R and ggplot2 (CC428)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat refactors a difficult to interpret ordination diagram taken from a study that looked at the effects of acarbose and the microbiome on allergic responses. He highlights the importance of having a visualization that reflects the design of the study. This is done by replacing a scatter plot with a plot showing line segments that have arrow heads showing the direction of change of each animal in the study.</p>
+
+<ul>
+  <li>Critique video: https://youtu.be/g8wdteeviao</li>
+  <li>Related livestream: https://youtube.com/live/Q9f7JQhl644</li>
+  <li>The article discussed: https://www.nature.com/articles/s41564-026-02350-2</li>
+  <li>Code from this video: https://riffomonas.org/code_club/2026-05-28-ordination</li>
+  <li>Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min</li>
+  <li>My newsletter: https://shop.riffomonas.org/youtube</li>
+  <li>Recorded workshops: https://riffomonas.org/workshops/</li>
+  <li>
+    <p>If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22</p>
+  </li>
+  <li>
+    <p>packages: tidyverse, readxl, dplyr, ggplot2</p>
+  </li>
+  <li>functions: aes, arrange, arrow, download.file, element_blank, element_line, element_text, factor, geom_path, ggplot, ggsave, labs, library, mutate, paste, read_excel, rename, rename_all, rep, scale_color_manual, theme, theme_classic, unit</li>
+</ul>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/GOa_KjF4hM8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(readxl)
+
+download.file("https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-026-02350-2/MediaObjects/41564_2026_2350_MOESM6_ESM.xlsx",
+              "fig_3.xlsx")
+
+read_excel("fig_3.xlsx", sheet = "Fig. 3e", range = "C3:E67") %&gt;%
+  rename_all(tolower) %&gt;%
+  rename(treatment = sample) %&gt;%
+  mutate(time = rep(c("Before", "After"), each = 32),
+         time = factor(time, levels = c("Before", "After")),
+         replicate = paste(treatment, rep(1:8, times = 8)),
+         treatment = factor(treatment,
+                            levels = c("Ctrl", "Acr", "Abx", "Abx+Acr"))) %&gt;%
+  arrange(time) %&gt;%
+  ggplot(aes(x = pco1, y = pco2, color = treatment, shape = time,
+             group = replicate)) +
+  geom_path(linewidth = 0.4,
+            arrow = arrow(type = "closed", length = unit(4, "pt"))) +
+  scale_color_manual(
+    values = c("Ctrl" = "#0700FE", "Acr" = "#FC0504", 
+               "Abx" = "#FFA400", "Abx+Acr" = "#9D23EE"),
+    labels = c("Ctrl" = "Control", "Acr" = "Acarbose", 
+               "Abx" = "Antibiotics", "Abx+Acr" = "Antibiotics+\nAcarbose")
+  ) +
+  labs(
+    x = "PCo 1 (47%)", y = "PCo 2 (22.8%)",
+    color = NULL
+  ) +
+  theme_classic() +
+  theme(
+    axis.text = element_text(size = 6),
+    axis.title = element_text(size = 7),
+    axis.line = element_line(linewidth = 0.3),
+    axis.ticks = element_line(linewidth = 0.3),
+    legend.text = element_text(size = 6, margin = margin(l = 3),
+                               lineheight = 0.7),
+    legend.key.height = unit(9, "pt"),
+    legend.key.width = unit(10, "pt"),
+    legend.position = "inside",
+    legend.position.inside = c(0.85, 0.85),
+    legend.background = element_blank(),
+    legend.key.justification = "top"
+  )
+
+ggsave("fig_3e.png", width = 2.5, height = 1.765)
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>How to recreate DuBois's iconic spiral plot from the 1900 Paris Exposition using R and ggplot2 (CC344)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-02-24-panel-25">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="how-to-recreate-dubois-s-iconic-spiral-plot-from-the-1900-paris-exposition-using-r-and-ggplot2-cc344">How to recreate DuBois's iconic spiral plot from the 1900 Paris Exposition using R and ggplot2 (CC344)</h1>
+
+  <p class="meta">February 24, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    10 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: How to recreate DuBois's iconic spiral plot from the 1900 Paris Exposition using R and ggplot2 (CC344)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-02-24-panel-25&text=How to recreate DuBois's iconic spiral plot from the 1900 Paris Exposition using R and ggplot2 (CC344)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat uses R to recreate an iconic spiral plot figure that WEB DuBois presented at the 1900 Paris Exposition showing the accumulation of wealth by Black Georgians using tools from the ggplot2, dplyr, and showtext packages. The functions he uses from these packages include aes, annotate, as.character, bind_rows, coord_equal, cos, cumsum, diff, filter, font_add, format, function, geom_polygon, geom_text, ggplot, ggsave, if_else, labs, library, map, max, mutate, nest, paste0, pull, rev, row_number, scale_fill_manual, select, seq, showtext_auto, showtext_opts, sin, sqrt, summarize, theme, tibble, tribble, and unnest. The book Pat mentions by Whitney Battle-Baptiste and Britt Rusert, titled “W.E.B. Du Bois’s Data Portraits: Visualizing Black America” is <a href="https://amzn.to/4heJOWZ">available at Amazon</a>. A great set of talks about the DuBois data portraits is <a href="https://www.youtube.com/watch?v=ZZST1AZj-dQ&amp;ab_channel=Tableau">available here</a>. The Anthony Starks GitHub repository can be <a href="https://github.com/ajstarks/dubois-data-portraits/">found here</a>. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/Tr2uvgpL1kU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">showtext</span><span class="p">)</span><span class="w">
+
+</span><span class="n">font_add</span><span class="p">(</span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="s2">"B52-ULC W00 ULC.ttf"</span><span class="p">)</span><span class="w">
+</span><span class="n">font_add</span><span class="p">(</span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="s2">"vasarely-light.otf"</span><span class="p">)</span><span class="w">
+</span><span class="n">showtext_auto</span><span class="p">()</span><span class="w">
+</span><span class="n">showtext_opts</span><span class="p">(</span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+
+</span><span class="n">generate_spiral</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">i_radius</span><span class="p">,</span><span class="w"> </span><span class="n">f_radius</span><span class="p">,</span><span class="w">
+                            </span><span class="n">i_theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">f_theta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w">
+                            </span><span class="n">resolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  
+  </span><span class="n">radii</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="n">i_radius</span><span class="p">,</span><span class="w"> </span><span class="n">f_radius</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resolution</span><span class="p">)</span><span class="w">
+  </span><span class="n">thetas</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="n">i_theta</span><span class="p">,</span><span class="w"> </span><span class="n">f_theta</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resolution</span><span class="p">)</span><span class="w">
+  
+  </span><span class="n">tibble</span><span class="p">(</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radii</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">cos</span><span class="p">(</span><span class="n">thetas</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radii</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">sin</span><span class="p">(</span><span class="n">thetas</span><span class="p">),</span><span class="w">
+    </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cumsum</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)))</span><span class="w">
+  </span><span class="p">)</span><span class="w"> 
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">i_radius</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">15</span><span class="w">
+</span><span class="n">f_radius</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">9</span><span class="w">
+</span><span class="n">thickness</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.6</span><span class="w">
+
+</span><span class="n">value_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tribble</span><span class="p">(</span><span class="w">
+  </span><span class="o">~</span><span class="n">value</span><span class="p">,</span><span class="o">~</span><span class="n">year</span><span class="p">,</span><span class="w">
+  </span><span class="m">21186</span><span class="p">,</span><span class="m">1875</span><span class="p">,</span><span class="w">
+  </span><span class="m">498532</span><span class="p">,</span><span class="m">1880</span><span class="p">,</span><span class="w">
+  </span><span class="m">736160</span><span class="p">,</span><span class="m">1885</span><span class="p">,</span><span class="w">
+  </span><span class="m">1173624</span><span class="p">,</span><span class="m">1890</span><span class="p">,</span><span class="w">
+  </span><span class="m">1322694</span><span class="p">,</span><span class="m">1895</span><span class="p">,</span><span class="w">
+  </span><span class="m">1434975</span><span class="p">,</span><span class="m">1899</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">fraction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="w">
+         </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">thickness</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">row_number</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w">
+         </span><span class="n">pretty_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">big.mark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="n">trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w">
+         </span><span class="n">pretty_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1875</span><span class="p">,</span><span class="w">
+                                </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"$ "</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_value</span><span class="p">),</span><span class="w">
+                                </span><span class="n">pretty_value</span><span class="p">),</span><span class="w">
+         </span><span class="n">pretty_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1880</span><span class="p">,</span><span class="w">
+                                </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"$  "</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_value</span><span class="p">),</span><span class="w">
+                                </span><span class="n">pretty_value</span><span class="p">))</span><span class="w">
+
+
+</span><span class="n">spiral_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">value_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">outer_spiral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w">
+                            </span><span class="o">~</span><span class="n">generate_spiral</span><span class="p">(</span><span class="n">i_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">.x</span><span class="p">,</span><span class="w"> </span><span class="n">f_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">.x</span><span class="p">)),</span><span class="w">
+         </span><span class="n">inner_spiral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">position</span><span class="p">,</span><span class="w">
+                            </span><span class="o">~</span><span class="n">generate_spiral</span><span class="p">(</span><span class="n">i_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">.x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="p">,</span><span class="w">
+                                             </span><span class="n">f_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">.x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="p">))</span><span class="w">
+         </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">outer_spiral</span><span class="p">,</span><span class="w"> </span><span class="n">inner_spiral</span><span class="p">),</span><span class="w"> </span><span class="n">names_sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"_"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">reference_length</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">spiral_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1899</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">outer_spiral_length</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">max</span><span class="p">)</span><span class="w">
+
+</span><span class="n">spiral_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">max_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reference_length</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fraction</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">outer_spiral_length</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_length</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">inner_spiral_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="n">inner_spiral_x</span><span class="p">),</span><span class="w">
+         </span><span class="n">inner_spiral_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rev</span><span class="p">(</span><span class="n">inner_spiral_y</span><span class="p">),</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">spiral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">fraction</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">x_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">spiral</span><span class="p">,</span><span class="w">
+                   </span><span class="o">~</span><span class="n">bind_rows</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">.x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">outer_spiral_x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">outer_spiral_y</span><span class="p">),</span><span class="w">
+                              </span><span class="n">select</span><span class="p">(</span><span class="n">.x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inner_spiral_x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inner_spiral_y</span><span class="p">)</span><span class="w">
+                             </span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">x_y</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">year</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_polygon</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w">
+               </span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value_data</span><span class="p">,</span><span class="w">
+            </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+                </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty_value</span><span class="p">),</span><span class="w">
+            </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+            </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value_data</span><span class="p">,</span><span class="w">
+            </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-6</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">i_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+                </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">),</span><span class="w">
+            </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w">
+            </span><span class="n">inherit.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-5.1</span><span class="p">,</span><span class="w">
+           </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-3</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">-3.9</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">)),</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="n">i_radius</span><span class="p">,</span><span class="w">
+                   </span><span class="n">i_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w">
+                   </span><span class="o">-</span><span class="n">thickness</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="o">/</span><span class="m">2</span><span class="p">,</span><span class="w">
+           </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+           </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">)),</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-3.65</span><span class="p">,</span><span class="w">
+           </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="p">(</span><span class="n">i_radius</span><span class="p">,</span><span class="w">
+                   </span><span class="n">i_radius</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w">
+                   </span><span class="o">-</span><span class="n">thickness</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thickness</span><span class="o">/</span><span class="m">2</span><span class="p">,</span><span class="w">
+           </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_equal</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="m">1875</span><span class="p">,</span><span class="w"> </span><span class="m">1895</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w"> </span><span class="m">1899</span><span class="p">)),</span><span class="w">
+                    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#ffc0cb"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#4682b4"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#d2b48c"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#ffd700"</span><span class="p">,</span><span class="w">
+                               </span><span class="s2">"gray80"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#dc143c"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ASSESSED VALUE OF HOUSEHOLD AND KITCHEN FURNITURE\nOWNED BY GEORGIA NEGROES."</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w">
+                              </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">40</span><span class="p">)),</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">80</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plate_25.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.41</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"in"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
