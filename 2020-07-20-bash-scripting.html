@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Scripting an analysis from the command line</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-20-bash-scripting">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="scripting-an-analysis-from-the-command-line">Scripting an analysis from the command line</h1>
+
+  <p class="meta">July 20, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    5 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Scripting an analysis from the command line" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-20-bash-scripting&text=Scripting an analysis from the command line&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Normally when we think about computer programs, we think of something like a web browser or an app on your phone. In the past few episodes we have used a variety of programs including git and atom. But really, a computer program is really a set of instructions telling a computer how to do something. It can be really simple or quite complex. I think of a computational research project as writing a computer program. At first it doesn’t seem very complicated. A few commands to get my raw data, a few more to process the raw data, and a few more to generate figures and run statistical tests. By slowly building up the project, my project becomes a pretty complicated computer program. This is not a metaphor! We have the ability to piece together different programs as well as programs we write to instruct the computer how to convert raw data into a finished product. You might think that you can’t possibly write your own computer program. You can! In today’s episode we will take the first steps of converting our work from the past few episodes into small programs that we can execute from our command line interface.</p>
+
+<p>We may not always appreciate it, but when we’re working at the command line, we are using a terminal program but also a program that provides the command line interface called bash. Today we will learn how to write simple programs, also called scripts to automatically download our data and put it in the correct location. As we go forward through our project, we will use this approach to create an automated and reproducible workflow. Writing these types of programs is critical to achieving our overarching goal of understanding the sensitivity and specificity of amplicon sequence variants. Even if you don’t have a clue what amplicon sequence variants are, I’m sure you’ll get a lot out of this episode. Also, at the end of this episode, I have several exercises for you to work on. If you haven’t been following along but would like to, please check out the blog post that accompanies this video where you will find instructions on catching up.</p>
+
+<p>Please take the time to watch today’s episode, follow along on your own computer, and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end I will provide solutions.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/NHOG2R-2PZM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>The reference notes and links that follow are a supplement to the material in the video. The exercises and their solutions are provided at the bottom.</p>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li>Command line interfaces
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">bash</code> and <code class="language-plaintext highlighter-rouge">zsh</code> are most common</li>
+      <li>For our purposes, the differences aren’t important (we’ll use <code class="language-plaintext highlighter-rouge">bash</code>)</li>
+      <li>Both are installed on any system that uses Mac OS X or Linux (including Windows 10’s bash system). Starting with Mac OS X Catalina, <code class="language-plaintext highlighter-rouge">zsh</code> is the default</li>
+    </ul>
+  </li>
+  <li>Best practices
+    <ul>
+      <li>Include a shebang line as the first line</li>
+      <li>Create a commented header to state the title of the script, author, any inputs and outputs</li>
+      <li>Use comments to describe what is going on in the code
+        <ul>
+          <li>Use <code class="language-plaintext highlighter-rouge">.sh</code> as the file extension to make it clear that its a shell script</li>
+          <li>Run <code class="language-plaintext highlighter-rouge">chmod +x filename.sh</code> to make the file executable. This allows you to run the script using <code class="language-plaintext highlighter-rouge">./code/filename.sh</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>“shebang” or “bang” line
+    <ul>
+      <li>Tells computer where to find bash for running our code</li>
+      <li><code class="language-plaintext highlighter-rouge">#!/usr/bin/env bash</code> or <code class="language-plaintext highlighter-rouge">#!/bin/bash</code> - the first is more “portable”</li>
+    </ul>
+  </li>
+  <li>Inputs
+    <ul>
+      <li>You can use <code class="language-plaintext highlighter-rouge">$1</code>, <code class="language-plaintext highlighter-rouge">$2</code>, etc to get variables from command line</li>
+      <li>If you want to use those variables in your script, it’s best to wrap them in double quotes, not single quotes</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard acd9053
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser. Then you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Create and close an issue to write a script that installs mothur</p>
+<ul>
+  <li>You will need to borrow code from what we did in the last episode and adapt it using the instructions we stored in <code class="language-plaintext highlighter-rouge">code/README.md</code></li>
+  <li>The installation script should be in <code class="language-plaintext highlighter-rouge">code/</code> and retained under version control, but make sure that <code class="language-plaintext highlighter-rouge">code/mothur/</code> is not under version control</li>
+  <li>Double check that running <code class="language-plaintext highlighter-rouge">code/mothur/mothur '#align.seqs(fasta=data/raw/rrnDB-5.6_16S_rRNA.fasta, reference=data/references/silva_seed/silva.seed_v138.align, flip=T)'</code> works before closing the issue</li>
+</ul>
+
+<p>2. We need to align our sequences to make sure they’re in the correct orientation and start and end at the same alignment coordinates. Also, if they’re aligned, then it will be easier to extract variable regions from all of the sequences. Create and close an issue that aligns sequences our rrnDB fasta sequences to our SILVA SEED reference alignment</p>
+<ul>
+  <li>Create <code class="language-plaintext highlighter-rouge">align_sequences.sh</code> that runs <code class="language-plaintext highlighter-rouge">code/mothur/mothur '#align.seqs(fasta=data/raw/rrnDB-5.6_16S_rRNA.fasta, reference=data/references/silva_seed/silva.seed_v138.align, flip=T)'</code></li>
+  <li>Run it from the command line, make sure everything works</li>
+  <li>add <code class="language-plaintext highlighter-rouge">\*logfile</code> to <code class="language-plaintext highlighter-rouge">.gitignore</code></li>
+</ul>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>You sed what? Modifying variables with sed in bash</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-27-using-sed-to-parse-filenames">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="you-sed-what-modifying-variables-with-sed-in-bash">You sed what? Modifying variables with sed in bash</h1>
+
+  <p class="meta">July 27, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    5 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: You sed what? Modifying variables with sed in bash" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-27-using-sed-to-parse-filenames&text=You sed what? Modifying variables with sed in bash&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In the last two episodes we’ve created a few bash scripts and a Makefile to help automate running those scripts while keeping track of the dependencies. You may recall that we aren’t tracking changes to our data files because they’re too big. But with our bash scripts and make, we can regenerate them if they somehow got deleted or we needed start over. Of course, you should be able to use my files to reproduce what I’ve already done, which is a win for reproducibility. Because these tools are so powerful, I want to spend a little more time with them.</p>
+
+<p>In today’s episode we’re going to clean up our scripts and Makefile a bit. If you look at our Makefile and bash scripts for downloading the rrnDB files, you’ll see that we pass in the name of the file we want to download. We didn’t include the path indicating where it should go once it is extracted. Instead, we hardcoded that it should be outputted to our <code class="language-plaintext highlighter-rouge">data/raw/</code> directory. If I ended up wanting to change where to put the files, then I’d have to change the bash script rather than the Makefile rule.</p>
+
+<p>Today, we’ll learn a bash command, <code class="language-plaintext highlighter-rouge">sed</code>, that will allow us to give the script the file’s name with its path. I admit that this is a relatively small improvement for our overall project. But, along the way we’ll learn a few other bash tools including the pipe and how to capture output to a variable. We’ll also see how we can use variables that are built into make that simplify our Makefiles. Because these improvements will make our analyses easier to develop, they will also be more reproducible.</p>
+
+<p>Even if you haven’t been following along with the past episodes, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/D4ojrF8AeeQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sed</code> - <a href="https://www.grymoire.com/Unix/Sed.html">Excellent resource</a> that all of my google searches generally bring me to</li>
+  <li>Make’s <a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html">automatic variables</a> - there are many, but these are the only ones I use regularly
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">$@</code> - the  name of the target</li>
+      <li><code class="language-plaintext highlighter-rouge">$^</code> - the name of all of the prerequisites</li>
+      <li><code class="language-plaintext highlighter-rouge">$&lt;</code> - the name of the first prerequisite</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 7efa956
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser. Then you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Can you explain what happens if we leave off the <code class="language-plaintext highlighter-rouge">echo</code> command in our script? You might remember we got a similar error in the episode where we were developing our bash scripts.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>path=`$target | sed -E "s/(.*\/).*/\1/"`
+</code></pre></div></div>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>We get the following error message:</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-bash: data/raw/rrnDB-5.6.tsv: Permission denied
+</code></pre></div>  </div>
+
+  <p>This is the same error we got when trying to run a bash script as an executable before we used <code class="language-plaintext highlighter-rouge">chmod +x</code>. You might have thought this should have run our <code class="language-plaintext highlighter-rouge">sed</code> command on the contents of the file. To do that, we need a slightly different syntax</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>path=`sed -E "s/(.*\/).*/\1/" &lt; $target`
+</code></pre></div>  </div>
+</div>
+
+<p>2. Write the command to extract the variable region (i.e. V4) from <code class="language-plaintext highlighter-rouge">data/V4/rrndb.align</code> and save it to a variable named <code class="language-plaintext highlighter-rouge">region</code>. Try to make your regular expression as general as you can</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file=data/V4/rrndb.align
+region=`echo $file | sed -E "s/.*\/(.*)\/.*/\1/"`
+echo $region
+</code></pre></div>  </div>
+
+  <p>or</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file=data/V4/rrndb.align
+region=`echo $file | sed -E "s_.*/(.*)/.*_\1_"`
+echo $region
+</code></pre></div>  </div>
+</div>
+
+<p>3. We discussed using the automatic variable <code class="language-plaintext highlighter-rouge">$@</code> to represent the target name in the recipes of our Makefile. You can also use <code class="language-plaintext highlighter-rouge">$&lt;</code> to represent the name of the first prerequisite and <code class="language-plaintext highlighter-rouge">$^</code> to represent all of the names of the prerequisites. How would you edit the rule to generate <code class="language-plaintext highlighter-rouge">data/raw/rrnDB-5.6_16S_rRNA.fasta</code> and <code class="language-plaintext highlighter-rouge">data/raw/rrnDB-5.6_16S_rRNA.align</code> so that the recipe only includes these automatic variables? Any thoughts about the revised syntax?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data/raw/rrnDB-5.6_16S_rRNA.fasta : code/get_rrndb_files.sh
+	$^ $@
+
+data/raw/rrnDB-5.6_16S_rRNA.align : code/align_sequences.sh\
+			data/references/silva_seed/silva.seed_v138.align\
+			data/raw/rrnDB-5.6_16S_rRNA.fasta									
+	$^
+</code></pre></div>  </div>
+
+  <p>Although the extra typing is reduced in these revised scripts, the recipe line might be a bit too cryptic. There is a tradeoff between simplicity and ease of reading. Regardless, this exercise highlights that it would be good to have a practice of putting the script prerequisite first followed by the data.</p>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

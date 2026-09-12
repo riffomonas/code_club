@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>The data are...</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-04-02-the-data-are">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="the-data-are">The data are...</h1>
+
+  <p class="meta">April 2, 2020 • <a href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=The data are...&iso=20200402T1500&p1=784&ah=1">15:00 Eastern</a>
+ • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    12 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: The data are..." target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-04-02-the-data-are&text=The data are...&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>For our next Code Club, we will be exploring data collected by <a href="https://fivethirtyeight.com/features/elitist-superfluous-or-popular-we-polled-americans-on-the-oxford-comma/">Five Thirty Eight</a> that looked at how people feel about two of the more contentious of Pat’s Pedantic Points: the <a href="https://knowyourmeme.com/photos/946417">oxford comma</a> and whether the word <a href="https://en.wikipedia.org/wiki/Yes_(band)">“data” is plural</a>. You will be able to join the conversation using <a href="https://zoom.us/j/592527970?pwd=SnBnWWRDVkVUS3BTbDZkWkxobjZsZz09">this link</a> to use Zoom. The session should last an hour. Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> and <a href="/code_club/code-of-conduct">code of conduct</a> before we get going. You should also check out the <a href="2020-03-26-candy-crush">previous session</a> where we analyzed candy data. This go around we’ll spend a little more time talking about how to prepare our data using the <code class="language-plaintext highlighter-rouge">rename</code> and <code class="language-plaintext highlighter-rouge">recode</code> functions from <code class="language-plaintext highlighter-rouge">dplyr</code>.</p>
+
+<p>If you would like to revisit Pat’s introduction and the approach taken by several participants, you can watch this video:</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/-C8cBbw7tq0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>To get started, copy and paste the lines in the code chunk below into a new R script in Rstudio and run them in the console</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">github</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/fivethirtyeight/data/master/comma-survey/comma-survey.csv"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">github</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># A tibble: 1,129 x 13
+   RespondentID `In your opinio… `Prior to readi… `How much, if a…
+          &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
+ 1   3292953864 It's important … Yes              Some            
+ 2   3292950324 It's important … No               Not much        
+ 3   3292942669 It's important … Yes              Some            
+ 4   3292932796 It's important … Yes              Some            
+ 5   3292932522 It's important … No               Not much        
+ 6   3292926586 It's important … No               A lot           
+ 7   3292908135 It's important … Yes              A lot           
+ 8   3292869879 It's important … Yes              A lot           
+ 9   3292863455 It's important … Yes              A lot           
+10   3292860428 It's important … No               Not at all      
+# … with 1,119 more rows, and 9 more variables: `How would you write the
+#   following sentence?` &lt;chr&gt;, `When faced with using the word "data", have
+#   you ever spent time considering if the word was a singular or plural
+#   noun?` &lt;chr&gt;, `How much, if at all, do you care about the debate over the
+#   use of the word "data" as a singluar or plural noun?` &lt;chr&gt;, `In your
+#   opinion, how important or unimportant is proper use of grammar?` &lt;chr&gt;,
+#   Gender &lt;chr&gt;, Age &lt;chr&gt;, `Household Income` &lt;chr&gt;, Education &lt;chr&gt;,
+#   `Location (Census Region)` &lt;chr&gt;
+</code></pre></div></div>
+
+<h3 id="rename">rename</h3>
+
+<p>We see from that output that some of the column names get truncated and are hard to read. We can use <code class="language-plaintext highlighter-rouge">colnames</code> to get a listing of the full column names</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">colnames</span><span class="p">(</span><span class="n">github</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [1] "RespondentID"  
+ [2] "In your opinion, which sentence is more gramatically correct?"                                                           
+ [3] "Prior to reading about it above, had you heard of the serial (or Oxford) comma?"                                         
+ [4] "How much, if at all, do you care about the use (or lack thereof) of the serial (or Oxford) comma in grammar?"            
+ [5] "How would you write the following sentence?"
+ [6] "When faced with using the word \"data\", have you ever spent time considering if the word was a singular or plural noun?"
+ [7] "How much, if at all, do you care about the debate over the use of the word \"data\" as a singluar or plural noun?"       
+ [8] "In your opinion, how important or unimportant is proper use of grammar?"                                                 
+ [9] "Gender"                                          
+[10] "Age"                           
+[11] "Household Income"                       
+[12] "Education"                   
+[13] "Location (Census Region)"                   
+</code></pre></div></div>
+
+<p>These column names are easy for humans to read, but pretty horrible for humans to retype or for computers to read. However you decide to name columns or variables, it is important to be consistent. It’s a pain to forget whether you are using all lower case, all upper case, title case, etc. Do it the same way everytime and you won’t have to think about it too much. Of course, other software and our collaborators, don’t share our amazing sense of style! Sometimes we need to rename the columns. We want to keep our raw data raw, so we’ll use a script to help clean up the column names.</p>
+
+<p>Although much of this is a sense of personal style, there are some general guidelines to help you. Your column names should not have spaces in them, quotes (<code class="language-plaintext highlighter-rouge">"</code> or <code class="language-plaintext highlighter-rouge">'</code>), punctuation (e.g. <code class="language-plaintext highlighter-rouge">?</code>, <code class="language-plaintext highlighter-rouge">-</code>, <code class="language-plaintext highlighter-rouge">(</code>, <code class="language-plaintext highlighter-rouge">)</code>), or mixed capitalization. If you need a space, use an underscore (<code class="language-plaintext highlighter-rouge">_</code>). Also, try to make the column name brief, but descriptive. It can also be helpful to include the units in the column name (e.g. <code class="language-plaintext highlighter-rouge">height_cm</code>). These guidelines are to save you from problems with R, but also to help you make sure you keep things clear and consistent.</p>
+
+<p>We can <em>rename</em> our columns after reading in a data frame using the rename function. The syntax is…</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rename</span><span class="p">(</span><span class="n">data_frame</span><span class="p">,</span><span class="w"> </span><span class="n">new_name1</span><span class="o">=</span><span class="s2">"old name1"</span><span class="p">,</span><span class="w"> </span><span class="n">new_name2</span><span class="o">=</span><span class="n">old_name2</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># or...</span><span class="w">
+
+</span><span class="n">data_frame</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="n">data_frame</span><span class="p">,</span><span class="w"> </span><span class="n">new_name1</span><span class="o">=</span><span class="s2">"old name1"</span><span class="p">,</span><span class="w"> </span><span class="n">new_name2</span><span class="o">=</span><span class="n">old_name2</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note that if your old (or new) column name has a space in it, you will need to wrap the name in quotes. Also, if your column name has quotes in it, you will want to either use the opposite type of quote (single or double) to wrap the column name or insert a <code class="language-plaintext highlighter-rouge">\</code> before the quote mark within the phrase. Here’s an example of how we could rename the <code class="language-plaintext highlighter-rouge">RespondentID</code> and <code class="language-plaintext highlighter-rouge">In your opinion, which sentence is more gramatically correct?</code> column names.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rename</span><span class="p">(</span><span class="n">github</span><span class="p">,</span><span class="w"> </span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w"> </span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># or...</span><span class="w">
+</span><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w">
+		</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="recode">recode</h3>
+
+<p>We may also want to restate the values in a column so that they’re easier to work with. For example, if we have mixed capitalization, common misspellings, Yes/No rather than TRUE/FALSE, non-sensical values (e.g. weight of 0 kg), etc.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data_frame</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="w">
+		</span><span class="n">recode_column</span><span class="o">=</span><span class="n">recode</span><span class="p">(</span><span class="n">recode_column</span><span class="p">,</span><span class="w"> </span><span class="n">old_value1</span><span class="o">=</span><span class="n">new_value1</span><span class="p">,</span><span class="w"> </span><span class="n">old_value2</span><span class="o">=</span><span class="n">new_value2</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For our example, let’s recode the <code class="language-plaintext highlighter-rouge">oxford_or_not</code> column to convert the sentence into whether or not it uses the Oxford comma.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w">
+		</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="n">recode</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="s2">"It's important for a person to be honest, kind and loyal."</span><span class="o">=</span><span class="s2">"non_oxford"</span><span class="p">,</span><span class="w">
+						</span><span class="s2">"It's important for a person to be honest, kind, and loyal."</span><span class="o">=</span><span class="s2">"oxford"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You’ll notice we’re using the <code class="language-plaintext highlighter-rouge">mutate</code> function, which is used to “mutate” a column. We’re using the <code class="language-plaintext highlighter-rouge">oxford_or_not</code> column in the <code class="language-plaintext highlighter-rouge">recode</code> function to generate a new list of values and using those to replace the original <code class="language-plaintext highlighter-rouge">oxford_or_not</code> column. We could recode another column by adding a column to change within the same <code class="language-plaintext highlighter-rouge">mutate</code> function after we insert a comma between the two closing parentheses.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<ul>
+  <li>Use <code class="language-plaintext highlighter-rouge">rename</code> to rename more of the columns in the data frame. Double check the result by adding <code class="language-plaintext highlighter-rouge">%&gt;% colnames()</code> to the end of your pipeline.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">recode</code> to recode the values in more of the columns</li>
+  <li>
+    <p>Add the following chunk of code to our pipeline to get the fraction of people in the survey that would use the Oxford comma. Can you modify the code to see what fraction would use “data” as a singular vs. plural word?</p>
+
+    <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">rename</span><span class="p">(</span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w">
+          </span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">mutate</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="n">recode</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="s2">"It's important for a person to be honest, kind and loyal."</span><span class="o">=</span><span class="s2">"non_oxford"</span><span class="p">,</span><span class="w">
+                                          </span><span class="s2">"It's important for a person to be honest, kind, and loyal."</span><span class="o">=</span><span class="s2">"oxford"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">mutate</span><span class="p">(</span><span class="n">percentage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="solution">Solution</h2>
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <h3 id="exercise-1">Exercise 1</h3>
+
+  <p>Here are some possible values for <code class="language-plaintext highlighter-rouge">new_name</code> for each of the <code class="language-plaintext highlighter-rouge">old_name</code> values that I came up with…</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>new_name</th>
+        <th>old_name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>respondent</td>
+        <td>RespondentID</td>
+      </tr>
+      <tr>
+        <td>oxford_or_not</td>
+        <td>In your opinion, which sentence is more gramatically correct?</td>
+      </tr>
+      <tr>
+        <td>heard_of_oxford</td>
+        <td>Prior to reading about it above, had you heard of the serial (or Oxford) comma?</td>
+      </tr>
+      <tr>
+        <td>care_about_oxford</td>
+        <td>How much, if at all, do you care about the use (or lack thereof) of the serial (or Oxford) comma in grammar?</td>
+      </tr>
+      <tr>
+        <td>singular_or_plural</td>
+        <td>How would you write the following sentence?</td>
+      </tr>
+      <tr>
+        <td>think_about_data</td>
+        <td>When faced with using the word "data", have you ever spent time considering if the word was a singular or plural noun?</td>
+      </tr>
+      <tr>
+        <td>care_about_data</td>
+        <td>How much, if at all, do you care about the debate over the use of the word "data" as a singluar or plural noun?</td>
+      </tr>
+      <tr>
+        <td>importance_of_grammar</td>
+        <td>In your opinion, how important or unimportant is proper use of grammar?</td>
+      </tr>
+      <tr>
+        <td>gender</td>
+        <td>Gender</td>
+      </tr>
+      <tr>
+        <td>age</td>
+        <td>Age</td>
+      </tr>
+      <tr>
+        <td>household_income</td>
+        <td>Household Income</td>
+      </tr>
+      <tr>
+        <td>education</td>
+        <td>Education</td>
+      </tr>
+      <tr>
+        <td>location</td>
+        <td>Location (Census Region)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>I wrote the <code class="language-plaintext highlighter-rouge">rename</code> step as follows…</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w">
+		</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">heard_of_oxford</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Prior to reading about it above, had you heard of the serial (or Oxford) comma?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">care_about_oxford</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How much, if at all, do you care about the use (or lack thereof) of the serial (or Oxford) comma in grammar?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How would you write the following sentence?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">think_about_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"When faced with using the word \"data\", have you ever spent time considering if the word was a singular or plural noun?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">care_about_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How much, if at all, do you care about the debate over the use of the word \"data\" as a singluar or plural noun?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"In your opinion, how important or unimportant is proper use of grammar?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">gender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gender"</span><span class="p">,</span><span class="w">
+		</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Age"</span><span class="p">,</span><span class="w">
+		</span><span class="n">household_income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Household Income"</span><span class="p">,</span><span class="w">
+		</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Education"</span><span class="p">,</span><span class="w">
+		</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Location (Census Region)"</span><span class="w">
+	</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">colnames</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <h3 id="exercises-2-and-3">Exercises 2 and 3</h3>
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w">
+		</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">heard_of_oxford</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Prior to reading about it above, had you heard of the serial (or Oxford) comma?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">care_about_oxford</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How much, if at all, do you care about the use (or lack thereof) of the serial (or Oxford) comma in grammar?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How would you write the following sentence?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">think_about_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"When faced with using the word \"data\", have you ever spent time considering if the word was a singular or plural noun?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">care_about_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How much, if at all, do you care about the debate over the use of the word \"data\" as a singluar or plural noun?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"In your opinion, how important or unimportant is proper use of grammar?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">gender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gender"</span><span class="p">,</span><span class="w">
+		</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Age"</span><span class="p">,</span><span class="w">
+		</span><span class="n">household_income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Household Income"</span><span class="p">,</span><span class="w">
+		</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Education"</span><span class="p">,</span><span class="w">
+		</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Location (Census Region)"</span><span class="w">
+	</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="o">=</span><span class="n">recode</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="p">,</span><span class="w"> </span><span class="s2">"Some experts say it's important to drink milk, but the data is inconclusive."</span><span class="o">=</span><span class="s2">"singular"</span><span class="p">,</span><span class="w">
+							</span><span class="s2">"Some experts say it's important to drink milk, but the data are inconclusive."</span><span class="o">=</span><span class="s2">"plural"</span><span class="p">)</span><span class="w">
+	</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">percentage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="w">
+</span></code></pre></div>  </div>
+
+</div>
+
+<h2 id="follow-up">Follow up</h2>
+<p>Once you have completed this Code Club, please complete <a href="https://forms.gle/pGQQckwW66m9vBrA9">this survey</a>.</p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>How to extract data from a heatmap with R using the tidyverse (CC348)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-03-10-fentanyl-extract">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="how-to-extract-data-from-a-heatmap-with-r-using-the-tidyverse-cc348">How to extract data from a heatmap with R using the tidyverse (CC348)</h1>
+
+  <p class="meta">March 10, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    6 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: How to extract data from a heatmap with R using the tidyverse (CC348)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-03-10-fentanyl-extract&text=How to extract data from a heatmap with R using the tidyverse (CC348)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat uses R to show how to extract the underlying data from a heatmap published in the New York Times describing the increase in deaths among Black men in Chicago due to drug overdoses. To pull this off he uses the ggplot2, dplyr, scales, and png packages. The functions he uses from these packages include as.character, as.numeric, as_tibble, col2rgb, cut, filter, function, group_by, library, map, matrix, mean, mutate, names, ncol, nrow, pal_gradient_n, pivot_longer, readPNG, rgb, select, slice_min, sqrt, str_detect, str_replace, summarize, t, table, tibble, unnest, which.max, and write_tsv. You can find the original New York Times article <a href="https://www.nytimes.com/2025/01/30/upshot/black-men-overdose-deaths.html">here</a>. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/42W4orRGdh0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="original-image">Original image</h2>
+
+<p>Right click to save to your computer. Alternatively, the code below has been modified to read directly from this website with the help of <code class="language-plaintext highlighter-rouge">RCurl::getURLContent()</code>.</p>
+
+<p><img src="assets/images/chicago_drug_deaths.png" width="400" /></p>
+
+<h2 id="code">Code</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">png</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">RCurl</span><span class="p">)</span><span class="w"> </span><span class="c1"># added to read PNG from website</span><span class="w">
+
+</span><span class="n">get_mode_string</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="w">
+  </span><span class="n">table</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">which.max</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">names</span><span class="p">()</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">get_closest_hex</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">query</span><span class="p">){</span><span class="w">
+  
+  </span><span class="n">query_rgb</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">col2rgb</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">t</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as_tibble</span><span class="p">()</span><span class="w">
+  
+  </span><span class="n">hex_code_lookup</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">((</span><span class="n">query_rgb</span><span class="o">$</span><span class="n">red</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">red</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w">
+                             </span><span class="p">(</span><span class="n">query_rgb</span><span class="o">$</span><span class="n">green</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">green</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="w"> </span><span class="o">+</span><span class="w">
+                             </span><span class="p">(</span><span class="n">query_rgb</span><span class="o">$</span><span class="n">blue</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">blue</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">slice_min</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span><span class="w"> </span><span class="n">with_ties</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="c1"># modified to read PNG from website</span><span class="w">
+</span><span class="n">rgb_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readPNG</span><span class="p">(</span><span class="n">getURLContent</span><span class="p">(</span><span class="s2">"https://riffomonas.org/code_club/assets/images/chicago_drug_deaths.png"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">heat_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rgb</span><span class="p">(</span><span class="n">rgb_data</span><span class="p">[,,</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">rgb_data</span><span class="p">[,,</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="n">rgb_data</span><span class="p">[,,</span><span class="m">3</span><span class="p">])</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">matrix</span><span class="p">(</span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">rgb_data</span><span class="p">),</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncol</span><span class="p">(</span><span class="n">rgb_data</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">as_tibble</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">rgb_data</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">row_number</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">.before</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V1</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"column"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"colors"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_replace</span><span class="p">(</span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="s2">"V"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">240</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">1831</span><span class="w"> </span><span class="o">&amp;</span><span class="w">
+           </span><span class="n">column</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">106</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">column</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">1532</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">str_detect</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span><span class="w"> </span><span class="s2">"#([0-9A-Fa-f]).\\1.\\1."</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="m">2022</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1989</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1989</span><span class="o">:</span><span class="m">2022</span><span class="p">),</span><span class="w">
+         </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="m">84</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="o">:</span><span class="m">84</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_mode_string</span><span class="p">(</span><span class="n">colors</span><span class="p">),</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">,</span><span class="w">
+         </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.character</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as.numeric</span><span class="p">)</span><span class="w"> 
+
+</span><span class="c1"># n.  p.  hex</span><span class="w">
+</span><span class="c1"># 0   0   "#F4F3E8"</span><span class="w">
+</span><span class="c1"># 50  34  "#FBCFB0"</span><span class="w">
+</span><span class="c1"># 100 68  "#F7AC88"</span><span class="w">
+</span><span class="c1"># 150 102 "#EB8772"</span><span class="w">
+</span><span class="c1"># 200 136 "#B6525B"</span><span class="w">
+</span><span class="c1"># 250 170 "#C34280"</span><span class="w">
+</span><span class="c1"># 300 204 "#9A248E"</span><span class="w">
+</span><span class="c1"># 350 236 "#6E1193"</span><span class="w">
+</span><span class="c1"># 400 272 "#29088C"</span><span class="w">
+</span><span class="c1"># 450 306 "#0D0887"</span><span class="w">
+</span><span class="c1"># 500 340 "#0D0887"</span><span class="w">
+</span><span class="c1"># 600 408 "#0C0887"</span><span class="w">
+</span><span class="c1"># 735 500 "#0D0987"</span><span class="w">
+
+</span><span class="n">hex_code_lookup</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="o">:</span><span class="m">735</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">hex_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scales</span><span class="o">::</span><span class="n">pal_gradient_n</span><span class="p">(</span><span class="w">
+                      </span><span class="n">colours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#F4F3E8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#FBCFB0"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#F7AC88"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#EB8772"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#B6525B"</span><span class="p">,</span><span class="w">
+                                  </span><span class="s2">"#C34280"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#9A248E"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#6E1193"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#29088C"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0D0887"</span><span class="p">,</span><span class="w">
+                                  </span><span class="s2">"#0D0887"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0C0887"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#0D0987"</span><span class="p">),</span><span class="w">
+                       </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w">    </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">150</span><span class="p">,</span><span class="w"> </span><span class="m">200</span><span class="p">,</span><span class="w">
+                                 </span><span class="m">250</span><span class="p">,</span><span class="w"> </span><span class="m">300</span><span class="p">,</span><span class="w"> </span><span class="m">350</span><span class="p">,</span><span class="w"> </span><span class="m">400</span><span class="p">,</span><span class="w"> </span><span class="m">450</span><span class="p">,</span><span class="w">
+                                 </span><span class="m">500</span><span class="p">,</span><span class="w"> </span><span class="m">600</span><span class="p">,</span><span class="w"> </span><span class="m">735</span><span class="p">))(</span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">group_by</span><span class="p">(</span><span class="n">hex_code</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">rgb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">hex_code</span><span class="p">,</span><span class="w"> </span><span class="o">~</span><span class="n">col2rgb</span><span class="p">(</span><span class="n">.x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">t</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">as_tibble</span><span class="p">()))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span><span class="w">
+
+</span><span class="n">heat_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">closest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span><span class="w"> </span><span class="n">get_closest_hex</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">closest</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> 
+  </span><span class="n">write_tsv</span><span class="p">(</span><span class="s2">"chicago_drug_deaths.tsv"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

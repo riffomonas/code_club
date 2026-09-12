@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Adding a dendrogram to a set of heatmaps to display genomics data in ggplot2 (CC418)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-04-22-dendrogram-livestream">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="adding-a-dendrogram-to-a-set-of-heatmaps-to-display-genomics-data-in-ggplot2-cc418">Adding a dendrogram to a set of heatmaps to display genomics data in ggplot2 (CC418)</h1>
+
+  <p class="meta">April 22, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    4 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Adding a dendrogram to a set of heatmaps to display genomics data in ggplot2 (CC418)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-04-22-dendrogram-livestream&text=Adding a dendrogram to a set of heatmaps to display genomics data in ggplot2 (CC418)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In this livestream, Pat recreates a set of heatmaps with a dendrogram from a paper published in the journal Nature Microbiology. He created the figure using R, readxl, dplyr, ggplot2, ggtext, showtext, patchwork, ggdendro, and other tools from the tidyverse. The functions he used from these packages included aes, as.dendrogram, as.dist, case_when, colnames, colorRampPalette, column_to_rownames, coord_cartesian, dendro_data, download.file, dup_axis, element_blank, element_markdown, element_text, factor, filter, font_add_google, function, geom_segment, geom_tile, ggplot, hclust, label, labs, length, library, margin, mutate, ncol, pivot_longer, pivot_wider, plot_annotation, plot_layout, read_excel, rename, rename_all, rev, sample_b = , scale_fill_gradientn, scale_fill_manual, scale_x_continuous, scale_y_continuous, segment, seq_along, showtext_auto, showtext_opts, sum, and unit. The original Nature Microbiology article can be <a href="https://www.nature.com/articles/s41564-026-02327-1">found here</a>. His critique of the visualization can be <a href="https://www.youtube.com/watch?v=t4OWQE7mwoo">seen here</a>. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/fzogphProRQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(readxl)
+library(showtext)
+library(patchwork)
+library(ggdendro)
+library(ggtext)
+library(RColorBrewer)
+
+font_add_google("Nunito", "nunito", regular.wt = 500)
+showtext_opts(dpi = 300)
+showtext_auto()
+
+xlsx_url &lt;- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-026-02327-1/MediaObjects/41564_2026_2327_MOESM6_ESM.xlsx"
+xlsx_file &lt;- "figure2.xlsx"
+download.file(xlsx_url, xlsx_file)
+
+info &lt;- read_excel(xlsx_file, sheet = "fig.2a.info") %&gt;%
+  rename_all(tolower) %&gt;% 
+  mutate(mda = case_when(mda == "after" ~ "After",
+                         mda == "before" ~ "Before",
+                         mda == "no MDA" ~ "No MDA"))
+
+relatedness &lt;- read_excel(xlsx_file,  sheet = "fig.2a.matrix") %&gt;%
+  rename("sample_a" = "...1") %&gt;%
+  pivot_longer(-sample_a, names_to = "sample_b", values_to = "relatedness") %&gt;%
+  filter(sample_a %in% info$id) %&gt;%
+  filter(sample_b %in% info$id)
+  
+# length(info$id)
+# length(relatedness$sample_a)
+# ncol(relatedness)
+# 
+# sum(!info$id %in% relatedness$sample_a)
+# sum(!info$id %in% colnames(relatedness))
+# sum(!colnames(relatedness) %in% relatedness$sample_a)
+
+subtract_one &lt;- function(x) {1 - x}
+
+distances &lt;- relatedness %&gt;%
+  pivot_wider(names_from = "sample_b", values_from = "relatedness") %&gt;%
+  column_to_rownames("sample_a") %&gt;%
+  subtract_one() %&gt;%
+  as.dist()
+  
+clustering &lt;- as.dendrogram(hclust(distances, method = "complete"))
+ddata &lt;- dendro_data(clustering)
+branch_data &lt;- segment(ddata)
+tree_labels &lt;- label(ddata)$label
+
+tree &lt;- branch_data %&gt;%
+  ggplot(aes(x = y, y = x, xend = yend, yend = xend)) +
+  geom_segment(linewidth = 0.2) +
+  scale_x_continuous(transform = "reverse") +
+  scale_y_continuous(
+    breaks = seq_along(tree_labels),
+    label = tree_labels,
+  ) +
+  coord_cartesian(expand = FALSE) +
+  labs(x = NULL, y = NULL)
+
+r_heatmap &lt;- relatedness %&gt;%
+  mutate(sample_a = factor(sample_a, rev(tree_labels)),
+         sample_b = factor(sample_b, tree_labels)) %&gt;%
+  ggplot(aes(x = sample_a, y = sample_b, fill = relatedness)) +
+  geom_tile() + 
+  coord_cartesian(expand = FALSE) +
+  labs(x = NULL, y = NULL) +
+  scale_fill_gradientn(
+    name = "Relatedness",
+    limits = c(-0.05, 1.05),
+    breaks = c(0, 0.5, 1),
+    colors = colorRampPalette(brewer.pal(n = 7, name = "YlOrRd"))(100),
+    # low = "#ffffcc",
+    # high = "#800026",
+    # mid = "#fd8d3c",
+    # midpoint = 0.5
+  ) +
+  theme(
+    legend.key.width = unit(11, "pt"),
+    legend.key.height = unit(12, "pt")
+  )
+
+
+
+mda &lt;- info %&gt;%
+  mutate(id = factor(id, rev(tree_labels))) %&gt;%
+  ggplot(aes(x = id, y = 1, fill = mda)) +
+  geom_tile() + 
+  coord_cartesian(expand = FALSE) +
+  labs(x = NULL, y = "MDA") +
+  scale_y_continuous(sec.axis = dup_axis(breaks = NULL, labels = NULL)) +
+  scale_fill_manual(
+    name = "MDA", 
+    breaks = c("After", "Before", "No MDA"),
+    values = c("#56B4E9", "#D45E00", "#D3D3D3")
+  ) 
+  
+year &lt;- info %&gt;%
+  mutate(id = factor(id, rev(tree_labels))) %&gt;%
+  ggplot(aes(x = id, y = 1, fill = as.character(year.clean))) +
+  geom_tile() + 
+  coord_cartesian(expand = FALSE) +
+  labs(x = NULL, y = "Year") +
+  scale_y_continuous(sec.axis = dup_axis(breaks = NULL, labels = NULL)) +
+  scale_fill_manual(
+    name = "Year", 
+    breaks = c("2016", "2017", "2018", "2019", "2020"),
+    values = c("#C7E9B4", "#7FCDBB", "#40B6C4", "#2C7FB8", "#253493")
+  ) 
+
+kelch &lt;- info %&gt;%
+  mutate(id = factor(id, rev(tree_labels))) %&gt;%
+  ggplot(aes(x = id, y = 1, fill = kelch13.clean)) +
+  geom_tile() + 
+  coord_cartesian(expand = FALSE) +
+  labs(x = NULL, y = "*kelch13*") +
+  scale_y_continuous(sec.axis = dup_axis(breaks = NULL, labels = NULL)) +
+  scale_fill_manual(
+    name = "*kelch13*", 
+    values = c("C580Y" = "#FF0100", "F446I" = "#90ED91", "G449A" = "#0272B2",
+               "M476I" = "#019E73", "M562I" = "#E69F00", "P441L" = "#A01FF0",
+               "R561H" = "#FFDB6D", "WT" = "#ACD8E6")
+  )
+
+layout &lt;- "
+  #A
+  #B
+  #C
+  DE
+"
+
+combined &lt;- mda + theme(plot.margin = margin(t = 1, r = 0, b = 1, l = 0)) +
+  year + theme(plot.margin = margin(t = 1, r = 0, b = 1, l = 0)) +
+  kelch + theme(plot.margin = margin(t = 1, r = 0, b = 1, l = 0)) +
+  tree + theme(plot.margin = margin(t = 1, r = 0, b = 1, l = 0)) +
+  r_heatmap + theme(plot.margin = margin(t = 1, r = 0, b = 1, l = 0)) +
+  plot_layout(axes = "collect", guides = "collect", design = layout,
+              widths = c(0.1, 0.9),
+              heights = c(0.03, 0.03, 0.03, 0.91)) +
+  plot_annotation(
+    theme = theme(plot.margin = margin(2, 2, 2, 2))) &amp;
+  theme(
+    text = element_text(family = "nunito"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    axis.title.y.right = element_markdown(angle = 0, vjust = 0.5, hjust = 0,
+                                          size = 8.5),
+    legend.title = element_markdown(size = 8, margin = margin(b = 2)),
+    legend.text = element_text(size = 8),#, margin = margin(l = 2, b = 1)),
+    legend.key.spacing.y = unit(2, "pt"),
+    legend.key.size = unit(7, "pt"),
+    legend.spacing.y = unit(20, "pt"),
+    legend.justification = c(0, 0.5),
+    legend.margin = margin(0, 0, 0, 0),
+    legend.box.spacing = unit(-20, "pt")
+  )
+
+ggsave("figure2.png", combined, width = 7.5, height = 6.75) #height = 8.33)
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
