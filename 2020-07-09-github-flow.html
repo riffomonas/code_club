@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Laying out a plan for our project</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-09-github-flow">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="laying-out-a-plan-for-our-project">Laying out a plan for our project</h1>
+
+  <p class="meta">July 9, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    5 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Laying out a plan for our project" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-09-github-flow&text=Laying out a plan for our project&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Former US president and Army general, Dwight Eisenhower once said, “Plans are worthless, but planning is everything”. That is especially true for research projects. If we don’t have a plan for getting somewhere, then we’ll be sure to get nowhere. I hate working in the midst of chaos, can you tell? We’ve spent two episodes getting our project organized and we haven’t touched any data or code yet. If you have ever taken over a project from a former member of your research group, then you’ll know the frustration of trying to find things and make sense of what they did. Your first step would be to get the project organized. Right?! Well, today we’ll also talk a bit more about organization and how we can use issues in GitHub to give ourselves a todo list and use branches in git to systematically work through those issues. Don’t worry, today we’ll download the data that we’ll be using to determine to what degree inter- and intra-genomic variation limit the ability to interpret amplicon sequence variants (ASVs) as a biologically coherent entity that proponents of ASVs claim. As we go along, we’ll see the command line and <code class="language-plaintext highlighter-rouge">git</code> commands that we saw in the last two episodes so that we can continue to practice those skills while learning new <code class="language-plaintext highlighter-rouge">git</code> tools.</p>
+
+<p>Please take the time to watch today’s episode, follow along on your own computer, and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end I will provide solutions. The reference notes and links that follow are a supplement to the material in the video.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/O4he8SUdP1U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="git-and-github-revisited"><code class="language-plaintext highlighter-rouge">git</code> and GitHub revisited</h2>
+<p>The notes below are meant to supplement the video presentation of the Code Club episode.</p>
+
+<h3 id="github-flow">GitHub flow</h3>
+<p><a href="https://guides.github.com/introduction/flow/">GitHub flow</a> is a process used by software developers that allows them to work on multiple new features at the same time. We can adapt the idea behind GitFlow for data analysis. This will allow us to systematically identify and addressing different steps in our data analysis plan. It makes use of an “issue tracker”, which accompanies each GitHub repository. To implement this process, we’ll learn a few more git commands including <code class="language-plaintext highlighter-rouge">git branch</code>, <code class="language-plaintext highlighter-rouge">git checkout</code>, and <code class="language-plaintext highlighter-rouge">git merge</code>. We’ll learn GitFlow through the process of downloading our reference files.</p>
+
+<ol>
+  <li>Create an issue in your repository’s issue tracker on GitHub</li>
+  <li>Create and check out a branch in your local repository
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git branch issue_1
+ git branch
+ git checkout issue_1
+ git branch
+ git status
+</code></pre></div>    </div>
+  </li>
+  <li>Work on the issue. As you go through the issue, feel free to add to the thread for the issue on GitHub</li>
+  <li>Commit the change when you are done with the issue. In the commit message, include the statement “closes #[issue_number]”</li>
+  <li>Checkout your master branch
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git checkout master
+</code></pre></div>    </div>
+  </li>
+  <li>Merge your issue branch into the master branch. If you have conflicts, open the offending files and resolve the conflict and commit the change.
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git merge issue_1
+</code></pre></div>    </div>
+  </li>
+  <li>Push to your remote repository
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git push
+</code></pre></div>    </div>
+  </li>
+  <li>Refresh the issue and see that it has closed or close it yourself</li>
+</ol>
+
+<h3 id="gitignore"><code class="language-plaintext highlighter-rouge">.gitignore</code></h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">.gitignore</code> file sits in the root of our project directory. This file is a listing of files and directories that we want <code class="language-plaintext highlighter-rouge">git</code> to ignore. We generally want to ignore things that live inside of <code class="language-plaintext highlighter-rouge">data/</code> since these tend to be large files. GitHub limits us to a limit of 100 MB per file and 1 GB per repository. Software developers will also recommend ignoring anything that is not code since it can easily be recreated. For bioinformatics data analyses, generating these files can take a long time and significant resources. I tend to commit smaller summary files that others might want to use without the headache of rerunning my analysis themselves.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Create a new issue. In this issue, we want to start accumulating a bibliography of papers describing oligotypes and amplicon and exact sequence variants. As we find new references, we can add them to the issue’s thread.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <ul>
+    <li>Huse SLP: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2909393/</li>
+    <li>Eren Oligotyping: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3864673/</li>
+    <li>Callahan: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5702726/</li>
+    <li>Fierer heterogeneity: http://fiererlab.org/2017/10/09/intragenomic-heterogeneity-and-its-implications-for-esvs/</li>
+    <li>Fierer lumping/splitting: http://fiererlab.org/2017/05/02/lumping-versus-splitting-is-it-time-for-microbial-ecologists-to-abandon-otus/</li>
+    <li>Sun heterogeneity: https://aem.asm.org/content/79/19/5962.abstract</li>
+    <li>dada2</li>
+    <li>unoise</li>
+    <li>deblur</li>
+    <li>pre.cluster</li>
+  </ul>
+</div>
+
+<p>2. Use GitHub flow to resolve Issue 2.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <ul>
+    <li>Do the following:
+      <pre><code class="language-BASH">  git branch issue_2
+  git checkout issue_2
+  git branch
+</code></pre>
+    </li>
+    <li>Go to https://mothur.org/wiki/silva_reference_files/ and download Release 138’s “recreated SEED database”</li>
+    <li>Decompress file and move it to <code class="language-plaintext highlighter-rouge">data/references/</code> directory</li>
+    <li>Put previous two bullet points into <code class="language-plaintext highlighter-rouge">data/references/README.md</code> file</li>
+    <li>Add <code class="language-plaintext highlighter-rouge">data/references/</code> to <code class="language-plaintext highlighter-rouge">.gitignore</code></li>
+    <li>Do the following
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  git status
+  git add
+  git status
+  git commit
+  git checkout master
+  git merge issue_2
+  git push
+</code></pre></div>      </div>
+    </li>
+    <li>Refresh issue</li>
+  </ul>
+</div>
+
+<p>3. Use GitHub flow to resolve Issue 3.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <ul>
+    <li>Do the following:
+      <pre><code class="language-BASH">  git branch issue_3
+  git checkout issue_3
+  git branch
+</code></pre>
+    </li>
+    <li>Go to https://github.com/mothur/mothur/releases/latest and download <code class="language-plaintext highlighter-rouge">Mothur.OSX-10.13.zip</code></li>
+    <li>Decompress file and move it to <code class="language-plaintext highlighter-rouge">code/</code> directory</li>
+    <li>Put previous two bullet points into <code class="language-plaintext highlighter-rouge">code/README.md</code> file</li>
+    <li>Add a line to <code class="language-plaintext highlighter-rouge">README.md</code> that <code class="language-plaintext highlighter-rouge">mothur v.1.44.1</code> is a dependency</li>
+    <li>Add <code class="language-plaintext highlighter-rouge">code/mothur</code> to <code class="language-plaintext highlighter-rouge">.gitignore</code></li>
+    <li>Do the following
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  git status
+  git add
+  git status
+  git commit
+  git checkout master
+  git merge issue_3
+  git push
+</code></pre></div>      </div>
+    </li>
+    <li>Refresh issue</li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

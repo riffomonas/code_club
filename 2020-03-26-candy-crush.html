@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Candy Crush</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-03-26-candy-crush">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="candy-crush">Candy Crush</h1>
+
+  <p class="meta">March 26, 2020 • <a href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=Candy Crush&iso=20200326T1500&p1=784&ah=1">15:00 Eastern</a>
+ • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    6 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Candy Crush" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-03-26-candy-crush&text=Candy Crush&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>For our inaugural Code Club, we will be exploring data collected by <a href="https://fivethirtyeight.com/videos/the-ultimate-halloween-candy-power-ranking/">Five Thirty Eight</a> to determine what factors figure in to making a candy someone’s favorite. You will be able to join the conversation using <a href="https://zoom.us/j/667635601?pwd=eGdBdTFpMjdVSXgrZjRXN2dzNDRnUT09">this link</a> to use Zoom. The session should last an hour. Considering this is our first session, it may go a little longer as work out some of the kinks. Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> and <a href="/code_club/code-of-conduct">code of conduct</a> before we get going.</p>
+
+<p>If you would like to revisit Pat’s introduction and the approach taken by several participants, you can watch this video (apologies for the video and audio quality!):</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/IpFOsMeDs9Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="assignment">Assignment</h2>
+
+<p>Today’s Code Club has three questions and a “homework” assignment. We’ll be using the data that accompanied the Five Thirty Eight article that they were kind enough to <a href="https://github.com/fivethirtyeight/data/tree/master/candy-power-ranking">post to GitHub</a>. To load the tidyverse and the dataset, please run these lines of code in the R console. If you didn’t already install the <code class="language-plaintext highlighter-rouge">tidyverse</code> package, you will need to follow the <a href="/code_club/setup-instructions">setup instructions</a>:</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">candy_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/fivethirtyeight/data/master/candy-power-ranking/candy-data.csv"</span><span class="p">,</span><span class="w">
+	</span><span class="n">col_types</span><span class="o">=</span><span class="s2">"clllllllllddd"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="exercise-1">Exercise 1</h3>
+
+<p>I’m a big fan of bite-sized candies - Peanut M&amp;Ms, Skittles, Hot Tamales - mmmmmm. Within the pantheon of candies they included (N=85), I would like to know how common bite-sized candies are. I grabbed this code chunk. It gives me the answers that I’m looking for, but I don’t understand the code. Run each line with the previous line (up to the the <code class="language-plaintext highlighter-rouge">%&gt;%</code> or <code class="language-plaintext highlighter-rouge">+</code> at the end of the line) to see what is happening with each added line. Write a brief comment to the right of the <code class="language-plaintext highlighter-rouge">#</code> so that you can remember what is happening the next time you need to do something like this</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">	</span><span class="c1">#Add comments here</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">pluribus</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#</span><span class="w">
+	</span><span class="n">pivot_longer</span><span class="p">(</span><span class="w">
+		</span><span class="n">cols</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">chocolate</span><span class="p">,</span><span class="w"> </span><span class="n">fruity</span><span class="p">,</span><span class="w"> </span><span class="n">caramel</span><span class="p">,</span><span class="w"> </span><span class="n">peanutyalmondy</span><span class="p">,</span><span class="w"> </span><span class="n">nougat</span><span class="p">,</span><span class="w"> </span><span class="n">crispedricewafer</span><span class="p">,</span><span class="w"> </span><span class="n">hard</span><span class="p">,</span><span class="w"> </span><span class="n">bar</span><span class="p">,</span><span class="w"> </span><span class="n">pluribus</span><span class="p">),</span><span class="w">
+		</span><span class="n">names_to</span><span class="o">=</span><span class="s2">"type"</span><span class="p">,</span><span class="w">
+		</span><span class="n">values_to</span><span class="o">=</span><span class="s2">"answer"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">answer</span><span class="p">))</span><span class="w"> </span><span class="c1">#</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="exercise-2">Exercise 2</h3>
+
+<p>It appears that among the bite-sized candies, the chocolatey (Peanut M&amp;Ms) and fruity (Skittles) are the most common. Do people prefer bite sized candies with chocolate or fruity flavor? I know the code below works, but I accidentally sorted the lines and the code no longer works! There were originally three code chunks - one that builds a data frame containing only pluribus candies, one that reports some summary statistics about chocolatey and fruity bite-sized candies, and one that builds a strip chart showing a point for each type of candy. Unjumble the code to recreate the three code chunks. There are no missing or extra lines of code. Also, feel free to add comments!</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">100</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+</span><span class="n">filter</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span><span class="w">
+</span><span class="n">filter</span><span class="p">(</span><span class="n">pluribus</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">chocolate</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">fruity</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">winpercent</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">hard</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+</span><span class="n">group_by</span><span class="p">(</span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"Contests won (%)"</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">title</span><span class="o">=</span><span class="s2">"Bite-sized candies containing chocolate are preferred to candy without"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+</span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="n">chocolate</span><span class="p">,</span><span class="w"> </span><span class="n">fruity</span><span class="p">),</span><span class="w"> </span><span class="n">names_to</span><span class="o">=</span><span class="s2">"type"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="o">=</span><span class="s2">"answer"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">scale_x_discrete</span><span class="p">(</span><span class="n">breaks</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"chocolate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fruity"</span><span class="p">),</span><span class="w"> </span><span class="n">labels</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s2">"Chocolate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Fruity"</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+</span><span class="n">summarize</span><span class="p">(</span><span class="n">median</span><span class="o">=</span><span class="n">median</span><span class="p">(</span><span class="n">winpercent</span><span class="p">),</span><span class="w"> </span><span class="n">IQR</span><span class="o">=</span><span class="n">IQR</span><span class="p">(</span><span class="n">winpercent</span><span class="p">),</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="n">n</span><span class="p">())</span><span class="w">
+</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span><span class="n">pluribus_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">pluribus_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span><span class="n">pluribus_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="exercise-3">Exercise 3</h3>
+<p>Thanks! Now that you’ve fixed the code in Exercise 2, can you modify it to answer a new question for me? Are chocolate candies more expensive as a bar or as bite-sized pieces? Pick a third variable to color the data by. Copy and paste your code from Exercise 2 and edit it to help answer my question.</p>
+
+<h3 id="homework">Homework</h3>
+<p>Build your own strip plot using data using the <code class="language-plaintext highlighter-rouge">candy_data</code> data frame!</p>
+
+<h2 id="solution">Solution</h2>
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Exercise 1
+
+candy_data %&gt;%	#Spit out the data frame that we read in above for our pipeline
+	filter(pluribus) %&gt;% #Return those rows that contain bite-sized candies
+	pivot_longer(
+		cols=c(chocolate, fruity, caramel, peanutyalmondy, nougat, crispedricewafer, hard, bar, pluribus),
+		names_to="type",
+		values_to="answer") %&gt;% #Concatenate all of the characteristic columns into two columns
+	filter(answer) %&gt;% #Remove those rows where a characteristic had been FALSE
+	group_by(type) %&gt;% #Arrange the data by characteristics
+	summarize(total = sum(answer)) #Return the number of candies with each characteristic
+
+
+
+## Exercise 2
+
+pluribus_data &lt;- candy_data %&gt;%
+	filter(pluribus &amp; (chocolate | fruity)) %&gt;%
+	pivot_longer(cols=c(chocolate, fruity), names_to="type", values_to="answer") %&gt;%
+	filter(answer)
+
+pluribus_data %&gt;%
+	group_by(type) %&gt;%
+	summarize(median=median(winpercent), IQR=IQR(winpercent), N=n())
+
+pluribus_data %&gt;%
+	ggplot(aes(x=type, y=winpercent, color=hard)) +
+	geom_jitter(width=0.1) +
+	scale_x_discrete(breaks=c("chocolate", "fruity"), labels=c("Chocolate", "Fruity")) +
+	coord_cartesian(ylim=c(0,100)) +
+	labs(y="Contests won (%)", x=NULL, title="Bite-sized candies containing chocolate are preferred to candy without") +
+	theme_classic()
+
+
+
+## Exercise 3
+
+pluribus_data &lt;- candy_data %&gt;%
+	filter(chocolate &amp; (pluribus | bar)) %&gt;%
+	pivot_longer(cols=c(pluribus, bar), names_to="type", values_to="answer") %&gt;%
+	filter(answer)
+
+pluribus_data %&gt;%
+	group_by(type) %&gt;%
+	summarize(median=median(pricepercent), IQR=IQR(pricepercent), N=n())
+
+pluribus_data %&gt;%
+	ggplot(aes(x=type, y=pricepercent, color=peanutyalmondy)) +
+	geom_jitter(width=0.1) +
+	scale_x_discrete(breaks=c("bar", "pluribus"), labels=c("Bar", "Bite-sized")) +
+	coord_cartesian(ylim=c(0,1)) +
+	labs(y="Price (fraction)", x=NULL, title="Chocolate candy bars tend to be more expensive than bite-sized chocolate candies") +
+	theme_classic()
+</code></pre></div>  </div>
+
+</div>
+
+<h2 id="follow-up">Follow up</h2>
+<p>Once you have completed the Code Club, please complete <a href="https://forms.gle/8a3dRbDsf4MYUX5a7">this survey</a>.</p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

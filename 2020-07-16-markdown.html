@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Making text files look attractive</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-16-markdown">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="making-text-files-look-attractive">Making text files look attractive</h1>
+
+  <p class="meta">July 16, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    3 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Making text files look attractive" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-16-markdown&text=Making text files look attractive&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>A text file is just that - a file with only text. Thinking about a document you might write in Microsoft Word there’s the text, but there’s also formatting, fonts, layouts, and more. A text file is only the text. Often that is limiting because some amount of formatting is helpful to organize our text. In today’s episode we’ll learn how to use a language called “<a href="https://daringfireball.net/projects/markdown/">markdown</a>” to apply light formatting to our <code class="language-plaintext highlighter-rouge">README</code> and other text files. You may have noticed that our <code class="language-plaintext highlighter-rouge">README</code> files are actually called <code class="language-plaintext highlighter-rouge">README.md</code>. That “md” extension is short for markdown. Some people prefer to use “markdown” as the extension. Markdown may not seem like a big deal right now, but as we proceed with this project, we’ll see how we can blend code that we want executed with text using a tool called “R Markdown.” In this episode, we’ll also introduce a new text editor as an alternative to <code class="language-plaintext highlighter-rouge">nano</code>, which is called <code class="language-plaintext highlighter-rouge">atom</code>. <code class="language-plaintext highlighter-rouge">atom</code> is developed to be compatible with GitHub and has the ability to show us what our markdown formatting would look like when viewed on GitHub. Today’s episode may not seem like it’s advancing us very far towards answering our question of how inter- and intra-genomic variation affects the ability to interpret amplicon sequence variants (ASVs), but it is a significant departure from how most people approach documenting their work.</p>
+
+<p>Please take the time to watch today’s episode, follow along on your own computer, and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end I will provide solutions.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/F0yjMJ0BgNA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>The reference notes and links that follow are a supplement to the material in the video. The exercises and their solutions are provided at the bottom.</p>
+
+<h2 id="installations">Installations</h2>
+
+<p>For today’s code club and future episodes, we’ll make use of a text editor called <a href="https://atom.io">atom</a>. You need to go to their site and install atom.</p>
+
+<h2 id="markdown-cheat-sheet">Markdown cheat-sheet</h2>
+
+<p>There are many flavors of “markdown”. Because our files will be hosted on GitHub, we will use “<a href="https://guides.github.com/features/mastering-markdown/">GitHub-flavored markdown</a>”. There is an excellent cheat sheet that will remind you of how to implement different features of markdown that will be visible on GitHub’s website. This is a very popular flavor and will work well with other tools we’ll be using later in the project.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Looking at the GitHub-flavored markdown reference materials, recreate the sentence “I will write my documents in <del>Microsoft Word</del> markdown.”</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I will write my documents in ~~Microsoft Word~~ markdown.
+</code></pre></div>  </div>
+</div>
+
+<p>2. Looking at the GitHub-flavored markdown reference materials, create a check list with the following items.</p>
+
+<ul>
+  <li>Download the rrnDB tsv file</li>
+  <li>Download the rrnDB fasta file</li>
+  <li>Download the rrnDB taxonomy files</li>
+  <li>Download the SILVA SEED files</li>
+</ul>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [ ] Download the rrnDB tsv file
+- [ ] Download the rrnDB fasta file
+- [ ] Download the rrnDB taxonomy files
+- [ ] Download the SILVA SEED files
+</code></pre></div>  </div>
+</div>
+
+<p>3. Complete Issue 7</p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

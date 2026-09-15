@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Why is our R script so sloooooowwwwwwwww?</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-09-08-optimizing-R">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="why-is-our-r-script-so-sloooooowwwwwwwww">Why is our R script so sloooooowwwwwwwww?</h1>
+
+  <p class="meta">September 8, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    6 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Why is our R script so sloooooowwwwwwwww?" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-09-08-optimizing-R&text=Why is our R script so sloooooowwwwwwwww?&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In the last episode of Code Club we learned how to write an executable R script. That script converted a very wide data frame with ~15000 columns into a long data frame with only 3 columns. R struggles with wide data frames and we saw that when we ran our script. It took a minute to read in the wide data frame, but only took a second to read in the same data in from a tidy format. Most people would be satisfied that they have the data in a better format and move on with the rest of their project. Not me! I’d like to use this example to show you how you can learn what steps in your code are bottlenecks. I’ll also get you to think about the trade off between your time or “programmer time” and the time it takes your code to run or “execution time”.</p>
+
+<p>One of my pet peeves are blog posts of people ripping on R or ripping on Python. They’ll pull out some test like how long it takes to calculate a mean. They’ll then run that test using implementations in different languages. Because they don’t know how to write code in the language they’re trying to bash, they often present an unfair comparison. Also lost in the conversation is that the differences are relatively minor compared to the cost required to learn the favored language. If you can spot these straw man arguments then you likely already understand the strengths and weaknesses of the language you use. That’s great, because then you can avoid the weaknesses when you write your own code!</p>
+
+<p>R is designed to be efficient for you to write. For example, if I want to read in a file, I can use the <code class="language-plaintext highlighter-rouge">read_tsv</code> function. But, in another language, like C++, I would have to write a lot more code. The tradeoff is often the time it takes to execute the command. The R version would likely be considerably slower to run than the C++ version. Thinking back on that example of how long it takes to calculate the mean of a bunch of numbers, you could make your own function in R to calculate the mean. But, it will likely be slow. For most examples, the differences we’re discussing are on the order of micro or nanoseconds for calculating a mean. Alternatively, you could use R’s built in <code class="language-plaintext highlighter-rouge">mean</code> function, which is actually written in C or C++. This will likely be as fast as actually doing it in C or C++. It’s way beyond the scope of what we’re doing here, but you can use a package called RCpp to write C++ code in R to optimize steps that are too slow for your needs.</p>
+
+<p>This all brings up an important point that I mentioned earlier. A lot of your R code may only be run a few times. For example, the code we wrote in the last episode read in the wide data frame and outputted it as a tidy data frame. It took maybe 2 minutes to run. Say I have to run it 5 times over the course of my debugging and execution of the project. That’s 10 minutes total. Maybe I run 10 times. That’s still less than an hour. How long is it going to take you to figure out how to speed it up? Maybe an hour or two? Is it worth going from 2 minutes to 11 seconds to run your code if it takes you an hour or two to refactor the code?</p>
+
+<p>Sometimes. Today, I’m going to spend a bit of time showing you an alternative to functions like <code class="language-plaintext highlighter-rouge">read_tsv</code> and <code class="language-plaintext highlighter-rouge">pivot_longer</code> that are far faster, but have a less intuitive syntax. These functions will come from the <code class="language-plaintext highlighter-rouge">data.table</code> package. I would say it’s worth learning these alternatives if you are going to be working with really large files or files that are wide. I say this, because the next time you run into this scenario, maybe you’ll remember to use these alternative functions and will be able to pull out these tools to make your code more efficient. But, if the improvement is some slick programming trick that you’re unlikely to need again, then maybe I’d say meh. It’s slick, but has it gained you any time? Beyond seeing how to use some new functions from <code class="language-plaintext highlighter-rouge">data.frame</code>, you’ll also learn how to profile your code so that you can find the bottlenecks in your code that you might want to refactor to make the code more efficient.</p>
+
+<p>Even if you’re only watching this video to learn more about R and don’t know what a 16S rRNA gene is, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/ttJCwzfsAc8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li>Don’t spend hours fixing something that only costs you seconds</li>
+  <li><a href="https://adv-r.hadley.nz/perf-measure.html">Options for finding bottlenecks</a>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">system.time</code>: will report the elapsed (i.e. wall), user (i.e. time used by CPU to run command), system (i.e. time used by the operating system)</li>
+      <li><code class="language-plaintext highlighter-rouge">profvis</code>: runs a chunk of code and periodically checks R to see what it’s doing. Once the chunk has completed, it produces visual output telling you how long R spent doing each task</li>
+      <li><code class="language-plaintext highlighter-rouge">bench</code>: will run a chunk of code a specified number of times and output a summary of those iterations. Has a lot of nice features baked into it like visualizations</li>
+    </ul>
+  </li>
+  <li><a href="https://adv-r.hadley.nz/perf-improve.html">Options for speeding things up</a>
+    <ul>
+      <li>Find a faster package (e.g. <code class="language-plaintext highlighter-rouge">fread</code> vs <code class="language-plaintext highlighter-rouge">read_tsv</code>)</li>
+      <li>Minimize nesting of loops</li>
+      <li>Minimize assignments within loops; create data structure outside of loop</li>
+      <li>Avoid making copies of data, especially within loops</li>
+      <li>Vectorize code</li>
+      <li>Use Rcpp to rewrite R code in C++</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 56cf29e9e4f53
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser. Then you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
