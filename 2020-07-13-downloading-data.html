@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Downloading data from the command line</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-07-13-downloading-data">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="downloading-data-from-the-command-line">Downloading data from the command line</h1>
+
+  <p class="meta">July 13, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    9 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Downloading data from the command line" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-07-13-downloading-data&text=Downloading data from the command line&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In the last episode of Code Club we downloaded the files that we will be using to determine to what degree inter- and intra-genomic variation limit the ability to interpret amplicon sequence variants (ASVs) as a biologically coherent entity that proponents of ASVs claim. We did this in the context of learning about GitHub flow (aka Git Flow). One problem with how we did it was that we needed to use a browser to navigate to a website to download the files. This is fine if we only need to do it once, but if we had to do it for multiple files, it could be a pain. Imagine that there is a directory of 100 files you want to download. Downloading those files manually would be a major pain. Our approach from last week would also be pretty challenging if we were working on a high performance computer that doesn’t have a browser window. For today’s code club we’ll use GitHub flow to see how we can download the files we got last week using tools from the command line. In a future episode we’ll gain a greater appreciation for this approach because it becomes easier to automate the process if the files are updated or if ours get corrupted.</p>
+
+<p>Please take the time to watch today’s episode, follow along on your own computer, and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end I will provide solutions.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/vldQ_oV6b70" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>The reference notes and links that follow are a supplement to the material in the video. The exercises and their solutions are provided at the bottom.</p>
+
+<h2 id="installations">Installations</h2>
+
+<h3 id="mac-os-x">Mac OS X</h3>
+
+<p>We will use <a href="https://brew.sh">Homebrew</a> to install <code class="language-plaintext highlighter-rouge">wget</code>. Mac OS X is kind of like Linux, except it doesn’t quite have everything Linux does and even if it does have what we want, they tend to be old or weird versions. As the Homebrew documentation says, “Homebrew installs the stuff you need that Apple (or your Linux system) didn’t.” <code class="language-plaintext highlighter-rouge">wget</code> is one of those missing packages that we need to install. First, we’ll install Homebrew</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>You’ll need to provide your password. You may be asked a few questions along the way and you might be asked to press “ENTER”. Do what it asks. This might take a little time the first go through; be patient.</p>
+
+<p>Then we’ll install <code class="language-plaintext highlighter-rouge">wget</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>wget
+</code></pre></div></div>
+
+<h3 id="windows">Windows</h3>
+
+<p>If you’re using the <a href="https://itsfoss.com/install-bash-on-windows/">Ubuntu Linux BASH shell for Windows 10</a>, you’re in good shape.</p>
+
+<h2 id="todays-commands">Today’s commands</h2>
+
+<h3 id="wget"><code class="language-plaintext highlighter-rouge">wget</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">wget</code> allows us to automate the direct downloading of files to wherever we tell it. An alternative is <code class="language-plaintext highlighter-rouge">curl</code>. For whatever reason, I prefer <code class="language-plaintext highlighter-rouge">wget</code>.</p>
+
+<p>In it’s simplest form, the following will download <code class="language-plaintext highlighter-rouge">silva.seed_v138.tgz</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.seed_v138.tgz
+</code></pre></div></div>
+
+<p>There are many different options that you can use with <code class="language-plaintext highlighter-rouge">wget</code> to do different things (see <code class="language-plaintext highlighter-rouge">wget --help</code>). We won’t do it here, but know that you can download entire directories and can provide a username and password for protected files.</p>
+
+<p>For our purposes, there are a few options we want to know about. The generic example above has a few related problems that are not ideal. First, if the file already exists on our local computer, it will re-download the file and it will also append <code class="language-plaintext highlighter-rouge">.1</code> to the end of the file name. Second, it doesn’t let us designate where we want to put the file. We’ll add a few options</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--no-clobber</code> / <code class="language-plaintext highlighter-rouge">-nc</code>:  if the file is already present, move on</li>
+  <li><code class="language-plaintext highlighter-rouge">--directory-prefix=PREFIX</code> / <code class="language-plaintext highlighter-rouge">-P</code>:	download to a specified directory</li>
+</ul>
+
+<p>We can add these to the example above</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="nt">--no-clobber</span> <span class="nt">--directory-prefix</span><span class="o">=</span>data/references https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.seed_v138.tgz
+</code></pre></div></div>
+
+<p>If you run that command twice, you’ll see that we get a message that the file already exists in our desired directory and that it won’t retrieve the file again. What we have above is a verbose and descriptive way of writing the command. We can replace the options that start <code class="language-plaintext highlighter-rouge">--</code> with the abbreviated name that starts with <code class="language-plaintext highlighter-rouge">-</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="nt">-nc</span> <span class="nt">-P</span> data/references https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.seed_v138.tgz
+</code></pre></div></div>
+
+<p>Again, we’re only scratching the surface on what we can do with <code class="language-plaintext highlighter-rouge">wget</code>. Generally googling “wget <what do="" you="" want="" to="">" will help you find examples of doing whatever you want to do with `wget`.</what></p>
+
+<h3 id="unzipzip"><code class="language-plaintext highlighter-rouge">unzip</code>/<code class="language-plaintext highlighter-rouge">zip</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">unzip</code> allows us to un-zip files that have been compressed using <code class="language-plaintext highlighter-rouge">zip</code>. These files typically end in <code class="language-plaintext highlighter-rouge">.zip</code>. Zipped files are more common on Windows computers than on Mac OS X or Linux. With <code class="language-plaintext highlighter-rouge">zip</code>/<code class="language-plaintext highlighter-rouge">unzip</code> you can compress multiple files together. You can decompress a zipped file like this</p>
+
+<pre><code class="language-BASH">unzip data/raw/rrnDB-5.6.tsv.zip
+</code></pre>
+
+<p>Unfortunately, that will output the file to our current location, rather than to <code class="language-plaintext highlighter-rouge">data/raw/</code>. We can output the decompressed file to <code class="language-plaintext highlighter-rouge">data/raw/</code> using the <code class="language-plaintext highlighter-rouge">-d</code> argument. To be safe, you probably also want to include the <code class="language-plaintext highlighter-rouge">-n</code> argument to make sure that you are not overwriting existing files. This can be a problem if your zipped file contains a file named <code class="language-plaintext highlighter-rouge">README.md</code> (ours does not) and there is a different <code class="language-plaintext highlighter-rouge">README.md</code> file in your <code class="language-plaintext highlighter-rouge">data/raw/</code> directory</p>
+
+<pre><code class="language-BASH">unzip -n -d data/raw/ data/raw/rrnDB-5.6.tsv.zip
+</code></pre>
+
+<h3 id="gunzipgzip"><code class="language-plaintext highlighter-rouge">gunzip</code>/<code class="language-plaintext highlighter-rouge">gzip</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">gunzip</code> is an alternative to <code class="language-plaintext highlighter-rouge">unzip</code> that works with files that have been compressed using <code class="language-plaintext highlighter-rouge">gzip</code>. These files typically end in <code class="language-plaintext highlighter-rouge">.gz</code>. They are more common in Mac OS X and Linux than in Windows. One important difference between <code class="language-plaintext highlighter-rouge">.gz</code> and <code class="language-plaintext highlighter-rouge">.zip</code> files is that a <code class="language-plaintext highlighter-rouge">.gz</code> file is compressed version of a single file where as <code class="language-plaintext highlighter-rouge">.zip</code> files can be a compressed collection (i.e. “archive”) of files. Another tools that are used to compress/decompress files that are frequently used on Mac OS X and Linux is <code class="language-plaintext highlighter-rouge">bzip2</code>/<code class="language-plaintext highlighter-rouge">bunzip2</code>. Unlike <code class="language-plaintext highlighter-rouge">unzip</code>, <code class="language-plaintext highlighter-rouge">gunzip</code> will output the decompressed file in the directory that the compressed file was located. It will also remove the compressed file unless you tell it otherwise (i.e. use <code class="language-plaintext highlighter-rouge">-k</code>). We’ll be using <code class="language-plaintext highlighter-rouge">gunzip</code> with <code class="language-plaintext highlighter-rouge">tar</code>.</p>
+
+<h3 id="tar"><code class="language-plaintext highlighter-rouge">tar</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">tar</code> allows us to bundle files together into a “tarball” and it also allows us to unbundle them. Tarballs are not compressed. These are commonly found in Mac OS X and Linux and typically end in <code class="language-plaintext highlighter-rouge">.tar</code>. Because they are not compressed, <code class="language-plaintext highlighter-rouge">tar</code> has built in ability to also compress/decompress files using <code class="language-plaintext highlighter-rouge">gzip</code>/<code class="language-plaintext highlighter-rouge">gunzip</code> (and <code class="language-plaintext highlighter-rouge">bzip2</code>/<code class="language-plaintext highlighter-rouge">bunzip2</code>). Tarballs that are compressed with <code class="language-plaintext highlighter-rouge">gzip</code> typically end in <code class="language-plaintext highlighter-rouge">.tar.gz</code> or <code class="language-plaintext highlighter-rouge">.tgz</code>. Beware of <a href="https://en.wikipedia.org/wiki/Tar_(computing)#Tarbomb">tar bombs</a>, which when expanded overwrite your other local files and directories. The best defensive practice is to output the extracted files to a new directory and then move them where you want them, if they need to be moved. It’s pretty rare to see a non-compressed tarball, so I’ll show how to decompress and untar a compressed tarball</p>
+
+<pre><code class="language-BASH">mkdir data/references/silva.seed_v138/
+tar xvzf data/references/silva.seed_v138.tgz -C data/references/silva_seed/
+</code></pre>
+
+<p>Let me unpack these two lines of code. First, we’ll create <code class="language-plaintext highlighter-rouge">data/references/silva_seed/</code> to store the output of <code class="language-plaintext highlighter-rouge">silva.seed_v138.tgz</code>. Second, the <code class="language-plaintext highlighter-rouge">tar</code> command has four arguments:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">x</code> - extract files (alternatively, <code class="language-plaintext highlighter-rouge">c</code> would be use to create a tarball)</li>
+  <li><code class="language-plaintext highlighter-rouge">v</code> - verbose: write out what is going on</li>
+  <li><code class="language-plaintext highlighter-rouge">z</code> - <code class="language-plaintext highlighter-rouge">gunzip</code> or <code class="language-plaintext highlighter-rouge">gzip</code> the file if you are opening or creating the tarball</li>
+  <li><code class="language-plaintext highlighter-rouge">f</code> - what follows is the file name</li>
+</ul>
+
+<p>Finally, the <code class="language-plaintext highlighter-rouge">-C</code> flag tells <code class="language-plaintext highlighter-rouge">tar</code> where to send the output. You should notice that the files are written to <code class="language-plaintext highlighter-rouge">data/references/silva.seed_v138/</code>. If we had not used the <code class="language-plaintext highlighter-rouge">-C</code> flag then the files would end up in our project root directory. The <code class="language-plaintext highlighter-rouge">README.md</code> file from the tarball would have written over the <code class="language-plaintext highlighter-rouge">README.md</code> file in our project root directory. The same thing would have happened if we had used <code class="language-plaintext highlighter-rouge">-C</code> to output to <code class="language-plaintext highlighter-rouge">data/references/</code>. This is why it’s a good idea to untar your files to an empty directory. There are a variety of other approaches you can use to avoid writing over your pre-existing files, but this is <a href="http://www.linfo.org/tarbomb.html">generally considered the most reliable approach</a>.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. What arguments would you give <code class="language-plaintext highlighter-rouge">wget</code> to supply a username and password? What argument would you use if you would rather <code class="language-plaintext highlighter-rouge">wget</code> ask you your password?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--user=USER                 set both ftp and http user to USER
+--password=PASS             set both ftp and http password to PASS
+--ask-password              prompt for passwords
+</code></pre></div>  </div>
+</div>
+
+<p>2. How could you list the contents of <code class="language-plaintext highlighter-rouge">rrnDB-5.6.tsv.zip</code> without decompressing it? How about the contents of <code class="language-plaintext highlighter-rouge">silva.seed_v138.tgz</code>?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Zip file…</p>
+
+  <pre><code class="language-BASH">unzip -l data/raw/rrnDB-5.6.tsv.zip
+</code></pre>
+
+  <p>Tarball…</p>
+
+  <pre><code class="language-BASH">tar tvf data/references/silva.seed_v138.tgz
+</code></pre>
+</div>
+
+<p>3. Finish and push Issue 6 to your version of the repository</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;"></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

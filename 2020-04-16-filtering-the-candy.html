@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Find the candy that I like...</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-04-16-filtering-the-candy">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="find-the-candy-that-i-like">Find the candy that I like...</h1>
+
+  <p class="meta">April 16, 2020 • <a href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=Find the candy that I like...&iso=20200416T1500&p1=784&ah=1">15:00 Eastern</a>
+ • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    10 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Find the candy that I like..." target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-04-16-filtering-the-candy&text=Find the candy that I like...&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>For our next Code Club, we will continue our exploration of data collected by <a href="https://fivethirtyeight.com/videos/the-ultimate-halloween-candy-power-ranking/">Five Thirty Eight</a> that looked at how people feel about different types of candy. <a href="2020-03-26-candy-crusy">In the first code club</a>, we initially played with the data. Last week, we began to use the <code class="language-plaintext highlighter-rouge">filter</code> function to generate logical (or boolean) queries to identify rows from the data that met our criteria. This time we’ll focus on using <code class="language-plaintext highlighter-rouge">filter</code> with quantitative data and we’ll see how to use it with the <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code> functions.</p>
+
+<p>You will be able to join the conversation using <a href="https://zoom.us/j/96466835271?pwd=dGljcGc5clFyeVI5ZjJsdHFOQWo0UT09">this link</a> to use Zoom. The session should last an hour. Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> and <a href="/code_club/code-of-conduct">code of conduct</a> before we get going.</p>
+
+<p>If you would like to revisit Pat’s introduction and the approach taken by several participants, you can watch this video. If you were on the call, you’ll notice a different Introduction. Pat forgot to press record the first time around (again):</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/-USF9PFOvvY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>In our inaugural code club we loaded data that described people’s preferences for each of 85 different types of candy. The folks at Five Thirty Eight characterized each of the candies by their attributes including things like whether the candy has chocolate, nougat, caramel, and so forth. They also created indices to rate the relative prices and amount of sugar in each candy. In that code club, I had participants generate a figure that showed whether chocolate candies are more expensive as a bar or as bite-sized pieces. I’d like to use that question to build upon the discussion we had last week using <code class="language-plaintext highlighter-rouge">filter</code> and to expand the discussion to calculate statistics for different groups of data using <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code>. Let’s load the data and get going!</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">candy_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/fivethirtyeight/data/master/candy-power-ranking/candy-data.csv"</span><span class="p">,</span><span class="w">
+	</span><span class="n">col_types</span><span class="o">=</span><span class="s2">"clllllllllddd"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="filter-revisited"><code class="language-plaintext highlighter-rouge">filter</code> revisited</h3>
+
+<p>You’ll recall that <code class="language-plaintext highlighter-rouge">filter</code> identifies rows in a data frame that satisfy some logical question. If the answer to the question is <code class="language-plaintext highlighter-rouge">TRUE</code>, then that row is returned. These candy data have a number of variables that are already <code class="language-plaintext highlighter-rouge">TRUE</code> or <code class="language-plaintext highlighter-rouge">FALSE</code> values.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you look under the “chocolate” heading, you’ll see <lgl> which is short for logical. You'll also see that column (and others) have `TRUE` and `FALSE` as their values. Since these already evaluate to a logical value, I can do the following to get all of the candies that have chocolate in them</lgl></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">chocolate</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>While you can do</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">chocolate</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>It’s a bit redundant and not necessary. Regardless of the approach, we see that 37 of the candies have chocolate in them. Of course, we could have figured that out with the <code class="language-plaintext highlighter-rouge">count</code> function that we discussed earlier</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">chocolate</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>What the <code class="language-plaintext highlighter-rouge">filter</code> command gets us is a new data frame that only contains candies with chocolate. Before moving on to discussing <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code>, I want to show you a few other things we can do with <code class="language-plaintext highlighter-rouge">filter</code>.</p>
+
+<p>So far we’ve seen that we can search for specific values using the <code class="language-plaintext highlighter-rouge">==</code> and <code class="language-plaintext highlighter-rouge">!=</code> operators and that we can combine queries with the <code class="language-plaintext highlighter-rouge">&amp;</code> and <code class="language-plaintext highlighter-rouge">|</code> operators. The <code class="language-plaintext highlighter-rouge">==</code> and <code class="language-plaintext highlighter-rouge">!=</code> operators work well when we’re trying to select for specific values. Sometimes, we want a range of values. Let’s say we want a new data frame that contains all of the candies that have a price index greater than 0.5, we could do the following</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">pricepercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Similarly, if we wanted all of the low sugar candies we could do</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">sugarpercent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.33</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And building upon what we did last week, we can combine the queries with a <code class="language-plaintext highlighter-rouge">&amp;</code> to get the expensive low sugar candies or with a <code class="language-plaintext highlighter-rouge">|</code> to get the candies that are expensive or low in sugar.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">pricepercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">sugarpercent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.33</span><span class="p">)</span><span class="w"> </span><span class="c1">#12 rows</span><span class="w">
+
+</span><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">pricepercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">sugarpercent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.33</span><span class="p">)</span><span class="w"> </span><span class="c1">#64 rows</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Beyond <code class="language-plaintext highlighter-rouge">&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;</code>, you can also use <code class="language-plaintext highlighter-rouge">&gt;=</code> and <code class="language-plaintext highlighter-rouge">&lt;=</code> to ask if things are “greater than or equal to” or “less than or equal to” a specific value.</p>
+
+<h3 id="group_by-and-summarize"><code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code></h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code> functions generally go together. They allow us to group our data by some variable and then to perform some summary operation for each group. Returning to our question of whether candy with chocolate is more expensive as a bar or in bite-sized form we can do the following</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">chocolate</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We could also report back the standard deviation and number of candies in each group by adding them to the list of arguments in <code class="language-plaintext highlighter-rouge">summarize</code> separated by a comma</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">chocolate</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">sd_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sd</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Although we should apply a statistical test, it does appear that candy with chocolate is more expensive in bar form. Other functions that work well with <code class="language-plaintext highlighter-rouge">summarize</code> include <code class="language-plaintext highlighter-rouge">median</code>, <code class="language-plaintext highlighter-rouge">min</code>, <code class="language-plaintext highlighter-rouge">max</code>, <code class="language-plaintext highlighter-rouge">IQR</code>, <code class="language-plaintext highlighter-rouge">range</code>, and any function that returns a single value.</p>
+
+<p>Perhaps we’d like to partition our data frame by two variables. Say we want to look at all candy to determine whether non-chocolate candy is also more expensive as a bar than as bite-sized. We could modify our earlier code chunk</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">chocolate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1"># the ! turns TRUE to FALSE and FALSE to TRUE</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">bar</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If we want both chocolaty and non-chocolate candy data in the same data frame, we will need to drop the <code class="language-plaintext highlighter-rouge">filter</code> function and modify the <code class="language-plaintext highlighter-rouge">group_by</code> function. We can add other groups to partition the data by in the <code class="language-plaintext highlighter-rouge">group_by</code> function separated by commas</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">chocolate</span><span class="p">,</span><span class="w"> </span><span class="n">bar</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Sure enough, candy as a bar is more expensive regardless of whether it has chocolate in it!</p>
+
+<p>One final trick to show you is that we can add a logical question to our <code class="language-plaintext highlighter-rouge">group_by</code> argument</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">sugarpercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.50</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Who knew? Candy with more sugar is more expensive.</p>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. How many of the candies that won more than 75% of their matchups had chocolate?</p>
+
+<p>2. Do fruity candies have a different average price than non-fruity candies?</p>
+
+<p>3. How do the prices of the more favored candies compare to those that are less favored?</p>
+
+<p>4. Come up with your own question to answer with the functions we’ve discussed today</p>
+
+<h2 id="solutions">Solutions</h2>
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>1. How many of the candies that won more than 75% of their matchups had chocolate?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">winpercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">chocolate</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>There’s more non-chocolate than chocolate containing candy in the dataset</p>
+
+  <p>2. Do fruity candies have a different average price than non-fruity candies?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">fruity</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">sd_price</span><span class="o">=</span><span class="n">sd</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>Fruity candy tends to be cheaper than candy without fruity flavor.</p>
+
+  <p>3. How do the prices of the more favored candies compare to those that are less favored?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">winpercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">sd_price</span><span class="o">=</span><span class="n">sd</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>The more favored candies are more expensive.</p>
+
+  <p>4. Come up with your own question to answer with the functions we’ve discussed today</p>
+
+  <p>Does price differ by sugar content?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+ 	</span><span class="n">group_by</span><span class="p">(</span><span class="n">sugarpercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">sd_price</span><span class="o">=</span><span class="n">sd</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>High sugar candy tends to be more expensive than low sugar candy. Perhaps confounded with people’s preference?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">candy_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+ 	</span><span class="n">group_by</span><span class="p">(</span><span class="n">sugarpercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">winpercent</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">50</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">sd_price</span><span class="o">=</span><span class="n">sd</span><span class="p">(</span><span class="n">pricepercent</span><span class="p">),</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>Maybe people just like good candy.</p>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
