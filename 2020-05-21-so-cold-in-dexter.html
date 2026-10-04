@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>So cold in Dexter</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-05-21-so-cold-in-dexter">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="so-cold-in-dexter">So cold in Dexter</h1>
+
+  <p class="meta">May 21, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    13 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: So cold in Dexter" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-05-21-so-cold-in-dexter&text=So cold in Dexter&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>A couple of weeks ago, my wife conned our 15 year old into roto tilling up a part of our pig pen so she could have a garden. She’s slowly starting to plant stuff in it. We also have about 20 apple trees that have started to blossom. I <em>think</em> we’re past the point of worrying about hard frosts that could kill germinating plants or apple blossoms. But how sure should I be? I thought this was a great question for a code club. If you google the name of your town and “frost dates” you’ll find a bunch of gardening websites that give guidance on when to plant in the spring and when to expect your harvesting to be done in the fall. Of course we could find one of those websites, but where’s the fun in that?</p>
+
+<p>Today’s code club will answer this and other questions using functions we’ve already seen including <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">group_by</code>, and <code class="language-plaintext highlighter-rouge">summarize</code>. We’ll focus on how we can use the <code class="language-plaintext highlighter-rouge">mutate</code> function to create new columns in our data frames. To spice things up a bit we’ll also talk about how we can use arithmetic functions with logical variables. By the end of today’s Code Club we’ll know when I can stop worrying about my wife’s garden and my apple trees.</p>
+
+<p>Don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/LUnV44uFr2c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+<p>Like we did last week, I used the NOAA website to track down <a href="https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/locations/CITY:US260002/detail">daily high and low temperatures</a> going back to 1891 for Ann Arbor, MI. You can find similar data for your favorite place by using the <a href="https://www.ncdc.noaa.gov/cdo-web/search">Climate Data Online Search</a> to find “Daily Summaries” datasets. Be sure to click on the specific station you want at the bottom of your location’s page that has the longest history.</p>
+
+<p>I have Ann Arbor’s data stored on GitHub and will use <code class="language-plaintext highlighter-rouge">read_csv</code> to read it in and do some small touch ups to read the data in and extract the year, month, and day from the date. We’ll get some warning messages, which we can ignore for this Code Club.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+
+</span><span class="n">aa_weather</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://github.com/riffomonas/generalR_data/blob/master/noaa/USC00200230.csv?raw=true"</span><span class="p">,</span><span class="w">
+	</span><span class="n">col_type</span><span class="o">=</span><span class="n">cols</span><span class="p">(</span><span class="n">TOBS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_double</span><span class="p">()))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">TOBS</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">),</span><span class="w">
+		</span><span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">),</span><span class="w">
+		</span><span class="n">day</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">day</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="breaking-down-our-approach">Breaking down our approach</h3>
+
+<p>My question boils down to what is the probability of having a temperature below freezing on each day of the year. Alternatively, we could ask, across the last 130 years, how many times has there been a low temperature below freezing on each day of the year. To do this, we need to do a few things…</p>
+
+<ol>
+  <li>Determine whether a low temperature was below freezing for every day in our dataset</li>
+  <li>Aggregate our data by month and day</li>
+  <li>Determine the fraction of month-day combinations had a low temperature below freezing across all of the years in our dataset</li>
+  <li>Find the day in May where there’s a below 5 or 10% risk of having another day with below freezing temperatures.</li>
+</ol>
+
+<p>If you’ve been following along with past Code Clubs, you already know how to do most of these steps. Now to convert these steps to R code!</p>
+
+<h3 id="the-mutate-function">The <code class="language-plaintext highlighter-rouge">mutate</code> function</h3>
+
+<p>That code block has a line that tells R to create three new columns - <code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">month</code>, and <code class="language-plaintext highlighter-rouge">day</code>. That function is <code class="language-plaintext highlighter-rouge">mutate</code>. We can use <code class="language-plaintext highlighter-rouge">mutate</code> to write over existing columns or to create new columns. In this example, I used <code class="language-plaintext highlighter-rouge">mutate</code> along with the <code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">month</code>, and <code class="language-plaintext highlighter-rouge">day</code> functions from the <code class="language-plaintext highlighter-rouge">lubridate</code> package to extract information from the <code class="language-plaintext highlighter-rouge">date</code> column of our data frame. Let’s step back and see how we can use <code class="language-plaintext highlighter-rouge">mutate</code> to add a column.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">mutate</code> function takes as its arguments the name of the new column (e.g. <code class="language-plaintext highlighter-rouge">year</code>), an equal sign (i.e. <code class="language-plaintext highlighter-rouge">=</code>), and a formula telling R how to calculate the values for the new column. We want the output of the formula to be a single value. The <code class="language-plaintext highlighter-rouge">?mutate</code> page calls these “Name-value pairs”. We can have multiple name-value pairs that we set apart with commas as I did in the code chunk above. There are other <code class="language-plaintext highlighter-rouge">mutate</code> functions including <code class="language-plaintext highlighter-rouge">mutate_if</code>, <code class="language-plaintext highlighter-rouge">mutate_at</code>, <code class="language-plaintext highlighter-rouge">mutate_all</code>, <code class="language-plaintext highlighter-rouge">transmutate</code>, <code class="language-plaintext highlighter-rouge">transmutate_if</code>, <code class="language-plaintext highlighter-rouge">transmutate_at</code>, and <code class="language-plaintext highlighter-rouge">transmutate_all</code>. You can learn more about them at their help pages, but honestly, I don’t think I’ve ever used them.</p>
+
+<p>To determine whether a given day had a low temperature below freezing, we will use the mutate function to create a new colum, <code class="language-plaintext highlighter-rouge">below_freezing</code>, that will have a logical value of <code class="language-plaintext highlighter-rouge">TRUE</code>, <code class="language-plaintext highlighter-rouge">FALSE</code>, or <code class="language-plaintext highlighter-rouge">NA</code> if the low temperature was not reported that day. The low temperature is recorded in the <code class="language-plaintext highlighter-rouge">TMIN</code> column so asking <code class="language-plaintext highlighter-rouge">TMIN &lt; 0</code> will tell us whether the tempreature was below freezing.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="arithmetic-with-logicals">Arithmetic with logicals</h3>
+
+<p>Having <code class="language-plaintext highlighter-rouge">below_freezing</code> be a logical allows us to do some slick things. We can treat logicals as numbers and use them in functions like <code class="language-plaintext highlighter-rouge">sum</code> and <code class="language-plaintext highlighter-rouge">mean</code>. The key is to remember that <code class="language-plaintext highlighter-rouge">TRUE</code> is <code class="language-plaintext highlighter-rouge">1</code> and <code class="language-plaintext highlighter-rouge">FALSE</code> is <code class="language-plaintext highlighter-rouge">0</code>. Probably the best way to remember this is that zero and <code class="language-plaintext highlighter-rouge">FALSE</code> are both nothing. If you can forget, you can always use <code class="language-plaintext highlighter-rouge">as.numeric</code>…</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_vector</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w">
+
+</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">my_vector</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If we use <code class="language-plaintext highlighter-rouge">my_vector</code> with an arithmetic function, it will convert the logical value to a zero or one for us before evaluating the function.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">sum</span><span class="p">(</span><span class="n">my_vector</span><span class="p">)</span><span class="w">
+</span><span class="n">mean</span><span class="p">(</span><span class="n">my_vector</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">sum</code> function tells us that there are 3 <code class="language-plaintext highlighter-rouge">TRUE</code> values and the <code class="language-plaintext highlighter-rouge">mean</code> function tells us that 0.6 of the values were <code class="language-plaintext highlighter-rouge">TRUE</code>. Although <code class="language-plaintext highlighter-rouge">mean(my_vector)</code> is more concise, we could have also done</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">sum</span><span class="p">(</span><span class="n">my_vector</span><span class="p">)</span><span class="o">/</span><span class="nf">length</span><span class="p">(</span><span class="n">my_vector</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="getting-a-fraction-with-summarize">Getting a fraction with <code class="language-plaintext highlighter-rouge">summarize</code></h3>
+
+<p>Do you see where we’re going with this? We can use <code class="language-plaintext highlighter-rouge">mean(below_freezing)</code> in <code class="language-plaintext highlighter-rouge">summarize</code> to get the fraction of years a day was below freezing.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">below_freezing</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That gives an <code class="language-plaintext highlighter-rouge">NA</code> value because some of the days did not have a <code class="language-plaintext highlighter-rouge">TMIN</code> value. To ignore those values, we can use the <code class="language-plaintext highlighter-rouge">na.rm=TRUE</code> argument in <code class="language-plaintext highlighter-rouge">mean</code></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">below_freezing</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="getting-our-daily-fraction-using-group_by-and-summarize">Getting our daily fraction using <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code></h3>
+
+<p>Cool, 35% of the days since 1891 have had a low temperature below freezing. But we wanted to aggregate the month-day combinations and then get the fraction across all  years. We’ve seen this before with the <code class="language-plaintext highlighter-rouge">group_by</code>/<code class="language-plaintext highlighter-rouge">summarize</code> combination</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">below_freezing</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="using-filter-to-focus-in-on-may">Using <code class="language-plaintext highlighter-rouge">filter</code> to focus in on May</h3>
+
+<p>Let’s focus in on the dates in May using the <code class="language-plaintext highlighter-rouge">filter</code> function</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">below_freezing</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">print</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">31</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Based on historic weather data, the garden and apple trees are probably safe after the 10th of May.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">below_freezing</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">print</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">31</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>It has only been below freezing 11 times after the 10th in the past 130 years (8.5%). If we wanted to be more conservative, we could wait until the 13th since there have only been freezing temperatures on or after the 13th of May, 6 times (4.6%). Sure enough, if we look at the <a href="https://www.gardeninginthemitten.com/michigan-frost-dates/">Gardening in the Mitten</a> website, they tell us that Ann Arbor’s spring frost should end by May 10th and the first fall frost will be October 5th</p>
+
+<p>Hopefully, you feel more comfortable using <code class="language-plaintext highlighter-rouge">mutate</code>, <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">group_by</code>, and <code class="language-plaintext highlighter-rouge">summarize</code> now that you’ve seen them used in a new context. Are you ready to answer some questions using these strengthened skills?</p>
+
+<h2 id="assignment">Assignment</h2>
+
+<p>1. When do you think the vegetables in our garden will be done growing?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_below_freezing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">below_freezing</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">print</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">30</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>If you had any growth after the 18th of the month, that would be a surprise (90% of the years have had a frost on the 18th or before). This is about two weeks longer than the Gardening in the Mitten suggested. I suspect they used the 5th because 10% of the years had a frost on that day or earlier.</p>
+</div>
+
+<p>2. Add a column to <code class="language-plaintext highlighter-rouge">aa_weather</code> that represents the high temperature for the day in Fahrenheit. Using this new column, determine the average number of days per year where the temperature is over 90 F.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">t_high_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="o">/</span><span class="m">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">TMAX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w">
+		</span><span class="n">hot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_high_f</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">90</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">total_hot_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">hot</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1891</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2020</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_hot_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">total_hot_days</span><span class="p">))</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>3. I’ve heard a rule of thumb that if a day’s low and high temperature is over 100 F, then grass will grow. When can I expect the grass to start growing reliably in May?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">t_high_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="o">/</span><span class="m">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">TMAX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w">
+		</span><span class="n">t_low_f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="o">/</span><span class="m">5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">TMIN</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w">
+		</span><span class="n">grass_growing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_high_f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t_low_f</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1891</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2020</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">frac_growing_days</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">grass_growing</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">print</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="m">31</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>If this rule of thumb is true, then we won’t have consistent temperatures that are warm enough for grass growth until the 23rd of May.</p>
+</div>
+
+<hr />
+
+<p>Title credit: The Cranberries, <a href="https://www.youtube.com/watch?v=WX2TXMJXS4o">So cold in Ireland</a></p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

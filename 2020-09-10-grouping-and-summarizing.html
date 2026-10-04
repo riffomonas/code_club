@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Measuring the sensitivity and specificity of ASVs for genomes</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-09-10-grouping-and-summarizing">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="measuring-the-sensitivity-and-specificity-of-asvs-for-genomes">Measuring the sensitivity and specificity of ASVs for genomes</h1>
+
+  <p class="meta">September 10, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    5 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Measuring the sensitivity and specificity of ASVs for genomes" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-09-10-grouping-and-summarizing&text=Measuring the sensitivity and specificity of ASVs for genomes&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>A super common task in analyzing data is to measure summary statistics for different groups of items. We might want to know the average age for Republicans versus Democrats. Perhaps we want to know whether men have higher salaries than women. Maybe we want to determine how salaries vary by level of education. Each of these questions requires us to take a set of data, subset the data by a group, and then calculate a value for each group. How do we do this?</p>
+
+<p>One approach might be to extract the data corresponding to Republicans from the dataset and then calculate the average age. We could then repeat for the Democrats. Let’s say there was a third party we were interested in, we’d repeat the process. But, what if there’s a fourth party? Fifth? This would get tedious really quick. There’s an alternative approach available to us using the <code class="language-plaintext highlighter-rouge">dplyr</code> package, which is part of the <code class="language-plaintext highlighter-rouge">tidyverse</code>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">dplyr</code> approach is super powerful. We can use the <code class="language-plaintext highlighter-rouge">group_by</code> function to group our data by a categorical variable like political party. We can then use the <code class="language-plaintext highlighter-rouge">summarize</code> function to calculate summary statistics for each value of the categorical variable. This approach is super adaptable to any changes in the data. I don’t need to know all of the political parties to carry out this process, which is part of what makes it so powerful. Furthermore, we can apply it to a wide array of questions.</p>
+
+<p>If you’ve forgotten what we’ve been trying to do over the past 17 episodes, I don’t blame you! A lot of the work in a data analysis pipeline is getting data into a format that allows us to answer our questsions. You might recall, bacterial genomes tend to have more than one copy of the 16S rRNA gene. This raises a few questions. First, how many copies of the gene do bacterial genome typically have? Second, if there are multiple copies of the gene in a genome, are they identical to each other or are there differences? Finally, if we find a sequence in one genome, how often might we find it in another genome? These questions are important to the ongoing discussion in microbial ecology because there is a push to using distinct sequences or amplicon sequence variants (ASVs) as surrogates for bacterial taxa rather than using clusters of related sequences as surrogates for bacterial taxa.</p>
+
+<p>Let’s think about the data as we currently have it. We have a column that contains an identifier for each 16S rRNA gene sequence, that is the ASV, that was found in the rrnDB database. We have a second column that contains an identifier for each genome in the database. Finally, we have a column that indicates the number of times each ASV was found in each genome. But how does this relate back to the examples I started with? How is this similar to grouping people by political party? If I group the data by genome, I could count the number of 16S rRNA genes in each genome. I could also count the number of ASVs in each genome. Alternatively, if I group the data by ASV, I could count the number of genomes where each ASV was found.</p>
+
+<p>We’re really going to leverage this approach in future episodes. Today, I’ve been talking about using full length sequences, but I could also use a sub-region of the gene and see how these counts change. Instead of looking at the genome level, I could also look at the species, genus, or any higher taxonomic level as well. But we’ll look at how these counts vary by taxonomic level for a future episode. For today’s episode we’ll use the <code class="language-plaintext highlighter-rouge">group_by</code> and <code class="language-plaintext highlighter-rouge">summarize</code> functions and a few other helper functions to do an exploratory analysis of the sensitivity and specificity of ASVs to each genome.</p>
+
+<p>Even if you’re only watching this video to learn more about R and don’t know what a 16S rRNA gene is, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/7-Ju_5Dk6Uk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<ul>
+  <li>General functions
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">group_by</code>: group a data frame by one or more columns</li>
+      <li><code class="language-plaintext highlighter-rouge">summarize</code>: summarize data within the level of each grouping variable</li>
+      <li><code class="language-plaintext highlighter-rouge">count</code>: count the number of times each level of a categorical variable are used</li>
+      <li><code class="language-plaintext highlighter-rouge">mutate</code>: create a column</li>
+    </ul>
+  </li>
+  <li>Helper functions
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">median</code>: calculate the median</li>
+      <li><code class="language-plaintext highlighter-rouge">mean</code>: calculate the mean</li>
+      <li><code class="language-plaintext highlighter-rouge">sum</code>: add the numbers in a column together</li>
+      <li><code class="language-plaintext highlighter-rouge">n</code>: the number of rows in the grouped data</li>
+      <li><code class="language-plaintext highlighter-rouge">quantile</code>: find the value for a <code class="language-plaintext highlighter-rouge">prob</code>ability value</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 1897d55f38fd05e4c62e4ec8b780bf8e42308876
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser. Then you’ll be good to go.</li>
+    </ul>
+  </li>
+</ul>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
