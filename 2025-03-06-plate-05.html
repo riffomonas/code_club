@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>How to recreate a historic map in R using the sf and ggplot2 packages (CC347)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-03-06-plate-05">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="how-to-recreate-a-historic-map-in-r-using-the-sf-and-ggplot2-packages-cc347">How to recreate a historic map in R using the sf and ggplot2 packages (CC347)</h1>
+
+  <p class="meta">March 6, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    7 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: How to recreate a historic map in R using the sf and ggplot2 packages (CC347)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-03-06-plate-05&text=How to recreate a historic map in R using the sf and ggplot2 packages (CC347)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat uses R to show how to create a county map of Georgia from 1890 overlaid wit the number of Black Georgians in each county to recreate an iconic bar plot figure that WEB DuBois presented at the 1900 Paris Exposition using the ggplot2, dplyr, showtext, and sf packages. The functions he uses from these packages include aes, coord_sf, cut, filter, font_add, geom_sf, ggplot, ggsave, guide_legend, inner_join, labs, library, list, mutate, read_tsv, read_sf, scale_fill_manual, showtext_auto, showtext_opts, theme, and year. The book Pat mentions by Whitney Battle-Baptiste and Britt Rusert, titled “W.E.B. Du Bois’s Data Portraits: Visualizing Black America” is <a href="https://amzn.to/4heJOWZ">available at Amazon</a>. A great set of talks about the DuBois data portraits is <a href="https://www.youtube.com/watch?v=ZZST1AZj-dQ&amp;ab_channel=Tableau">available here</a>. The Anthony Starks GitHub repository can be <a href="https://github.com/ajstarks/dubois-data-portraits/">found here</a>. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<p>Census data PDF: https://www2.census.gov/prod2/decennial/documents/1890a_v1-13.pdf (my tsv below…)
+Historic county boundaries: https://digital.newberry.org/ahcb/downloads/states.html</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/JLk8XKIA0wA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="code">Code</h2>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">showtext</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span><span class="w">
+
+</span><span class="n">font_add</span><span class="p">(</span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="s2">"B52-ULC W00 ULC.ttf"</span><span class="p">)</span><span class="w">
+</span><span class="n">font_add</span><span class="p">(</span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="s2">"vasarely-light.otf"</span><span class="p">)</span><span class="w">
+</span><span class="n">showtext_auto</span><span class="p">()</span><span class="w">
+</span><span class="n">showtext_opts</span><span class="p">(</span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">populations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_tsv</span><span class="p">(</span><span class="s2">"county_count.tsv"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">size_category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cut</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w">
+                             </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="m">2500</span><span class="p">,</span><span class="w"> </span><span class="m">5000</span><span class="p">,</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w">
+                                        </span><span class="m">15000</span><span class="p">,</span><span class="w"> </span><span class="m">20000</span><span class="p">,</span><span class="w"> </span><span class="m">30000</span><span class="p">,</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">n</span><span class="p">))))</span><span class="w">
+
+</span><span class="n">read_sf</span><span class="p">(</span><span class="s2">"GA_AtlasHCB/GA_Historical_Counties/GA_Historical_Counties.shp"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">START_DATE</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">1890</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">END_DATE</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1890</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">populations</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"NAME"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"county"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size_category</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_sf</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">key_glyph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"point"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"(3e+04,3.54e+04]"</span><span class="p">,</span><span class="w"> </span><span class="s2">"(2e+04,3e+04]"</span><span class="p">,</span><span class="w"> </span><span class="s2">"(1.5e+04,2e+04]"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"(1e+04,1.5e+04]"</span><span class="p">,</span><span class="w"> </span><span class="s2">"(5e+03,1e+04]"</span><span class="p">,</span><span class="w"> </span><span class="s2">"(2.5e+03,5e+03]"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"(1e+03,2.5e+03]"</span><span class="p">,</span><span class="w"> </span><span class="s2">"(0,1e+03]"</span><span class="p">),</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"#000000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#7e6583"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#654321"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#d2b48c"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#dc143c"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"#ffc0cb"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#ffd700"</span><span class="p">,</span><span class="w"> </span><span class="s2">"#00aa00"</span><span class="p">),</span><span class="w">
+    </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"OVER 30,000 NEGROES"</span><span class="p">,</span><span class="w"> </span><span class="s2">"BETWEEN 20,000 AND 30,000"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"5,000 TO 20,000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10,000 TO 15,000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"5,000 TO 10,000"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">" 2,500 TO 5,000"</span><span class="p">,</span><span class="w"> </span><span class="s2">"  1,000 TO 2,500"</span><span class="p">,</span><span class="w"> </span><span class="s2">"     UNDER 1,000"</span><span class="p">),</span><span class="w">
+    </span><span class="n">guide</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">guide_legend</span><span class="p">(</span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+                         </span><span class="n">override.aes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+                                             </span><span class="n">stroke</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NEGRO POPULATION OF GEORGIA BY COUNTIES."</span><span class="p">,</span><span class="w">
+    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1890."</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_sf</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w"> </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">-86.4</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">plot.title.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"plot"</span><span class="p">,</span><span class="w">
+    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">,</span><span class="w">
+                              </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">)),</span><span class="w">
+    </span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"b52"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w">
+                                 </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">80</span><span class="p">)),</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">,</span><span class="w">
+    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"vasarely"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.box.spacing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.key.spacing.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.key.spacing.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"plate_05.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.21</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"in"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="county_counttsv"><code class="language-plaintext highlighter-rouge">county_count.tsv</code></h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>county	n
+APPLING	2462
+BAKER	4549
+BALDWIN	9343
+BANKS	1563
+BARTOW	6041
+BERRIEN	2417
+BIBB	23336
+BROOKS	7637
+BRYAN	2687
+BULLOCH	4689
+BURKE	22680
+BUTTS	5398
+CALHOUN	6199
+CAMDEN	4137
+CAMPBELL (ext)	3493
+CARROLL	3851
+CATOOSA	636
+CHARLTON	870
+CHATHAM	34757
+CHATTAHOOCHEE	3065
+CHATTOOGA	1998
+CHEROKEE	1508
+CLARKE	8111
+CLAY	4815
+CLAYTON	3075
+CLINCH	2360
+COBB	6774
+COFFEE	3858
+COLQUITT	477
+COLUMBIA	8038
+COWETA	12612
+CRAWFORD	5156
+DADE	1093
+DAWSON	259
+DECATUR	10811
+DEKALB	5974
+DODGE	5309
+DOOLY	8914
+DOUGHERTY	10231
+DOUGLAS	1801
+EARLY	6122
+ECHOLS	1020
+EFFINGHAM	2210
+ELBERT	7884
+EMANUEL	5306
+FANNIN	112
+FAYETTE	3074
+FLOYD	10414
+FORSYTH	1288
+FRANKLIN	3298
+FULTON	35397
+GILMER	69
+GLASCOCK	1168
+GLYNN	7741
+GORDON	1727
+GREENE	11719
+GWINNETT	2996
+HABERSHAM	1589
+HALL	2767
+HANCOCK	12410
+HARALSON	1117
+HARRIS	10797
+HART	2957
+HEARD	3342
+HENRY	7591
+HOUSTON	16341
+IRWIN	2075
+JACKSON	5396
+JASPER	8487
+JEFFERSON	10763
+JOHNSON	1456
+JONES	8778
+LAURENS	6093
+LEE	7642
+LIBERTY	8673
+LINCOLN	3673
+LOWNDES	7974
+LUMPKIN	414
+McDUFFIE	5522
+McINTOSH	5212
+MACON	9181
+MADISON	3662
+MARION	4261
+MERIWETHER	11538
+MILLER	1574
+MILTON (ext)	672
+MITCHELL	6106
+MONROE	12516
+MONTGOMERY	3658
+MORGAN	10997
+MURRAY	484
+MUSCOGEE	15362
+NEWTON	7164
+OCONEE	3832
+OGLETHORPE	11264
+PAULDING	1505
+PICKENS	349
+PIERCE	1983
+PIKE	8077
+POLK	4654
+PULASKI	10001
+PUTNAM	10903
+QUITMAN	3050
+RABUN	166
+RANDOLPH	9473
+RICHMOND	22818
+ROCKDALE	2686
+SCHLEY	3205
+SCREVEN	7507
+SPALDING	7281
+STEWART	11484
+SUMTER	15098
+TALBOT	9239
+TALIAFERRO	4827
+TATTNALL	3115
+TAYLOR	4068
+TELFAIR	2335
+TERRELL	9169
+THOMAS	15028
+TOWNS	74
+TROUP	13661
+TWIGGS	5447
+UNION	165
+UPSON	6123
+WALKER	1932
+WALTON	7155
+WARE	3619
+WARREN	6756
+WASHINGTON	14925
+WAYNE	2195
+WEBSTER	3272
+WHITE	662
+WHITFIELD	1930
+WILCOX	3155
+WILKES	12464
+WILKINSON	5214
+WORTH	4176
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

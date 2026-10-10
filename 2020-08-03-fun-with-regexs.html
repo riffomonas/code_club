@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Fun with regular expressions in sed and grep</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-08-03-fun-with-regexs">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="fun-with-regular-expressions-in-sed-and-grep">Fun with regular expressions in sed and grep</h1>
+
+  <p class="meta">August 3, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    7 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Fun with regular expressions in sed and grep" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-08-03-fun-with-regexs&text=Fun with regular expressions in sed and grep&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Since starting this project 10 episodes ago, we have yet to really leave the command line interface. You’ve learned a lot of bash syntax - <code class="language-plaintext highlighter-rouge">mkdir</code>, <code class="language-plaintext highlighter-rouge">cd</code>, <code class="language-plaintext highlighter-rouge">ls</code>, <code class="language-plaintext highlighter-rouge">pwd</code>, <code class="language-plaintext highlighter-rouge">touch</code>, <code class="language-plaintext highlighter-rouge">rm</code>, <code class="language-plaintext highlighter-rouge">rmdir</code>, <code class="language-plaintext highlighter-rouge">nano</code>, <code class="language-plaintext highlighter-rouge">git</code>, <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">sed</code>, <code class="language-plaintext highlighter-rouge">|</code>, <code class="language-plaintext highlighter-rouge">if</code>, <code class="language-plaintext highlighter-rouge">mv</code>, and probably a few others. If you have all those down, then you’re in great shape and are likely seeing the value of using these bash commands to automate a reproducible workflow. But, if these still seem a bit challenging to you, don’t fret! We’re going to spend a few more episodes in bash to strengthen our familiarity with these commands and my general workflow.</p>
+
+<p>In today’s episode, we’ll see many of those commands and some new ones to help solve a problem I found in our analysis. In the last two episodes, we used special patterns called “regular expressions” with <code class="language-plaintext highlighter-rouge">sed</code> to extract information from our file names and paths. If you did the exercises in the <code class="language-plaintext highlighter-rouge">sed</code> episode, I showed how you can run <code class="language-plaintext highlighter-rouge">sed</code> on the contents of a file rather than its name. But, <code class="language-plaintext highlighter-rouge">sed</code> isn’t the only place that we can use regular expressions in bash. There’s another, probably more popular tool called <code class="language-plaintext highlighter-rouge">grep</code> where we can use regular expressions. Heck, the name <a href="https://en.wikipedia.org/wiki/Grep">grep is short for</a> “globally search for a regular expression and print matching lines”.</p>
+
+<p>After the last episode, I was looking back through our files and noticed that mothur had changed our sequence names because the names had spaces in them. Have I mentioned how horrible spaces are for bioinformatics work?! I also noticed that although most of our sequences start and end at the coordinates that we trimmed them to, there are a few for each region that don’t. In those cases, mothur starts the sequence with a series of periods to indicate missing data. Later on, we might decide to toss those sequences because they’re weird. I’d prefer to have those be hyphens to represent gap characters. Instead of opening these files in a text editor and replacing all the spaces with underscores or replacing the periods with hyphens, we can fix the information using <code class="language-plaintext highlighter-rouge">sed</code>. Along the way we’ll learn a few extra commands to keep things interesting. These are the commands that I often use to diagnose problems or do simple analyses of data in my files.</p>
+
+<p>Even if you’re only watching this video to learn more about bash commands and don’t know what a 16S rRNA gene is, I’m sure you’ll get a lot out of today’s video. Please take the time to follow along on your own computer and attempt the exercises. Don’t worry if you aren’t sure how to solve the exercises, at the end of the video I will provide solutions. If you haven’t been following along but would like to, please check out the notes below where you’ll find instructions on catching up, reference notes, and links to supplemental material. You can find <a href="https://github.com/SchlossLab/Schloss_rrnAnalysis_mSphere_2020">my version of the project</a> on GitHub.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/yORbSp7Fe10" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="important-things-to-remember">Important things to remember</h2>
+
+<h3 id="getting-help">Getting help</h3>
+<p>For many commands, using the command name followed by <code class="language-plaintext highlighter-rouge">--help</code> or <code class="language-plaintext highlighter-rouge">-h</code> will bring you to a help page (e.g. <code class="language-plaintext highlighter-rouge">wget --help</code>). For others, you might need to use <code class="language-plaintext highlighter-rouge">man</code> or <code class="language-plaintext highlighter-rouge">info</code> followed by the command name (e.g. <code class="language-plaintext highlighter-rouge">man grep</code> or <code class="language-plaintext highlighter-rouge">info grep</code>). Many commands will get you help by either approach with the <code class="language-plaintext highlighter-rouge">man</code>/<code class="language-plaintext highlighter-rouge">info</code> output being more complete. In the <code class="language-plaintext highlighter-rouge">man</code>/<code class="language-plaintext highlighter-rouge">info</code> interface you can use the arrow keys to work through the document line by line or the space bar scroll a page at a time.</p>
+
+<h3 id="resources-on-regular-expressions-in-bash">Resources on regular expressions in bash</h3>
+<ul>
+  <li>Bash Guide for Beginners (<a href="https://www.tldp.org/LDP/Bash-Beginners-Guide/html/chap_04.html">Chapter 4</a>)</li>
+  <li><a href="https://regexone.com">RegexOne</a></li>
+  <li><code class="language-plaintext highlighter-rouge">^</code> and <code class="language-plaintext highlighter-rouge">$</code> - anchors that match at the beginning or end of the line</li>
+  <li><code class="language-plaintext highlighter-rouge">*</code> - matches the preceding character zero or more times</li>
+  <li><code class="language-plaintext highlighter-rouge">.</code> - matches any character</li>
+  <li><code class="language-plaintext highlighter-rouge">\.</code> - matches the <code class="language-plaintext highlighter-rouge">.</code></li>
+  <li><code class="language-plaintext highlighter-rouge">\-</code> - matches the <code class="language-plaintext highlighter-rouge">-</code></li>
+  <li><code class="language-plaintext highlighter-rouge">[AC]</code> - matches either an “A” or “C” in the line</li>
+</ul>
+
+<h3 id="common-grep-arguments">Common <code class="language-plaintext highlighter-rouge">grep</code> arguments</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-c</code>: count the number of lines</li>
+  <li><code class="language-plaintext highlighter-rouge">-v</code>: return lines that don’t match</li>
+  <li><code class="language-plaintext highlighter-rouge">-E</code>: extended regular expressions</li>
+</ul>
+
+<h3 id="common-wc-arguments">Common <code class="language-plaintext highlighter-rouge">wc</code> arguments</h3>
+<ul>
+  <li>default output: number of lines, words, and characters for the specified file</li>
+  <li><code class="language-plaintext highlighter-rouge">-c</code>: count the number of characters</li>
+  <li><code class="language-plaintext highlighter-rouge">-w</code>: count the number of words</li>
+  <li><code class="language-plaintext highlighter-rouge">-l</code>: count the number of lines</li>
+</ul>
+
+<h3 id="common-headtail-arguments">Common <code class="language-plaintext highlighter-rouge">head</code>/<code class="language-plaintext highlighter-rouge">tail</code> arguments</h3>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-n</code>: number of lines to output. The default is 10</li>
+</ul>
+
+<h2 id="installations">Installations</h2>
+
+<p>If you haven’t been following along, you can get caught up by doing the following:</p>
+
+<ul>
+  <li><a href="https://itsfoss.com/install-bash-on-windows/">(windows) Install the Ubuntu Linux BASH shell for Windows 10</a></li>
+  <li>
+    <p>(mac) Install <code class="language-plaintext highlighter-rouge">homebrew</code> and <code class="language-plaintext highlighter-rouge">wget</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install wget
+</code></pre></div>    </div>
+  </li>
+  <li>To get to where we are at the beginning of this episode (you won’t have the same issue numbers at Pat)…
+    <ul>
+      <li>Set up a <a href="https://www.github.com">GitHub</a> account</li>
+      <li>Create a new <a href="https://github.com/new">GitHub repository</a>
+        <ul>
+          <li>Call it “Schloss_rrnAnalysis_XXXX_2020” (feel free to use your own last name)</li>
+          <li>Make it Public</li>
+          <li>Don’t check the box next to “Initialize this repository with a README”</li>
+          <li>Click the green “Create repository” button</li>
+        </ul>
+      </li>
+      <li>
+        <p>Go to your command line and enter the following replacing <code class="language-plaintext highlighter-rouge">&lt;your_github_id&gt;</code> with your GitHub user id</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@github.com:SchlossLab/Schloss_rrnAnalysis_mSphere_2020.git
+cd Schloss_rrnAnalysis_XXXX_2020
+git reset --hard 56ae068
+git remote set-url origin git@github.com:&lt;your_github_id&gt;/Schloss_rrnAnalysis_XXXX_2020.git
+git push -u origin master  
+</code></pre></div>        </div>
+      </li>
+      <li>Return to GitHub and refresh your browser</li>
+      <li>
+        <p>Within <code class="language-plaintext highlighter-rouge">Schloss_rrnAnalysis_XXXX_2020/</code> run</p>
+
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make data/v19/rrnDB.align
+make data/v4/rrnDB.align
+</code></pre></div>        </div>
+      </li>
+      <li>Then you should now be good to go</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. How many of the sequences in <code class="language-plaintext highlighter-rouge">data/v19/rrnDB.align</code> have ambiguous bases (i.e. Ns) in them?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>grep -v “&gt;” data/v19/rrnDB.align | grep -c “N”
+grep -v “&gt;” data/v19/rrnDB.align | grep “N” | wc -l</p>
+</div>
+
+<p>2. How many of the full length sequences in <code class="language-plaintext highlighter-rouge">data/v19/rrnDB.align</code> contain the standard forward primer to amplify the V3 region (CCTACGGGAGGCAGCAG) or the V4 region (GTGCCAGCMGCCGCGGTAA)? Feel free to use <code class="language-plaintext highlighter-rouge">.</code> to represent the degenerate bases. Remember that the <code class="language-plaintext highlighter-rouge">*</code> represents the previous character occurring zero or more times. As a bonus, see if you can figure out how to modify your regular expression to represent <a href="https://www.bioinformatics.org/sms/iupac.html">degenerate bases</a>.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>grep “C-<em>C-</em>T-<em>A-</em>C-<em>G-</em>G-<em>G-</em>A-<em>G-</em>G-<em>C-</em>A-<em>G-</em>C-<em>A-</em>G” data/v19/rrnDB.align | wc -l
+grep “G-<em>T-</em>G-<em>C-</em>C-<em>A-</em>G-<em>C-</em>.-<em>G-</em>C-<em>C-</em>G-<em>C-</em>G-<em>G-</em>T-<em>A-</em>A” data/v19/rrnDB.align | wc -l
+grep “G-<em>T-</em>G-<em>C-</em>C-<em>A-</em>G-<em>C-</em>[AC]-<em>G-</em>C-<em>C-</em>G-<em>C-</em>G-<em>G-</em>T-<em>A-</em>A” data/v19/rrnDB.align | wc -l</p>
+</div>
+
+<p>3. The fasta sequence headers contain five fields separated by pipe characters (i.e. <code class="language-plaintext highlighter-rouge">|</code>). Can you generate a file that contains the five fields separated by commas (i.e. <code class="language-plaintext highlighter-rouge">,</code>)? Be sure to remove the <code class="language-plaintext highlighter-rouge">&gt;</code>. To stretch yourself, figure out how to give the five fields names without using a text editor.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>echo “organism_name,genome_accession,sequence_accession,chromosome,genome_coordiantes” &gt; header_table.csv
+grep “&gt;” data/v19/rrnDB.align | sed “s/|/,/g” | sed “s/&gt;//” » header_table.csv</p>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
