@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Converting a stacked bar plot to something better (CC427)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-05-27-experiment-livestream">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="converting-a-stacked-bar-plot-to-something-better-cc427">Converting a stacked bar plot to something better (CC427)</h1>
+
+  <p class="meta">May 27, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    4 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Converting a stacked bar plot to something better (CC427)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-05-27-experiment-livestream&text=Converting a stacked bar plot to something better (CC427)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <ul>
+  <li>The article discussed: https://www.nature.com/articles/s41564-026-02350-2</li>
+  <li>
+    <p>Related critique: https://youtu.be/g8wdteeviao</p>
+  </li>
+  <li>Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min</li>
+  <li>My newsletter: https://shop.riffomonas.org/youtube</li>
+  <li>Recorded workshops: https://riffomonas.org/workshops/</li>
+  <li>
+    <p>If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22</p>
+  </li>
+  <li>
+    <p>packages: tidyverse, readxl, ggplot2, dplyr, purrr, broom</p>
+  </li>
+  <li>functions: aes, annotate, as.numeric, case_when, coord_cartesian, distinct, download.file, element_blank, element_line, element_rect, element_text, everything, facet_wrap, factor, filter, geom_line, geom_polygon, geom_segment, geom_text, ggplot, ggsave, if_else, inner_join, kruskal.test, labs, length, levels, library, map, map_dbl, margin, max, median, mutate, nest, p.adjust, pairwise.wilcox.test, paste, pivot_longer, pivot_wider, read_excel, rep, scale_color_identity, scale_x_continuous, scale_y_continuous, select, separate_wider_delim, seq, theme, theme_classic, tidy, unit, unnest, wilcox.test</li>
+</ul>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/Q9f7JQhl644" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(readxl)
+library(broom)
+
+download.file("https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-026-02350-2/MediaObjects/41564_2026_2350_MOESM6_ESM.xlsx",
+              "fig_3.xlsx")
+
+taxa &lt;- c("Akkermansiaceae", "Atopobiaceae", "Bacteroidaceae",
+          "Bifidobacteriaceae", "Desulfovibrionaceae", "Enterobacteriaceae",
+          "Erysipelatoclostridiaceae", "Erysipelotrichaceae", "Lachnospiraceae",
+          "Lactobacillaceae", "Muribaculaceae", "Oscillospiraceae",
+          "Peptostreptococcaceae", "Prevotellaceae", "Rikenellaceae", 
+          "Ruminococcaceae", "Streptococcaceae", "Sutterellaceae",
+          "Tannerellaceae", "Uncultured", "Others")
+
+mouse &lt;- rep(1:8, length(taxa))
+col_names &lt;- c("treatment", 
+               paste(rep(taxa, each = 8), mouse, sep = "_"))
+
+dodge &lt;- 0.2
+
+d &lt;- read_excel("fig_3.xlsx", sheet = "Fig. 3f", range = "C4:FO11",
+           col_names = col_names) %&gt;%
+  mutate(time = rep(c("Before", "After"), each = 4), .before = everything()) %&gt;%
+  pivot_longer(cols = -c(time, treatment),
+               names_to = "family_mouse", values_to = "rel_abund") %&gt;%
+  separate_wider_delim(family_mouse, delim = "_", 
+                       names = c("family", "mouse")) %&gt;%
+  mutate(treatment = factor(treatment, 
+                            levels = c("Ctrl", "Acr", "Abx", "Abx+Acr"),
+                            labels = c("Ctrl", "Acr", "Abx", "Abx+\nAcr")))
+
+### pairwise comparisons
+
+p &lt;- d %&gt;%
+  pivot_wider(names_from = time, values_from = rel_abund) %&gt;%
+  nest(data = -c(treatment, family)) %&gt;%
+  mutate(test = map(.x = data,
+                    ~wilcox.test(.x$Before, .x$After, paired = TRUE) %&gt;%
+                      tidy()),
+         diff = map_dbl(.x = data, ~median(.x$After - .x$Before))) %&gt;%
+  unnest(test) %&gt;%
+  mutate(p.value = p.adjust(p.value, method = "BH"), .by = treatment) %&gt;%
+  mutate(color = case_when(p.value &lt; 0.05 &amp; diff &lt; 0 ~ "blue",
+                           p.value &lt; 0.05 &amp; diff &gt; 0 ~ "red",
+                           TRUE ~ "gray")) %&gt;%
+  select(treatment, family, color)
+  
+### difference of differences
+
+dd &lt;- d %&gt;%
+  pivot_wider(names_from = time, values_from = rel_abund) %&gt;%
+  mutate(diff = After - Before) %&gt;%
+  select(treatment, family, diff, After, Before) %&gt;%
+  nest(data = -family) %&gt;%
+  mutate(test = map(data, ~kruskal.test(.x$diff, g = .x$treatment) %&gt;%
+                      tidy()),
+         max = map_dbl(data, ~max(c(.x$After, .x$Before)))) %&gt;%
+  unnest(test) %&gt;%
+  mutate(p.kruskal = p.adjust(p.value, method = "BH")) %&gt;%
+  select(family, data, p.kruskal, max) %&gt;%
+  mutate(test = map(data, ~pairwise.wilcox.test(.x$diff, .x$treatment,
+                                                p.adjust.method = "BH") %&gt;%
+                      tidy())) %&gt;%
+  unnest(test) %&gt;%
+  select(family, p.kruskal, group1, group2, p.pw = p.value, max) %&gt;%
+  mutate(group1 = factor(group1,
+                         levels = c("Ctrl", "Acr", "Abx", "Abx+\nAcr")) %&gt;%
+           as.numeric(),
+         group2 = factor(group2,
+                         levels = c("Ctrl", "Acr", "Abx", "Abx+\nAcr")) %&gt;%
+           as.numeric(),
+         y = case_when(group1 == 4 &amp; group2 == 2 ~ max + 0.09,
+                       group1 == 3 &amp; group2 == 2 ~ max + 0.06,
+                       group1 == 4 &amp; group2 == 3 ~ max + 0.03,
+                       TRUE ~ 0)) %&gt;%
+  filter(group1 != 1 &amp; group2 != 1) %&gt;%
+  filter(p.kruskal &lt; 0.05 &amp; p.pw &lt; 0.05)
+
+
+
+
+d %&gt;%
+  inner_join(., p, by = c("treatment", "family")) %&gt;%
+  filter(treatment != "Ctrl") %&gt;%
+  filter(family != "Others") %&gt;%
+  mutate(x = as.numeric(treatment),
+         x = if_else(time == "Before", x - dodge, x + dodge)) %&gt;%
+  # filter(family == "Bacteroidaceae") %&gt;%
+  ggplot(aes(x = x, y = rel_abund, color = color,
+             group = paste(mouse, treatment))) +
+  geom_line(linewidth = 0.3) +
+  geom_text(data = d %&gt;% distinct(family) %&gt;% filter(family != "Others"), 
+            mapping = aes(label = family),
+            x = 3, y = 0.76, color = "black", size = 6, size.unit = "pt",
+            inherit.aes = FALSE) +
+  geom_segment(data = filter(dd, family != "Others"),
+               mapping = aes(x = group1, xend = group2, y = y),
+               linewidth = 0.3,
+               inherit.aes = FALSE) +
+  facet_wrap(~family, ncol = 5) +
+  labs(x = NULL, y = "Relative abundance (%)") +
+  scale_color_identity() +
+  scale_x_continuous(
+    breaks = 2:4,
+    labels = levels(d$treatment)[-1]
+  ) +
+  scale_y_continuous(
+    breaks = seq(0, 0.6, 0.2),
+    labels = seq(0, 60, 20)
+  ) +
+  coord_cartesian(ylim = c(-0.02, 0.8), xlim = c(1.5, 4.5),
+                  expand = FALSE, clip = "off") +
+  theme_classic() +
+  theme(
+    axis.text = element_text(size = 6),
+    axis.text.y = element_text(margin = margin(r = 1)),
+    axis.title = element_text(size = 7),
+    
+    axis.line = element_blank(),
+    axis.ticks = element_line(linewidth = 0.2),
+    axis.ticks.length.y = unit(2, "pt"),
+    
+    strip.text = element_blank(),
+    strip.background = element_blank(),
+    
+    panel.background = element_rect(color = "black", linewidth = 0.2),
+    panel.spacing = unit(1, "pt"),
+    
+    plot.margin = margin(2, 1, 2, 1)
+  )# +
+  # annotate(layout = 3,
+  #          geom = "polygon",
+  #          x = c(1.5, 4.5, 4.5, 1.5),
+  #          y = c(-0.02, -0.02, 0.8, 0.8), color = "red", fill = NA)
+
+
+ggsave("fig_3f_refactor.png", width = 5, height = 4)  
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

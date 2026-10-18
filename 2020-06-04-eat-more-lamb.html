@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Eat more lamb!</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-06-04-eat-more-lamb">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="eat-more-lamb">Eat more lamb!</h1>
+
+  <p class="meta">June 4, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    18 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Eat more lamb!" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-06-04-eat-more-lamb&text=Eat more lamb!&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>On our farm I have about 40 ewes - female sheep that we keep year after year to produce more sheep. Most sheep are born between January and May and sold in the following fall. Those animals that are under a year old are called lambs and are generally sold when they’re 60 to 130 pounds. This is generally what people eat. In the US, anything older is considered “mutton” and has an undeserved bad reputation associated with its taste. Because mutton was often sold as lamb, lamb consumption really fell throughout the 1900’s relative to other animal proteins like beef, pork, and chicken. Surprisingly, most of the lamb that Americans eat is actually from Australia and New Zealand, not the United States. To counteract all of these trends, the lamb industry has made a big push for producers to increase the size of their flocks to grow the industry. Has this been effective? What effect has COVID-19 had on the number of lambs sold? Over the past 5 years, <a href="https://www.uproducers.com/livestock-marketing/market-results/">my local livestock auction</a> in <a href="https://goo.gl/maps/jJgd8vRDXP7HGEL59">Manchester, MI</a> has been posting the number of lambs they have sold along with the price range for various sized lambs and older sheep. When the new data are posted each week, I copy the data into a <a href="https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit?usp=sharing">Google sheet (it’s publically viewable)</a> so that I can look for trends in things like the numbers of lambs sold and when I can get the best prices. The USDA also posts these types of data for larger markets. Because I live about 30 minutes from Manchester and they cater to a unique blend of traditional and Muslim markets, I’m most interested in the local data.</p>
+
+<p>For today’s Code Club, we’ll use the <code class="language-plaintext highlighter-rouge">googlesheets4</code> package to read that spreadsheet and we’ll see how we can use functions from the <code class="language-plaintext highlighter-rouge">ggplot2</code> package to plot the data. I have become a big fan of Google sheets because I can look at any of my sheets on my phone and I can enter data on the phone too. Also, if you use Google forms, you can export a Google sheet from the form. This can be handy if you’re collecting data in the field or from research subjects and you want to constrain the types of answers they give. That we can use R to analyze the data makes it all the better! Don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/mFrTG0LMMi8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>Today we’ll use the <code class="language-plaintext highlighter-rouge">tidyverse</code> package, but we’ll also use the <a href="https://googlesheets4.tidyverse.org"><code class="language-plaintext highlighter-rouge">googlesheets4</code></a> package. We’ll need to install it. You may also need to install <code class="language-plaintext highlighter-rouge">httpuv</code> to get <code class="language-plaintext highlighter-rouge">googlesheets4</code> to work correctly</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"googlesheets4"</span><span class="p">)</span><span class="w">
+</span><span class="n">install.packages</span><span class="p">(</span><span class="s2">"httpuv"</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">googlesheets4</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="reading-google-sheets">Reading Google sheets</h3>
+
+<p>Reading in a Google workbook is much like reading in a csv or xlsx file. We use <code class="language-plaintext highlighter-rouge">read_sheet</code> and give it the URL for the workbook we want to read in. The URL for my workbook containing the number of lambs sold is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328
+</code></pre></div></div>
+
+<p>To read it in, we use <code class="language-plaintext highlighter-rouge">read_sheet</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>When you run this command you will get a prompt either asking you how to access your Google account. Mine looks like this</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; read_sheet("https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328")
+The googlesheets4 package is requesting access to your Google account. Select a pre-authorised account or enter '0' to obtain a new token. Press Esc/Ctrl + C to abort.
+
+1: pdschloss@gmail.com
+2: pschloss@umich.edu
+
+Selection:
+</code></pre></div></div>
+
+<p>If you select 0, it will open a web page dialog to log in. Go ahead and do that. Note that if you don’t have or want a Google account, you can get this particular file by running <code class="language-plaintext highlighter-rouge">gs4_deauth()</code> before <code class="language-plaintext highlighter-rouge">read_sheet</code>. This approach works here, because anyone that has the link to the work sheet has rights to view the file.</p>
+
+<p>By default, running <code class="language-plaintext highlighter-rouge">read_sheet</code> returns the first sheet from the workbook. If we want a different sheet from the workbook, we need to use the <code class="language-plaintext highlighter-rouge">sheet</code> argument.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="o">=</span><span class="s2">"holidays"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note that there is an accompanying <a href="https://googledrive.tidyverse.org/index.html">Google drive</a> package that helps you to access your Google drive so that you can interact with it, much like you can with your local file system.</p>
+
+<p>Looking at the <code class="language-plaintext highlighter-rouge">numbers_and_prices</code> sheet from the workbook, you might notice that there is a column named <code class="language-plaintext highlighter-rouge">...11</code>. What is this? If you go back to the Google sheet you’ll notice that there is information in Column K that has information about some of the dates or other notes about what may be connected with that week’s data. I’d like to exclude that data. I can get a specific range of cells using the <code class="language-plaintext highlighter-rouge">range</code> argument. To get columns A through J, I can use <code class="language-plaintext highlighter-rouge">range="A:J"</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="o">=</span><span class="s2">"A:J"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Similarly, we can look at a subset of cells by also including the row number.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="o">=</span><span class="s2">"A1:B10"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This gets us the data in the rectangle between cells A1 and B10. Let’s focus in the date and the number of lambs sold that week</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="o">=</span><span class="s2">"A:B"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can now see a few weird things about our new data frame. Namely, the <code class="language-plaintext highlighter-rouge">Date</code> column has the date and time and is of type <code class="language-plaintext highlighter-rouge">dttm</code> rather than <code class="language-plaintext highlighter-rouge">date</code> and the <code class="language-plaintext highlighter-rouge">Total</code> column is of type <code class="language-plaintext highlighter-rouge">list</code> and each of the first 10 rows (at least) has <code class="language-plaintext highlighter-rouge">&lt;dbl [1]&gt;</code> rather than a number. To solve these problems, we need to help <code class="language-plaintext highlighter-rouge">read_sheet</code> by telling it the type of data in each of the columns and the characters we are using to indicate missing data (i.e. <code class="language-plaintext highlighter-rouge">NA</code>). We can tell <code class="language-plaintext highlighter-rouge">read_sheet</code> the columns types by using a single character code for various data types. A date would be <code class="language-plaintext highlighter-rouge">D</code>, double precision number  would be <code class="language-plaintext highlighter-rouge">d</code>, numeric would be <code class="language-plaintext highlighter-rouge">n</code>, logical would be <code class="language-plaintext highlighter-rouge">l</code>, etc. You can get a full list in the “Column specification” section of the output from running <code class="language-plaintext highlighter-rouge">?read_sheet</code>. We’ll add <code class="language-plaintext highlighter-rouge">col_types="Dd"</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="o">=</span><span class="s2">"A:B"</span><span class="p">,</span><span class="w"> </span><span class="n">col_types</span><span class="o">=</span><span class="s2">"Dd"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This command gives us the expected output, but does tell us that there are 45 warning messages. Runnig <code class="language-plaintext highlighter-rouge">warnings()</code> at the prompt shows us the message <code class="language-plaintext highlighter-rouge">In .Primitive("as.double")(x, ...) : NAs introduced by coercion</code> repeated 45 times. We can get rid of this by using the <code class="language-plaintext highlighter-rouge">na</code> argument to indicate the string that indicates NA values.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="o">=</span><span class="s2">"A:B"</span><span class="p">,</span><span class="w"> </span><span class="n">col_types</span><span class="o">=</span><span class="s2">"Dd"</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="o">=</span><span class="s2">"NA"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>There you go! We’ve read in data from a Google sheet and gotten it properly formatted.</p>
+
+<h3 id="writing-google-sheets">Writing Google sheets</h3>
+
+<p>Perhaps we’d like to now write this two column data frame back to our own Google drive. We can do this by using <code class="language-plaintext highlighter-rouge">write_sheet</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sheep_numbers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1_quMjJRBHDLQSmWQouzzyi1DOejAtCZnAeesdVyRWiQ/edit#gid=1467293328"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="o">=</span><span class="s2">"A:B"</span><span class="p">,</span><span class="w"> </span><span class="n">col_types</span><span class="o">=</span><span class="s2">"Dd"</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="o">=</span><span class="s2">"NA"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">write_sheet</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you then go look in your Google drive, you’ll see a file that has a rather weird name. To set the name of the file, you need to first create the name of the file in Google sheets, and then grab the link to that file and add it as the value for the <code class="language-plaintext highlighter-rouge">ss</code> argument in <code class="language-plaintext highlighter-rouge">write_sheet</code>.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">write_sheet</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">ss</span><span class="o">=</span><span class="s2">"https://docs.google.com/spreadsheets/d/1cycmCLHvaVuXCebhlbkiVcHylcEIX09RIMJ2o6wpsGc/edit#gid=0"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If you refresh your Google sheet, you’ll see a new tab named “sheep_numbers”. You can manually get rid of the blank tab named “Sheet1”.</p>
+
+<h3 id="generating-a-line-plot">Generating a line plot</h3>
+
+<p>Now that we have the number of sheep sold each week in the <code class="language-plaintext highlighter-rouge">sheep_numbers</code> data frame, let’s plot the data to see how the sales have varied over the past four years. We will generate the plot using the <code class="language-plaintext highlighter-rouge">ggplot2</code> package. This is a large package that we’ll only start to use in this Code Club. To build a plot with <code class="language-plaintext highlighter-rouge">ggplot2</code>, you need to tell the <code class="language-plaintext highlighter-rouge">ggplot</code> function, what your data frame is and what columns in that data frame map to various aspects of the plot. The “mapping” of data to aspects of the plot is done with the <code class="language-plaintext highlighter-rouge">mapping</code> argument, which takes as a value the output from the <code class="language-plaintext highlighter-rouge">aes</code> function, which takes as its arguments the various “<strong>aes</strong> thetics” that we want to manipulate.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This opens a plotting window with “Date” on the x-axis, “Total” on the y-axis, and a gray background with white grid lines. To visualize those data, we need to add a “geom”. There are many geoms in ggplot2, but we’ll start with <code class="language-plaintext highlighter-rouge">geom_line</code>. One of the cool things about <code class="language-plaintext highlighter-rouge">ggplot2</code> is that we <em>add</em> layers to a plot by using the <code class="language-plaintext highlighter-rouge">+</code> sign.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This gives us our line plot - very cool! You’ll notice that we got a warning message, “Removed 30 row(s) containing missing values (geom_path).” That’s because there were 30 rows with <code class="language-plaintext highlighter-rouge">NA</code> in the <code class="language-plaintext highlighter-rouge">Total</code> column. We can move on. To further illustrate the adding nature of <code class="language-plaintext highlighter-rouge">ggplot2</code>, let’s add a theme (check out the earlier Code Club on <a href="/code_club/2020-05-07-fun-with-themes"><code class="language-plaintext highlighter-rouge">ggplot2</code>’s themes</a>!).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Beyond changing the theme, there are attributes of the line that we can change to give the figure a different look. Reading the output of <code class="language-plaintext highlighter-rouge">?geom_line</code>, you will find a section titled, “Aesthetics”. That section lists the different aesthetics you can modify for the line. These include <code class="language-plaintext highlighter-rouge">color</code>, <code class="language-plaintext highlighter-rouge">size</code>, <code class="language-plaintext highlighter-rouge">linetype</code>, <code class="language-plaintext highlighter-rouge">alpha</code>, and <code class="language-plaintext highlighter-rouge">group</code>. We’ll briefly cover the <code class="language-plaintext highlighter-rouge">color</code> and <code class="language-plaintext highlighter-rouge">size</code> aesthetics in this Code Club, but I encourage you to play with the others to see if you can figure out what they do.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">color</code> argument takes either one of R’s named colors (see the output of <code class="language-plaintext highlighter-rouge">colors()</code>) or a hexidecimal string corresponding to the RGB code for a color. We can give the <code class="language-plaintext highlighter-rouge">color</code> argument to the <code class="language-plaintext highlighter-rouge">geom_line</code> function.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>or</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"#236790"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">size</code> argument takes a number and that number is used to scale the thickness of the line. The default size is 0.5.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can combine these values to change multiple aesthetics</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="running-a-smoothed-line-through-line-plot">Running a smoothed line through line plot</h3>
+
+<p>The data are pretty noisy! It kind of looks like the numbers increased between 2016 and 2017, but have been falling off since then. We can fit a smoothed line through the data using <code class="language-plaintext highlighter-rouge">geom_smooth</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_smooth</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The output tells us that it fit a loess function through the data. With this smoothing model, it looks like the numbers were pretty steady and then started falling after 2018. We can use a different  contrasting color by giving <code class="language-plaintext highlighter-rouge">geom_smooth</code> a <code class="language-plaintext highlighter-rouge">color</code> argument</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"dodgerblue"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I can make the line for the weekly data thinner and gray and the smoothed line thicker to help it stand out more.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Finally, we can use the <code class="language-plaintext highlighter-rouge">span</code> argument to tell <code class="language-plaintext highlighter-rouge">geom_smooth</code> how smooth to make the line. Small values (e.g. 0.1) will make the line squiggly, larger values will make it smoother (e.g. 2).</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Of course, the figure could use a title to help someone unfamiliar with the data more context about where the data came from and what we’re trying to show. But we’ve done a lot! One thing I don’t really like about the figure is the gray confidence band around the smoothed line. Exercise 2 will have you remove that band for me.</p>
+
+<h2 id="assignment">Assignment</h2>
+
+<p>1. In previous Code Clubs, we used this code chunk to download and lightly process the historic weather data from Ann Arbor, MI. Write the command to write the data frame to your own Google drive.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+
+</span><span class="n">aa_weather</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://github.com/riffomonas/generalR_data/blob/master/noaa/USC00200230.csv?raw=true"</span><span class="p">,</span><span class="w">
+	</span><span class="n">col_type</span><span class="o">=</span><span class="n">cols</span><span class="p">(</span><span class="n">TOBS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_double</span><span class="p">()))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">TOBS</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">),</span><span class="w">
+		</span><span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">),</span><span class="w">
+		</span><span class="n">day</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">day</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1976</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Go into Google sheets and create a new file called “aa_weather”. Grab the link and use it as the value for the <code class="language-plaintext highlighter-rouge">ss</code> argument</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sheet_write</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span><span class="w"> </span><span class="n">ss</span><span class="o">=&lt;</span><span class="n">really</span><span class="w"> </span><span class="n">long</span><span class="w"> </span><span class="n">url</span><span class="o">&gt;</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>2. Look at the help page for <code class="language-plaintext highlighter-rouge">geom_smooth</code> and see if you can figure out how to get rid of the confidence interval around the curve and how you can make the curve a different color.</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>The argument and value you want to give <code class="language-plaintext highlighter-rouge">geom_smooth</code> is <code class="language-plaintext highlighter-rouge">se=FALSE</code></p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ggplot</span><span class="p">(</span><span class="n">sheep_numbers</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">Total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_line</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">span</span><span class="o">=</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+	</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>3. Find and plot the total number of lambs sold in each year that I have data. <strong>Hint:</strong> you can use the <code class="language-plaintext highlighter-rouge">year</code> function from the <code class="language-plaintext highlighter-rouge">lubridate</code> package to get the year from a date</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>This exercise requires you to remember how to use the <code class="language-plaintext highlighter-rouge">mutate</code>, <code class="language-plaintext highlighter-rouge">group_by</code>, and <code class="language-plaintext highlighter-rouge">summarize</code> functions that we covered in earlier Code Clubs in addition to the <code class="language-plaintext highlighter-rouge">year</code> function.</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+
+</span><span class="n">sheep_numbers</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">Date</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">annual_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">Total</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">2015</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">2020</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#these are partial years</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">annual_total</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>4. I also keep records of my sheep pedigrees, weights, health status, and other information in a <a href="https://docs.google.com/spreadsheets/d/1TVl_h7oUZ-J0Q5LTSz2dWkAxPQ70su2bDY2MEWkXbSg/edit?usp=sharing">Google sheet</a>. In the “weights” tab are the weights of my sheep in pounds over their lives. My longest serving ewe has the eartag 1211. Can you plot her weight over time?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>This exercise requires you to remember how to use the <code class="language-plaintext highlighter-rouge">filter</code> function that we covered in earlier Code Clubs.</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">read_sheet</span><span class="p">(</span><span class="s2">"https://docs.google.com/spreadsheets/d/1TVl_h7oUZ-J0Q5LTSz2dWkAxPQ70su2bDY2MEWkXbSg/edit?usp=sharing"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="o">=</span><span class="s2">"weights"</span><span class="p">,</span><span class="w"> </span><span class="n">na</span><span class="o">=</span><span class="s2">"NA"</span><span class="p">,</span><span class="w"> </span><span class="n">col_types</span><span class="o">=</span><span class="s2">"cDcd"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">eartag_n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"1211"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">weight</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">geom_line</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+		</span><span class="n">theme_classic</span><span class="p">()</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
