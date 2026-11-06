@@ -5,7 +5,7 @@ blurb: "Fun with a gradient legend"
 author: "PD Schloss"
 date: 2026-11-06 09:00
 comments: false
-youtube: 
+youtube: DpjFd1xoTAM
 start_hash: 
 end_hash: 
 ---
