@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>When is she due?</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-05-28-when-is-she-due">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="when-is-she-due">When is she due?</h1>
+
+  <p class="meta">May 28, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    12 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: When is she due?" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-05-28-when-is-she-due&text=When is she due?&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Breeding animals to produce offspring that we can market for meat is a big part of what we do on the farm. We breed sheep, pigs, and cows. If my 6 year old gets his way, we’ll be consistently breeding turkeys as well. Breeding can be as easy as putting the males in with the females and letting nature take its course. Unfortunately, this can give us “oops” babies that arrive unexpectedly during a heavy Michigan snow. To have more control, we selectively breed our animals at certain dates to optimize the females’ productivity and to market animals at certain times of the year for meet. As I’m planning my breeding program, I google the gestations times for each species of animal. These searches generally pull up a table that looks something like <a href="https://nationalswine.com/resources/docs/Swine-Gestation-Table.pdf">this</a></p>
+
+<p><img alt="pig gestation calendar" src="https://nationalswine.com/resources/docs/Swine-Gestation-Table.pdf" width="60%" style="margin: 0 auto; display: block" /></p>
+
+<p>You read this table by finding the month the sow is bred in (e.g. May), read over to the date (e.g. 28) and then look down a row in the same column to find when the sow will farrow (e.g. September 19). A handy heuristic to remember the gestation time for a sow is “3 months, 3 weeks, 3 days”. That’s not <em>exactly</em> right, but its within a day or two and is close enough for most farmers purposes. Looking up a date or two isn’t so bad. Perhaps I want to do some more long term planning like planning a sow’s year so that she farrows twice a year, 6 months apart.</p>
+
+<p>To answer these types of questions, we’ll learn about the functions in the <code class="language-plaintext highlighter-rouge">lubridate</code> package. By the end of today’s Code Club we’ll be much closer to planning out our breeding program for the pigs, sheep, and cows on my farm. Don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/zyGUKNpBeiI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">lubridate</code> package is installed with the <code class="language-plaintext highlighter-rouge">tidyverse</code> package, but it isn’t loaded with <code class="language-plaintext highlighter-rouge">tidyverse</code> so we need to run the <code class="language-plaintext highlighter-rouge">library</code> function on it so we can use its functions.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="iso-8601">ISO 8601</h3>
+
+<p>The first topic to quickly discuss is how we format dates. Every country in the world uses the wrong format to represent a date. Before proceeding, write down today’s date. I bet you came up with things like “May 28, 2020”, “28 May 2020”, “5/28/2020”, “28/5/2020”, “5/28/20” or some variation on these. If we were in January, then you might use “Jan” or “January” to represent the date. All of this becomes a challenge on a date like February 3rd. If we write the date as “2/3/2020”, without additional information, it is unclear whether that is February 3rd or March 2nd. To get around this problem, <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> was created. The standard date format would write today’s date as “2020-05-28” or “YYYY-MM-DD” - the four digit year, two digit month, and two digit day; each value separated by a hyphen. There are functions in <code class="language-plaintext highlighter-rouge">lubridate</code> that you can use to use other formats, but that’s not the part of <code class="language-plaintext highlighter-rouge">lubridate</code> that I want to focus on today. Besides, why not emphasize good practices?! We can write a date as</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">today</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-05-28"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We don’t always need the <code class="language-plaintext highlighter-rouge">date</code> function because the <code class="language-plaintext highlighter-rouge">lubridate</code> functions generally do a good job of converting the string, “2020-05-28” to a date before doing its magic if the string is provided as an argument. We can also get today’s date using the <code class="language-plaintext highlighter-rouge">now</code> function</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">now</span><span class="p">()</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="adding-days-to-a-date">Adding days to a date</h3>
+
+<p>About a month ago on April 25th, I put two of my rams, “Big Tex” and “Pretty Boy” into the same pasture as a group of 27 ewes. My plan is to remove the rams from this group on May 30th. I need to know when I can expect the lambs will be born. This would be a relatively simple task for a gestation table like the one I showed above. The <code class="language-plaintext highlighter-rouge">lubridate</code> package has a set of functions including <code class="language-plaintext highlighter-rouge">years</code>, <code class="language-plaintext highlighter-rouge">months</code>, <code class="language-plaintext highlighter-rouge">weeks</code>, and <code class="language-plaintext highlighter-rouge">days</code> that will add that many units on to a date (it also has functions for dealing with time). A google search shows me that lamb gestation is generally between 142 and 152 days, so we’ll go with 147 days. With this information, I can answer my question like this</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">date</span><span class="p">(</span><span class="s2">"2020-04-25"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">147</span><span class="p">)</span><span class="w">
+</span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-05-30"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">147</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>I should expect my lambs to be born between September 15th and October 20th this fall. Perhaps I should start expecting them around September 10th to be safe.</p>
+
+<h3 id="arithmetic-with-dates">Arithmetic with dates</h3>
+
+<p>As I said above, a handy heuristic to remember the gestation time for a sow is “3 months, 3 weeks, 3 days”. That’s not <em>exactly</em> right, but its within a day or two and is close enough for the actual gestation period length of 114 days. We saw our boar, Wilbur, mount our sow, TT, on April 7th. When should we expect her to farrow (i.e. deliver piglets)? Hopefully, you can see what I did above and generalize to this problem.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-04-07"</span><span class="p">)</span><span class="w">
+</span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weeks</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This tells me that we can expect piglets to be born on July 31st. The actual gestation period is 114 days. What would that date be?</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">date</span><span class="p">(</span><span class="n">breed_date</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">114</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>July 30th. Pretty close, eh?</p>
+
+<p>Returning to the heuristic, how many days are in “3 months, 3 weeks, 3 days”? We could do this by manually adding the days in each month and in a week, but that wouldn’t help us to learn <code class="language-plaintext highlighter-rouge">lubridate</code> very well. Also, some months have 30 days, some 30, and one usually has 28 days, but sometimes has 29. The lubridate <code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">month</code>, and <code class="language-plaintext highlighter-rouge">days</code> functions has all that built in. We can find the number of days in the heuristic for any day of the year by subtracting out the breeding date.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">date</span><span class="p">(</span><span class="n">breed_date</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weeks</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="n">breed_date</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Alternatively, we could use <code class="language-plaintext highlighter-rouge">difftime</code> by giving it the start and end dates and desired output units as arguments</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weeks</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w">
+</span><span class="n">difftime</span><span class="p">(</span><span class="n">due_date</span><span class="p">,</span><span class="w"> </span><span class="n">breed_date</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="s2">"days"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That shows us a gestation period of 115 days, which as we’ve already seen is a day longer than the “true” gestation period. Let’s try a different breeding date</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-02-07"</span><span class="p">)</span><span class="w">
+</span><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weeks</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w">
+</span><span class="n">difftime</span><span class="p">(</span><span class="n">due_date</span><span class="p">,</span><span class="w"> </span><span class="n">breed_date</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="s2">"days"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>114 days - we have a leap year this year. It would have been 113 days if we chose “2019-02-07” as the breeding date.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-03-07"</span><span class="p">)</span><span class="w">
+</span><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weeks</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w">
+</span><span class="n">difftime</span><span class="p">(</span><span class="n">due_date</span><span class="p">,</span><span class="w"> </span><span class="n">breed_date</span><span class="p">,</span><span class="w"> </span><span class="n">units</span><span class="o">=</span><span class="s2">"days"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The heuristic is only a day or two longer than the actual breeding date and works pretty well when we don’t have easy access to R or a gestation table!</p>
+
+<h3 id="back-dating-breeding-times">Back dating breeding times</h3>
+
+<p>We once had a couple of cows calve in January. It wasn’t much fun. We don’t have enough barn space for them and they’re a lot harder to handle than a ewe or a sow. I’d like to make sure that I don’t have any cows born before March 1 of 2021. If a cow’s gestation period is 283 days, what’s the earliest I should consider breeding them? This question isn’t really much different from figuring out the due date from the breeding date. Instead of using addition, we can use subtraction.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2021-03-01"</span><span class="p">)</span><span class="w">
+</span><span class="n">due_date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">283</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For this year, it looks like I’m safe to breed the cows since we’re past May 22nd.</p>
+
+<p>Hopefully, you feel more comfortable using some of the lubridate functions that allow us to add or subtract time from a date. Are you ready to answer some questions using these new skills?</p>
+
+<h2 id="assignment">Assignment</h2>
+
+<p>1. How many days were the rams in with the ewes?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">difftime</span><span class="p">(</span><span class="s2">"2020-05-30"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2020-04-25"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># or</span><span class="w">
+
+</span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-05-30"</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-04-25"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>Ewes ovulate every 17-19 days so this gives each ewe two times to be bred.</p>
+</div>
+
+<p>2. We want piglets born after January 10 so my kids can have pigs to show for our local 4-H fair at the end of July. When should we expose the sows to the boar?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-01-10"</span><span class="p">)</span><span class="w">
+</span><span class="n">due_date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">114</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>September 18th.</p>
+</div>
+
+<p>3. After the ewes that are being exposed have their lambs, they will nurse their lambs for 9 weeks after their due date. I then give them a recovery period to gain some weight before being bred again. If I want the ewes to deliver lambs every 8 months, how much recovery time should I give the ewes?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first_breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">date</span><span class="p">(</span><span class="s2">"2020-04-25"</span><span class="p">)</span><span class="w">
+</span><span class="n">first_due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">147</span><span class="p">)</span><span class="w">
+</span><span class="n">first_wean_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_due_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">weeks</span><span class="p">(</span><span class="m">9</span><span class="p">)</span><span class="w">
+
+</span><span class="n">second_due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_due_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">8</span><span class="p">)</span><span class="w">
+</span><span class="n">second_breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">second_due_date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">147</span><span class="p">)</span><span class="w">
+
+</span><span class="n">recovery_period</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">difftime</span><span class="p">(</span><span class="n">second_breed_date</span><span class="p">,</span><span class="w"> </span><span class="n">first_wean_date</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>I can give them just over a month to recover before trying to breed them again. Of course, if there are ewes that use the full 35 days to get bred, their lambs will be quite a bit younger at the time of weaning. As a management strategy, we might decide it would be better to only give them 18 days to get bred if we have a lot of younger lambs at weaning time.</p>
+</div>
+
+<p>4. The “3 months, 3 weeks, 3 days” heuristic is pretty catchy. Can you come up with a similar heuristic for sheep and cows?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <p>Let’s start with cows at 283 days</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
+</span><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">9</span><span class="p">)</span><span class="w">
+</span><span class="n">difftime</span><span class="p">(</span><span class="n">due_date</span><span class="p">,</span><span class="w"> </span><span class="n">breed_date</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">283</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>9 months and 9 days works pretty nicely for cow!</p>
+
+  <p>Now for sheep at 147 days</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">breed_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">now</span><span class="p">()</span><span class="w">
+</span><span class="n">due_date</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">breed_date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">months</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">days</span><span class="p">(</span><span class="m">5</span><span class="p">)</span><span class="w">
+</span><span class="n">difftime</span><span class="p">(</span><span class="n">due_date</span><span class="p">,</span><span class="w"> </span><span class="n">breed_date</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">147</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>5 months minus 5 days works well for sheep!</p>
+</div>
+
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

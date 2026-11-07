@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>How to convert heat maps to a jittered dot plot in R using ggplot2 and patchwork (CC384)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-11-19-hydrogenase-refactor">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="how-to-convert-heat-maps-to-a-jittered-dot-plot-in-r-using-ggplot2-and-patchwork-cc384">How to convert heat maps to a jittered dot plot in R using ggplot2 and patchwork (CC384)</h1>
+
+  <p class="meta">November 19, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    16 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: How to convert heat maps to a jittered dot plot in R using ggplot2 and patchwork (CC384)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-11-19-hydrogenase-refactor&text=How to convert heat maps to a jittered dot plot in R using ggplot2 and patchwork (CC384)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat converts a heat map to a jittered dot plot to make the visualization more interpretable in R using the ggplot2 and patchwork packages. The original heatmaps were included as part of an article published in Nature Microbiology. He created the figure using R, ggplot2, showtext, ggtext, and other tools from the tidyverse. The functions he used from these packages included aes, arrange, case_when, coord_cartesian, download.file, drop_na, element_blank, element_line, element_markdown, element_text, facet_grid, factor, filter, geom_jitter, geom_tile, geom_vline, ggplot, ggsave, if_else, inner_join, labs, library, margin, median, mutate, pivot_longer, pivot_wider, plot_layout, position_jitter, pull, read_excel, recode, rename_all, scale_fill_viridis_c, scale_x_log10, select, set.seed, stat_summary, str_detect, sum, summarize, theme, and theme_classic. The newsletter describing this visualization at a 30,000 ft view can be <a href="https://shop.riffomonas.org/posts/what-s-the-most-important-part-of-your-plot-make-sure-it-s-mapped-to-the-axes">found here</a>. You can find the original article presenting the <a href="https://www.nature.com/articles/s41564-025-02154-w">figure here</a>. <a href="https://youtu.be/x7Vey8hFxW4">Here’s a video</a> critiquing the original plot. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/QuJFET3MUqk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">
+
+</span><span class="n">set.seed</span><span class="p">(</span><span class="m">19760620</span><span class="p">)</span><span class="w">
+
+</span><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-025-02154-w/MediaObjects/41564_2025_2154_MOESM11_ESM.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="s2">"source_data_fig1.xlsx"</span><span class="p">)</span><span class="w">
+</span><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-025-02154-w/MediaObjects/41564_2025_2154_MOESM4_ESM.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="s2">"supplementary_data_1.xlsx"</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># metag %&gt;%</span><span class="w">
+</span><span class="c1">#   mutate(cpg = if_else(cpg &gt; 1, 1, cpg)) %&gt;%</span><span class="w">
+</span><span class="c1">#   ggplot(aes(x = sample, y = gene, fill = cpg)) +</span><span class="w">
+</span><span class="c1">#   geom_tile() +</span><span class="w">
+</span><span class="c1">#   scale_fill_viridis_c(direction = -1)</span><span class="w">
+
+</span><span class="n">metag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"source_data_fig1.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fig 1a - Stool MetaG cpg"</span><span class="p">,</span><span class="w">
+                         </span><span class="n">col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"numeric"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"cpg"</span><span class="p">,</span><span class="w"> </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"abundance"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recode</span><span class="p">(</span><span class="w">
+    </span><span class="n">gene</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NiFe"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[NiFe]-hydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"FeFe"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[FeFe]-hydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Fe"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[Fe]-hydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"McrA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Methanogenesis (*mcrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Mcr"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Methanogenesis (*mcrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"SdhA-FrdA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Succinogenesis (*sdhA*, *frdA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AsrA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sulfidogenesis (*asrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"DsrA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sulfidogenesis (*dsrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NapA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;3&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction (*napA*, *narG*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NarG"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;3&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction (*napA*, *narG*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NirK"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction to NO (*nirK*, *nirS*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NirS"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction to NO (*nirK*, *nirS*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NorB"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO reduction to N2O (*norB*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NosZ"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"N&lt;sub&gt;2&lt;/sub&gt;O reduction (*nosZ*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NrfA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction to NH&lt;sub&gt;4&lt;/sub&gt;&lt;sup&gt;+&lt;/sup&gt; (*nrfA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NifH"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"N&lt;sub&gt;2&lt;/sub&gt; fixation (*nifH*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CooS"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Acetogenesis (*acsB*, *cooS*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AtpA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"O&lt;sub&gt;2&lt;/sub&gt; detoxification and/or aerobic&lt;br&gt;respiration (*atpA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CydA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"O&lt;sub&gt;2&lt;/sub&gt; detoxification and/or aerobic&lt;br&gt;respiration (*cydA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CcoN"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Aerobic respiration&lt;br&gt;(*ccoN*, *coxA*, *cyoA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CoxA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Aerobic respiration&lt;br&gt;(*ccoN*, *coxA*, *cyoA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CyoA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Aerobic respiration&lt;br&gt;(*ccoN*, *coxA*, *cyoA*)"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"[\\(\\[]"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">gene</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\["</span><span class="p">),</span><span class="w"> </span><span class="s2">"hydrogenase"</span><span class="p">,</span><span class="w"> </span><span class="s2">"other"</span><span class="p">),</span><span class="w">
+    </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metagenome\n(N = 100)"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">gene_order</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metag</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">median_abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">(</span><span class="n">abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">arrange</span><span class="p">(</span><span class="n">median_abundance</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pull</span><span class="p">(</span><span class="n">gene</span><span class="p">)</span><span class="w">
+
+</span><span class="n">metag_panel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metag</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_order</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="w">
+    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19760620</span><span class="p">),</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray"</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_summary</span><span class="p">(</span><span class="w">
+    </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"crossbar"</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_grid</span><span class="p">(</span><span class="n">type</span><span class="o">~</span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"CPG"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">metat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"source_data_fig1.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fig 1a- Stool MetaT RPKM"</span><span class="p">,</span><span class="w">
+                    </span><span class="n">col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"numeric"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">,</span><span class="w">
+              </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"total.RPKM"</span><span class="p">,</span><span class="w">
+              </span><span class="n">values_fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"abundance"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recode</span><span class="p">(</span><span class="w">
+    </span><span class="n">gene</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NiFe"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[NiFe]-hydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"FeFe"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[FeFe]-hydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Fe"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"[Fe]-hydrogenase"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"McrA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Methanogenesis (*mcrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Mcr"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Methanogenesis (*mcrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"SdhA-FrdA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Succinogenesis (*sdhA*, *frdA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AsrA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sulfidogenesis (*asrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"DsrA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sulfidogenesis (*dsrA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NapA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;3&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction (*napA*, *narG*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NarG"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;3&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction (*napA*, *narG*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NirK"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction to NO (*nirK*, *nirS*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NirS"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction to NO (*nirK*, *nirS*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NorB"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO reduction to N2O (*norB*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NosZ"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"N&lt;sub&gt;2&lt;/sub&gt;O reduction (*nosZ*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NrfA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"NO&lt;sub&gt;2&lt;/sub&gt;&lt;sup&gt;-&lt;/sup&gt; reduction to NH&lt;sub&gt;4&lt;/sub&gt;&lt;sup&gt;+&lt;/sup&gt; (*nrfA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"NifH"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"N&lt;sub&gt;2&lt;/sub&gt; fixation (*nifH*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CooS"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Acetogenesis (*acsB*, *cooS*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"AtpA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"O&lt;sub&gt;2&lt;/sub&gt; detoxification and/or aerobic&lt;br&gt;respiration (*atpA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CydA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"O&lt;sub&gt;2&lt;/sub&gt; detoxification and/or aerobic&lt;br&gt;respiration (*cydA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CcoN"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Aerobic respiration&lt;br&gt;(*ccoN*, *coxA*, *cyoA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CoxA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Aerobic respiration&lt;br&gt;(*ccoN*, *coxA*, *cyoA*)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"CyoA"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Aerobic respiration&lt;br&gt;(*ccoN*, *coxA*, *cyoA*)"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"[\\(\\[]"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">abundance</span><span class="p">),</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">gene</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">str_detect</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="s2">"\\["</span><span class="p">),</span><span class="w"> </span><span class="s2">"hydrogenase"</span><span class="p">,</span><span class="w"> </span><span class="s2">"other"</span><span class="p">),</span><span class="w">
+    </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Metatranscriptome\n(N = 78)"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">metat_panel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">metat</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_order</span><span class="p">),</span><span class="w">
+         </span><span class="n">abundance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">abundance</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.005</span><span class="p">,</span><span class="w"> </span><span class="n">abundance</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abundance</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="w">
+    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19760620</span><span class="p">),</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray"</span><span class="w">
+  </span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_summary</span><span class="p">(</span><span class="w">
+    </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"crossbar"</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_grid</span><span class="p">(</span><span class="n">type</span><span class="o">~</span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_log10</span><span class="p">(</span><span class="w">
+    </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2.5e-3</span><span class="p">,</span><span class="w"> </span><span class="m">9e3</span><span class="p">),</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.005</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1000</span><span class="p">),</span><span class="w">
+    </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;-1&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;0&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;1&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> 
+               </span><span class="s2">"10&lt;sup&gt;2&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;3&lt;/sup&gt;"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"RPKM"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5e-3</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">metagt_map</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"supplementary_data_1.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Transcr-Abun FuncGenes RPKM "</span><span class="p">,</span><span class="w">
+  </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A2:B81"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">rename_all</span><span class="p">(</span><span class="n">tolower</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ratio_panel</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">inner_join</span><span class="p">(</span><span class="n">metag</span><span class="p">,</span><span class="w"> </span><span class="n">metagt_map</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"sample"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"metag"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">metat</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"metat"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"sample"</span><span class="p">,</span><span class="w"> </span><span class="s2">"gene"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">abundance.y</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w">
+                      </span><span class="n">abundance.x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">abundance.y</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">7e5</span><span class="p">,</span><span class="w">
+                      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">abundance.y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">abundance.x</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span><span class="w"> </span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type.x</span><span class="p">,</span><span class="w"> </span><span class="n">abundance.x</span><span class="p">,</span><span class="w"> </span><span class="n">abundance.y</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">gene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene_order</span><span class="p">),</span><span class="w">
+         </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Ratio\n(N = 78)"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ratio</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gene</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="w">
+    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitter</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19760620</span><span class="p">),</span><span class="w">
+    </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray"</span><span class="p">,</span><span class="w">
+  </span><span class="p">)</span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">3e5</span><span class="p">),</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_summary</span><span class="p">(</span><span class="w">
+    </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">median</span><span class="p">,</span><span class="w"> </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"crossbar"</span><span class="p">,</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_grid</span><span class="p">(</span><span class="n">type</span><span class="o">~</span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_log10</span><span class="p">(</span><span class="w">
+    </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="m">1.8e6</span><span class="p">),</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span><span class="w"> </span><span class="m">10000</span><span class="p">,</span><span class="w"> </span><span class="m">1e5</span><span class="p">,</span><span class="w"> </span><span class="m">7e5</span><span class="p">),</span><span class="w">
+    </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;0&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;1&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;2&lt;/sup&gt;"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"10&lt;sup&gt;3&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;4&lt;/sup&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10&lt;sup&gt;5&lt;/sup&gt;"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"Not in&lt;br&gt;metag"</span><span class="p">),</span><span class="w">
+    </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"RPKM/CPG"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">)</span><span class="w">
+  
+
+</span><span class="n">metag_panel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">metat_panel</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ratio_panel</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">plot_layout</span><span class="p">(</span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"collect"</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.line.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w">
+    
+    </span><span class="n">axis.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w">
+    
+    </span><span class="n">axis.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_markdown</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_markdown</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.title.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-2</span><span class="p">)),</span><span class="w">
+    
+    </span><span class="n">strip.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">),</span><span class="w">
+    
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"hydrogenase_refactor.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">heigh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.5</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
