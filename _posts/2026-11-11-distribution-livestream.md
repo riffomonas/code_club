@@ -1,16 +1,14 @@
 ---
 layout: post
-title: "Recreating figures with a lot of data points with R's tidyverse (CC433)"
-blurb: "Creating a scatter plot with marginal histograms"
+title: "Recreating figures with a lot of data points with R's tidyverse (CC436)"
+blurb: "Flipping a plot to see if it looks better"
 author: "PD Schloss"
-date: 2026-11-04 09:00
+date: 2026-11-11 09:00
 comments: false
-youtube: OXij0fqYRws
+youtube: zbJsviGJ6fM
 start_hash: 
 end_hash: 
 ---
-
-Pat refactors a plot from a paper recently published in the journal *Nature* where he flips the axes and tries to make the text more readable.
 
 The article discussed: https://www.nature.com/articles/s41586-026-10803-1
 Code from this livestream: https://riffomonas.org/code_club/2026-11-11-distribution-livestream
@@ -25,7 +23,7 @@ If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-2
 
 * functions: aes, annotate, arrange, as.numeric, col_lighter, coord_cartesian, download.file, element_blank, element_line, element_markdown, element_text, facet_wrap, factor, fct_reorder, format, geom_point, geom_text, geom_vline, ggplot, ggsave, glue, if_else, is.na, labs, library, median, mutate, n, paste, pivot_longer, position_dodge, read_excel, rename, round, scale_x_log10, stat_summary, str_replace_all, summarize, theme, theme_bw
 
-> This work was supported, in part, by a grant from the National Institutes of Health (R25GM166785)
+This work was supported, in part, by a grant from the National Institutes of Health (R25GM166785)
 
 <iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/{{ page.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
