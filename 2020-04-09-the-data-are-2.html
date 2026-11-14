@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>The data is...</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-04-09-the-data-are-2">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="the-data-is">The data is...</h1>
+
+  <p class="meta">April 9, 2020 • <a href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=The data is...&iso=20200409T1500&p1=784&ah=1">15:00 Eastern</a>
+ • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    13 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: The data is..." target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-04-09-the-data-are-2&text=The data is...&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>For our next Code Club, we will continue our exploration of data collected by <a href="https://fivethirtyeight.com/features/elitist-superfluous-or-popular-we-polled-americans-on-the-oxford-comma/">Five Thirty Eight</a> that looked at how people feel about the <a href="https://knowyourmeme.com/photos/946417">oxford comma</a> and whether the word <a href="https://en.wikipedia.org/wiki/Yes_(band)">“data” is plural</a>. <a href="2020-04-02-the-data-are">Last week</a>, we began to look at these data by renaming the column titles using the <code class="language-plaintext highlighter-rouge">rename</code> function and made the values in those columns easier to work with using the <code class="language-plaintext highlighter-rouge">recode</code> function. This week we will work with the <code class="language-plaintext highlighter-rouge">count</code> and <code class="language-plaintext highlighter-rouge">filter</code> functions to identify rows in the data frame that satisfy certain requirements. We will see how we can use these two functions to subset our <code class="language-plaintext highlighter-rouge">github</code> data frame from last week and characterize the survey responses for different groups of people. You will be able to join the conversation using <a href="https://zoom.us/j/593937827?pwd=ZUxNM3M4djdBVEM4VE5DKzlGZzhLZz09">this link</a> to use Zoom. The session should last an hour. Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> and <a href="/code_club/code-of-conduct">code of conduct</a> before we get going.</p>
+
+<p>If you would like to revisit Pat’s introduction and the approach taken by several participants, you can watch this video. If you were on the call, you’ll notice a different Introduction. Pat forgot to press record the first time around:</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/sAwXtHv6sNA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+
+<p>Here’s where we ended last week. Go ahead and copy this into a new R script file in RStudio</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+
+</span><span class="n">github</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://raw.githubusercontent.com/fivethirtyeight/data/master/comma-survey/comma-survey.csv"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">rename</span><span class="p">(</span><span class="n">respondent</span><span class="o">=</span><span class="n">RespondentID</span><span class="p">,</span><span class="w">
+		</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="s2">"In your opinion, which sentence is more gramatically correct?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">heard_of_oxford</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Prior to reading about it above, had you heard of the serial (or Oxford) comma?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">care_about_oxford</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How much, if at all, do you care about the use (or lack thereof) of the serial (or Oxford) comma in grammar?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How would you write the following sentence?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">think_about_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"When faced with using the word \"data\", have you ever spent time considering if the word was a singular or plural noun?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">care_about_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"How much, if at all, do you care about the debate over the use of the word \"data\" as a singluar or plural noun?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"In your opinion, how important or unimportant is proper use of grammar?"</span><span class="p">,</span><span class="w">
+		</span><span class="n">gender</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Gender"</span><span class="p">,</span><span class="w">
+		</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Age"</span><span class="p">,</span><span class="w">
+		</span><span class="n">household_income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Household Income"</span><span class="p">,</span><span class="w">
+		</span><span class="n">education</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Education"</span><span class="p">,</span><span class="w">
+		</span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Location (Census Region)"</span><span class="w">
+	</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="o">=</span><span class="n">recode</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="s2">"It's important for a person to be honest, kind and loyal."</span><span class="o">=</span><span class="s2">"non_oxford"</span><span class="p">,</span><span class="w">
+						</span><span class="s2">"It's important for a person to be honest, kind, and loyal."</span><span class="o">=</span><span class="s2">"oxford"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="o">=</span><span class="n">recode</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="p">,</span><span class="w"> </span><span class="s2">"Some experts say it's important to drink milk, but the data is inconclusive."</span><span class="o">=</span><span class="s2">"singular"</span><span class="p">,</span><span class="w">
+							</span><span class="s2">"Some experts say it's important to drink milk, but the data are inconclusive."</span><span class="o">=</span><span class="s2">"plural"</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="count"><code class="language-plaintext highlighter-rouge">count</code></h3>
+
+<p>Last week we saw the <code class="language-plaintext highlighter-rouge">count</code> function could be used to count the number of times categorical variable values appear. For example,</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Generates a table telling us how many people chose the sentence with or without an Oxford comma. We can make the counts conditional on other variables, by including other variables separated by commas</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This information is useful, but I find <code class="language-plaintext highlighter-rouge">count</code> to be useful for helping me to remember the values for a categorical variable. For example, I’d like to know what levels of education were included in the study.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">education</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A final point that is important, but easy to forget - the output of <code class="language-plaintext highlighter-rouge">count</code> is a new data frame that will have columns for the variables you are counting along with the number of cases. The other data in <code class="language-plaintext highlighter-rouge">github</code> will not be carried into the new data frame.</p>
+
+<h3 id="filter"><code class="language-plaintext highlighter-rouge">filter</code></h3>
+
+<p>Today we’re going to cover the <code class="language-plaintext highlighter-rouge">filter</code> function. <code class="language-plaintext highlighter-rouge">filter</code> allows us to select rows from a data frame for further downstream processing. For example, we could do the following to get those respondents that use the Oxford comma</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You’ll see that the original <code class="language-plaintext highlighter-rouge">github</code> variable had 1129 rows and this filtered version has 641. You’ll also notice that the <code class="language-plaintext highlighter-rouge">oxford_or_not</code> column only has <code class="language-plaintext highlighter-rouge">oxford</code> in the first 10 rows. We can double check this using the <code class="language-plaintext highlighter-rouge">count</code> function from last week</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Let’s step back and explain what’s going on here. If we look at the argument for <code class="language-plaintext highlighter-rouge">filter</code>, we see <code class="language-plaintext highlighter-rouge">oxford_or_not == "oxford"</code>. This “asks” whether the value in the <code class="language-plaintext highlighter-rouge">oxford_or_not</code> variable for each row is <code class="language-plaintext highlighter-rouge">"oxford"</code>. The <code class="language-plaintext highlighter-rouge">==</code> is a logical equal, which asserts, “The left side is equal to the right side.” If that statement is true, then the expression is <code class="language-plaintext highlighter-rouge">TRUE</code> if not, the expression is <code class="language-plaintext highlighter-rouge">FALSE</code>. <code class="language-plaintext highlighter-rouge">filter</code> evaluates this expression for every row and when the expression is <code class="language-plaintext highlighter-rouge">TRUE</code>, the row is retained. You may recall that in the Candy Crush code club we the line, <code class="language-plaintext highlighter-rouge">filter(answer)</code>. The <code class="language-plaintext highlighter-rouge">answer</code> variable was a logical variable where every value was a <code class="language-plaintext highlighter-rouge">TRUE</code> or <code class="language-plaintext highlighter-rouge">FALSE</code>. It’s the same idea as our <code class="language-plaintext highlighter-rouge">oxford_or_not == "oxford"</code>, except <code class="language-plaintext highlighter-rouge">answer</code> already had the, um, answer.</p>
+
+<p>A number of functions can be used to generate a logical (i.e. <code class="language-plaintext highlighter-rouge">TRUE</code> or <code class="language-plaintext highlighter-rouge">FALSE</code>) value. Not all of them are a fit for this dataset, we’ll use <code class="language-plaintext highlighter-rouge">==</code> and <code class="language-plaintext highlighter-rouge">!=</code>. We’ve seen <code class="language-plaintext highlighter-rouge">==</code>, but what about <code class="language-plaintext highlighter-rouge">!=</code>? The <code class="language-plaintext highlighter-rouge">!</code> in logical operations means “not”. So, <code class="language-plaintext highlighter-rouge">!=</code> means “not equal to”. Let’s try it out…</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"oxford"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That’s effectively the same as</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"non_oxford"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Whether you use <code class="language-plaintext highlighter-rouge">==</code> or <code class="language-plaintext highlighter-rouge">!=</code> depends on how you think of your question.</p>
+
+<p>Perhaps we want to know about people that use the Oxford comma and use “data” as a plural word. We have a few approaches to this question. Using what we already know, you could use two <code class="language-plaintext highlighter-rouge">filter</code> function calls</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"plural"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The pipeline firsts filters based on whether the respondent used the Oxford comma and then on those who use data as a plural noun. We can simplify this to make a single <code class="language-plaintext highlighter-rouge">filter</code> function call</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"plural"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That works! The <code class="language-plaintext highlighter-rouge">,</code> tells <code class="language-plaintext highlighter-rouge">filter</code> that both expressions have to evaluate as <code class="language-plaintext highlighter-rouge">TRUE</code>. I prefer to use <code class="language-plaintext highlighter-rouge">&amp;</code> rather than the <code class="language-plaintext highlighter-rouge">,</code></p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"plural"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The reason I prefer to use the <code class="language-plaintext highlighter-rouge">&amp;</code> (i.e. the AND operator) is because it allows us to generate more complex queries and it is a good partner to its opposite, <code class="language-plaintext highlighter-rouge">|</code>, the OR operator. Let’s say I want a table of people who use the Oxford comma or who treat data as a plural noun</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"plural"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For the AND operator, <strong><em>both</em></strong> the left and right side of the <code class="language-plaintext highlighter-rouge">&amp;</code> must be <code class="language-plaintext highlighter-rouge">TRUE</code> for the expression to be <code class="language-plaintext highlighter-rouge">TRUE</code>. For the OR operator, <strong><em>either</em></strong> the left or right side of the <code class="language-plaintext highlighter-rouge">|</code> must be <code class="language-plaintext highlighter-rouge">TRUE</code>  for the expression to be <code class="language-plaintext highlighter-rouge">TRUE</code>. That’s why the output from the last expression doesn’t have a row for <code class="language-plaintext highlighter-rouge">non_oxford</code> / <code class="language-plaintext highlighter-rouge">singular</code>.</p>
+
+<p>Let’s ask another slightly more complicated question. Let’s generate a data frame of respondents that care about the Oxford comma “some” or “a lot” and use the Oxford comma. For these types of questions, it is helpful to use parentheses to organize our query. Remember that the stuff in parentheses is done first.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"oxford"</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">care_about_oxford</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Some"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">care_about_oxford</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"A lot"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">care_about_oxford</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Finally, remember that we can put different columns in the <code class="language-plaintext highlighter-rouge">count</code> function than those that we filtered on. Among people that have heard of the Oxford comma, how much do people care about it?</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">heard_of_oxford</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Yes"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">care_about_oxford</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="exercises">Exercises</h2>
+
+<p>1. Which geographic region was the best represented in the survey?<br />
+2. How many respondents cared about grammar?<br />
+3. Among those respondents that cared about grammar, did they have a preference for the Oxford comma or using “data” as a plural noun?<br />
+4. Come up with your own question and answer it using <code class="language-plaintext highlighter-rouge">filter</code> and <code class="language-plaintext highlighter-rouge">count</code></p>
+
+<h2 id="solution">Solution</h2>
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <ol>
+    <li>Which geographic region was the best represented in the survey?</li>
+  </ol>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>Pacific</p>
+
+  <ol>
+    <li>How many respondents cared about grammar?</li>
+  </ol>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Somewhat important"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Very important"</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>1021</p>
+
+  <ol>
+    <li>Among those respondents that cared about grammar, did they have a preference for the Oxford comma or using “data” as a plural noun?</li>
+  </ol>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Somewhat important"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">importance_of_grammar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Very important"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">,</span><span class="w"> </span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <ol>
+    <li>Come up with your own question and answer it using <code class="language-plaintext highlighter-rouge">filter</code> and <code class="language-plaintext highlighter-rouge">count</code></li>
+  </ol>
+
+  <p>Are older people more likely to use singular or plural?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w">
+
+</span><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+
+</span><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"45-60"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"&gt;60"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">singular_or_plural</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; github %&gt;%
++ count(singular_or_plural)
+# A tibble: 3 x 2
+  singular_or_plural     n
+  &lt;chr&gt;              &lt;int&gt;
+1 plural               228
+2 singular             865
+3 NA                    36
+&gt;
+&gt; github %&gt;%
++ filter(age == "45-60" | age == "&gt;60") %&gt;%
++ count(singular_or_plural)
+# A tibble: 2 x 2
+  singular_or_plural     n
+  &lt;chr&gt;              &lt;int&gt;
+1 plural                64
+2 singular             226
+&gt;
+</code></pre></div>  </div>
+
+  <p>Meh. how about the oxford comma?</p>
+
+  <div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w">
+
+</span><span class="n">github</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"45-60"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"&gt;60"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">count</span><span class="p">(</span><span class="n">oxford_or_not</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; github %&gt;%
++ count(oxford_or_not)
+# A tibble: 2 x 2
+  oxford_or_not     n
+  &lt;chr&gt;         &lt;int&gt;
+1 non_oxford      488
+2 oxford          641
+&gt;
+&gt; github %&gt;%
++ filter(age == "45-60" | age == "&gt;60") %&gt;%
++ count(oxford_or_not)
+# A tibble: 2 x 2
+  oxford_or_not     n
+  &lt;chr&gt;         &lt;int&gt;
+1 non_oxford      148
+2 oxford          142
+</code></pre></div>  </div>
+
+  <p>Older people are less likely to use the Oxford comma</p>
+
+</div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
