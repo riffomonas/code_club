@@ -11,7 +11,9 @@ end_hash:
 ---
 
 The article discussed: https://www.nature.com/articles/s41556-026-01943-7
+
 Code from this livestream: https://riffomonas.org/code_club/2026-11-18-density-color
+
 Related critique: https://youtu.be/8K0kuriEIpU
 
 Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
@@ -34,7 +36,7 @@ library(tidyverse)
 library(readxl)
 library(ggpointdensity)
 
-full_data <- read_excel("https://www.riffomonas.org/code_club/data/2026-11-18-melanocytes.xlsx",
+full_data <- read_excel("https://www.riffomonas.org/code_club/data/assets/2026-11-18-melanocytes.xlsx",
                         skip = 1, guess_max = 56000) %>%
   select(linked = Clonality, expressed = Expressed,
          classification = Call, shared = Also_in, vaf = MAF) %>%
