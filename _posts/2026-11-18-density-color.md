@@ -36,7 +36,10 @@ library(tidyverse)
 library(readxl)
 library(ggpointdensity)
 
-full_data <- read_excel("https://www.riffomonas.org/code_club/data/assets/2026-11-18-melanocytes.xlsx",
+download.file("https://www.riffomonas.org/code_club/assets/data/2026-11-18-melanocytes.xlsx",
+  "melanocytes.xlsx")
+  
+full_data <- read_excel("melanocytes.xlsx",
                         skip = 1, guess_max = 56000) %>%
   select(linked = Clonality, expressed = Expressed,
          classification = Call, shared = Also_in, vaf = MAF) %>%
