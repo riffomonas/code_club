@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Like the weather</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2020-05-14-like-the-weather">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="like-the-weather">Like the weather</h1>
+
+  <p class="meta">May 14, 2020 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    14 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Like the weather" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2020-05-14-like-the-weather&text=Like the weather&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Last Saturday (May 9th) was pretty cold here in southeastern Michigan. It was 26F (-3C) when I woke up. Although we’ve had some warm days, this Spring has felt pretty cold. Is that normal? If only we had the skills to answer such a question… In fact, we do! Today’s code club will answer this and other questions using functions we’ve already seen including <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">group_by</code>, and <code class="language-plaintext highlighter-rouge">summarize</code>. By the end of today’s Code Club we’ll know how normal Friday’s temperatures were and we’ll have a greater familiarity with using these functions. In addition, we’ll learn how to use the <code class="language-plaintext highlighter-rouge">arrange</code> and <code class="language-plaintext highlighter-rouge">top_n</code> functions to find out which previous year had the lowest temperature.</p>
+
+<p>Don’t watch the video straight through without firing up RStudio and trying the code and exercises yourself! Please be sure to see the <a href="/code_club/setup-instructions">setup instructions</a> before you get going.</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/tVKcVKORmow" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="prompt">Prompt</h2>
+<p>I used the NOAA website to track down <a href="https://www.ncdc.noaa.gov/cdo-web/datasets/GHCND/locations/CITY:US260002/detail">daily high and low temperatures</a> going back to 1891 for Ann Arbor, MI. You can find similar data for your favorite place by using the <a href="https://www.ncdc.noaa.gov/cdo-web/search">Climate Data Online Search</a> to find “Daily Summaries” datasets. Be sure to click on the specific station you want at the bottom of your location’s page that has the longest history.</p>
+
+<p>I have Ann Arbor’s data stored on GitHub and will use <code class="language-plaintext highlighter-rouge">read_csv</code> to read it in and do some small touch ups to read the data in and extract the year, month, and day from the date. We’ll get some warning messages, which we can ignore for this Code Club.</p>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">lubridate</span><span class="p">)</span><span class="w">
+
+</span><span class="n">aa_weather</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"https://github.com/riffomonas/generalR_data/blob/master/noaa/USC00200230.csv?raw=true"</span><span class="p">,</span><span class="w">
+	</span><span class="n">col_type</span><span class="o">=</span><span class="n">cols</span><span class="p">(</span><span class="n">TOBS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_double</span><span class="p">()))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">select</span><span class="p">(</span><span class="n">DATE</span><span class="p">,</span><span class="w"> </span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">TOBS</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">year</span><span class="p">(</span><span class="n">DATE</span><span class="p">),</span><span class="w">
+		</span><span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">(</span><span class="n">DATE</span><span class="p">),</span><span class="w">
+		</span><span class="n">day</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">day</span><span class="p">(</span><span class="n">DATE</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="using-the-filter-and-summarize-functions-to-find-normal-for-one-day">Using the <code class="language-plaintext highlighter-rouge">filter</code> and <code class="language-plaintext highlighter-rouge">summarize</code> functions to find normal for one day</h3>
+
+<p>My first question is how weird were Friday’s temperatures. Recall that we can use the <code class="language-plaintext highlighter-rouge">filter</code> function to retrieve rows from a data frame that match a set of specifications. Here we want the rows that correspond to the 5th month (i.e. May) and the 9th day.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">9</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We’ll see that <code class="language-plaintext highlighter-rouge">may_nineth</code> is a dataframe with 127 rows and 7 columns including each day’s high (TMAX), low (TMIN), and observed (TOBS) temperature for the day. It’s hard to look through <code class="language-plaintext highlighter-rouge">may_nineth</code> to see how typical our temperatures were. Instead, we can use the <code class="language-plaintext highlighter-rouge">summarize</code> function. Previously, we used summarize with the <code class="language-plaintext highlighter-rouge">group_by</code> function. We can also use it on non-grouped data. Let’s find the average high, low, and observed temperatures. Remember to use <code class="language-plaintext highlighter-rouge">na.rm=T</code> to ignore those temperatures where the value is <code class="language-plaintext highlighter-rouge">NA</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">ave_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">ave_obs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TOBS</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That shows us the average temperatures and the number of years of data we have. We can use <code class="language-plaintext highlighter-rouge">quantile</code> to define a range of values. To get the 95% confidence interval, we need to set the probability for the lower bound to 0.025 (i.e. 2.5%) and the upper bound to 0.975 (i.e. 97.5%) - the range is 95%. For the high temperature…</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And to get the same information for the lows we can do…</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">ave_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We get one row back because we already filtered the data to get each year’s data for May 9th. We can see that Friday’s temperatures were lower than we’d expect by the 95% confidence interval.</p>
+
+<h3 id="finding-the-historic-highs-and-lows-with-arrange-and-top_n">Finding the historic highs and lows with <code class="language-plaintext highlighter-rouge">arrange</code> and <code class="language-plaintext highlighter-rouge">top_n</code></h3>
+
+<p>What was the lowest temperature recorded on May 9th? As with anything in R, there are many ways to do this. We could use summarize</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">min_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">TMIN</span><span class="p">))</span><span class="w">
+
+</span><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">max_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">TMAX</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Using summarize with <code class="language-plaintext highlighter-rouge">min</code> or <code class="language-plaintext highlighter-rouge">max</code> returns a single number but doesn’t tell us the year. We could also use <code class="language-plaintext highlighter-rouge">arrange</code> to sort <code class="language-plaintext highlighter-rouge">may_nineth</code> by <code class="language-plaintext highlighter-rouge">TMIN</code> or <code class="language-plaintext highlighter-rouge">TMAX</code></p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">arrange</span><span class="p">(</span><span class="n">TMIN</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The previous low was -2.2C in 1947. If we want a descending sort, we need to use the <code class="language-plaintext highlighter-rouge">desc</code> function</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">arrange</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">TMAX</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The historic high for the day is 30 and was achieved in 1926, 1965, 2014, and 2015. A third approach we’ll discuss is the <code class="language-plaintext highlighter-rouge">top_n</code> function. We can add <code class="language-plaintext highlighter-rouge">top_n</code> with the column name we want to pull the top rows by along with the number of rows we want. We can also give the function a negative number of rows to get the smallest values</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">top_n</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">3</span><span class="p">)</span><span class="w">
+
+</span><span class="n">may_nineth</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">top_n</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">-3</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We see that the output isn’t sorted by <code class="language-plaintext highlighter-rouge">TMAX</code> or <code class="language-plaintext highlighter-rouge">TMIN</code> and that it may return more rows than we asked for if there are ties.</p>
+
+<h3 id="using-group_by-to-get-the-highs-and-lows-for-any-day-of-the-year">Using <code class="language-plaintext highlighter-rouge">group_by</code> to get the highs and lows for any day of the year</h3>
+<p>Aside from being cold this year, there’s nothing special about May 9th. We might want similar information for any day of the year. If we put our pipeline together this was what we had to get the ranges for May 9th over the past 127 years</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">9</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">ave_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>If we wanted to change this to get the same data for any day of the year, we can replace our <code class="language-plaintext highlighter-rouge">filter</code> function with a <code class="language-plaintext highlighter-rouge">group_by</code> on the <code class="language-plaintext highlighter-rouge">month</code> and <code class="language-plaintext highlighter-rouge">day</code> columns</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">daily_t_summary</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_high</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">ave_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_low</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMIN</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Checking that we get what we had before for May 9th, we can add a <code class="language-plaintext highlighter-rouge">filter</code> function call.</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">daily_t_summary</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">9</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Here are the temperatures for my birthday…</p>
+
+<div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">daily_t_summary</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Hopefully, you feel more comfortable using <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">group_by</code>, and <code class="language-plaintext highlighter-rouge">summarize</code> now that you’ve seen them used in a new context. Are you ready to answer some questions using these strengthened skills?</p>
+
+<h2 id="assignment">Assignment</h2>
+
+<p>1. Which year was the hottest on your birthday? Which was the hottest since you were born?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">top_n</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>I was born in 1976…</p>
+
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">1976</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">top_n</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>2. What were the hottest and coldest temperatures recorded the year you were born?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1976</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">coldest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">TMIN</span><span class="p">),</span><span class="w">
+		</span><span class="n">hottest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">TMAX</span><span class="p">))</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>3. Calculate the average high temperature for each year between 1892 and 2019 (the years we have complete data for). What was the average temperature the year you were born? Which are the coldest and hottest years we have data for (based on the annual average high temperature)?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">annual_tmax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">1892</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">year</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="m">2019</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+
+</span><span class="n">annual_tmax</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1976</span><span class="p">)</span><span class="w">
+
+</span><span class="n">annual_tmax</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">top_n</span><span class="p">(</span><span class="n">ave_tmax</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">1</span><span class="p">)</span><span class="w">
+
+</span><span class="n">annual_tmax</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">top_n</span><span class="p">(</span><span class="n">ave_tmax</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="m">-1</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>4. What is the average high temperature and 95% confidence interval for each month of the year? What is it for your birth year?</p>
+
+<p><input type="button" class="hideshow" /></p>
+<div style="display:none;">
+  <div class="language-r highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">month_tmax</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">aa_weather</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">group_by</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+	</span><span class="n">summarize</span><span class="p">(</span><span class="n">ave_tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">lci_tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.025</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">uci_tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantile</span><span class="p">(</span><span class="n">TMAX</span><span class="p">,</span><span class="w"> </span><span class="n">prob</span><span class="o">=</span><span class="m">0.975</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="o">=</span><span class="nb">T</span><span class="p">),</span><span class="w">
+		</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">())</span><span class="w">
+
+</span><span class="n">month_tmax</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="n">filter</span><span class="p">(</span><span class="n">month</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">6</span><span class="p">)</span><span class="w">
+</span></code></pre></div>  </div>
+</div>
+
+<p>5. Get the weather data for your favorite place using the approach Pat outlines in the video. What will the temperature be there on your birthday?</p>
+
+<hr />
+
+<p>Title credit: 10,000 Maniacs, <a href="https://www.youtube.com/watch?v=te7bbWBXusk">Like the Weather</a></p>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

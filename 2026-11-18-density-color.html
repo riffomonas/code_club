@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Representing density with color in jitter plots with R's ggplot2 (CC439)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-11-18-density-color">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="representing-density-with-color-in-jitter-plots-with-r-s-ggplot2-cc439">Representing density with color in jitter plots with R's ggplot2 (CC439)</h1>
+
+  <p class="meta">November 18, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    10 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Representing density with color in jitter plots with R's ggplot2 (CC439)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-11-18-density-color&text=Representing density with color in jitter plots with R's ggplot2 (CC439)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>The article discussed: https://www.nature.com/articles/s41556-026-01943-7</p>
+
+<p>Code from this livestream: https://riffomonas.org/code_club/2026-11-18-density-color</p>
+
+<p>Related critique: https://youtu.be/8K0kuriEIpU</p>
+
+<p>Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
+My newsletter: https://shop.riffomonas.org/youtube 
+Recorded workshops: https://riffomonas.org/workshops/
+If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22</p>
+
+<ul>
+  <li>
+    <p>packages: tidyverse, readxl, ggpointdensity</p>
+  </li>
+  <li>
+    <p>functions: abs, aes, annotate, as.numeric, bind_rows, case_when, coord_cartesian, drop_na, element_blank, element_line, element_text, facet_wrap, factor, filter, function, geom_density, geom_jitter, geom_pointdensity, ggplot, ggsave, if_else, labs, library, map, mutate, n, nest, position_jitter, read_excel, scale_color_viridis_c, select, sum, theme, unit, unnest</p>
+  </li>
+</ul>
+
+<p>This work was supported, in part, by a grant from the National Institutes of Health (R25GM166785)</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/Rzw4kKkhUik" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggpointdensity</span><span class="p">)</span><span class="w">
+
+</span><span class="n">download.file</span><span class="p">(</span><span class="s2">"https://www.riffomonas.org/code_club/assets/data/2026-11-18-melanocytes.xlsx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"melanocytes.xlsx"</span><span class="p">)</span><span class="w">
+  
+</span><span class="n">full_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"melanocytes.xlsx"</span><span class="p">,</span><span class="w">
+                        </span><span class="n">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">guess_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">56000</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">linked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clonality</span><span class="p">,</span><span class="w"> </span><span class="n">expressed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Expressed</span><span class="p">,</span><span class="w">
+         </span><span class="n">classification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Call</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Also_in</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAF</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">())</span><span class="w">
+
+
+</span><span class="n">all</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
+         </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"types"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">facet</span><span class="p">)</span><span class="w">
+
+</span><span class="n">linked</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">linked</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">linked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">linked</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Clonal"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"linked"</span><span class="p">,</span><span class="w">
+                            </span><span class="n">linked</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Subclonal"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"not linked"</span><span class="p">,</span><span class="w">
+                            </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w">
+         </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"types"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linked</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">facet</span><span class="p">)</span><span class="w">
+  
+</span><span class="n">expressed</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">expressed</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">expressed</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Yes"</span><span class="p">,</span><span class="w"> 
+                            </span><span class="s2">"expressed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not expressed"</span><span class="p">),</span><span class="w">
+         </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"types"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">facet</span><span class="p">)</span><span class="w">
+
+</span><span class="n">shared</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"shared"</span><span class="p">,</span><span class="w">
+         </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"types"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">facet</span><span class="p">)</span><span class="w">
+
+</span><span class="n">classification</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">full_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">classification</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">classification</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Inferred Artifact"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"artifact"</span><span class="p">,</span><span class="w">
+      </span><span class="n">classification</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Inferred Mutation"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"mutation"</span><span class="p">,</span><span class="w">
+      </span><span class="n">classification</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Invalidated"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"invalidated"</span><span class="p">,</span><span class="w">
+      </span><span class="n">classification</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Validated"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"validated"</span><span class="p">,</span><span class="w">
+      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w">
+    </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="w">
+      </span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"artifact"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"artifact"</span><span class="p">,</span><span class="w">
+      </span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"mutation"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"mutation"</span><span class="p">,</span><span class="w">
+      </span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"invalidated"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"artifact"</span><span class="p">,</span><span class="w">
+      </span><span class="n">category</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"validated"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"mutation"</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">facet</span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">count_neighbors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">){</span><span class="w">
+  
+  </span><span class="n">data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+    </span><span class="n">mutate</span><span class="p">(</span><span class="n">n_neighbors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_int</span><span class="p">(</span><span class="n">.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w">
+                                 </span><span class="o">~</span><span class="nf">sum</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span><span class="n">vaf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">.x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w">
+
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">long_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="n">all</span><span class="p">,</span><span class="w"> </span><span class="n">linked</span><span class="p">,</span><span class="w"> </span><span class="n">expressed</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">classification</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">facet</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="c1"># filter(category == "shared") %&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">n_neighbors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">count_neighbors</span><span class="p">,</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">n_neighbors</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">facet</span><span class="p">,</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">n_neighbors</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> 
+                           </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"shared"</span><span class="p">,</span><span class="w">
+                                      </span><span class="s2">"not expressed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"expressed"</span><span class="p">,</span><span class="w"> 
+                                      </span><span class="s2">"not linked"</span><span class="p">,</span><span class="w"> </span><span class="s2">"linked"</span><span class="p">,</span><span class="w">  
+                                      </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
+                                      </span><span class="s2">"invalidated"</span><span class="p">,</span><span class="w"> 
+                                      </span><span class="s2">"validated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"mutation"</span><span class="p">,</span><span class="w"> 
+                                      </span><span class="s2">"artifact"</span><span class="p">),</span><span class="w">
+                           </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Shared w/\nother cells"</span><span class="p">,</span><span class="w">
+                                      </span><span class="s2">"Not expressed"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Expressed"</span><span class="p">,</span><span class="w"> 
+                                      </span><span class="s2">"Not linked"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Linked"</span><span class="p">,</span><span class="w">  
+                                      </span><span class="s2">"All variants"</span><span class="p">,</span><span class="w">
+                                      </span><span class="s2">"Invalidated"</span><span class="p">,</span><span class="w"> 
+                                      </span><span class="s2">"Validated"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Inferred"</span><span class="p">,</span><span class="w"> 
+                                      </span><span class="s2">"Inferred"</span><span class="p">)),</span><span class="w">
+         </span><span class="n">facet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">facet</span><span class="p">,</span><span class="w">
+                        </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"types"</span><span class="p">,</span><span class="w"> </span><span class="s2">"mutation"</span><span class="p">,</span><span class="w"> </span><span class="s2">"artifact"</span><span class="p">),</span><span class="w">
+                        </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Type of variants"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Mutations"</span><span class="p">,</span><span class="w">
+                                   </span><span class="s2">"Artefacts"</span><span class="p">)))</span><span class="w">
+
+</span><span class="c1"># long_data %&gt;%</span><span class="w">
+</span><span class="c1">#   ggplot(aes(x = vaf)) +</span><span class="w">
+</span><span class="c1">#   geom_density() +</span><span class="w">
+</span><span class="c1">#   facet_wrap(~category)</span><span class="w">
+
+</span><span class="n">long_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vaf</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_neighbors</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_viridis_c</span><span class="p">(</span><span class="w">
+    </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">500</span><span class="p">,</span><span class="w"> </span><span class="m">23500</span><span class="p">),</span><span class="w">
+    </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Low"</span><span class="p">,</span><span class="w"> </span><span class="s2">"High"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">facet</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w">
+            </span><span class="n">strip.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"left"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Variant allelic frequency"</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Variant\ndensity"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.285</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.285</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+           </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-0.285</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">strip.placement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"outside"</span><span class="p">,</span><span class="w">
+    </span><span class="n">panel.spacing.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    
+    </span><span class="c1"># legend.text = element_blank(),</span><span class="w">
+    </span><span class="n">legend.ticks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">legend.title.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">,</span><span class="w">
+    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">),</span><span class="w">
+    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"right"</span><span class="p">,</span><span class="w">
+    </span><span class="n">legend.justification.right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"top"</span><span class="p">,</span><span class="w">
+    </span><span class="n">legend.key.width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">13</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">),</span><span class="w">
+    
+    </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">),</span><span class="w">
+    </span><span class="n">axis.ticks.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">axis.ticks.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray80"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.grid.minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid.major.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.grid.major.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_line</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gray80"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w">
+    </span><span class="n">panel.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    
+    </span><span class="n">strip.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">()</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># long_data %&gt;%</span><span class="w">
+</span><span class="c1">#   ggplot(aes(y = as.numeric(category), x = vaf)) +</span><span class="w">
+</span><span class="c1">#   geom_pointdensity(size = 0.1, method='neighbors',</span><span class="w">
+</span><span class="c1">#                     position = position_jitter()) +</span><span class="w">
+</span><span class="c1">#   scale_color_viridis_c()</span><span class="w">
+
+</span><span class="c1"># long_data %&gt;%</span><span class="w">
+</span><span class="c1">#   ggplot(aes(x = as.numeric(category), y = vaf)) +</span><span class="w">
+</span><span class="c1">#   geom_pointdensity(size = 0.1, method='neighbors',</span><span class="w">
+</span><span class="c1">#                     position = position_jitter()) +</span><span class="w">
+</span><span class="c1">#   scale_color_viridis_c()</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"figure_1.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.8</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

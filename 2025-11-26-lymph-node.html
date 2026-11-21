@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>How to simplify a busy set of panels from a figure in Nature in R with ggplot2 (CC386)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2025-11-26-lymph-node">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="how-to-simplify-a-busy-set-of-panels-from-a-figure-in-nature-in-r-with-ggplot2-cc386">How to simplify a busy set of panels from a figure in Nature in R with ggplot2 (CC386)</h1>
+
+  <p class="meta">November 26, 2025 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    11 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: How to simplify a busy set of panels from a figure in Nature in R with ggplot2 (CC386)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2025-11-26-lymph-node&text=How to simplify a busy set of panels from a figure in Nature in R with ggplot2 (CC386)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>Pat converts a very busy set of panels that used jittered point, bars, confidence intervals, and overly precise P-values into a simplified faceted plot in R using ggplot2. The original panels were included as part of an article published in Nature. He created the figure using R, ggplot2, ggtext, DescTools, readxl, and other tools from the tidyverse. The functions he used from these packages included aes, anova, as.character, as_tibble, bind_rows, case_when, coord_cartesian, download.file, drop_na, DunnettTest, element_blank, element_markdown, element_text, facet_grid, factor, filter, format, geom_jitter, geom_text, ggplot, ggsave, if_else, labeller, labs, library, lm, map, margin, mutate, n, names, nest, paste0, pivot_longer, pluck, position_jitter, pull, read_excel, round, scale_color_identity, scale_fill_identity, select, stat_summary, str_remove, theme, theme_classic, unit, and unnest. The newsletter describing this visualization at a 30,000 ft view can be <a href="https://shop.riffomonas.org/posts/did-you-know-you-can-do-statistics-in-r">found here</a>. You can find the original article presenting the figure <a href="https://www.nature.com/articles/s41586-025-09709-1">here</a>. <a href="https://youtu.be/0WMsCoJ8DKs">Here’s a video</a> critiquing the original plot. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/VvOwHiITfrM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">DescTools</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w">
+
+</span><span class="n">download.file</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"https://static-content.springer.com/esm/art%3A10.1038%2Fs41586-025-09709-1/MediaObjects/41586_2025_9709_MOESM5_ESM.xlsx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fig1_data.xlsx"</span><span class="w">
+</span><span class="p">)</span><span class="w">
+
+</span><span class="n">e</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"fig1_data.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fig. 1e"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A3:J33"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">(),</span><span class="w"> </span><span class="n">.before</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"B16-F0"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">replicate</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"line"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"relative_levels"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">g</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"fig1_data.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fig. 1g"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A3:J33"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">(),</span><span class="w"> </span><span class="n">.before</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"B16-F0"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">replicate</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"line"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"relative_levels"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"fig1_data.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fig. 1 i"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A3:J10"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">(),</span><span class="w"> </span><span class="n">.before</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"B16-F0"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">replicate</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"line"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"relative_levels"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"fig1_data.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Fig. 1k"</span><span class="p">,</span><span class="w"> </span><span class="n">range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"A3:J18"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">(),</span><span class="w"> </span><span class="n">.before</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"B16-F0"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">replicate</span><span class="p">,</span><span class="w"> </span><span class="n">names_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"line"</span><span class="p">,</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"relative_levels"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">protein_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">bind_rows</span><span class="p">(</span><span class="s2">"GCLC"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="s2">"FSP1"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="p">,</span><span class="w"> </span><span class="s2">"GPX4"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s2">"ACSL4"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">.id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"protein"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">drop_na</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">replicate</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">generation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"B16-F0"</span><span class="p">,</span><span class="w">
+                         </span><span class="s2">"Parental"</span><span class="p">,</span><span class="w">
+                         </span><span class="n">str_remove</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="s2">" .*"</span><span class="p">)</span><span class="w">
+                         </span><span class="p">),</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">generation</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"Parental"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
+                      </span><span class="n">generation</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"LN1"</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"#FE3FFF"</span><span class="p">,</span><span class="w">
+                      </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"#068E00"</span><span class="p">),</span><span class="w">
+    </span><span class="n">protein</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">protein</span><span class="p">,</span><span class="w"> </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"GCLC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"FSP1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"GPX4"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ACSL4"</span><span class="p">))</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">generation</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">()],</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">generation</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">generation</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"LN1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Parental"</span><span class="p">),</span><span class="w">
+                             </span><span class="s2">""</span><span class="p">,</span><span class="w">
+                             </span><span class="n">replicate</span><span class="p">)</span><span class="w">
+         </span><span class="p">)</span><span class="w">
+
+</span><span class="n">experiment_wide</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">  </span><span class="n">protein_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">protein</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">experiment_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="w">
+    
+    </span><span class="n">lm</span><span class="p">(</span><span class="n">relative_levels</span><span class="o">~</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">anova</span><span class="p">()</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">pluck</span><span class="p">(</span><span class="s2">"Pr(&gt;F)"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">.</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w">
+    
+  </span><span class="p">}))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">experiment_p</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">pretty_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">experiment_p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">1e-3</span><span class="p">,</span><span class="w">
+                            </span><span class="s2">"P &lt; 0.001"</span><span class="p">,</span><span class="w">
+                            </span><span class="n">format</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">experiment_p</span><span class="p">,</span><span class="w"> </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">))))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">protein</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_p</span><span class="p">)</span><span class="w">
+
+
+
+</span><span class="n">dunnett_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">protein_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">generation</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s2">"LN1"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">protein</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">dunnett</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="err">\</span><span class="p">(</span><span class="n">x</span><span class="p">){</span><span class="w">
+    
+    </span><span class="n">DunnettTest</span><span class="p">(</span><span class="n">relative_levels</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">pluck</span><span class="p">(</span><span class="s2">"B16-F0"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">as_tibble</span><span class="p">(</span><span class="n">rownames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"line"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">mutate</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">str_remove</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="s2">"-B16-F0"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+      </span><span class="n">select</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">pval</span><span class="p">)</span><span class="w">
+    
+  </span><span class="p">}))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">dunnett</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">generation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"B16-F0"</span><span class="p">,</span><span class="w">
+                       </span><span class="s2">"Parental"</span><span class="p">,</span><span class="w">
+                       </span><span class="n">str_remove</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="s2">" .*"</span><span class="p">)</span><span class="w">
+                       </span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">nest</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="n">generation</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">replicate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LETTERS</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">()],</span><span class="w"> </span><span class="n">.by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">generation</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">unnest</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w">
+    </span><span class="n">pretty_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">if_else</span><span class="p">(</span><span class="n">pval</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">),</span><span class="w">
+    </span><span class="n">generation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="w">
+      </span><span class="n">generation</span><span class="p">,</span><span class="w">
+      </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Parental"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN7"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN9"</span><span class="p">)))</span><span class="w">
+  
+
+</span><span class="n">protein_labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">experiment_wide</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">pretty_protein</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paste0</span><span class="p">(</span><span class="s2">"**"</span><span class="p">,</span><span class="w"> </span><span class="n">protein</span><span class="p">,</span><span class="w"> </span><span class="s2">"** ("</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_p</span><span class="p">,</span><span class="w"> </span><span class="s2">")"</span><span class="p">))</span><span class="w">
+
+</span><span class="n">labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pull</span><span class="p">(</span><span class="n">protein_labels</span><span class="p">,</span><span class="w"> </span><span class="n">pretty_protein</span><span class="p">)</span><span class="w">
+</span><span class="nf">names</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">pull</span><span class="p">(</span><span class="n">protein_labels</span><span class="p">,</span><span class="w"> </span><span class="n">protein</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">as.character</span><span class="p">()</span><span class="w">
+
+
+</span><span class="n">protein_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">generation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="w">
+    </span><span class="n">generation</span><span class="p">,</span><span class="w">
+    </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Parental"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN7"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN8"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LN9"</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">relative_levels</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">replicate</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">color</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_jitter</span><span class="p">(</span><span class="w">
+    </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">position_jitter</span><span class="p">(</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19760620</span><span class="p">),</span><span class="w">
+    </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.33</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">21</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">stat_summary</span><span class="p">(</span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"crossbar"</span><span class="p">,</span><span class="w"> </span><span class="n">fun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"median"</span><span class="p">,</span><span class="w">
+               </span><span class="n">lineend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"round"</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_text</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dunnett_results</span><span class="p">,</span><span class="w"> </span><span class="n">aes</span><span class="p">(</span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pretty_p</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">
+            </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">,</span><span class="w"> </span><span class="n">vjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_identity</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_fill_identity</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_grid</span><span class="p">(</span><span class="n">generation</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">protein</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w">
+             </span><span class="n">switch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"y"</span><span class="p">,</span><span class="w"> </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"all_y"</span><span class="p">,</span><span class="w"> </span><span class="n">axis.labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"margins"</span><span class="p">,</span><span class="w">
+             </span><span class="n">labeller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">labeller</span><span class="p">(</span><span class="n">protein</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">labels</span><span class="p">)</span><span class="w">
+             </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="w">
+    </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="kc">NA</span><span class="p">),</span><span class="w">
+    </span><span class="n">reverse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"y"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Protein level relative to parental"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">strip.placement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"outside"</span><span class="p">,</span><span class="w">
+    </span><span class="n">strip.text.y.left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> 
+                                     </span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-10</span><span class="p">)),</span><span class="w">
+    </span><span class="n">strip.text.x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_markdown</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w">
+    
+    </span><span class="n">axis.text.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)),</span><span class="w">
+    </span><span class="n">axis.ticks.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">panel.spacing.y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"lymph_node_levels.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
