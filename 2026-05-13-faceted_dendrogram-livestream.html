@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Recreating a set of dendrorgrams, heatmaps, and a stacked bar plot from Nature Cancer (CC423)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-05-13-faceted_dendrogram-livestream">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="recreating-a-set-of-dendrorgrams-heatmaps-and-a-stacked-bar-plot-from-nature-cancer-cc423">Recreating a set of dendrorgrams, heatmaps, and a stacked bar plot from Nature Cancer (CC423)</h1>
+
+  <p class="meta">May 13, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    7 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Recreating a set of dendrorgrams, heatmaps, and a stacked bar plot from Nature Cancer (CC423)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-05-13-faceted_dendrogram-livestream&text=Recreating a set of dendrorgrams, heatmaps, and a stacked bar plot from Nature Cancer (CC423)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>In this livestream, Pat recreates a set of dendrograms, heatmaps, and stacked bar plots from a paper recently published in Nature Cancer. He created the figure using R, readxl, dplyr, ggplot2, ggtext, patchwork, ggdendro, and other tools from the tidyverse. The functions he used from these packages included. The original Nature Microbiology article can be <a href="https://www.nature.com/articles/s43018-026-01136-z">found here</a>. His critique of the visualization can be seen at https://www.youtube.com/watch?v=rEd47kD0BWk. If you have a figure that you would like to see me discuss in a future newsletter and episode of Code Club, email me at pat@riffomonas.org!</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/tKjpwINieRg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>library(tidyverse)
+library(readxl)
+library(ggtext)
+library(ggdendro)
+library(patchwork)
+
+facet_x &lt;- function(x) {
+  case_when(x == 6 ~ x + 0.5,
+            x &gt; 6 &amp; x &lt;= 10 ~ x + 1,
+            x &gt; 10 &amp; x &lt;= 17 ~ x + 1.5,
+            x &gt; 17 &amp; x &lt;= 21 ~ x + 2,
+            TRUE ~ x)
+}
+
+download.file("https://static-content.springer.com/esm/art%3A10.1038%2Fs43018-026-01136-z/MediaObjects/43018_2026_1136_MOESM3_ESM.xlsx",
+              "figure_1.xlsx")
+
+panel_e &lt;- read_excel("figure_1.xlsx", sheet = "(E)") %&gt;%
+  rename(subpopulation = "...1",
+         "B&lt;sub&gt;prol&lt;/sub&gt; nhood" = "B prol niche") %&gt;%
+  mutate(
+    subpopulation = replace_values(
+      subpopulation,
+      "PD1+ TTOX" ~ "PD-1&lt;sup&gt;+&lt;/sup&gt; T&lt;sub&gt;tox&lt;/sub&gt;",
+      "TTOX memory" ~ "T&lt;sub&gt;tox&lt;/sub&gt; memory",
+      "CD8T_naive" ~ "Naive CD8&lt;sup&gt;+&lt;/sup&gt; T",
+      "TPR" ~ "T&lt;sub&gt;prol&lt;/sub&gt;",
+      "TREG" ~ "T&lt;sub&gt;reg&lt;/sub&gt;",
+      "TH_memory" ~ "T&lt;sub&gt;H&lt;/sub&gt; memory",
+      "CD4T_naive" ~ "Naive CD4&lt;sup&gt;+&lt;/sup&gt; T",
+      "TFH" ~ "T&lt;sub&gt;FH&lt;/sub&gt;",
+      "B_prol" ~ "B&lt;sub&gt;prol&lt;/sub&gt;"
+      ))
+
+left &lt;- panel_e %&gt;%
+  column_to_rownames("subpopulation") %&gt;%
+  t() %&gt;%
+  dist() %&gt;%
+  hclust() %&gt;%
+  as.dendrogram() %&gt;%
+  reorder(wts = c(1, 6, 2, 4, 3, 5), agglo.FUN = mean) %&gt;%
+  dendro_data()
+
+left_labels &lt;- label(left)
+
+left_dendro &lt;- segment(left) %&gt;%
+  ggplot(aes(x = y, y = x, xend = yend, yend = xend)) +
+  geom_segment(linewidth = 0.3) +
+  scale_x_continuous(transform = "reverse", expand = expansion()) +
+  scale_y_continuous(breaks = left_labels$x, labels = left_labels$label,
+                     expand = expansion(add = 0.5), position = "right") +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL)
+
+
+top &lt;- panel_e %&gt;%
+  column_to_rownames("subpopulation") %&gt;%
+  dist(method = "euclidean") %&gt;%
+  hclust(method = "complete") %&gt;%
+  as.dendrogram() %&gt;%
+  reorder(wts = c(18, 20, 5, 17, 12,
+                  9, 21, 1, 2, 7,
+                  4, 8, 3, 16, 6,
+                  19, 15, 13, 14, 10, 11), agglo.FUN = mean) %&gt;%
+  dendro_data()
+
+top_labels &lt;- label(top)
+
+top_dendro &lt;- segment(top) %&gt;%
+  mutate(x = facet_x(x),
+         xend = facet_x(xend)) %&gt;%
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_segment(linewidth = 0.3) +
+  scale_y_continuous(expand = expansion()) +
+  scale_x_continuous(breaks = facet_x(top_labels$x), labels = top_labels$label,
+                     expand = expansion(add = 0.5)) +
+  coord_cartesian(clip = "off") +
+  labs(x = NULL, y = NULL)
+
+
+
+hm &lt;- panel_e %&gt;%
+  pivot_longer(-subpopulation, values_to = "or", names_to = "neighborhood") %&gt;%
+  mutate(or  = case_when(or &lt; -4.2 ~ -4.2,
+                         or &gt; 4.2 ~ 4.2,
+                         TRUE ~ or),
+         neighborhood = factor(neighborhood, levels = left_labels$label),
+         subpopulation = factor(subpopulation, levels = top_labels$label)) %&gt;%
+  ggplot(aes(x = facet_x(as.numeric(subpopulation)), y = neighborhood, 
+             fill = or)) +
+  geom_tile(color = "black") +
+  labs(x = NULL, y = NULL) +
+  coord_cartesian(clip = "off", expand = FALSE) +
+  scale_y_discrete(position = "right") +
+  scale_x_continuous(breaks = facet_x(top_labels$x), 
+                     labels = top_labels$label) +
+  scale_fill_gradient2(
+    name = "Enrichment&lt;br&gt;(log&lt;sub&gt;2&lt;/sub&gt;(OR))",
+    low = "#027EA8", high = "#AF2D24", mid = "white",
+    limits = c(-4.2, 4.2), breaks = c(-4, 0, 4),
+    guide = guide_colorbar(frame.colour = "black", frame.linewidth = 0.2)) +
+  theme(
+    legend.direction = "horizontal",
+    legend.position = "inside",
+    legend.position.inside = c(0.05, -0.45),
+    legend.background = element_blank(),
+    legend.title = element_markdown(size = 7, hjust = 0.5,
+                                    margin = margin(r = 2)),
+    legend.title.position = "left",
+    legend.key.size = unit(8, "pt"),
+    legend.text = element_text(size = 7, margin = margin(t = 2)),
+    legend.key.spacing = unit(0, "pt"),
+    legend.ticks = element_line(color = "black", linewidth = 0.2)
+  )
+
+
+f_left_lookup &lt;- tribble(
+  ~"region", ~"entity", ~"patient", ~"sample",
+  "191_4reg006", "DLBCL", "DLBCL-10", "DLBCL 191_4reg006",
+  "191_4reg007", "DLBCL", "DLBCL-10", "DLBCL 191_4reg007",
+  "191_4reg004", "DLBCL", "DLBCL-11", "DLBCL 191_4reg004",
+  "191_4reg005", "DLBCL", "DLBCL-11", "DLBCL 191_4reg005",
+  "191_4reg002", "DLBCL", "DLBCL-2", "DLBCL 191_4reg002",
+  "191_4reg003", "DLBCL", "DLBCL-2", "DLBCL 191_4reg003",
+  "191_3reg001", "DLBCL", "DLBCL-9", "DLBCL 191_3reg001",
+  "191_3reg004", "DLBCL", "DLBCL-9", "DLBCL 191_3reg004",
+  "191_5reg005", "FL", "FL-4", "FL 191_5reg005",
+  "191_5reg006", "FL", "FL-4", "FL 191_5reg006",
+  "191_5reg003", "FL", "FL-5", "FL 191_5reg003",
+  "191_5reg004", "FL", "FL-5", "FL 191_5reg004",
+  "191_2reg001", "FL", "FL-8", "FL 191_2reg001",
+  "191_2reg004", "FL", "FL-8", "FL 191_2reg004",
+  "191_1reg001", "FL", "FL-7", "FL 191_1reg001",
+  "191_1reg002", "FL", "FL-7", "FL 191_1reg002",
+  "191_3reg002", "FL", "FL-9", "FL 191_3reg002",
+  "191_3reg003", "FL", "FL-9", "FL 191_3reg003",
+  "191_4reg001", "rLN", "rLN-3", "rLN 191_4reg001",
+  "191_5reg002", "rLN", "rLN-5", "rLN 191_5reg002",
+  "191_5reg001", "rLN", "rLN-5", "rLN 191_5reg001",
+  "191_1reg006", "rLN", "rLN-6", "rLN 191_1reg006",
+  "191_3reg007", "rLN", "rLN-7", "rLN 191_3reg007",
+  "191_3reg008", "rLN", "rLN-7", "rLN 191_3reg008"
+)
+
+f_left_data &lt;- read_excel("figure_1.xlsx", sheet = "(F)", range = "A2:C146") %&gt;%
+  rename_all(tolower) %&gt;%
+  rename(neighborhood = nhood) %&gt;%
+  mutate(neighborhood = replace_values(
+    neighborhood,
+    "B prol niche" ~ "B&lt;sub&gt;prol&lt;/sub&gt; nhood")) %&gt;%
+  inner_join(., f_left_lookup, by = "sample") %&gt;%
+  summarize(fraction = sum(fraction),
+            .by = c(neighborhood, patient, entity)) %&gt;%
+  mutate(neighborhood = factor(neighborhood, levels = left_labels$label))
+
+f_left &lt;- f_left_data %&gt;% 
+  ggplot(aes(x = fraction, y = neighborhood, fill = patient, color = patient,
+             linewidth = patient)) +
+  geom_col() +
+  labs(x = "Proportion of cells from neighborhood", y = NULL) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_fill_manual(
+    name = "rLN",
+    values = c("rLN-3" = "#B597C6", "rLN-5" = "#B279B6", "rLN-6" = "#9164A1",
+               "rLN-7" = "#71257C", "FL-4" = "#B9D9EC", "FL-5" = "#86B0D4",
+               "FL-8" = "#2F8DBD", "FL-7" = "#2F8DBD", "FL-9" = "#054F7A", 
+               "DLBCL-10" = "#9CCC65", "DLBCL-11" = "#7DB444", 
+               "DLBCL-2" = "#679F37", "DLBCL-9" = "#55882F"),
+    breaks = c("rLN-3", "rLN-5", "rLN-6", "rLN-7" ),
+    guide = guide_legend(
+      order = 1,
+      override.aes = list(color = "black",
+                          linewidth = 0.3)
+    )
+  ) +
+  scale_color_manual(
+    name = "FL",
+    values = c("rLN-3" = "black", "rLN-5" = "black", "rLN-6" = "black",
+               "rLN-7" = "black", "FL-4" = "black", "FL-5" = "black",
+               "FL-8" = "black", "FL-7" = "black", "FL-9" = "black", 
+               "DLBCL-10" = "black", "DLBCL-11" = "black", 
+               "DLBCL-2" = "black", "DLBCL-9" = "black"),
+    breaks = c("FL-4", "FL-5", "FL-8", "FL-7", "FL-9"),
+    guide = guide_legend(
+      order = 2,
+      override.aes = list(linewidth = 0.3,
+                          fill = c("FL-4" = "#B9D9EC", "FL-5" = "#86B0D4",
+                                   "FL-8" = "#2F8DBD", "FL-7" = "#2F8DBD",
+                                   "FL-9" = "#054F7A"))
+    )
+  )  +
+  scale_linewidth_manual(
+    name = "DLBCL",
+    values = c("rLN-3" = 0.3, "rLN-5" = 0.3, "rLN-6" = 0.3,
+               "rLN-7" = 0.3, "FL-4" = 0.3, "FL-5" = 0.3,
+               "FL-8" = 0.3, "FL-7" = 0.3, "FL-9" = 0.3, 
+               "DLBCL-10" = 0.3, "DLBCL-11" = 0.3, 
+               "DLBCL-2" = 0.3, "DLBCL-9" = 0.3),
+    breaks = c("DLBCL-10", "DLBCL-11", "DLBCL-2", "DLBCL-9"),
+    guide = guide_legend(
+      order = 3,
+      override.aes = list(color = "black",
+                          fill = c("DLBCL-10" = "#9CCC65",
+                                   "DLBCL-11" = "#7DB444", 
+                                   "DLBCL-2" = "#679F37",
+                                   "DLBCL-9" = "#55882F"))
+    )
+  )+
+  
+  theme(
+    legend.text = element_blank(),
+    legend.direction = "horizontal",
+    legend.box = "horizontal",
+    legend.title.position = "top",
+    legend.title = element_text(hjust = 0.5, size = 7, margin = margin(b = 2)),
+    legend.position = "inside",
+    legend.position.inside = c(0.5, -0.4),
+    legend.key.size = unit(10, "pt"),
+    legend.key.spacing = unit(0, "pt"),
+    legend.background = element_blank(),
+    legend.spacing.x = unit(2, "pt")
+  )
+
+f_right &lt;- f_left_data %&gt;%
+  mutate(entity = factor(entity, levels = c("rLN", "FL", "DLBCL"))) %&gt;%
+  summarize(fraction = sum(fraction), .by = c(neighborhood, entity)) %&gt;%
+  ggplot(aes(x = entity, y = neighborhood, fill = fraction)) +
+  geom_tile(color = "black", linewidth = 0.3) +
+  scale_fill_gradient(
+    name = "% (per nhood)",
+    low = "white", high = "maroon",
+    limits = c(0, NA),
+    breaks = seq(0, 1, 0.2),
+    labels = seq(0, 100, 20),
+    guide = guide_colorbar(frame.colour = "black", frame.linewidth = 0.2)
+  ) +
+  coord_cartesian(clip = "off", expand = FALSE) +
+  labs(x = NULL, y = NULL) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.55, -0.43),
+    legend.direction = "horizontal",
+    legend.background = element_blank(),
+    legend.title = element_markdown(size = 7, hjust = 0.5,
+                                    margin = margin(b = 2)),
+    legend.title.position = "top",
+    legend.key.size = unit(8, "pt"),
+    legend.text = element_text(size = 7, margin = margin(t = 2)),
+    legend.key.spacing = unit(0, "pt"),
+    legend.ticks = element_line(color = "black", linewidth = 0.2)
+  )
+
+
+
+
+layout &lt;-
+  "
+  #c##
+  abde
+  "
+
+left_dendro +
+  theme(
+    plot.margin = margin(),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+  ) +
+  hm +
+    theme(
+      plot.margin = margin(),
+      axis.text.x = element_markdown(angle = 90, hjust = 1, vjust = 0.5,
+                                     size = 7.5, color = "black"),
+      axis.ticks.x = element_blank()
+    ) +
+  top_dendro +
+    theme(
+      plot.margin = margin(),
+      axis.text.x = element_markdown(angle = 90, hjust = 1, vjust = 0.5,
+                                     size = 7.5, color = "black"),
+      axis.ticks.x = element_blank()
+    ) +
+  f_left +
+    theme(
+      plot.margin = margin(),
+      axis.text.x = element_text(size = 6.5, color = "black"),
+      axis.ticks.x = element_line(linewidth = 0.2)
+    ) +
+  f_right +
+    theme(
+      plot.margin = margin(l = 10),
+      axis.text.x = element_text(size = 7.5, color = "black", angle = 90,
+                                 hjust =1, vjust = 0.5),
+      axis.ticks = element_blank(),
+      
+    ) +
+  plot_layout(axes = "collect", design = layout,
+              widths = c(0.05, 0.5, 0.35, 0.1), heights = c(0.2, 0.8)) &amp;
+  theme(
+    axis.text.y.right = element_markdown(hjust = 0.5, size = 7.5,
+                                         margin = margin(l = 3, r = 3), 
+                                         color = "black"),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title.x = element_text(size = 8, margin = margin(t = -35)),
+    panel.grid = element_blank(),
+    panel.background = element_blank()
+  )
+
+ggsave("figure_1ef.png", width = 7.5, height = 2.5)
+</code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>

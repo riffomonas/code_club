@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-15493817-3"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-15493817-3');
+	</script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lobster' rel="stylesheet">
+
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/main.css">
+	<link rel="stylesheet" type='text/css' href="/code_club/resources/css/academicons.min.css">
+
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+  <title>Finding alternatives to plots with two y axes (CC441)</title>
+  <meta name="description" content="Code Club: An social effort learn to do reproducible data analysis
+">
+
+  <link rel="canonical" href="https://www.riffomonas.org/code_club/2026-11-25-yy-livestream">
+  <link rel="alternate" type="application/rss+xml" title="Riffomonas Code Club" href="https://www.riffomonas.org/code_club/feed.xml" />
+</head>
+
+
+  <body>
+
+		<div class="container">
+			<div class="header">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white" style="padding-left:0;">
+
+		<a class="navbar-brand" href="https://www.riffomonas.org">Riffomonas</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	  <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+	    <ul class="navbar-nav align-items-center text-center">
+				<li class="nav-item"><a class="nav-link" href="/workshops/">Upcoming<br>Workshops</a></li>
+				<li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          Training modules
+	        </a>
+	        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/reproducible_research/">Reproducible Research</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/minimalR/">minimalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/generalR/">generalR</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/code_club/">Code Club</a></li>
+	          <li class="dropdown-item"><a href="https://www.riffomonas.org/live_streams/">Live Streams</a></li>
+	        </ul>
+	      </li>
+	      <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+	    </ul>
+		</div>
+
+	</nav>
+
+</div>
+
+		  <div class="post post-content">
+
+  <h1 id="finding-alternatives-to-plots-with-two-y-axes-cc441">Finding alternatives to plots with two y axes (CC441)</h1>
+
+  <p class="meta">November 25, 2026 • PD Schloss • <!--- Copied from:
+	http://carlosbecker.com/posts/jekyll-reading-time-without-plugins/ --->
+
+<span class="reading-time" title="Estimated read time">
+  
+  
+    19 min read
+  
+</span>
+ • <a href="https://github.com/riffomonas/code_club/issues/new?labels=question&title=Question on: Finding alternatives to plots with two y axes (CC441)" target="_blank"><i class="fab fa-github fa-lg"></i></a>
+ • <a href="https://twitter.com/intent/tweet?url=https://www.riffomonas.org/2026-11-25-yy-livestream&text=Finding alternatives to plots with two y axes (CC441)&via=patschloss"
+   target="_blank">
+	<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+
+</a>
+</p>
+
+  <p>The article discussed: https://www.nature.com/articles/s41564-026-02458-5</p>
+
+<p>Related critique: https://youtu.be/_b8V8h6AxEk</p>
+
+<p>Sign up for a complimentary consultation to help me learn your needs: https://calendly.com/pat-riffomonas/30min
+My newsletter: https://shop.riffomonas.org/youtube 
+Recorded workshops: https://riffomonas.org/workshops/
+If you want to cite this video: https://journals.asm.org/doi/10.1128/mra.01310-22</p>
+
+<ul>
+  <li>
+    <p>packages: tidyverse, readxl,patchwork, ggtext</p>
+  </li>
+  <li>
+    <p>functions: aes, annotate, case_when, coord_cartesian, download.file, element_blank, element_markdown, element_text, facet_wrap, factor, filter, geom_line, geom_path, geom_point, geom_rect, geom_segment, geom_smooth, geom_text, ggplot, ggsave, inner_join, labs, library, margin, max, mean, min, mutate, pivot_longer, plot_layout, read_excel, scale_color_manual, scale_linewidth_manual, scale_x_date, scale_y_continuous, sec_axis, select, summarize, theme, theme_classic, year, ymd</p>
+  </li>
+</ul>
+
+<p>This work was supported, in part, by a grant from the National Institutes of Health (R25GM166785)</p>
+
+<iframe style="margin: 0 auto;display:block;" width="560" height="315" src="https://www.youtube.com/embed/LxK_dWanjxc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">readxl</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># obtaining and formatting data -----</span><span class="w">
+
+</span><span class="n">download.file</span><span class="p">(</span><span class="w">
+  </span><span class="s2">"https://static-content.springer.com/esm/art%3A10.1038%2Fs41564-026-02458-5/MediaObjects/41564_2026_2458_MOESM5_ESM.xlsx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fig_1.xlsx"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">d</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"fig_1.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="n">sheet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Figure1D"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">pm2p5</span><span class="p">,</span><span class="w"> </span><span class="n">hurs</span><span class="p">,</span><span class="w"> </span><span class="n">disease</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">date</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># 1 panel, 3 lines, without scaling -----</span><span class="w">
+
+</span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+  
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"one_panel_wo_scaling.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.1</span><span class="p">)</span><span class="w">
+
+
+
+</span><span class="c1"># 1 panel, 3 lines, with scaling -----</span><span class="w">
+
+</span><span class="n">pre_vax_means</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">filter</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="s2">"2009-01-01"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">pm2p5</span><span class="p">),</span><span class="w">
+            </span><span class="n">hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">hurs</span><span class="p">),</span><span class="w">
+            </span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean</span><span class="p">(</span><span class="n">disease</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">pm2p5</span><span class="p">,</span><span class="w"> </span><span class="n">hurs</span><span class="p">,</span><span class="w"> </span><span class="n">disease</span><span class="p">),</span><span class="w"> </span><span class="n">values_to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"mean"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">inner_join</span><span class="p">(</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">pre_vax_means</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"name"</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">percent_change</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">((</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mean</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">percent_change</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">()</span><span class="w">
+
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"one_panel_w_scaling.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.1</span><span class="p">)</span><span class="w">
+
+
+
+</span><span class="c1"># 3 facets, 1 line per panel -----</span><span class="w">
+
+</span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w">
+                       </span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"hurs"</span><span class="p">,</span><span class="w"> </span><span class="s2">"disease"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pm2p5"</span><span class="p">),</span><span class="w">
+                       </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s2">"Relative&lt;br&gt;Humidity (%)"</span><span class="p">,</span><span class="w">
+                                  </span><span class="s2">"Case Counts"</span><span class="p">,</span><span class="w">
+                                  </span><span class="s2">"Particulate Matter&lt;br&gt;(PM&lt;sub&gt;2.5&lt;/sub&gt; &amp;mu; g m&lt;sup&gt;-3&lt;/sup&gt;)"</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="c1">#april through september</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"rect"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w">
+    </span><span class="n">xmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="m">2005</span><span class="o">:</span><span class="m">2023</span><span class="p">,</span><span class="w"> </span><span class="s2">"-04-01"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">xmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="m">2005</span><span class="o">:</span><span class="m">2023</span><span class="p">,</span><span class="w"> </span><span class="s2">"-10-01"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">35</span><span class="p">,</span><span class="w">
+    </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">75</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lightblue"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"rect"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w">
+    </span><span class="n">xmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="m">2005</span><span class="o">:</span><span class="m">2023</span><span class="p">,</span><span class="w"> </span><span class="s2">"-04-01"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">xmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="m">2005</span><span class="o">:</span><span class="m">2023</span><span class="p">,</span><span class="w"> </span><span class="s2">"-10-01"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">70</span><span class="p">,</span><span class="w">
+    </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">590</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lightblue"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"rect"</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w">
+    </span><span class="n">xmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="m">2005</span><span class="o">:</span><span class="m">2023</span><span class="p">,</span><span class="w"> </span><span class="s2">"-04-01"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">xmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="m">2005</span><span class="o">:</span><span class="m">2023</span><span class="p">,</span><span class="w"> </span><span class="s2">"-10-01"</span><span class="p">)),</span><span class="w">
+    </span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w">
+    </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">48</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lightblue"</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_y"</span><span class="p">,</span><span class="w"> </span><span class="n">strip.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"left"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Date (months)"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_x_date</span><span class="p">(</span><span class="w">
+    </span><span class="n">limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"2004-09-01"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2025-04-01"</span><span class="p">)),</span><span class="w"> </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w">
+    </span><span class="n">strip.placement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"outside"</span><span class="p">,</span><span class="w">
+    </span><span class="n">strip.background</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_blank</span><span class="p">(),</span><span class="w">
+    </span><span class="n">strip.text.y.left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_markdown</span><span class="p">(</span><span class="n">margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-4</span><span class="p">)),</span><span class="w">
+    </span><span class="n">strip.clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"three_panels.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">
+
+
+
+</span><span class="c1"># 2 panels, double y-axis -----</span><span class="w">
+
+</span><span class="n">scaling</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">summarize</span><span class="p">(</span><span class="n">min_pm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">pm2p5</span><span class="p">),</span><span class="w">
+            </span><span class="n">scale_pm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">disease</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">disease</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">pm2p5</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">pm2p5</span><span class="p">)),</span><span class="w">
+            
+            </span><span class="n">min_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hurs</span><span class="p">),</span><span class="w">
+            </span><span class="n">scale_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">disease</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">disease</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">hurs</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">hurs</span><span class="p">)),</span><span class="w">
+            
+            </span><span class="n">min_disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="n">disease</span><span class="p">))</span><span class="w">
+
+</span><span class="n">pm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">hurs</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">tr_pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pm2p5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_pm</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_pm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">pm2p5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">tr_pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">sec.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sec_axis</span><span class="p">(</span><span class="w">
+      </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">.</span><span class="p">,</span><span class="w">
+      </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PM"</span><span class="p">,</span><span class="w">
+      </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_pm</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_pm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">,</span><span class="w">
+      </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_linewidth_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">tr_pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Case counts"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.title.y.right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+
+</span><span class="n">h</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">pm2p5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">tr_hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">hurs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_h</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">hurs</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">tr_hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_linewidth_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">tr_hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">sec.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sec_axis</span><span class="p">(</span><span class="w">
+      </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">.</span><span class="p">,</span><span class="w">
+      </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Humidity"</span><span class="p">,</span><span class="w">
+      </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="m">70</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_h</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">,</span><span class="w">
+      </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="m">70</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Case counts"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.title.y.right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">pm</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">plot_layout</span><span class="p">(</span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"collect"</span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"double_y_axis.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.1</span><span class="p">)</span><span class="w">
+
+
+
+</span><span class="c1"># 1 panel, triple y-axis -----</span><span class="w">
+
+</span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="w">
+    </span><span class="n">tr_pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">pm2p5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_pm</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_pm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">,</span><span class="w">
+    </span><span class="n">tr_hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">hurs</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_h</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="w">
+    </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">select</span><span class="p">(</span><span class="o">-</span><span class="n">pm2p5</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">hurs</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="o">-</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_line</span><span class="p">(</span><span class="n">show.legend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_color_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">,</span><span class="w"> </span><span class="n">tr_pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="n">tr_hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_linewidth_manual</span><span class="p">(</span><span class="w">
+    </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">disease</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">tr_pm2p5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">tr_hurs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">scale_y_continuous</span><span class="p">(</span><span class="w">
+    </span><span class="n">sec.axis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sec_axis</span><span class="p">(</span><span class="w">
+      </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">.</span><span class="p">,</span><span class="w">
+      </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"PM"</span><span class="p">,</span><span class="w">
+      </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_pm</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_pm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">,</span><span class="w">
+      </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="m">40</span><span class="p">)</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">coord_cartesian</span><span class="p">(</span><span class="n">clip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"off"</span><span class="p">,</span><span class="w">
+                  </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s2">"2004-06-01"</span><span class="p">,</span><span class="w"> </span><span class="s2">"2024-06-01"</span><span class="p">)),</span><span class="w">
+                  </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">590</span><span class="p">),</span><span class="w">
+                  </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Case counts"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme_classic</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="w">
+    </span><span class="n">axis.title.y.right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">element_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"red"</span><span class="p">),</span><span class="w">
+    </span><span class="n">plot.margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">margin</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-90</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="s2">"2030-01-01"</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">325</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Humidity"</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"blue"</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="n">size.unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"pt"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="s2">"2028-01-01"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="m">70</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_h</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">,</span><span class="w">
+    </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="m">70</span><span class="p">)</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="s2">"2027-08-01"</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="s2">"2027-11-01"</span><span class="p">),</span><span class="w"> 
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="m">60</span><span class="p">,</span><span class="w"> </span><span class="m">70</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_h</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">scale_h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">scaling</span><span class="o">$</span><span class="n">min_disease</span><span class="p">,</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">annotate</span><span class="p">(</span><span class="w">
+    </span><span class="n">geom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"segment"</span><span class="p">,</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ymd</span><span class="p">(</span><span class="s2">"2027-08-01"</span><span class="p">),</span><span class="w">
+    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">590</span><span class="w">
+  </span><span class="p">)</span><span class="w">
+
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"triple_y_axis.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.1</span><span class="p">)</span><span class="w">
+
+
+
+</span><span class="c1"># connected scatterplots -----</span><span class="w">
+
+</span><span class="n">d</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">pivot_longer</span><span class="p">(</span><span class="n">cols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">pm2p5</span><span class="p">,</span><span class="w"> </span><span class="n">hurs</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">mutate</span><span class="p">(</span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">case_when</span><span class="p">(</span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">2009</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"pre_vax"</span><span class="p">,</span><span class="w">
+                            </span><span class="n">year</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">2019</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"covid"</span><span class="p">,</span><span class="w">
+                            </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s2">"with_vax"</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w">
+  </span><span class="n">ggplot</span><span class="p">(</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">disease</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">period</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="c1"># geom_path() +</span><span class="w">
+  </span><span class="n">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">scales</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"free_x"</span><span class="p">,</span><span class="w">
+             </span><span class="n">strip.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"bottom"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">theme</span><span class="p">(</span><span class="n">strip.placement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"outside"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">labs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w">
+  </span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"lm"</span><span class="p">,</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"black"</span><span class="p">)</span><span class="w">
+  
+</span><span class="n">ggsave</span><span class="p">(</span><span class="s2">"connected_scatterplots.png"</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.1</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+
+  
+
+</div>
+
+	    <div class="footer">
+		<p>Pat Schloss &copy 2026</p>
+		<p>
+			<a href="mailto:pschloss@umich.edu">
+				<i class="fas fa-envelope fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://twitter.com/patschloss">
+				<i class="fab fa-twitter fa-lg" style="color:$my-blue"></i>
+			</a>
+			<a href="https://github.com/riffomonas">
+				<i class="fab fa-github fa-lg" style="color:$my-blue"></i>
+			</a>
+		</p>
+</div>
+
+		</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+		<script>
+		$( "input.hideshow" ).each( function ( index, button ) {
+		  button.value = 'Show answer';
+		  $( button ).click( function () {
+		    var target = this.nextSibling ? this : this.parentNode;
+		    target = target.nextSibling.nextSibling;
+		    if ( target.style.display == 'block' || target.style.display == '' ) {
+		      target.style.display = 'none';
+		      this.value = 'Show answer';
+		    } else {
+		      target.style.display = 'block';
+		      this.value = 'Hide answer';
+		    }
+		  } );
+		} );
+		</script>
+
+<script>
+$(function() {
+  $("#accordion" ).accordion({
+		active: false,
+    collapsible: true,
+    heightStyle: "content",
+		event: "mouseover"
+
+  });
+} );
+</script>
+
+
+<script id="dsq-count-scr" src="//riffomonas.disqus.com/count.js" async></script>
+	</body>
+</html>
